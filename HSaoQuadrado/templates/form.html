@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<body style="background-color: chartreuse;">
+{% extends 'base.html'%}
+<html>
+<body >
+{% block content %}
     <form>
         <!-- Pergunta 1 - Caixinhas -->
         <p>Qual é a raiz de 4?</p>
@@ -21,4 +23,6 @@
             <h1>{{ answer }}</h1>
         {% endif %}
     </form> 
+{% endblock %}
 </body>
+</html>
