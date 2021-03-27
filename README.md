@@ -4,16 +4,29 @@ As our first goal we would like to have available a preparation for the Mathemat
 
 ##  How  to contribute
 
+### Setting up the environment
+
 Start by  creating a local environment: 
 `python3 -m venv env`
 
 You  then activate the environment:
-
-    env\scripts\activate
+`env\scripts\activate`
 
 And install all the required modules:
+`pip install -r requirements.txt`
 
-    pip install -r requirements.txt
+### Database
+Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https://www.pgadmin.org/download/) (Database GUI).
+
+1. Open pgAdmin
+2. Click on server and create a new database
+    - I suggest naming it "HSaoQuadrado" 
+3. Complete the .env file with your secrets.
+    - NAME → Database name.
+    - USER → Database username (default is postgres)
+    - PASSWORD → Database password
+    - HOST → Database host (In development stage, use "localhost")
+    - PORT → The port that used to run the database (Default port is 5432)
 
 ## How to run the  webserver
 	py manage.py runserver
