@@ -17,5 +17,8 @@
         <input type="text" name="answer"><br><br>
 
         <input type="submit" name="submit">
+        {% if answer %}
+            <h1>{{ answer }}</h1>
+        {% endif %}
     </form> 
 </body>
