@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from .views import index, question
+from person.views import person_detail_view, person_create
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', index),
+    path('you/', person_detail_view),
+    path('new_person/', person_create),
     url(r"question/", question)
 ]

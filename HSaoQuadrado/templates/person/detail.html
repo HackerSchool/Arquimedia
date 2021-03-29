@@ -1,0 +1,14 @@
+
+HTML
+{% for key in context %}
+    <p> 
+    {{key}}
+    {{ key.first_name }}
+    {{ key.last_name }}
+    {{ key.points }}
+    </p>
+
+    {% endfor %}
+
+
+
