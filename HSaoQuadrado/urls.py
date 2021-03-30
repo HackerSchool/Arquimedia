@@ -20,11 +20,9 @@ from .views import index, question
 from person.views import person_detail_view, person_create,render_initial_data, person_delete_view,person_list_view
 
 urlpatterns = [
+    path('blog/', include('blog.urls')),
+    path('person/', include('person.urls')),
     path('admin/', admin.site.urls),
     url(r'^$', index),
-    path('you/<int:id>/', person_detail_view),
-    path('new_person/', render_initial_data),
-    path('delete_person/<int:id>/',person_delete_view),
-    url(r"question/", question),
-    path('person/list/',person_list_view)
+    url(r"question/", question)
 ]

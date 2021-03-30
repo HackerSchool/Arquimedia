@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Person
 from .forms import PersonForm
+
 def person_detail_view(request,id,*args, **kwargs):
     obj= get_object_or_404(Person,id=id)
     context={

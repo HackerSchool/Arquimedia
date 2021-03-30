@@ -1,0 +1,4 @@
+{{object_list}}
+{%for i in object_list%}
+    <p>{{i.author}} wrote the article {{i.title}} The article can be seen here:<a href='{{ i.get_absolute_url }}'> Article page! </a> </p>
+{%endfor%}
