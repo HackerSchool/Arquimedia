@@ -1,5 +1,5 @@
 # HSaoQuadrado
-Our goal for this project is to help high school students prepare for national exams done by all students to enter college and finish high school. 
+Our goal for this project is to help high school students prepare for national exams done by all students to enter college and finish high school.
 As our first goal we would like to have available a preparation for the Mathematics A and as we progress create more questions for other subjects.
 
 ##  How  to contribute
@@ -21,7 +21,7 @@ Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https:/
 1. Open pgAdmin
 2. Click on server and create a new database
     - I suggest naming it "HSaoQuadrado" 
-3. Complete the .env file with your secrets.
+3. Create & complete the .env file with your secrets.
     - NAME → Database name.
     - USER → Database username (default is postgres)
     - PASSWORD → Database password
