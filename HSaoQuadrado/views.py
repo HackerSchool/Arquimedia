@@ -16,6 +16,5 @@ def question(request):
 
         print(answer)
 
-
     return render(request, "form.html")
    
