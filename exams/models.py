@@ -8,23 +8,28 @@ Talvez passar estas constantes para models e otimizar a procura de questoes
 por dificuldade, disciplina, ano ou matéria
 """
 
-DIFFICULTIES = [
-    "Fácil",
-    "Média",
-    "Difícil"
-]
+EASY, MEDIUM, HARD = "Fácil", "Média", "Difícil"
+MATH, PHYSICS = "Matemática", "Física-Química"
+GEOMETRY, IMAGINARY = "Geometria", "Imaginários"
 
-SUBJECTS = [
-    "MATH"
-]
+DIFFICULTIES = (
+    (EASY, "Fácil"),
+    (MEDIUM, "Média"),
+    (HARD, "Difícil")
+)
 
-SUB_SUBJECTS = [
-    "Geometria",
-    "Imaginários",
-    "Etc"
-]
+SUBJECTS = (
+   (MATH, "Matemática"),
+   (PHYSICS, "Física-Química")
+)
 
-YEARS = [0, 10, 11, 12]
+SUB_SUBJECTS = (
+    (GEOMETRY, "Geometria"),
+    (IMAGINARY, "Imaginários"),
+    ("Etc", "Etc")
+)
+
+YEARS = [(0,"0"), (10, "10"), (11, "11"), (12, "12")]
 
 class Exam(models.Model):
 
@@ -33,7 +38,7 @@ class Exam(models.Model):
     # wrongAnswers = models.ManyToManyField(Question)
     # correctAnswers = models.ManyToManyField(Question)
     score = models.IntegerField(default=0) # 0 - 200
-    subject = models.CharField(choices=SUBJECTS, null=False) # Math, Physics ...
+    subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
     difficulty = models.CharField(max_length=10, null=True, choices=DIFFICULTIES)
 
