@@ -1,0 +1,24 @@
+.general {
+    background-image: url('../img/fundo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+a {
+    color: hotpink ;
+}
+
+/* Barra Navegação */
+.menu {
+    color: tomato;
+    width: 100%;
+}
+
+ul li {
+    display: inline;
+    padding: 3%; 
+}
+
+a {
+    text-decoration: none;
+}

@@ -1,29 +1,50 @@
 <!DOCTYPE html>
-<html style="scroll-behavior: smooth; background-color: chartreuse;">
+<html class="general">
     <head><!-- Metadata goes here-->
         <meta charset="UTF-8">
         <meta name="description" content="A melhor forma de te preparares para os Exames Nacionais">
         <meta name="auhor" content="">
         <meta name="keywords" content="">
-        <meta name="viewport" content="width=device_width, initial-scale=1.0"     >   
+        <meta name="viewport" content="width=device_width, initial-scale=1.0"     > 
+        {% load static %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">  
         <title>HS ao Quadrado</title>
-        <link rel="stylesheet" href="">
-        
     </head>
-    {% load static %}
-    <header>
-        <img src="{% static 'img/logo_black.png' %}" alt="logo" width="30" height="30"style="vertical-align:middle;">
-        <center><h1>HS ao Quadrado</h1></center>
-        <center><h3>A melhor forma de te preparares para os Exames Nacionais</h3></center>
 
+    <header>
+        <table class="menu">
+            <th style="text-align: left;">
+            <img src="{% static 'img/logo_black.png' %}" alt="logo" width="30" height="30" style="vertical-align:middle;">
+            </th>
+            <th style="text-align: right;">        
+            <!---Menu ----->
+                <div>
+                    
+                        <ul>
+                            <li>
+                                <a href="contact.html" class="links_menu">Contactos</a>
+                            </li>
+                            <li>
+                                <a href="Login.html">Login</a>
+                            </li>
+                        </ul>
+
+                </div>
+            </th>
+        </table>     
+
+        <h1>HS ao Quadrado</h1>
+        <h3>A melhor forma de te preparares para os Exames Nacionais</h3>
+        <button>Inscreve-te!</button>
 
     </header>
 
     <body>
-        
+
         {% block content%}
         This is where the different html will show up
         {% endblock%}
+
     </body>
 
 </html>

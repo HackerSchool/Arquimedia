@@ -1,16 +1,16 @@
 {% extends 'base.html'%}
-<html>  
-<body>
-{% block content %}
+<html>
+    {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	
+    <head>
+    </head>  
+
+	<body class="general">
+	{% block content %}
 
 
-
-
-<h3>Quizzes Disponíveis</h3>
-
-<ul>
-<li><a href="/question"> Perguntas Exemplo </a></li>
-</ul>
-{% endblock %}
-</body>
+		
+	{% endblock %}
+	</body>
 </html>
