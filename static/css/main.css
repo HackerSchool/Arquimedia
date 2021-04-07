@@ -22,3 +22,11 @@ ul li {
 a {
     text-decoration: none;
 }
+
+
+.btn-primary {
+    background-color: rgb(26, 149, 165); 
+    color: black; 
+    border: 2px solid #f44336;
+  }
+  
