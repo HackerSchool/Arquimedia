@@ -33,10 +33,9 @@ YEARS = [(0,"0"), (10, "10"), (11, "11"), (12, "12")]
 
 class Exam(models.Model):
 
-    # question = models.ManyToManyField(Question)
-    # answers = models.ManyToManyField(Question)
-    # wrongAnswers = models.ManyToManyField(Question)
-    # correctAnswers = models.ManyToManyField(Question)
+    question = models.ManyToManyField(Question)
+    failed = models.ManyToManyField(Question) # Questions that were responded incorrectlty
+    correct = models.ManyToManyField(Question) # Questions that were responded correctlty
     score = models.IntegerField(default=0) # 0 - 200
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
@@ -44,3 +43,20 @@ class Exam(models.Model):
 
     #String representation
     def __str__(self): return "{}-{}-{}".format(self.subject, self.year, self.difficulty)
+
+class Question(models.Model):
+    text = models.CharField(max_length=1000,  null=False)
+    correctAnswer=models.ForeignKey(Answer,null=False)
+    wrongAnswer=models.ManyToManyField(Answer)
+    subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
+    subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary
+    year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
+    difficulty = models.CharField(max_length=10, null=True, choices=DIFFICULTIES)
+
+    #String representation
+    def __str__(self): return "{}-{}-{}".format(self.id,self.subsubject, self.year, self.difficulty)
+
+
+class Answer(models.Model):
+    question=models.ForeignKey(Question,null=False,on_delete=models.CASCADE)
+    text=models.TextField(max_length=100,null=False)    
