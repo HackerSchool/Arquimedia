@@ -6,6 +6,11 @@ html {
 
 a {
     color: hotpink ;
+    text-decoration: none;
+}
+
+a:hover {
+    color: red ;
 }
 
 /* Barra Navegação */
@@ -18,11 +23,6 @@ ul li {
     display: inline;
     padding: 3%; 
 }
-
-a {
-    text-decoration: none;
-}
-
 
 .btn-primary {
     background-color: #56CCF2; 

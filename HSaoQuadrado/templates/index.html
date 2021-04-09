@@ -3,37 +3,31 @@
   
 {% block content %}
 
-<table class="menu">
-    <th style="text-align: left;">
-    <img src="{% static 'img/logo_black.png' %}" alt="logo" width="50" height="50" style="vertical-align:middle;">
-    </th>
-    <th style="text-align: right;">        
-    <!---Menu ----->
-        <div>
-            
-                <ul>
-                    <li>
-                        <a href="contact.html" class="links_menu">Contactos</a>
-                    </li>
-                    <li>
-                        <a href="Login.html">Login</a>
-                    </li>
-                </ul>
+<nav class="navbar navbar-expand-sm ">
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="#">
+        <img src="{% static 'img/logo_black.png' %}" alt="logo" width="30" height="30" style="vertical-align:middle;">
+    </a>
+    
+    <!-- Links -->
+    <div style="align-items: right;">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Contactos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Entrar</a>
+      </li>
+    </ul>
+    </div>
+</nav>
 
-        </div>
-    </th>
-</table>     
 
 <h1>HS ao Quadrado</h1>
 <h3>A melhor forma de te preparares para os Exames Nacionais</h3>
 
-
-	<div class="general">
-	
         
-        <a href="signup.html"><button type="button" class="btn btn-primary">Inscreve-te!</button></a>
+<a href="signup.html"><button type="button" class="btn btn-primary">Inscreve-te!</button></a>
         
 
-
-    </div>
 {% endblock %}
