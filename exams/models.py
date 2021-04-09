@@ -34,8 +34,8 @@ YEARS = [(0, "0"), (10, "10"), (11, "11"), (12, "12")]
 class Exam(models.Model):
 
     questions = models.ManyToManyField("Question", related_name="questions")
-    failed = models.ManyToManyField("Question", related_name="failed") # Questions that were responded incorrectlty
-    correct = models.ManyToManyField("Question", related_name="correct") # Questions that were responded correctlty
+    failed = models.ManyToManyField("Question", related_name="failed", blank=True) # Questions that were responded incorrectlty
+    correct = models.ManyToManyField("Question", related_name="correct", blank=True) # Questions that were responded correctlty
     score = models.IntegerField(default=0) # 0 - 200
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...

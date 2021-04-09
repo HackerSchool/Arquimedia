@@ -1,12 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.core.serializers import serialize
+from django.http import HttpResponse, JsonResponse
+from .models import Exam, Question
 
-# Create your views here.
-def test_exam_creation(request):
 
+def list_exams(request):
     if (request.method == "GET"):
-        coiso = request.GET.get("teste")
-        if coiso:
-            return HttpResponse(coiso)
+        Id = request.GET.get("id")
+        if Id:
+            exam = list(Exam.objects.filter(pk=Id).values())
+            return JsonResponse(exam, safe=False)
 
-    return HttpResponse("Ola")
+        exams = list(Exam.objects.values())
+
+        return JsonResponse(exams, safe=False)
+
+
+
+        
