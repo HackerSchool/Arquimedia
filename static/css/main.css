@@ -1,4 +1,4 @@
-.general {
+html {
     background-image: url('../img/fundo.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -10,7 +10,7 @@ a {
 
 /* Barra Navegação */
 .menu {
-    color: tomato;
+    vertical-align: middle;
     width: 100%;
 }
 
