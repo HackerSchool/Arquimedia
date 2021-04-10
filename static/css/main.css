@@ -47,4 +47,11 @@ ul li {
     border: 5px solid #0895c4;
     color: white;
   }
+
+@media screen and (max-width: 450px) {
+    .btn-primary {
+        color: rgb(199, 25, 25);
+       
+      }
+  }
   
