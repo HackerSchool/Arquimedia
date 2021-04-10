@@ -48,10 +48,15 @@ ul li {
     color: white;
   }
 
-@media screen and (max-width: 450px) {
+
+  @media screen and (max-width: 400px) {
     .btn-primary {
-        color: rgb(199, 25, 25);
+        padding: 8px 20px;
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        }
        
-      }
   }
   
