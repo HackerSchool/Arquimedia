@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
+from django.contrib.auth import views as auth_views
 from .views import index
 
+
 urlpatterns = [
+    path('', include("users.urls")),
     path('admin/', admin.site.urls),
     url(r'^$', index),
     url('exame/', include('exams.urls'))
