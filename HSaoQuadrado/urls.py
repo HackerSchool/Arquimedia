@@ -21,9 +21,7 @@ from .views import index
 
 
 urlpatterns = [
-    url(r'^login/$', auth_views.LoginView.as_view(), name='login'),
-    url(r'^logout/$', auth_views.LogoutView.as_view() ,name='logout'),
-    url(r'^register/$', auth_views. ,name='logout'),
+    path('', include("users.urls")),
     path('admin/', admin.site.urls),
     url(r'^$', index),
     url('exame/', include('exams.urls'))
