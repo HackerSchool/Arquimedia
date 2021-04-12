@@ -1,10 +1,9 @@
-html {
+body {
     background-image: url('../img/fundo.png');
     /*acrescentei estas 2 linhas para a imagem ocupar a página toda*/
-    height: 100%;
-    background-position: center; 
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 a {
@@ -49,14 +48,22 @@ ul li {
   }
 
 
-  @media screen and (max-width: 400px) {
+/* The following css will only be rendered on devices with max-width of 400px */
+@media screen and (max-width: 600px) {
+
     .btn-primary {
         padding: 8px 20px;
         font-size: 20px;
         position: absolute;
         top: 50%;
         left: 50%;
-        }
-       
-  }
-  
+    }
+
+    body {
+        background-image: url('../img/phonebg.png');
+        background-size: cover;
+        background-attachment: fixed;
+        height: 125%;
+    }
+    
+}
