@@ -1,0 +1,19 @@
+Objecto agarrado:              {{exam_list}}<br>
+Questões no objecto:           {{question_list}} <br>
+Questões falhadas no objecto:  {{failed_list}} <br>
+Questões acertadas no objecto: {{correct_list}} <br>
+
+
+{%for j in question_list%}
+<p>{{j.text}}</p>
+
+<p><a style="color: pink; background-color:greenyellow;" href="pornhub.com">{{j.correctAnswer.text}}</a></p>
+
+    {%for i in  j.id  %}
+    {{i}}
+    <p><a style="color: pink; background-color:greenyellow;" href="pornhub.com">{{i.text}}</a></p>
+    {%endfor%}
+{%endfor%}
+
+    <p>{{exam_list.subject}} {{exam_list.year}} {{exam_list.difficulty}} ----> Score:{{exam_list.score}}  </p>
+
