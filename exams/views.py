@@ -17,11 +17,10 @@ def list_exams(request):
 
 
 @csrf_exempt
-def results(request):
+def results(request, id):
 
     if (request.method == "POST"):
-        idExame = request.POST.get("id_exame")
-        exame = Exam.objects.get(pk=idExame)
+        exame = Exam.objects.get(pk=id)
 
         questions =  exame.questions.all()
 
@@ -41,6 +40,10 @@ def results(request):
             
             i += 1
 
-    return render(request, "results.html")
+    context = {
+        "exam": exame
+    }
+
+    return render(request, "results.html", context)
 
         

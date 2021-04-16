@@ -6,5 +6,5 @@ from .views import *
 
 urlpatterns = [
     url("list", list_exams),
-    url("results", results)
+    path("results/<int:id>", results)
 ]

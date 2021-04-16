@@ -1,1 +1,17 @@
 {% extends 'base.html'%}
+
+{% block content %}
+
+    <h2>{{exam.score}}</h2>
+
+    <h3>Corretas:</h3>
+    {% for answer in exam.correct.all %}
+        <p>{{answer.text}}</p>
+    {%  endfor %}
+
+    <h3>Erradas:</h3>
+    {% for answer in exam.failed.all %}
+        <p>{{answer.text}}</p>
+    {%  endfor %}
+
+{% endblock %}
