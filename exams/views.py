@@ -29,7 +29,8 @@ def results(request):
         
         for question, answer in request.POST.items():
             if question == "id_exame":
-                i -= 1
+                continue
+
             elif questions[i].correctAnswer.text == answer:
                 exame.correct.add(questions[i])
 
@@ -39,5 +40,7 @@ def results(request):
                 exame.failed.add(questions[i])
             
             i += 1
+
+    return render(request, "results.html")
 
         
