@@ -21,10 +21,8 @@ from .views import index
 
 
 urlpatterns = [
-    path('', include("exams.urls")),
     path('', include("users.urls")),
     path('admin/', admin.site.urls),
     url(r'^$', index),
     url('exame/', include('exams.urls')),
-    
 ]

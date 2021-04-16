@@ -1,19 +1,24 @@
-Objecto agarrado:              {{exam_list}}<br>
-Questões no objecto:           {{question_list}} <br>
-Questões falhadas no objecto:  {{failed_list}} <br>
-Questões acertadas no objecto: {{correct_list}} <br>
+{% extends 'base.html'%}
+
+{% block content %}
+    Objecto agarrado:              {{exam_list}}<br>
+    Questões no objecto:           {{question_list}} <br>
+    Questões falhadas no objecto:  {{failed_list}} <br>
+    Questões acertadas no objecto: {{correct_list}} <br>
 
 
-{%for j in question_list%}
-<p>{{j.text}}</p>
+    {%for question in question_list%}
 
-<p><a style="color: pink; background-color:greenyellow;" href="pornhub.com">{{j.correctAnswer.text}}</a></p>
+        <h3>{{question.text}}</h3>
 
-    {%for i in  j.id  %}
-    {{i}}
-    <p><a style="color: pink; background-color:greenyellow;" href="pornhub.com">{{i.text}}</a></p>
+        <p>{{question.correctAnswer.text}}</p>
+
+        {% for wrongAnswer in question.wrongAnswers.all  %}
+            <p>{{wrongAnswer.text}}</p>
+        {% endfor %}
+
     {%endfor%}
-{%endfor%}
 
     <p>{{exam_list.subject}} {{exam_list.year}} {{exam_list.difficulty}} ----> Score:{{exam_list.score}}  </p>
 
+{% endblock %}
