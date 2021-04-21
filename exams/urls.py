@@ -7,5 +7,5 @@ from .views import list_exams, exam_id_render
 app_name = 'exams'
 urlpatterns = [
     url("list", list_exams),
-    path('<int:id>/exam_render',exam_id_render)
+    path('<int:id>/render',exam_id_render)
 ]

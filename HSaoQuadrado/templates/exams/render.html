@@ -11,13 +11,15 @@
 
         <h3>{{question.text}}</h3>
 
-        <p>{{question.correctAnswer.text}}</p>
+        <p><input type='radio' name='select1' value={{question.correctAnswer.id}}>{{question.correctAnswer.text}}</p>
 
         {% for wrongAnswer in question.wrongAnswers.all  %}
-            <p>{{wrongAnswer.text}}</p>
+            <p><input type='radio' name='select1' value={{question.wrongAnswer.id}}> {{wrongAnswer.text}}</p>
         {% endfor %}
 
     {%endfor%}
+
+    <button>Sumbit this shit</button>
 
     <p>{{exam_list.subject}} {{exam_list.year}} {{exam_list.difficulty}} ----> Score:{{exam_list.score}}  </p>
 
