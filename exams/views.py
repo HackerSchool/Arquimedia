@@ -18,9 +18,10 @@ def list_exams(request):
 
 @csrf_exempt
 def results(request, id):
-
+    exame = Exam.objects.get(pk=id)
+    
     if (request.method == "POST"):
-        exame = Exam.objects.get(pk=id)
+        
 
         questions =  exame.questions.all()
 
@@ -41,7 +42,9 @@ def results(request, id):
             i += 1
 
     context = {
-        "exam": exame
+        "exam": exame,
+        "corretas": exame.correct.count(),
+        "erradas": exame.failed.count()
     }
 
     return render(request, "results.html", context)

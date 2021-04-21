@@ -1,0 +1,50 @@
+body {
+    background-image: url('../img/bg-results.png');
+    /*acrescentei estas 2 linhas para a imagem ocupar a página toda*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.nr-label {
+    position: absolute;
+    margin-left: 4rem;  
+    font-size: 4rem;  
+}
+
+.corretas {
+    top: 37%;
+}
+
+.erradas {
+    top: 74%;
+}
+
+.nota {
+    right: 40%;
+    top: 54%;
+}
+
+.nr {
+    position: absolute;
+    color: white;
+}
+
+.ans-count {
+    left: 32%;
+    font-size: 5rem;
+}
+
+.score {
+    right: 17%;
+    top: 54%;
+    font-size: 6rem;
+}
+
+/* The following css will only be rendered on devices with max-width of 400px */
+@media screen and (max-width: 600px) {
+
+    body {
+        height: 125%;
+    }
+    
+}
