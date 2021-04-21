@@ -22,11 +22,11 @@ Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https:/
 2. Click on server and create a new database
     - I suggest naming it "HSaoQuadrado" 
 3. Create & complete the .env file with your secrets.
-    - NAME → Database name.
-    - USER → Database username (default is postgres)
-    - PASSWORD → Database password
-    - HOST → Database host (In development stage, use "localhost")
-    - PORT → The port that used to run the database (Default port is 5432)
+    - DATABASE_NAME = Database name.
+    - DATABASE_USER = Database username (default is postgres)
+    - DATABASE_PASSWORD = Database password
+    - DATABASE_HOST = Database host (In development stage, use "localhost")
+    - DATABASE_PORT = The port that used to run the database (Default port is 5432)
 
 ## How to run the  webserver
 	py manage.py runserver
