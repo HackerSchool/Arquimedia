@@ -6,6 +6,7 @@
     Questões falhadas no objecto:  {{failed_list}} <br>
     Questões acertadas no objecto: {{correct_list}} <br>
 
+<form method="POST" action="http://127.0.0.1:8000/exame/results/{{exam_list.id}}"> {% csrf_token %}
 
     {%for question in question_list%}
 
@@ -19,8 +20,8 @@
 
     {%endfor%}
 
-    <button>Sumbit this shit</button>
-
+    <button type="submit" name="ExamAnswered">Submeter</button>
+</form>
     <p>{{exam_list.subject}} {{exam_list.year}} {{exam_list.difficulty}} ----> Score:{{exam_list.score}}  </p>
 
 {% endblock %}
