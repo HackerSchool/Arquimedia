@@ -2,8 +2,10 @@
 
 from django.conf.urls import url, include
 from django.urls import path
-from .views import list_exams
+from .views import list_exams, exam_id_render
 
+app_name = 'exams'
 urlpatterns = [
-    url("list", list_exams)
+    url("list", list_exams),
+    path('<int:id>/render',exam_id_render)
 ]

@@ -16,5 +16,16 @@ def list_exams(request):
         return JsonResponse(exams, safe=False)
 
 
+def exam_id_render(request, id):
+    if (request.method == "GET"):
+        examquery = Exam.objects.get(id=id)
+        questionsquery = examquery.questions.all()
+
+        context = {
+            'exam_list': examquery,
+            'question_list': questionsquery
+        }
+
+    return render(request,"exams/render.html", context)
 
         
