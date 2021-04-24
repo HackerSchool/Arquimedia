@@ -4,7 +4,10 @@ from django.conf.urls import url, include
 from django.urls import path
 from .views import *
 
+
+app_name = 'exams'
 urlpatterns = [
     url("list", list_exams),
-    path("results/<int:id>", results)
+    path("results/<int:id>", results),
+    path('<int:id>/render',exam_id_render)
 ]

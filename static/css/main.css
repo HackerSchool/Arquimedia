@@ -1,7 +1,9 @@
 body {
     background-image: url('../img/fundo.png');
+    /*acrescentei estas 2 linhas para a imagem ocupar a página toda*/
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 a {
@@ -27,6 +29,42 @@ ul li {
 .btn-primary {
     background-color: #56CCF2; 
     color: white; 
-    border: 2px solid #56CCF2;
+    border: 5px solid #56CCF2;
+    padding: 8px 35px;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 16%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
   }
   
+.btn-primary:hover {
+    background-color: #0895c4;
+    border: 5px solid #0895c4;
+    color: white;
+  }
+
+
+/* The following css will only be rendered on devices with max-width of 400px */
+@media screen and (max-width: 600px) {
+
+    .btn-primary {
+        padding: 8px 20px;
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    body {
+        background-image: url('../img/phonebg.png');
+        background-size: cover;
+        background-attachment: fixed;
+        height: 125%;
+    }
+    
+}
+
