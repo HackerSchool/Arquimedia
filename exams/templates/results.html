@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+
+{% block css %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/results.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+
+    <h3 class="nr-label corretas">Corretas:</h3>
+    <h3 class="nr ans-count corretas">{{corretas}}</h3>
+
+    <h3 class="nr-label erradas">Erradas:</h3>
+    <h3 class="nr ans-count erradas">{{erradas}}</h3>
+
+    <h3 class="nr-label nota">Nota:</h3>
+    <h3 class="nr score">{{ exam.score }}</h3>
+
+{% endblock %}
