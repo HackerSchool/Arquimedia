@@ -15,7 +15,7 @@ def list_exams(request):
 
         return JsonResponse(exams, safe=False)
 
-      
+
 @csrf_exempt
 def results(request, id):
     exame = Exam.objects.get(pk=id)
@@ -26,20 +26,20 @@ def results(request, id):
         questions =  exame.questions.all()
 
         i = 0
-        
+
         for question, answer in request.POST.items():
-            if question == "id_exame":
+            if question in ["csrfmiddlewaretoken", "ExamAnswered"]:
                 continue
 
-            elif questions[i].correctAnswer.text == answer:
+            if questions[i].correctAnswer.id == int(answer):
                 exame.correct.add(questions[i])
 
-                # score increment not working
                 exame.score += 20
             else:
                 exame.failed.add(questions[i])
-            
+
             i += 1
+           
 
     context = {
         "exam": exame,
@@ -60,6 +60,6 @@ def exam_id_render(request, id):
             'question_list': questionsquery
         }
 
-    return render(request,"exams/render.html", context)
+    return render(request,"render.html", context)
 
         
