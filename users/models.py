@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from exams.models import Answer
+from exams.models import Question
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
@@ -19,17 +19,23 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subjects = models.ManyToManyField("SubjectInfo")
 
+    def __str__(self):
+        return self.user.username
+
 
 class AnswerInfo(models.Model):
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Question, on_delete=models.CASCADE)
     counter = models.IntegerField(default=1)
-
+        
 
 class SubjectInfo(models.Model):
     subject = models.CharField(max_length=50, null=False, choices=SUBJECTS)
     examCounter = models.IntegerField(default=0)
     wrongAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="wrongAnswers")
     correctAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="correctAnswers")
+
+    def __str__(self):
+        return self.subject
 
 
 # When a new User object is created, a Profile is attached

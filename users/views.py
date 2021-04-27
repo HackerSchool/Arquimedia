@@ -20,3 +20,19 @@ def signup(request):
     context["form"] = form
     
     return render(request, "registration/signup.html", context)
+
+@login_required
+def profileDashboard(request):
+
+    SUBJECT_LIST = ["Matemática", "Física-Química"]
+
+    user = request.user
+
+    context = {
+        "user": user,
+        "subjects": user.profile.subjects.all(),
+        "userSubjects": [i.subject for i in user.profile.subjects.all()],
+        "SUBJECT_LIST": SUBJECT_LIST
+    }
+
+    return render(request, "dashboard.html", context)
