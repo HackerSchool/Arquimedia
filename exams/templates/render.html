@@ -17,7 +17,7 @@
         <p><input type='radio' name='{{question.id}}' value={{question.correctAnswer.id}}>{{question.correctAnswer.text}}</p>
 
         {% for wrongAnswer in question.wrongAnswers.all  %}
-            <p><input type='radio' name='{{question.id}}' value={{question.wrongAnswer.id}}> {{wrongAnswer.text}}</p>
+            <p><input type='radio' name='{{question.id}}' value={{wrongAnswer.id}}> {{wrongAnswer.text}}</p>
         {% endfor %}
 
     {%endfor%}
