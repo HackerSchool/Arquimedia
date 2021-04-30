@@ -6,24 +6,35 @@
     Questões falhadas no objecto:  {{failed_list}} <br>
     Questões acertadas no objecto: {{correct_list}} <br>
 
-<div class="form_exam">
+    {% load static %}
+
+
 <form method="POST" action="http://127.0.0.1:8000/exame/results/{{exam_list.id}}">
     {% csrf_token %}
 
     {%for question in question_list%}
 
         <h3>{{question.text}}</h3>
+        <div class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active">
 
-        <p><input type='radio' name='{{question.id}}' value={{question.correctAnswer.id}}>{{question.correctAnswer.text}}</p>
-
+                <p><input class="colbut"  class="btn btn-primary" type='radio' name='{{question.id}}' value={{question.correctAnswer.id}}>{{question.correctAnswer.text}}</p>
+            </label>
         {% for wrongAnswer in question.wrongAnswers.all  %}
-            <p><input type='radio' name='{{question.id}}' value={{question.wrongAnswer.id}}> {{wrongAnswer.text}}</p>
+        
+            <label class="btn btn-secondary active">
+
+            <p><input class="colbut" class="btn btn-primary" type='radio' name='{{question.id}}' value={{wrongAnswer.id}}> {{wrongAnswer.text}}</p>
+            </label>   
+        </div>
         {% endfor %}
 
     {%endfor%}
 
     <button class="btn btn-secondary" type="submit">Submeter</button>
-</form></div>
+</form>
+<div class="colbut">
     <p>{{exam_list.subject}} {{exam_list.year}} {{exam_list.difficulty}} ----> Score:{{exam_list.score}}  </p>
 
+<script src="{% static 'scripts/randomcolour.js' %}"></script>
 {% endblock %}
