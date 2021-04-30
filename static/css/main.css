@@ -6,9 +6,21 @@ body {
     background-attachment: fixed;
 }
 
+.dark-mode {
+    background-image: url('../light_dark_mode/darkmode_bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+  }
+
 a {
-    color: hotpink ;
+    color: white ;
     text-decoration: none;
+}
+
+h3 {
+    font-size: 2px;
 }
 
 a:hover {
@@ -65,6 +77,7 @@ ul li {
     top: 33%;  
     right: 37%;
 }
+
 
 /* The following css will only be rendered on devices with max-width of 400px */
 @media screen and (max-width: 600px) {
