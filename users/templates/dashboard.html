@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+
+    <h1>Perfil</h1>
+
+    {% if subjects %}
+        {% for subject in subjects %}
+        
+            <div class="subject">
+                <h2>{{ subject.subject }}</h2>
+                <h3>Fizeste {{ subject.examCounter }} exames desta disciplina</h3>
+                {% if subject.wrongAnswers.all %}
+                    <ul>
+                    {% for answer in subject.wrongAnswers.all %}
+                        <li>Erraste "{{ answer.answer.text }}" {{ answer.counter }}x </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+        {% endfor %}
+    {% else %}
+        <h2>Não estás inscrito em nenhuma disciplina!</h2>
+    {% endif %}
+
+    {% for subject in SUBJECT_LIST %}
+        {% if subject not in userSubjects %}
+            <h3>Inscreve-te em {{ subject }}</h3>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
