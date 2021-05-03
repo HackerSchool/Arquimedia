@@ -36,3 +36,4 @@ def profileDashboard(request):
     }
 
     return render(request, "dashboard.html", context)
+

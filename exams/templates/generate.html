@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+
+    <h1>Gerador de exames</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <button>Gerar exame random de matematica</button>
+    
+    </form>
+
+{% endblock %}
