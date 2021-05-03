@@ -20,6 +20,14 @@
 
     <body>
 
+        {% if request.user.is_authenticated %}
+            <!-- Navbar if user is logged in -->
+
+        {% else %}
+            <!-- Navbar for visitors -->
+
+        {% endif %}
+
         {% block content %}
         
         {% endblock %}
