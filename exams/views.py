@@ -3,6 +3,7 @@ from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
 from .models import Exam, Question
 from django.views.decorators.csrf import csrf_exempt
+from random import shuffle
 
 def list_exams(request):
     if (request.method == "GET"):
@@ -54,7 +55,10 @@ def exam_id_render(request, id):
     if (request.method == "GET"):
         examquery = Exam.objects.get(id=id)
         questionsquery = examquery.questions.all()
-
+        questionsquery=list(questionsquery)
+        shuffle(questionsquery)
+        
+    
         context = {
             'exam_list': examquery,
             'question_list': questionsquery
