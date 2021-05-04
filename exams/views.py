@@ -63,12 +63,12 @@ def exam_id_render(request, id):
                 continue
 
             if questions[i].correctAnswer.id == int(answer):
-                #profileSubject.correctAnswers.add(questions[i])
+                profileSubject.addCorrectAnswer(questions[i])
                 exam.correct.add(questions[i])
 
                 exam.score += 20
             else:
-                #profileSubject.wrongAnswers.add(questions[i])
+                profileSubject.addWrongAnswer(questions[i])
                 exam.failed.add(questions[i])
 
             i += 1
