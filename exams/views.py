@@ -28,8 +28,8 @@ def results(request, id):
     
     context = {
         "exam": exame,
-        "corretas": exame.failed.count(),
-        "erradas": exame.correct.count()
+        "corretas": exame.correct.count(),
+        "erradas": exame.failed.count()
     }
 
     exame.delete()
@@ -54,7 +54,7 @@ def exam_id_render(request, id):
     if (request.method == "POST"):
 
         profileSubject = userProfile.subjects.filter(subject=MATH)[0]
-        questions =  exam.questions.all()
+        questions = exam.questions.all()
         profileSubject.examCounter += 1
 
         i = 0
@@ -89,17 +89,13 @@ def generate_exam(request):
         questions = Question.objects.filter(subject=MATH).all()
         questionsExam = []
 
-        print(questions)
-
-        for i in range(9):
+        for i in range(10):
             choice = questions[random.randint(0, len(questions) - 1)]
             while choice in questionsExam:
                 choice = questions[random.randint(0, len(questions) - 1)]
 
             questionsExam.append(choice)
-            print(questionsExam[i])
 
-        
         exame = Exam.objects.create()
 
         for question in questionsExam:
@@ -107,7 +103,6 @@ def generate_exam(request):
 
         return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
         
-
     context = {}
 
     return render(request, "generate.html", context)
