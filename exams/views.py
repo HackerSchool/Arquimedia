@@ -90,126 +90,35 @@ def generate_exam(request):
             if keys in ["csrfmiddlewaretoken"]:
                 continue
 
-            if (values=="Random"): ###Ciclo Exame Random #####Else if'?
+            if (values=="Random"): questions = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random #####Else if'?
                 
-                questions = Question.objects.filter(subject=MATH).all()
-                questionsExam = []
+            if (values=="Imaginários"): questions = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
 
-                for i in range(1):
+            if (values=="Geometria"): questions = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
+
+            if (values=="10º"): questions = Question.objects.filter(year=10).all()###Ciclo Exame de 10ºAno
+
+            if (values=="11º"): questions = Question.objects.filter(year=11).all()###Ciclo Exame de 11ºAno
+
+            if (values=="12º"): questions = Question.objects.filter(year=12).all()###Ciclo Exame de 12ºAno
+
+            questionsExam = []
+
+            for i in range(10):
+                choice = questions[random.randint(0, len(questions) - 1)]
+                while choice in questionsExam:
+                    
                     choice = questions[random.randint(0, len(questions) - 1)]
-                    while choice in questionsExam:
-                        
-                        choice = questions[random.randint(0, len(questions) - 1)]
 
-                    questionsExam.append(choice)
+                questionsExam.append(choice)
 
-                exame = Exam.objects.create()
+            exame = Exam.objects.create()
 
-                for question in questionsExam:
-                    exame.questions.add(question)
+            for question in questionsExam:
+                exame.questions.add(question)
 
-                return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
+            return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
 
-            if (values=="Imaginários"): ###Ciclo Exame de Imaginários
-                
-
-                questions = Question.objects.filter(subsubject=IMAGINARY).all()
-                questionsExam = []
-
-                for i in range(1): # how many Questions are displayed
-                    choice = questions[random.randint(0, len(questions) - 1)]
-                    while choice in questionsExam:
-                        
-                        choice = questions[random.randint(0, len(questions) - 1)]
-
-                    questionsExam.append(choice)
-
-                exame = Exam.objects.create()
-
-                for question in questionsExam:
-                    exame.questions.add(question)
-
-                return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
-
-            if (values=="Geometria"): ###Ciclo Exame de geometria
-                questions = Question.objects.filter(subsubject=GEOMETRY).all()
-                questionsExam = []
-
-                for i in range(1):
-                    choice = questions[random.randint(0, len(questions) - 1)]
-                    while choice in questionsExam:
-                        
-                        choice = questions[random.randint(0, len(questions) - 1)]
-
-                    questionsExam.append(choice)
-
-                exame = Exam.objects.create()
-
-                for question in questionsExam:
-                    exame.questions.add(question)
-
-                return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
-
-            if (values=="10º"): ###Ciclo Exame de 10ºAno
-
-                questions = Question.objects.filter(year=10).all()
-                questionsExam = []
-
-                for i in range(1):
-                    choice = questions[random.randint(0, len(questions) - 1)]
-                    while choice in questionsExam:
-                        
-                        choice = questions[random.randint(0, len(questions) - 1)]
-
-                    questionsExam.append(choice)
-
-                exame = Exam.objects.create()
-
-                for question in questionsExam:
-                    exame.questions.add(question)
-
-                return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
-
-            if (values=="11º"): ###Ciclo Exame de 11ºAno
-
-                questions = Question.objects.filter(year=11).all()
-                questionsExam = []
-
-                for i in range(1):
-                    choice = questions[random.randint(0, len(questions) - 1)]
-                    while choice in questionsExam:
-                        
-                        choice = questions[random.randint(0, len(questions) - 1)]
-
-                    questionsExam.append(choice)
-
-                exame = Exam.objects.create()
-
-                for question in questionsExam:
-                    exame.questions.add(question)
-
-                return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
-
-            if (values=="12º"):###Ciclo Exame de 12ºAno
-
-                questions = Question.objects.filter(year=12).all()
-                questionsExam = []
-
-                for i in range(1):
-                    choice = questions[random.randint(0, len(questions) - 1)]
-                    while choice in questionsExam:
-                        
-                        choice = questions[random.randint(0, len(questions) - 1)]
-
-                    questionsExam.append(choice)
-
-                exame = Exam.objects.create()
-
-                for question in questionsExam:
-                    exame.questions.add(question)
-
-                return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
- 
     
         
     context = {}
