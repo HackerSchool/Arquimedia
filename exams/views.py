@@ -8,7 +8,8 @@ import random
 from users.models import Profile, SubjectInfo
 
 MATH = "Matemática"
-
+GEOMETRY = "Geometria"
+IMAGINARY = "Imaginários"
 
 def list_exams(request):
     if (request.method == "GET"):
