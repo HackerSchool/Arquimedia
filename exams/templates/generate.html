@@ -10,9 +10,13 @@
 
     <form method="POST">
         {% csrf_token %}
-        
-        <button>Gerar exame random de matematica</button>
-    
+        <input type='radio' name="Exam Selection" value="Random" >Gerar exame random de matematica
+        <input type='radio' name="Exam Selection" value="Geometria">Gerar exame De Geometria
+        <input type='radio' name="Exam Selection" value="Imaginários">Gerar exame De Imaginários
+        <input type='radio' name="Exam Selection" value="10º">Gerar exame do 10ºAno
+        <input type='radio' name="Exam Selection" value="11º">Gerar exame do 11ºAno
+        <input type='radio' name="Exam Selection" value="12º">Gerar exame do 12ºAno
+        <button type="submit">Submit</button>
     </form>
 
 {% endblock %}
