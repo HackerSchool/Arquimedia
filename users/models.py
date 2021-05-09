@@ -38,6 +38,33 @@ class SubjectInfo(models.Model):
         return self.subject
 
 
+    def addCorrectAnswer(self, answer):
+        correctAnswers = self.correctAnswers.all()
+
+        for i in correctAnswers:
+            if i == answer:
+                i.counter += 1
+                i.save()
+                return 
+
+        newAnswer = AnswerInfo.objects.create(answer=answer)
+        self.correctAnswers.add(newAnswer)
+
+    
+    def addWrongAnswer(self, answer):
+        wrongAnswers = self.wrongAnswers.all()
+
+        for i in wrongAnswers:
+            if i == answer:
+                i.counter += 1
+                i.save()
+                return 
+
+        newAnswer = AnswerInfo.objects.create(answer=answer)
+        self.wrongAnswers.add(newAnswer)
+
+
+
 # When a new User object is created, a Profile is attached
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
