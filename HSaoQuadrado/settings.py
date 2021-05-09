@@ -138,3 +138,5 @@ STATICFILES_DIRS = (
 # Login and logout redirect
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+#Login Path for Login required Decorators
+LOGIN_URL = '^login/$'
