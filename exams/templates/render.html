@@ -1,12 +1,21 @@
 {% extends 'base.html'%}
 
+
+{% block css %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/render.css' %}">
+
+{% endblock %}
+
+
 {% block content %}
     Objecto agarrado:              {{exam_list}}<br>
     Questões no objecto:           {{question_list}} <br>
     Questões falhadas no objecto:  {{failed_list}} <br>
     Questões acertadas no objecto: {{correct_list}} <br>
 
-    {% load static %}
+    
     {% load custom_tags %}
 
 <form id="QuestionsDiv" method="POST" action="http://127.0.0.1:8000/exame/results/{{exam_list.id}}">
