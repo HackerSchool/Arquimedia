@@ -3,6 +3,7 @@ from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
 from .models import Exam, Question
 from django.views.decorators.csrf import csrf_exempt
+from random import shuffle
 from django.contrib.auth.decorators import login_required
 import random
 from users.models import Profile, SubjectInfo
@@ -10,6 +11,7 @@ from users.models import Profile, SubjectInfo
 MATH = "Matemática"
 GEOMETRY = "Geometria"
 IMAGINARY = "Imaginários"
+
 
 def list_exams(request):
     if (request.method == "GET"):
@@ -89,6 +91,7 @@ def generate_exam(request):
             print(values)
             if keys in ["csrfmiddlewaretoken"]:
                 continue
+
 
             if (values=="Random"): questions = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random #####Else if'?
                 
