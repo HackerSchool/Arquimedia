@@ -15,15 +15,18 @@
     Questões falhadas no objecto:  {{failed_list}} <br>
     Questões acertadas no objecto: {{correct_list}} <br>
 
+
     
     {% load custom_tags %}
 
 <form id="QuestionsDiv" method="POST" action="http://127.0.0.1:8000/exame/results/{{exam_list.id}}">
+
     {% csrf_token %}
 
     {%for question in question_list%}
 
         <h3>{{question.text}}</h3>
+
         <div class="btn-group-toggle"  data-toggle="buttons">
             <label class="colbut" >
 
@@ -36,6 +39,7 @@
                 <p><input type='radio' name='{{question.id}}' value={{wrongAnswer.id}}> {{wrongAnswer.text}}</p>
             </label>   
         </div>
+
         {% endfor %}
 
     {%endfor%}
