@@ -12,12 +12,9 @@
 
     {%for question in question_list%}
 
-        <h3>{{question.text}}</h3>
-
-        <p><input type='radio' name='{{question.id}}' value={{question.correctAnswer.id}}>{{question.correctAnswer.text}}</p>
-
-        {% for wrongAnswer in question.wrongAnswers.all  %}
-            <p><input type='radio' name='{{question.id}}' value={{wrongAnswer.id}}> {{wrongAnswer.text}}</p>
+        <h3>{{question.text}} {{question.answer.all}}</h3>
+        {% for answer in question.answer.all  %}
+            <p><input type='radio' name='{{question.id}}' value={{answer.id}}> {{answer.text}}</p>
         {% endfor %}
 
     {%endfor%}
