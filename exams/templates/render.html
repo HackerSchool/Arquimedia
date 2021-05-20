@@ -6,14 +6,16 @@
     Questões falhadas no objecto:  {{failed_list}} <br>
     Questões acertadas no objecto: {{correct_list}} <br>
 
+    {% load custom_tags %}
+
 <div class="form_exam">
 <form method="POST">
     {% csrf_token %}
 
-    {%for question in question_list%}
+    {%for question in question_list|shuffle%}
 
-        <h3>{{question.text}} {{question.answer.all}}</h3>
-        {% for answer in question.answer.all  %}
+        <h3>{{question.text}}</h3>
+        {% for answer in question.answer.all|shuffle  %}
             <p><input type='radio' name='{{question.id}}' value={{answer.id}}> {{answer.text}}</p>
         {% endfor %}
 

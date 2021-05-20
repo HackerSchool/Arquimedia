@@ -47,6 +47,9 @@ def exam_id_render(request, id):
         
         questionsquery = exam.questions.all()
 
+        for i in questionsquery:
+            print(i.answer.all()) 
+
         context = {
             'exam_list': exam,
             'question_list': questionsquery
