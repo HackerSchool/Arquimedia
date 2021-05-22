@@ -6,9 +6,21 @@ body {
     background-attachment: fixed;
 }
 
+.dark-mode {
+    background-image: url('../light_dark_mode/darkmode_bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+  }
+
 a {
-    color: hotpink ;
+    color: white ;
     text-decoration: none;
+}
+
+h3 {
+    font-size: 2px;
 }
 
 a:hover {
@@ -31,7 +43,7 @@ ul li {
     color: white; 
     border: 5px solid #56CCF2;
     padding: 8px 35px;
-    font-size: 30px;
+    font-size: 35px;
     font-weight: bold;
     margin: 0;
     position: absolute;
@@ -46,6 +58,25 @@ ul li {
     border: 5px solid #0895c4;
     color: white;
   }
+
+.titulo {
+    position: absolute;
+    margin-left: 5rem;  
+    font-size: 4rem; 
+    top: 30%;
+}
+
+.logo {
+    position: absolute;
+    margin-left: 4rem;  
+}
+
+.emoji {
+    position: absolute;
+    margin-left: 4rem;  
+    top: 33%;  
+    right: 37%;
+}
 
 
 /* The following css will only be rendered on devices with max-width of 400px */
