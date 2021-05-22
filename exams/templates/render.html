@@ -14,31 +14,21 @@
     Questões no objecto:           {{question_list}} <br>
     Questões falhadas no objecto:  {{failed_list}} <br>
     Questões acertadas no objecto: {{correct_list}} <br>
-
-
     
     {% load custom_tags %}
 
-<form id="QuestionsDiv" method="POST" action="http://127.0.0.1:8000/exame/results/{{exam_list.id}}">
+<form id="QuestionsDiv" method="POST">
 
     {% csrf_token %}
 
-    {%for question in question_list%}
+    {%for question in question_list|shuffle%}
 
         <h3>{{question.text}}</h3>
 
-        <div class="btn-group-toggle"  data-toggle="buttons">
+        {% for answer in question.answer.all|shuffle  %}
             <label class="colbut" >
-
-                <p><input type='radio' name='{{question.id}}' value={{question.correctAnswer.id}}>{{question.correctAnswer.text}}</p>
+                <p><input type='radio' name='{{question.id}}' value={{answer.id}}> {{answer.text}}</p>
             </label>
-        {% for wrongAnswer in question.wrongAnswers.all|shuffle  %}
-        
-            <label class="colbut" >
-
-                <p><input type='radio' name='{{question.id}}' value={{wrongAnswer.id}}> {{wrongAnswer.text}}</p>
-            </label>   
-        </div>
 
         {% endfor %}
 

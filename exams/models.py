@@ -47,8 +47,6 @@ class Exam(models.Model):
 
 class Question(models.Model):
     text = models.CharField(max_length=1000,  null=False)
-    correctAnswer = models.ForeignKey("Answer", null=False, on_delete=models.CASCADE, related_name="correctAnswer")
-    wrongAnswers = models.ManyToManyField("Answer", related_name="wrongAnswers")
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
@@ -59,4 +57,6 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    text=models.TextField(max_length=100,null=False)    
+    text = models.TextField(max_length=100,null=False)
+    correct = models.BooleanField(default=False)
+    question = models.ForeignKey("question", related_name="answer", on_delete=models.CASCADE, null=True)

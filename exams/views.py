@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
-from .models import Exam, Question
+from .models import Exam, Question, Answer
 from django.views.decorators.csrf import csrf_exempt
 from random import shuffle
 from django.contrib.auth.decorators import login_required
@@ -49,6 +49,9 @@ def exam_id_render(request, id):
         
         questionsquery = exam.questions.all()
 
+        for i in questionsquery:
+            print(i.answer.all()) 
+
         context = {
             'exam_list': exam,
             'question_list': questionsquery
@@ -65,14 +68,17 @@ def exam_id_render(request, id):
             if question in ["csrfmiddlewaretoken", "ExamAnswered"]:
                 continue
 
-            if questions[i].correctAnswer.id == int(answer):
-                profileSubject.addCorrectAnswer(questions[i])
-                exam.correct.add(questions[i])
+            questionObject = Question.objects.get(id=int(question))
+            correctAnswer = Answer.objects.get(question=questionObject, correct=True)
+            
+            if correctAnswer.id == int(answer):
+                profileSubject.addCorrectAnswer(questionObject)
+                exam.correct.add(questionObject)
 
                 exam.score += 20
             else:
-                profileSubject.addWrongAnswer(questions[i])
-                exam.failed.add(questions[i])
+                profileSubject.addWrongAnswer(questionObject)
+                exam.failed.add(questionObject)
 
             i += 1
 
@@ -121,8 +127,6 @@ def generate_exam(request):
                 exame.questions.add(question)
 
             return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
-
-    
         
     context = {}
 
