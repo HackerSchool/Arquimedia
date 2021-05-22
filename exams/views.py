@@ -66,16 +66,17 @@ def exam_id_render(request, id):
             if question in ["csrfmiddlewaretoken", "ExamAnswered"]:
                 continue
 
-            correctAnswer = Answer.filter(question=questions[i], correct=True)[0]
-
+            questionObject = Question.objects.get(id=int(question))
+            correctAnswer = Answer.objects.get(question=questionObject, correct=True)
+            
             if correctAnswer.id == int(answer):
-                profileSubject.addCorrectAnswer(questions[i])
-                exam.correct.add(questions[i])
+                profileSubject.addCorrectAnswer(questionObject)
+                exam.correct.add(questionObject)
 
                 exam.score += 20
             else:
-                profileSubject.addWrongAnswer(questions[i])
-                exam.failed.add(questions[i])
+                profileSubject.addWrongAnswer(questionObject)
+                exam.failed.add(questionObject)
 
             i += 1
 
