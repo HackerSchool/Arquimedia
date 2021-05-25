@@ -63,6 +63,15 @@ class SubjectInfo(models.Model):
         newAnswer = AnswerInfo.objects.create(answer=answer)
         self.wrongAnswers.add(newAnswer)
 
+    
+    def getPercentageOfQuestionsAnswered(self):
+        """ Returns percentage of questions answered by an user """
+
+        total = Question.objects.count()
+        answered = self.wrongAnswers.count() + self.correctAnswers.count()
+
+        return answered / total * 100
+
 
 
 # When a new User object is created, a Profile is attached
@@ -74,3 +83,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
