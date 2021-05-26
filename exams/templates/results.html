@@ -9,14 +9,26 @@
 
 {% block content %}
 
+    <div class="stats">
+        <h3 class="nr-label corretas">Corretas:</h3>
+        <h3 class="nr ans-count corretas">{{ exam.correct.count }}</h3>
 
-    <h3 class="nr-label corretas">Corretas:</h3>
-    <h3 class="nr ans-count corretas">{{corretas}}</h3>
+        <h3 class="nr-label erradas">Erradas:</h3>
+        <h3 class="nr ans-count erradas">{{ exam.failed.count }}</h3>
 
-    <h3 class="nr-label erradas">Erradas:</h3>
-    <h3 class="nr ans-count erradas">{{erradas}}</h3>
+        <h3 class="nr-label nota">Nota:</h3>
+        <h3 class="nr score">{{ exam.score }}</h3>
+    </div>
 
-    <h3 class="nr-label nota">Nota:</h3>
-    <h3 class="nr score">{{ exam.score }}</h3>
-
+    <div class="questions">
+        {% if exam.failed.all %}
+            <h3>Erraste as seguintes perguntas:</h3>
+            {% for answer in exam.failed.all %}
+                <h2>{{ answer.text }}</h2>
+                <h2>Resposta correta: {{ answer.correctAnswer.text }}</h2>
+            {% endfor %}
+        {% else %}
+            <h2>Bom trabalho! Não erraste nenhuma pergunta.</h2>
+        {% endif %}
+    </div>
 {% endblock %}
