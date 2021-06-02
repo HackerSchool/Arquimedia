@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
@@ -92,34 +93,94 @@ def exam_id_render(request, id):
 
 @login_required
 def generate_exam(request):
+    Random=False
+    Imaginários=False
+    Geometria=False
+    Freshman=False
+    Junior=False
+    Senior=False
+
+
+    numberChoices = 0
+    
+
+
     if (request.method == "POST"):
         for keys, values in request.POST.items():
-            print(values)
             if keys in ["csrfmiddlewaretoken"]:
                 continue
 
 
-            if (values=="Random"): questions = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random #####Else if'?
+            if (values=="Random"):
+                 questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random #####Else if'?
+                 numberChoices +=1
+                 Random=True
                 
-            if (values=="Imaginários"): questions = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
+            if (values=="Imaginários"): 
+                questionsImag = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
+                numberChoices +=1
+                Imaginários=True
 
-            if (values=="Geometria"): questions = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
 
-            if (values=="10º"): questions = Question.objects.filter(year=10).all()###Ciclo Exame de 10ºAno
+            if (values=="Geometria"): 
+                questionsGeom = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
+                numberChoices +=1
+                Geometria=True
 
-            if (values=="11º"): questions = Question.objects.filter(year=11).all()###Ciclo Exame de 11ºAno
 
-            if (values=="12º"): questions = Question.objects.filter(year=12).all()###Ciclo Exame de 12ºAno
+            if (values=="10º"): 
+                questions = Question.objects.filter(year=10).all()###Ciclo Exame de 10ºAno
+                numberChoices +=1
+                Freshman=True
 
+            if (values=="11º"): 
+                questions = Question.objects.filter(year=11).all()###Ciclo Exame de 11ºAno
+                numberChoices +=1
+                Junior=True
+
+
+            if (values=="12º"):
+                 questions = Question.objects.filter(year=12).all()###Ciclo Exame de 12ºAno
+                 numberChoices +=1
+                 Senior=True
+            
             questionsExam = []
+            numberOfQuestions=1
+            for i in range(numberOfQuestions//numberChoices):
+                                                                              ###  Temos várias listas com perguntas de tópicos diferentes, 
+                                                                              ### para que se consiga controlar o nº de perguntas que aparecem
+                                                                              ### por resposta de forma a que tenhamos um teste populado de forma equitativa 
+                if(Senior or Junior or Freshman): ### may be replaced by the lenght of a queryset 
+                    choice = questions[random.randint(0, len(questions) - 1)] 
+                    while choice in questionsExam:
+                        
+                        choice = questions[random.randint(0, len(questions) - 1)]
 
-            for i in range(10):
-                choice = questions[random.randint(0, len(questions) - 1)]
-                while choice in questionsExam:
+                    questionsExam.append(choice)
+                if(Random):
+                    choice = questionsRand[random.randint(0, len(questionsRand) - 1)]      
                     
-                    choice = questions[random.randint(0, len(questions) - 1)]
+                    while choice in questionsExam:
+                        
+                        choice = questionsRand[random.randint(0, len(questionsRand) - 1)]
 
-                questionsExam.append(choice)
+                    questionsExam.append(choice)
+                if(Imaginários):
+                    choice = questionsImag[random.randint(0, len(questionsImag) - 1)]
+                    
+                    while choice in questionsExam:
+                        
+                        choice = questionsImag[random.randint(0, len(questionsImag) - 1)]
+
+                    questionsExam.append(choice)
+                if(Geometria):
+                    choice = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
+                    
+                    while choice in questionsExam:
+                        
+                        choice = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
+
+                    questionsExam.append(choice)
 
             exame = Exam.objects.create()
 
