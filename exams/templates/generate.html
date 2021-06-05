@@ -10,9 +10,9 @@
 
     <form method="POST">
         {% csrf_token %}
-        <input type='radio' name="Exam Selection" value="Random" >Gerar exame random de matematica
-        <input type='radio' name="Exam Selection" value="Geometria">Gerar exame De Geometria
-        <input type='radio' name="Exam Selection" value="Imaginários">Gerar exame De Imaginários
+        <input type='checkbox' name="MultipleChoice" value="Random" >Gerar exame random de matematica
+        <input type='checkbox' name="MultipleChoice" value="Geometria">Gerar exame De Geometria
+        <input type='checkbox' name="MultipleChoice" value="Imaginários">Gerar exame De Imaginários
         <input type='radio' name="Exam Selection" value="10º">Gerar exame do 10ºAno
         <input type='radio' name="Exam Selection" value="11º">Gerar exame do 11ºAno
         <input type='radio' name="Exam Selection" value="12º">Gerar exame do 12ºAno

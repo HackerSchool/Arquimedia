@@ -50,8 +50,7 @@ def exam_id_render(request, id):
         
         questionsquery = exam.questions.all()
 
-        for i in questionsquery:
-            print(i.answer.all()) 
+ 
 
         context = {
             'exam_list': exam,
@@ -106,28 +105,31 @@ def generate_exam(request):
 
 
     if (request.method == "POST"):
-        for keys, values in request.POST.items():
-            if keys in ["csrfmiddlewaretoken"]:
-                continue
-
-
-            if (values=="Random"):
+        
+        for subject in request.POST.getlist('MultipleChoice'):
+            print(subject)
+            if (subject=="Random"):
                  questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random #####Else if'?
                  numberChoices +=1
                  Random=True
-                
-            if (values=="Imaginários"): 
+               
+            if (subject=="Imaginários"): 
                 questionsImag = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
                 numberChoices +=1
                 Imaginários=True
+                
 
 
-            if (values=="Geometria"): 
+            if (subject=="Geometria"): 
                 questionsGeom = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
                 numberChoices +=1
                 Geometria=True
 
 
+        for keys, values in request.POST.items():
+            if keys in ["csrfmiddlewaretoken"]:
+                continue
+            
             if (values=="10º"): 
                 questions = Question.objects.filter(year=10).all()###Ciclo Exame de 10ºAno
                 numberChoices +=1
@@ -145,7 +147,7 @@ def generate_exam(request):
                  Senior=True
             
             questionsExam = []
-            numberOfQuestions=1
+            numberOfQuestions=4
             for i in range(numberOfQuestions//numberChoices):
                                                                               ###  Temos várias listas com perguntas de tópicos diferentes, 
                                                                               ### para que se consiga controlar o nº de perguntas que aparecem
@@ -158,29 +160,31 @@ def generate_exam(request):
 
                     questionsExam.append(choice)
                 if(Random):
-                    choice = questionsRand[random.randint(0, len(questionsRand) - 1)]      
+                    choiceRand = questionsRand[random.randint(0, len(questionsRand) - 1)]      
                     
-                    while choice in questionsExam:
+                    while choiceRand in questionsExam:
                         
-                        choice = questionsRand[random.randint(0, len(questionsRand) - 1)]
+                        choiceRand = questionsRand[random.randint(0, len(questionsRand) - 1)]
 
-                    questionsExam.append(choice)
+                    questionsExam.append(choiceRand)
+
                 if(Imaginários):
-                    choice = questionsImag[random.randint(0, len(questionsImag) - 1)]
+                    choiceImag = questionsImag[random.randint(0, len(questionsImag) - 1)]
                     
-                    while choice in questionsExam:
+                    while choiceImag in questionsExam:
                         
-                        choice = questionsImag[random.randint(0, len(questionsImag) - 1)]
+                        choiceImag = questionsImag[random.randint(0, len(questionsImag) - 1)]
 
-                    questionsExam.append(choice)
+                    questionsExam.append(choiceImag)
                 if(Geometria):
-                    choice = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
+                    choiceGeo = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
                     
-                    while choice in questionsExam:
+                    while choiceGeo in questionsExam:
                         
-                        choice = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
+                        choiceGeo = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
 
-                    questionsExam.append(choice)
+                    questionsExam.append(choiceGeo)
+                    
 
             exame = Exam.objects.create()
 

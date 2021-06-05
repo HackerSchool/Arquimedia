@@ -23,7 +23,7 @@
 
     {%for question in question_list|shuffle%}
 
-        <h3>{{question.text}}</h3>
+        <h4>{{question.text}}</h4>
 
         {% for answer in question.answer.all|shuffle  %}
             <label class="colbut" >
