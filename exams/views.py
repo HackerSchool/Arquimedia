@@ -94,7 +94,7 @@ def exam_id_render(request, id):
 def generate_exam(request):
     if (request.method == "POST"):
         for keys, values in request.POST.items():
-            print(values)
+            
             if keys in ["csrfmiddlewaretoken"]:
                 continue
 
