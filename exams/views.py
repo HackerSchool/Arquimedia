@@ -107,7 +107,6 @@ def generate_exam(request):
     if (request.method == "POST"):
         
         for subject in request.POST.getlist('MultipleChoice'):
-            print(subject)
             if (subject=="Random"):
                  questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random #####Else if'?
                  numberChoices +=1
@@ -148,7 +147,7 @@ def generate_exam(request):
             
             questionsExam = []
             numberOfQuestions=4
-            for i in range(numberOfQuestions//numberChoices):
+            for i in range(numberOfQuestions//numberChoices): 
                                                                               ###  Temos várias listas com perguntas de tópicos diferentes, 
                                                                               ### para que se consiga controlar o nº de perguntas que aparecem
                                                                               ### por resposta de forma a que tenhamos um teste populado de forma equitativa 
