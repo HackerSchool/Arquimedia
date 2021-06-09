@@ -39,7 +39,7 @@ def profileDashboard(request):
         for i in user.profile.subjects.all():
             x = (i.correctAnswers.count())/5
            
-            index = 11*(x-30)**(1/3)+34
+            index = 13.75*(x-30)**(1/3)+42.5
             context[i.id] = index
         
 
