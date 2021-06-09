@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <h1>Perfil</h1>
+    <h1>Perfil do {{user}}</h1>
 
     {% if subjects %}
         {% for subject in subjects %}
@@ -15,6 +15,7 @@
                 <h2>{{ subject.subject }}</h2>
                 <h2>Fizeste {{ subject.examCounter }} exames desta disciplina</h2>
                 <h2>Respondeste a {{ subject.getPercentageOfQuestionsAnswered }}% das perguntas desta disciplina</h2>
+                <h2>tens um indíce de sucesso de {{ subject.id }}% nesta disciplina</h2>
                 {% if subject.wrongAnswers.all %}
                     <ul>
                     {% for answer in subject.wrongAnswers.all %}

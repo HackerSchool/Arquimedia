@@ -35,5 +35,12 @@ def profileDashboard(request):
         "SUBJECT_LIST": SUBJECT_LIST
     }
 
+    if(user.profile.subjects.all().count()!=0):
+        for i in user.profile.subjects.all():
+            x = (i.correctAnswers.count())/500
+            index = 11*(x-30)**(1/3)+34
+            context[i.id] = index
+        
+
     return render(request, "dashboard.html", context)
 
