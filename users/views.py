@@ -27,21 +27,14 @@ def profileDashboard(request):
     SUBJECT_LIST = ["Matemática", "Física-Química"]
 
     user = request.user
+    subjects = user.profile.subjects.all()
 
     context = {
         "user": user,
-        "subjects": user.profile.subjects.all(),
-        "userSubjects": [i.subject for i in user.profile.subjects.all()],
+        "subjects": subjects,
+        "userSubjects": [i.subject for i in subjects],
         "SUBJECT_LIST": SUBJECT_LIST
-    }
-
-    if(user.profile.subjects.all().count()!=0):
-        for i in user.profile.subjects.all():
-            x = (i.correctAnswers.count())/5
-           
-            index = 13.75*(x-30)**(1/3)+42.5
-            context[i.id] = index
-        
+    }    
 
     return render(request, "dashboard.html", context)
 

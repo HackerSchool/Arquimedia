@@ -68,9 +68,18 @@ class SubjectInfo(models.Model):
         """ Returns percentage of questions answered by an user """
 
         total = Question.objects.count()
+        if (total == 0): return 0
+
         answered = self.wrongAnswers.count() + self.correctAnswers.count()
 
-        return answered / total * 100
+        return round(answered / total * 100, 2)
+
+    
+    def getIndex(self):
+        """ Returns success index that gives a rough idea of how prepared the user is """
+        x = self.correctAnswers.count() / 5
+           
+        return 13.75 * (x - 30) ** (1 / 3) + 42.5
 
 
 
