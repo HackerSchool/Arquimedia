@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import indexes
 from exams.models import Question
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -77,9 +78,15 @@ class SubjectInfo(models.Model):
     
     def getIndex(self):
         """ Returns success index that gives a rough idea of how prepared the user is """
-        x = self.correctAnswers.count() / 5
-           
-        return 13.75 * (x - 30) ** (1 / 3) + 42.5
+        x = self.correctAnswers.count() / 5 - 30
+        
+        if(x < 0): index = 13.75 * -(abs(x) ** (1 / 3)) + 42.5
+        else: index = 13.75 * x ** (1 / 3) + 42.5
+
+        if index < 0: return 0
+        if index > 100: return 100
+
+        return index
 
 
 
