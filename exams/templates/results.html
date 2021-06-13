@@ -3,12 +3,12 @@
 {% block css %}
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/results.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/results.css' %}">
 
 {% endblock %}
 
 {% block content %}
-
+    
     <div class="stats">
         <h3 class="nr-label corretas">Corretas:</h3>
         <h3 class="nr ans-count corretas">{{ exam.correct.count }}</h3>
@@ -19,16 +19,29 @@
         <h3 class="nr-label nota">Nota:</h3>
         <h3 class="nr score">{{ exam.score }}</h3>
     </div>
-
+    
     <div class="questions">
         {% if exam.failed.all %}
-            <h3>Erraste as seguintes perguntas:</h3>
+            <h2>Erraste as seguintes perguntas:</h2>
             {% for answer in exam.failed.all %}
-                <h2>{{ answer.text }}</h2>
-                <h2>Resposta correta: {{ answer.correctAnswer.text }}</h2>
+            <p>
+                <button class="btn btn-primary questions-btt" type="button" data-bs-toggle="collapse" data-bs-target="#answerCollapse{{answer.id}}" aria-expanded="false" aria-controls="collapseExample">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square-fill" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4 4a.5.5 0 0 0-.374.832l4 4.5a.5.5 0 0 0 .748 0l4-4.5A.5.5 0 0 0 12 6H4z"/>
+                      </svg> {{ answer.text }}
+                </button>
+            </p>
+            <div class="wrap-collapse">
+                <div class="collapse" id="answerCollapse{{answer.id}}">
+                    <div class="card card-body">
+                        Resposta correta: {{ answer.correctAnswer.text }}
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         {% else %}
             <h2>Bom trabalho! Não erraste nenhuma pergunta.</h2>
         {% endif %}
+    
     </div>
 {% endblock %}
