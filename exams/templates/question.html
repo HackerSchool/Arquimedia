@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+
+{% block css %}
+
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+	<h2>{{ question.text }}</h2>
+	<h3>Disciplina: {{ question.subject }}</h3>
+	<h3>Tema: {{ question.subsubject }}</h3>
+	<h3>Ano: {{ question.year }}</h3>
+	<h3>Dificuldade: {{ question.difficulty }}</h3>
+
+	<h3>Respostas incorretas</h3>
+	<ul>
+		{% for answer in wrongAnswers %}
+		<li>{{ answer.text }}</li>
+		{% endfor %}
+	</ul>
+
+	<h3>Resposta correta:</h3>
+		<li>{{ correctAnswer.text }}</li>
+
+{% endblock %}
