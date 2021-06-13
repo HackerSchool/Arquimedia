@@ -9,7 +9,7 @@
 
 {% block content %}
 
-	<h2>{{ question.text }}</h2>
+	<h1>{{ question.text }}</h1>
 	<h3>Disciplina: {{ question.subject }}</h3>
 	<h3>Tema: {{ question.subsubject }}</h3>
 	<h3>Ano: {{ question.year }}</h3>
@@ -23,6 +23,8 @@
 	</ul>
 
 	<h3>Resposta correta:</h3>
+	<ul>
 		<li>{{ correctAnswer.text }}</li>
+	</ul>
 
 {% endblock %}
