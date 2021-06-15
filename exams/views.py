@@ -7,6 +7,7 @@ from random import shuffle
 from django.contrib.auth.decorators import login_required
 import random
 from users.models import Profile, SubjectInfo
+from .forms import *
 
 MATH = "Matemática"
 GEOMETRY = "Geometria"
@@ -137,9 +138,21 @@ def questionPage(request, id):
     question = Question.objects.get(id=id)
     wrongAnswers = question.wrongAnswers()
 
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.question = question
+            comment.author = request.user
+            comment.save()
+
+    commentForm = CommentForm()
+
     context = {
         "question": question,
-        "wrongAnswers": wrongAnswers
+        "wrongAnswers": wrongAnswers,
+        "commentForm": commentForm
     }
 
     return render(request, "question.html", context)

@@ -27,4 +27,20 @@
 		<li>{{ question.correctAnswer.text }}</li>
 	</ul>
 
+	<h2>Comentários:</h2>
+
+	{% for comment in question.getComments %}
+		<h3>{{ comment.author }} - {{ comment.date }}</h3>
+		<h6>{{ comment.content }}</h6>
+	{% endfor %}
+
+	<h3>Adiciona um comentário:</h3>
+	<form method="post" action="">
+		{% csrf_token %}
+
+		{{ commentForm.as_table }}
+
+		<input type="submit" value="Add comment">
+	</form>
+
 {% endblock %}

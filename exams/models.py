@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.fields.related import ForeignKey
+from datetime import date
+from django.contrib.auth.models import User
 
 # Create your models here.
 # TODO: Create Question, Exam models
@@ -61,6 +64,27 @@ class Question(models.Model):
 
     def wrongAnswers(self):
         return self.answer.filter(correct=False)
+
+    def getComments(self):
+        return self.comment.all()
+
+
+class Comment(models.Model):
+    question = models.ForeignKey("question", related_name="comment", on_delete=models.CASCADE, null=False)
+    content = models.CharField(max_length=250, null=False)
+    # When user delets account, comment shouldn't be deleted, but signaled as "deleted user" or equivalent
+    author = models.ForeignKey(User, related_name="comment", on_delete=models.CASCADE, null=False)
+    #fatherComment = models.ForeignKey("comment", related_name="reply", on_delete=models.CASCADE, null=True)
+    votes = models.IntegerField(default=0)
+    date = models.DateField(auto_now_add=True)
+
+    def upvote(self): 
+        self.votes += 1
+        self.save()
+
+    def downvote(self):
+        self.votes -= 1
+        self.save()
 
 
 class Answer(models.Model):
