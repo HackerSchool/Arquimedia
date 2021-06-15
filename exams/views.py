@@ -135,12 +135,10 @@ def generate_exam(request):
 @login_required
 def questionPage(request, id):
     question = Question.objects.get(id=id)
-    correctAnswer = question.answer.get(correct=True)
-    wrongAnswers = question.answer.filter(correct=False)
+    wrongAnswers = question.wrongAnswers()
 
     context = {
         "question": question,
-        "correctAnswer": correctAnswer,
         "wrongAnswers": wrongAnswers
     }
 

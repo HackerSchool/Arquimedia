@@ -57,7 +57,10 @@ class Question(models.Model):
 
 
     def correctAnswer(self):
-        return Answer.objects.get(question=self, correct=True)
+        return self.answer.get(question=self, correct=True)
+
+    def wrongAnswers(self):
+        return self.answer.filter(correct=False)
 
 
 class Answer(models.Model):
