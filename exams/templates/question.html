@@ -30,7 +30,7 @@
 	<h2>Comentários:</h2>
 
 	{% for comment in question.getComments %}
-		<h3>{{ comment.author }} - {{ comment.date }}</h3>
+		<h3>{{ comment.author }} - {{ comment.date }} - {{ comment.votes }}</h3>
 		<h6>{{ comment.content }}</h6>
 	{% endfor %}
 
