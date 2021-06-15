@@ -92,37 +92,11 @@ def exam_id_render(request, id):
 
 @login_required
 def generate_exam(request):
-    Random=False
-    Imaginários=False
-    Geometria=False
-    Freshman=False
-    Junior=False
-    Senior=False
 
-
-    numberChoices = 0
-    
-
+    subjectAndYearList = [[],[]]
 
     if (request.method == "POST"):
         
-        for subject in request.POST.getlist('MultipleChoice'):
-            if (subject=="Random"):
-                 questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random #####Else if'?
-                 numberChoices +=1
-                 Random=True
-               
-            if (subject=="Imaginários"): 
-                questionsImag = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
-                numberChoices +=1
-                Imaginários=True
-                
-
-
-            if (subject=="Geometria"): 
-                questionsGeom = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
-                numberChoices +=1
-                Geometria=True
 
 
         for keys, values in request.POST.items():
@@ -131,66 +105,83 @@ def generate_exam(request):
             
             if (values=="10º"): 
                 questions = Question.objects.filter(year=10).all()###Ciclo Exame de 10ºAno
-                numberChoices +=1
-                Freshman=True
+                subjectAndYearList[1].append(10)
+ 
 
             if (values=="11º"): 
                 questions = Question.objects.filter(year=11).all()###Ciclo Exame de 11ºAno
-                numberChoices +=1
-                Junior=True
+                subjectAndYearList[1].append(11)
+
 
 
             if (values=="12º"):
                  questions = Question.objects.filter(year=12).all()###Ciclo Exame de 12ºAno
-                 numberChoices +=1
-                 Senior=True
+                 subjectAndYearList[1].append(12)
+
+        if(request.POST.getlist('MultipleChoice')):
+            for subject in request.POST.getlist('MultipleChoice'):
+                if (subject=="Random" and len(subjectAndYearList[1])!=0):
+                    questionsRand = Question.objects.filter(subject=MATH).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame Random 
+                    subjectAndYearList[0].append(questionsRand)
+
+                elif (subject=="Random"):
+                    questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random 
+                    subjectAndYearList[0].append(questionsRand)
+
+
+                elif(subject=="Imaginários" and len(subjectAndYearList[1])!=0 ): 
+                    questionsImag = Question.objects.filter(subsubject=IMAGINARY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de Imaginários
+                    subjectAndYearList[0].append(questionsImag)
+
+                elif(subject=="Imaginários"):
+                    questionsImag = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
+                    subjectAndYearList[0].append(questionsImag)
+
+
+                elif(subject=="Geometria" and len(subjectAndYearList[1])!=0): 
+                    questionsGeom = Question.objects.filter(subsubject=GEOMETRY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de geometria
+                    subjectAndYearList[0].append(questionsGeom)
+
+                elif(subject=="Geometria"):
+                    questionsGeom = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
+                    subjectAndYearList[0].append(questionsGeom)
+    
             
-            questionsExam = []
-            numberOfQuestions=4
-            for i in range(numberOfQuestions//numberChoices): 
-                                                                              ###  Temos várias listas com perguntas de tópicos diferentes, 
-                                                                              ### para que se consiga controlar o nº de perguntas que aparecem
-                                                                              ### por resposta de forma a que tenhamos um teste populado de forma equitativa 
-                if(Senior or Junior or Freshman): ### may be replaced by the lenght of a queryset 
-                    choice = questions[random.randint(0, len(questions) - 1)] 
-                    while choice in questionsExam:
+        questionsExam = []
+        numberOfQuestions=3
+        index=0
+        if(len(subjectAndYearList[1])!=0 and  len(subjectAndYearList[0])==0):
+            for i in range(numberOfQuestions):
+
+                questions = Question.objects.filter(year=subjectAndYearList[1][0]).all()
+                choice = questions[random.randint(0, len(questions) - 1)]
+
+                while choice in questionsExam:
                         
-                        choice = questions[random.randint(0, len(questions) - 1)]
+                    choice = questions[random.randint(0, len(questions) - 1)]
+                questionsExam.append(choice)
+        else:
+
+            while(len(questionsExam)!=numberOfQuestions):
+                                                 
+                    choice = subjectAndYearList[0][index][random.randint(0, len(subjectAndYearList[0][index]) - 1)] 
+                    while choice in questionsExam:
+                        choice = subjectAndYearList[0][index][random.randint(0, len(subjectAndYearList[0][index]) - 1)]
 
                     questionsExam.append(choice)
-                if(Random):
-                    choiceRand = questionsRand[random.randint(0, len(questionsRand) - 1)]      
+                    if(index==len(request.POST.getlist('MultipleChoice'))-1):
+                        index =0
                     
-                    while choiceRand in questionsExam:
-                        
-                        choiceRand = questionsRand[random.randint(0, len(questionsRand) - 1)]
+                    index += 1
 
-                    questionsExam.append(choiceRand)
+        
 
-                if(Imaginários):
-                    choiceImag = questionsImag[random.randint(0, len(questionsImag) - 1)]
-                    
-                    while choiceImag in questionsExam:
-                        
-                        choiceImag = questionsImag[random.randint(0, len(questionsImag) - 1)]
+        exame = Exam.objects.create()
+        
+        for question in questionsExam:
+            exame.questions.add(question)
 
-                    questionsExam.append(choiceImag)
-                if(Geometria):
-                    choiceGeo = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
-                    
-                    while choiceGeo in questionsExam:
-                        
-                        choiceGeo = questionsGeom[random.randint(0, len(questionsGeom) - 1)]
-
-                    questionsExam.append(choiceGeo)
-                    
-
-            exame = Exam.objects.create()
-
-            for question in questionsExam:
-                exame.questions.add(question)
-
-            return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
+        return redirect("http://localhost:8000/exame/{}/render".format(exame.id))
         
     context = {}
 
