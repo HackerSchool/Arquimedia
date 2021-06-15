@@ -56,6 +56,10 @@ class Question(models.Model):
     def __str__(self): return "{}-{}-{}".format(self.id,self.subsubject, self.year, self.difficulty)
 
 
+    def correctAnswer(self):
+        return Answer.objects.get(question=self, correct=True)
+
+
 class Answer(models.Model):
     text = models.TextField(max_length=100,null=False)
     correct = models.BooleanField(default=False)

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import indexes
 from exams.models import Question
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -63,6 +64,30 @@ class SubjectInfo(models.Model):
         newAnswer = AnswerInfo.objects.create(answer=answer)
         self.wrongAnswers.add(newAnswer)
 
+    
+    def getPercentageOfQuestionsAnswered(self):
+        """ Returns percentage of questions answered by an user """
+
+        total = Question.objects.count()
+        if (total == 0): return 0
+
+        answered = self.wrongAnswers.count() + self.correctAnswers.count()
+
+        return round(answered / total * 100, 2)
+
+    
+    def getIndex(self):
+        """ Returns success index that gives a rough idea of how prepared the user is """
+        x = self.correctAnswers.count() / 5 - 30
+        
+        if(x < 0): index = 13.75 * -(abs(x) ** (1 / 3)) + 42.5
+        else: index = 13.75 * x ** (1 / 3) + 42.5
+
+        if index < 0: return 0
+        if index > 100: return 100
+
+        return index
+
 
 
 # When a new User object is created, a Profile is attached
@@ -74,3 +99,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+

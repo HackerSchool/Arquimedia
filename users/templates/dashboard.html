@@ -6,14 +6,16 @@
 
 {% block content %}
 
-    <h1>Perfil</h1>
+    <h1>Perfil do {{user}}</h1>
 
     {% if subjects %}
         {% for subject in subjects %}
         
             <div class="subject">
                 <h2>{{ subject.subject }}</h2>
-                <h3>Fizeste {{ subject.examCounter }} exames desta disciplina</h3>
+                <h2>Fizeste {{ subject.examCounter }} exames desta disciplina</h2>
+                <h2>Respondeste a {{ subject.getPercentageOfQuestionsAnswered }}% das perguntas desta disciplina</h2>
+                <h2>tens um indíce de sucesso de {{ subject.getIndex }}% nesta disciplina</h2>
                 {% if subject.wrongAnswers.all %}
                     <ul>
                     {% for answer in subject.wrongAnswers.all %}
@@ -30,7 +32,7 @@
 
     {% for subject in SUBJECT_LIST %}
         {% if subject not in userSubjects %}
-            <h3>Inscreve-te em {{ subject }}</h3>
+            <h2>Inscreve-te em {{ subject }}</h2>
         {% endif %}
     {% endfor %}
 

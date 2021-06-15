@@ -27,13 +27,14 @@ def profileDashboard(request):
     SUBJECT_LIST = ["Matemática", "Física-Química"]
 
     user = request.user
+    subjects = user.profile.subjects.all()
 
     context = {
         "user": user,
-        "subjects": user.profile.subjects.all(),
-        "userSubjects": [i.subject for i in user.profile.subjects.all()],
+        "subjects": subjects,
+        "userSubjects": [i.subject for i in subjects],
         "SUBJECT_LIST": SUBJECT_LIST
-    }
+    }    
 
     return render(request, "dashboard.html", context)
 
