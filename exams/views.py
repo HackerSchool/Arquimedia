@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from django.core.serializers import serialize
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, response
 from .models import Exam, Question, Answer, Comment
 from django.views.decorators.csrf import csrf_exempt
 from random import shuffle
@@ -8,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 import random
 from users.models import Profile, SubjectInfo
 from .forms import *
+import json
 
 MATH = "Matemática"
 GEOMETRY = "Geometria"
@@ -168,3 +168,26 @@ def deleteComment(request, id):
     comment.delete()
 
     return JsonResponse({"success":True}, status=200)
+
+
+def addComment(request):
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
+    body = json.loads(request.body)
+    content = body["text"]
+    question = Question.objects.get(id=body["question"])
+
+    comment = Comment.objects.create(
+        author=request.user,
+        question=question,
+        content=content
+        )
+    comment.save()
+
+    response = {
+        "success":True,
+        "user": request.user.username,
+        "date": comment.date,
+        "commentId": comment.id
+    }
+
+    return JsonResponse(response, status=200)
