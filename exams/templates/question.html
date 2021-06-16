@@ -4,7 +4,7 @@
 
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}">
-
+	
 {% endblock %}
 
 {% block content %}
@@ -28,10 +28,18 @@
 	</ul>
 
 	<h2>Comentários:</h2>
-
+	<form method="POST" id="deleteComment" action="http://localhost:8000/exame/delete_comment">
+		{% csrf_token %}
+	</form>
+	
 	{% for comment in question.getComments %}
-		<h3>{{ comment.author }} - {{ comment.date }} - {{ comment.votes }}</h3>
-		<h6>{{ comment.content }}</h6>
+		<div class="comment" id="comment{{comment.id}}">
+			<h3>{{ comment.author }} - {{ comment.date }} - {{ comment.votes }}</h3>
+			<h6>{{ comment.content }}</h6>
+			{% if comment.author == request.user %}
+				<button type="button" class="btn btn-danger" onclick="deleteComment({{comment.id}})">Delete</button>
+			{% endif %}
+		</div>
 	{% endfor %}
 
 	<h3>Adiciona um comentário:</h3>
@@ -43,4 +51,5 @@
 		<input type="submit" value="Add comment">
 	</form>
 
+	<script src="{% static 'scripts/question.js' %}"></script>
 {% endblock %}

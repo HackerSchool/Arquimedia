@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
-from .models import Exam, Question, Answer
+from .models import Exam, Question, Answer, Comment
 from django.views.decorators.csrf import csrf_exempt
 from random import shuffle
 from django.contrib.auth.decorators import login_required
@@ -156,3 +156,15 @@ def questionPage(request, id):
     }
 
     return render(request, "question.html", context)
+
+
+def deleteComment(request, id):
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
+
+    comment = Comment.objects.get(id=id)
+    if request.user != comment.author:
+        return JsonResponse({"success":False}, status=400)
+
+    comment.delete()
+
+    return JsonResponse({"success":True}, status=200)

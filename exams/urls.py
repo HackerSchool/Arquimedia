@@ -11,5 +11,6 @@ urlpatterns = [
     path("results/<int:id>", results),
     path('<int:id>/render',exam_id_render),
     path("gerador/", generate_exam),
-    path("question/<int:id>", questionPage)
+    path("question/<int:id>", questionPage),
+    path("delete_comment/<int:id>", deleteComment)
 ]
