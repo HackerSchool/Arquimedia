@@ -9,11 +9,6 @@ function deleteComment(id, csrftoken){
 	request.onreadystatechange = function() {
 		if(this.readyState === 4 && this.status === 200) {
 			let comment = document.getElementById("comment" + id);
-			comment.animate({
-				padding: "0px",
-				'margin-left': '-10px',
-				'font-size': "0px"
-			})
 			removeFadeOut(comment, 500);
 		}
 	}
