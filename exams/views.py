@@ -102,55 +102,70 @@ def generate_exam(request):
                 continue
             
             if (values=="10º"): 
+                
                 questions = Question.objects.filter(year=10).all()###Ciclo Exame de 10ºAno
                 subjectAndYearList[1].append(10)
  
 
             if (values=="11º"): 
+
                 questions = Question.objects.filter(year=11).all()###Ciclo Exame de 11ºAno
                 subjectAndYearList[1].append(11)
 
 
 
             if (values=="12º"):
+
                  questions = Question.objects.filter(year=12).all()###Ciclo Exame de 12ºAno
                  subjectAndYearList[1].append(12)
 
         if(request.POST.getlist('MultipleChoice')):
             for subject in request.POST.getlist('MultipleChoice'):
+
                 if (subject=="Random"):
+
                     if(len(subjectAndYearList[1])!=0):
+        
                         questionsRand = Question.objects.filter(subject=MATH).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame Random 
                         subjectAndYearList[0].append(questionsRand)
 
                     else:
+
                         questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random 
                         subjectAndYearList[0].append(questionsRand)
 
 
                 elif(subject=="Imaginários" and len(subjectAndYearList[1])!=0 ): 
+
                     if(len(subjectAndYearList[1])!=0):
+
                         questionsImag = Question.objects.filter(subsubject=IMAGINARY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de Imaginários
                         subjectAndYearList[0].append(questionsImag)
 
                     else:
+
                         questionsImag = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
                         subjectAndYearList[0].append(questionsImag)
 
 
                 elif(subject=="Geometria" and len(subjectAndYearList[1])!=0):
+
                     if(len(subjectAndYearList[1])!=0):
+
                         questionsGeom = Question.objects.filter(subsubject=GEOMETRY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de geometria
                         subjectAndYearList[0].append(questionsGeom)
 
                     else:
+
                         questionsGeom = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
                         subjectAndYearList[0].append(questionsGeom)
     
         questionsExam = []
         numberOfQuestions=3
         index=0
+
         if(len(subjectAndYearList[1])!=0 and  len(subjectAndYearList[0])==0):
+
             for i in range(numberOfQuestions):
 
                 questions = Question.objects.filter(year=subjectAndYearList[1][0]).all()
