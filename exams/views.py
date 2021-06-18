@@ -97,8 +97,6 @@ def generate_exam(request):
 
     if (request.method == "POST"):
         
-
-
         for keys, values in request.POST.items():
             if keys in ["csrfmiddlewaretoken"]:
                 continue
@@ -120,33 +118,35 @@ def generate_exam(request):
 
         if(request.POST.getlist('MultipleChoice')):
             for subject in request.POST.getlist('MultipleChoice'):
-                if (subject=="Random" and len(subjectAndYearList[1])!=0):
-                    questionsRand = Question.objects.filter(subject=MATH).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame Random 
-                    subjectAndYearList[0].append(questionsRand)
+                if (subject=="Random"):
+                    if(len(subjectAndYearList[1])!=0):
+                        questionsRand = Question.objects.filter(subject=MATH).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame Random 
+                        subjectAndYearList[0].append(questionsRand)
 
-                elif (subject=="Random"):
-                    questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random 
-                    subjectAndYearList[0].append(questionsRand)
+                    else:
+                        questionsRand = Question.objects.filter(subject=MATH).all()###Ciclo Exame Random 
+                        subjectAndYearList[0].append(questionsRand)
 
 
                 elif(subject=="Imaginários" and len(subjectAndYearList[1])!=0 ): 
-                    questionsImag = Question.objects.filter(subsubject=IMAGINARY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de Imaginários
-                    subjectAndYearList[0].append(questionsImag)
+                    if(len(subjectAndYearList[1])!=0):
+                        questionsImag = Question.objects.filter(subsubject=IMAGINARY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de Imaginários
+                        subjectAndYearList[0].append(questionsImag)
 
-                elif(subject=="Imaginários"):
-                    questionsImag = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
-                    subjectAndYearList[0].append(questionsImag)
+                    else:
+                        questionsImag = Question.objects.filter(subsubject=IMAGINARY).all()###Ciclo Exame de Imaginários
+                        subjectAndYearList[0].append(questionsImag)
 
 
-                elif(subject=="Geometria" and len(subjectAndYearList[1])!=0): 
-                    questionsGeom = Question.objects.filter(subsubject=GEOMETRY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de geometria
-                    subjectAndYearList[0].append(questionsGeom)
+                elif(subject=="Geometria" and len(subjectAndYearList[1])!=0):
+                    if(len(subjectAndYearList[1])!=0):
+                        questionsGeom = Question.objects.filter(subsubject=GEOMETRY).filter(year = subjectAndYearList[1][0]).all()###Ciclo Exame de geometria
+                        subjectAndYearList[0].append(questionsGeom)
 
-                elif(subject=="Geometria"):
-                    questionsGeom = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
-                    subjectAndYearList[0].append(questionsGeom)
+                    else:
+                        questionsGeom = Question.objects.filter(subsubject=GEOMETRY).all()###Ciclo Exame de geometria
+                        subjectAndYearList[0].append(questionsGeom)
     
-            
         questionsExam = []
         numberOfQuestions=3
         index=0
@@ -159,23 +159,24 @@ def generate_exam(request):
                 while choice in questionsExam:
                         
                     choice = questions[random.randint(0, len(questions) - 1)]
+
                 questionsExam.append(choice)
         else:
 
             while(len(questionsExam)!=numberOfQuestions):
                                                  
                     choice = subjectAndYearList[0][index][random.randint(0, len(subjectAndYearList[0][index]) - 1)] 
+
                     while choice in questionsExam:
                         choice = subjectAndYearList[0][index][random.randint(0, len(subjectAndYearList[0][index]) - 1)]
 
                     questionsExam.append(choice)
+
                     if(index==len(request.POST.getlist('MultipleChoice'))-1):
                         index =0
                     
                     index += 1
-
-        
-
+                    
         exame = Exam.objects.create()
         
         for question in questionsExam:
