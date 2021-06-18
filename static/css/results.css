@@ -40,6 +40,44 @@ body {
     font-size: 6rem;
 }
 
+.stats {
+    width: 100%;
+    height: 100%;
+}
+
+
+.questions {
+    /*  This is a temporary solution, this should be improved */
+    margin-top: 50%;
+    text-align: center;
+}
+
+.questions-btt {
+    background-color: #56CCF2; 
+    color: white; 
+    border: 5px solid #56CCF2;
+    padding: 8px 35px;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+
+.card {
+    width: 50;
+}
+
+
+.wrap-collapse { 
+    width: 50%;
+    margin-left: 25%;
+}
+
+
+.card-body {
+    margin-bottom: 1rem;
+}
+
+
 /* The following css will only be rendered on devices with max-width of 400px */
 @media screen and (max-width: 600px) {
 

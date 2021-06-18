@@ -31,12 +31,11 @@ def results(request, id):
     exame = Exam.objects.get(pk=id)
     
     context = {
-        "exam": exame,
-        "corretas": exame.correct.count(),
-        "erradas": exame.failed.count()
+        "exam": exame
     }
-
-    exame.delete()
+    
+    print(exame.failed.all())
+    for i in exame.failed.all(): print(i.text)
 
     return render(request, "results.html", context)
 
@@ -98,6 +97,7 @@ def generate_exam(request):
     if (request.method == "POST"):
         
         for keys, values in request.POST.items():
+
             if keys in ["csrfmiddlewaretoken"]:
                 continue
             

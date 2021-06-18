@@ -19,10 +19,6 @@ a {
     text-decoration: none;
 }
 
-h3 {
-    font-size: 2px;
-}
-
 a:hover {
     color: red ;
 }
@@ -38,7 +34,7 @@ ul li {
     padding: 3%; 
 }
 
-.btn-primary {
+.signup-btt {
     background-color: #56CCF2; 
     color: white; 
     border: 5px solid #56CCF2;
@@ -53,7 +49,7 @@ ul li {
     transform: translate(-50%, -50%);
   }
   
-.btn-primary:hover {
+.signup-btt:hover {
     background-color: #0895c4;
     border: 5px solid #0895c4;
     color: white;
