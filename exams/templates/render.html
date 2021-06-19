@@ -25,6 +25,7 @@
 
         <h6>{{question.text}}</h6>
 
+
         {% for answer in question.answer.all|shuffle  %}
             <label class="colbut" >
                 <p><input type='radio' name='{{question.id}}' value={{answer.id}}> {{answer.text}}</p>
