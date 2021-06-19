@@ -55,6 +55,40 @@ function addComment(questionId, user){
 }
 
 
+function upvoteComment(id) {
+	let url = "http://localhost:8000/exame/upvote/" + id;
+	let request = new XMLHttpRequest();
+	console.log("upvote clicked");
+	request.open("GET", url);
+
+	request.onreadystatechange = function() {
+		if(this.readyState === 4 && this.status === 200) {
+			votes = document.getElementById("votes" + id);
+			votes.innerText++;
+		}
+	}
+
+	request.send();
+}
+
+
+function downvoteComment(id) {
+	let url = "http://localhost:8000/exame/downvote/" + id;
+	let request = new XMLHttpRequest();
+	console.log("downvote clicked");
+	request.open("GET", url);
+
+	request.onreadystatechange = function() {
+		if(this.readyState === 4 && this.status === 200) {
+			votes = document.getElementById("votes" + id);
+			votes.innerText--;
+		}
+	}
+
+	request.send();
+}
+
+
 function removeFadeOut( el, speed ) {
     var seconds = speed/1000;
     el.style.transition = "opacity "+seconds+"s ease";

@@ -13,5 +13,7 @@ urlpatterns = [
     path("gerador/", generate_exam),
     path("question/<int:id>", questionPage),
     path("delete_comment/<int:id>", deleteComment),
-    path("add_comment", addComment)
+    path("add_comment", addComment),
+    path("upvote/<int:id>", upvoteComment),
+    path("downvote/<int:id>", downvoteComment)
 ]

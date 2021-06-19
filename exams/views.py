@@ -191,3 +191,26 @@ def addComment(request):
     }
 
     return JsonResponse(response, status=200)
+
+
+# !!! The following views should verify if the user has already upvoted or downvoted a question
+# !!! It can cause an infinite amount of upvotes or downvotes
+def upvoteComment(request, id):
+    if (request.method != "GET"): return JsonResponse({"success":False}, status=400)
+
+    comment = Comment.objects.get(id=id)
+
+    comment.upvote()
+
+    return JsonResponse({"success":True}, status=200)
+
+
+def downvoteComment(request, id):
+    if (request.method != "GET"): return JsonResponse({"success":False}, status=400)
+
+    comment = Comment.objects.get(id=id)
+
+    comment.downvote()
+
+    return JsonResponse({"success":True}, status=200)
+

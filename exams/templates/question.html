@@ -35,8 +35,10 @@
 	<div class="comments">
 		{% for comment in question.getComments %}
 		<div class="comment" id="comment{{comment.id}}">
-			<h3>{{ comment.author }} - {{ comment.date }} - {{ comment.votes }}</h3>
+			<h3>{{ comment.author }} - {{ comment.date }} - <span id="votes{{comment.id}}">{{ comment.votes }}</span></h3>
 			<h6>{{ comment.content }}</h6>
+			<button type="button" class="btn btn-danger" onclick="upvoteComment({{comment.id}})">Upvote</button>
+			<button type="button" class="btn btn-danger" onclick="downvoteComment({{comment.id}})">Downvote</button>
 			{% if comment.author == request.user %}
 			<button type="button" class="btn btn-danger" onclick="deleteComment({{comment.id}})">Delete</button>
 			{% endif %}
