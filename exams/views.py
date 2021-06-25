@@ -1,13 +1,14 @@
 
 from django.shortcuts import render, redirect
-from django.core.serializers import serialize
-from django.http import HttpResponse, JsonResponse
-from .models import Exam, Question, Answer
+from django.http import HttpResponse, JsonResponse, response
+from .models import Exam, Question, Answer, Comment
 from django.views.decorators.csrf import csrf_exempt
 from random import shuffle
 from django.contrib.auth.decorators import login_required
 import random
 from users.models import Profile, SubjectInfo
+from .forms import *
+import json
 
 MATH = "Matemática"
 GEOMETRY = "Geometria"
@@ -202,4 +203,86 @@ def generate_exam(request):
     context = {}
 
     return render(request, "generate.html", context)
+
+
+@login_required
+def questionPage(request, id):
+    question = Question.objects.get(id=id)
+    wrongAnswers = question.wrongAnswers()
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.question = question
+            comment.author = request.user
+            comment.save()
+
+    commentForm = CommentForm()
+
+    context = {
+        "question": question,
+        "wrongAnswers": wrongAnswers,
+        "commentForm": commentForm
+    }
+
+    return render(request, "question.html", context)
+
+
+def deleteComment(request, id):
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
+
+    comment = Comment.objects.get(id=id)
+    if request.user != comment.author:
+        return JsonResponse({"success":False}, status=400)
+
+    comment.delete()
+
+    return JsonResponse({"success":True}, status=200)
+
+
+def addComment(request):
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
+    body = json.loads(request.body)
+    content = body["text"]
+    question = Question.objects.get(id=body["question"])
+
+    comment = Comment.objects.create(
+        author=request.user,
+        question=question,
+        content=content
+        )
+    comment.save()
+
+    response = {
+        "success":True,
+        "user": request.user.username,
+        "date": comment.date,
+        "commentId": comment.id
+    }
+
+    return JsonResponse(response, status=200)
+
+
+def upvoteComment(request, id):
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
+
+    comment = Comment.objects.get(id=id)
+
+    if (comment.upvote(request.user) == 0):
+        return JsonResponse({"success":False}, status=400)
+
+    return JsonResponse({"success":True}, status=200)
+
+
+def downvoteComment(request, id):
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
+
+    comment = Comment.objects.get(id=id)
+
+    if (comment.downvote(request.user) == 0):
+        return JsonResponse({"success":False}, status=400)
+
+    return JsonResponse({"success":True}, status=200)
 

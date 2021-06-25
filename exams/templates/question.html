@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+
+{% block css %}
+
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}">
+	
+{% endblock %}
+
+{% block content %}
+
+	<h1>{{ question.text }}</h1>
+	<h3>Disciplina: {{ question.subject }}</h3>
+	<h3>Tema: {{ question.subsubject }}</h3>
+	<h3>Ano: {{ question.year }}</h3>
+	<h3>Dificuldade: {{ question.difficulty }}</h3>
+
+	<h3>Respostas incorretas</h3>
+	<ul>
+		{% for answer in wrongAnswers %}
+		<li>{{ answer.text }}</li>
+		{% endfor %}
+	</ul>
+
+	<h3>Resposta correta:</h3>
+	<ul>
+		<li>{{ question.correctAnswer.text }}</li>
+	</ul>
+
+	<h2>Comentários:</h2>
+	<form method="POST" id="deleteComment" action="http://localhost:8000/exame/delete_comment">
+		{% csrf_token %}
+	</form>
+	
+	<div class="comments">
+		{% for comment in question.getComments %}
+		<div class="comment" id="comment{{comment.id}}">
+			<h3>{{ comment.author }} - {{ comment.date }} - <span id="votes{{comment.id}}">{{ comment.votes }}</span></h3>
+			<h6>{{ comment.content }}</h6>
+			<button type="button" class="btn btn-danger" onclick="upvoteComment({{comment.id}})">Upvote</button>
+			<button type="button" class="btn btn-danger" onclick="downvoteComment({{comment.id}})">Downvote</button>
+			{% if comment.author == request.user %}
+			<button type="button" class="btn btn-danger" onclick="deleteComment({{comment.id}})">Delete</button>
+			{% endif %}
+		</div>
+		{% endfor %}
+	</div>
+
+	<div class="addComment">
+		<h3>Adiciona um comentário:</h3>
+		
+		<label>Texto:</label>
+		<input type="text" id="CommentInput">
+		
+		<button type="button" class="btn btn-danger" value="Submeter" onclick="addComment({{ question.id }})">Submeter</button>
+	</div>
+		
+	<script src="{% static 'scripts/question.js' %}"></script>
+{% endblock %}

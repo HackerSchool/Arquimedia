@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.fields.related import ForeignKey
+from datetime import date
+from django.contrib.auth.models import User
 
 # Create your models here.
 # TODO: Create Question, Exam models
@@ -57,7 +60,55 @@ class Question(models.Model):
 
 
     def correctAnswer(self):
-        return Answer.objects.get(question=self, correct=True)
+        return self.answer.get(question=self, correct=True)
+
+    def wrongAnswers(self):
+        return self.answer.filter(correct=False)
+
+    def getComments(self):
+        return self.comment.all()
+
+
+class Comment(models.Model):
+    question = models.ForeignKey("question", related_name="comment", on_delete=models.CASCADE, null=False)
+    content = models.CharField(max_length=250, null=False)
+    # When user delets account, comment shouldn't be deleted, but signaled as "deleted user" or equivalent
+    author = models.ForeignKey(User, related_name="comment", on_delete=models.CASCADE, null=False)
+    #fatherComment = models.ForeignKey("comment", related_name="reply", on_delete=models.CASCADE, null=True)
+    votes = models.IntegerField(default=0)
+    date = models.DateField(auto_now_add=True)
+    upvoters = models.ManyToManyField(User, related_name="upvoters", blank=True)
+    downvoters = models.ManyToManyField(User, related_name="downvoters" ,blank=True)
+
+    def upvote(self, user):
+        """ Upvotes a comment. Returns 1 if done successfully, 0 if not """
+
+        if user in self.upvoters.all():
+            return 0
+        if user in self.downvoters.all():
+            self.downvoters.remove(user)
+
+        self.votes += 1
+        self.upvoters.add(user)
+        self.save()
+
+        return 1
+
+
+    def downvote(self, user):
+        """ Downvotes a comment. Returns 1 if done successfully, 0 if not """
+
+        if user in self.downvoters.all():
+            return 0
+        if user in self.upvoters.all():
+            self.upvoters.remove(user)
+
+        self.votes -= 1
+        self.downvoters.add(user)
+        self.save()
+
+        return 1
+        
 
 
 class Answer(models.Model):
