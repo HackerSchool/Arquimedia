@@ -194,7 +194,7 @@ def addComment(request):
 
 
 def upvoteComment(request, id):
-    if (request.method != "GET"): return JsonResponse({"success":False}, status=400)
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
 
     comment = Comment.objects.get(id=id)
 
@@ -205,7 +205,7 @@ def upvoteComment(request, id):
 
 
 def downvoteComment(request, id):
-    if (request.method != "GET"): return JsonResponse({"success":False}, status=400)
+    if (request.method != "POST"): return JsonResponse({"success":False}, status=400)
 
     comment = Comment.objects.get(id=id)
 

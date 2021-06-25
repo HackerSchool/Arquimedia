@@ -1,6 +1,7 @@
+const TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
 function deleteComment(id){
 	// This function will make an Ajax request to delete a certain comment
-	let token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 	let url = "http://localhost:8000/exame/delete_comment/" + id;
 	let request = new XMLHttpRequest();
 	
@@ -13,7 +14,7 @@ function deleteComment(id){
 		}
 	}
 
-	request.setRequestHeader("X-CSRFToken", token);
+	request.setRequestHeader("X-CSRFToken", TOKEN);
 
 	request.send();
 }
@@ -23,7 +24,6 @@ function addComment(questionId, user){
 	// This function will make an Ajax request to delete a certain comment
 	let text = document.getElementById("CommentInput").value;
 	console.log(text);
-	let token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 	let url = "http://localhost:8000/exame/add_comment";
 	let request = new XMLHttpRequest();
 	
@@ -45,8 +45,7 @@ function addComment(questionId, user){
 		}
 	}
 
-	request.setRequestHeader("X-CSRFToken", token);
-	request.setRequestHeader("text", token);
+	request.setRequestHeader("X-CSRFToken", TOKEN);
 
 	request.send(JSON.stringify({
 		"text": text,
@@ -59,7 +58,7 @@ function upvoteComment(id) {
 	let url = "http://localhost:8000/exame/upvote/" + id;
 	let request = new XMLHttpRequest();
 	console.log("upvote clicked");
-	request.open("GET", url);
+	request.open("POST", url);
 
 	request.onreadystatechange = function() {
 		if(this.readyState === 4 && this.status === 200) {
@@ -70,6 +69,8 @@ function upvoteComment(id) {
 		}
 	}
 
+	request.setRequestHeader("X-CSRFToken", TOKEN);
+
 	request.send();
 }
 
@@ -78,7 +79,7 @@ function downvoteComment(id) {
 	let url = "http://localhost:8000/exame/downvote/" + id;
 	let request = new XMLHttpRequest();
 	console.log("downvote clicked");
-	request.open("GET", url);
+	request.open("POST", url);
 
 	request.onreadystatechange = function() {
 		if(this.readyState === 4 && this.status === 200) {
@@ -88,6 +89,8 @@ function downvoteComment(id) {
 			alert("Já deste downvote neste comentário");
 		}
 	}
+
+	request.setRequestHeader("X-CSRFToken", TOKEN);
 
 	request.send();
 }
