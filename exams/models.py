@@ -94,9 +94,10 @@ class Comment(models.Model):
 
         return 1
 
+
     def downvote(self, user):
         """ Downvotes a comment. Returns 1 if done successfully, 0 if not """
-        
+
         if user in self.downvoters.all():
             return 0
         if user in self.upvoters.all():
@@ -105,6 +106,8 @@ class Comment(models.Model):
         self.votes -= 1
         self.downvoters.add(user)
         self.save()
+
+        return 1
         
 
 
