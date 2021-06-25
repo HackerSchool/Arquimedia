@@ -65,6 +65,8 @@ function upvoteComment(id) {
 		if(this.readyState === 4 && this.status === 200) {
 			votes = document.getElementById("votes" + id);
 			votes.innerText++;
+		} else if (this.readyState === 4 && this.status === 400){
+			alert("Já deste upvote neste comentário");
 		}
 	}
 
@@ -82,6 +84,8 @@ function downvoteComment(id) {
 		if(this.readyState === 4 && this.status === 200) {
 			votes = document.getElementById("votes" + id);
 			votes.innerText--;
+		} else if (this.readyState === 4 && this.status === 400){
+			alert("Já deste downvote neste comentário");
 		}
 	}
 

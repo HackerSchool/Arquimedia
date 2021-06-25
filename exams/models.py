@@ -77,14 +77,35 @@ class Comment(models.Model):
     #fatherComment = models.ForeignKey("comment", related_name="reply", on_delete=models.CASCADE, null=True)
     votes = models.IntegerField(default=0)
     date = models.DateField(auto_now_add=True)
+    upvoters = models.ManyToManyField(User, related_name="upvoters", blank=True)
+    downvoters = models.ManyToManyField(User, related_name="downvoters" ,blank=True)
 
-    def upvote(self): 
+    def upvote(self, user):
+        """ Upvotes a comment. Returns 1 if done successfully, 0 if not """
+
+        if user in self.upvoters.all():
+            return 0
+        if user in self.downvoters.all():
+            self.downvoters.remove(user)
+
         self.votes += 1
+        self.upvoters.add(user)
         self.save()
 
-    def downvote(self):
+        return 1
+
+    def downvote(self, user):
+        """ Downvotes a comment. Returns 1 if done successfully, 0 if not """
+        
+        if user in self.downvoters.all():
+            return 0
+        if user in self.upvoters.all():
+            self.upvoters.remove(user)
+
         self.votes -= 1
+        self.downvoters.add(user)
         self.save()
+        
 
 
 class Answer(models.Model):
