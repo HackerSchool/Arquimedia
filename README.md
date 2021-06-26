@@ -2,20 +2,22 @@
 Our goal for this project is to help high school students prepare for national exams done by all students to enter college and finish high school.
 As our first goal we would like to have available a preparation for the Mathematics A and as we progress create more questions for other subjects.
 
-##  How  to contribute
 
-### Setting up the environment
 
-Start by  creating a local environment: 
+## Installation
+
+1. Start by  creating a local environment: 
 `python3 -m venv env`
 
-You  then activate the environment:
+2. You  then activate the environment:
 `env\scripts\activate`
 
-And install all the required modules:
+3. And install all the required modules:
 `pip install -r requirements.txt`
 
-### Database
+4. Run `npm i` on the frontend directory.
+
+## Setup Database
 Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https://www.pgadmin.org/download/) (Database GUI).
 
 1. Open pgAdmin
@@ -28,5 +30,7 @@ Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https:/
     - DATABASE_HOST = Database host (In development stage, use "localhost")
     - DATABASE_PORT = The port that used to run the database (Default port is 5432)
 
-## How to run the  webserver
-	py manage.py runserver
+## Run
+1. run `py manage.py runserver` on main directory.
+
+2. run `npm run dev` in frontend.
