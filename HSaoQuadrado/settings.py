@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'users',
     'exams',
     'api',
+    'rest_framework',
     'frontend.apps.FrontendConfig',
     'django.contrib.admin',
     'django.contrib.auth',

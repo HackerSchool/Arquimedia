@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-var Latex = require('react-latex');
+import HomePage from "./HomePage";
 
 export default class App extends Component {
-	constructor(props) {
+  	constructor(props) {
 		super(props);
-	}
+  	}
 
-	render(){
-		const Test = "$\\frac{\\partial u}{\\partial K}$";
-		return <h1><Latex>{Test}</Latex></h1>;
-	}
+  	render() {
+		return (
+		<div>
+			<HomePage />
+		</div>
+		);
+  	}
 }
 
 const appDiv = document.getElementById("app");

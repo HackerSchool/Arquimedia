@@ -1,0 +1,50 @@
+from rest_framework.fields import ReadOnlyField
+from exams.models import Question, Comment
+from django.contrib.auth.models import User 
+from rest_framework import serializers
+
+class UserSerializer(serializers.ModelSerializer):
+	id = serializers.SlugField()
+	username = serializers.ReadOnlyField()
+	
+	class Meta:
+		model = User
+		fields = ["id", "username"]
+
+
+class QuestionShortSerializer(serializers.ModelSerializer):
+	id = serializers.SlugField()
+
+	class Meta:
+		model = Question
+		fields = ('id', )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+	author = UserSerializer(many=False)
+	question = QuestionShortSerializer(many=False)
+
+
+	class Meta:
+		model = Comment
+		fields = ("id", "content", "author", "votes", "date", "question")
+
+	def create(self, validated_data):
+		content = validated_data["content"]
+		author = User.objects.get(id=validated_data["author"]["id"])
+		question = Question.objects.get(id=validated_data["question"]["id"])
+		comment = Comment.objects.create(
+			content=content,
+			author=author,
+			question=question
+		)
+		return comment
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+	comment = CommentSerializer(many=True, read_only=True)
+
+	class Meta:
+		model = Question
+		fields = ("id", "text", "subject", "subsubject", "year", "difficulty", "comment")
+
