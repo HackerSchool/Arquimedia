@@ -42,9 +42,10 @@ class QuestionInfo extends Component {
 			subject: "",
 			year: "",
 			difficulty: "",
-			comment: {}
+			comment: []
 		}
 		this.getQuestionInfo = this.getQuestionInfo.bind(this);
+		this.addComment = this.addComment.bind(this);
 		this.getQuestionInfo();
 	}
 
@@ -62,8 +63,17 @@ class QuestionInfo extends Component {
 			});
 	}
 
+
+	addComment(data) {
+		let newComments = this.state.comment.slice()
+		newComments.push(data);
+		this.setState({
+			comment: newComments
+		})
+	}
+
+
 	render() {
-		const comments = Array.from(this.state.comment)
 		return (
 			<Grid
 				container
@@ -83,13 +93,13 @@ class QuestionInfo extends Component {
 					<Typography variant="h5">{this.state.difficulty}</Typography>
 				</Grid>
 				{/* Comments */}
-					{comments.map(comment => (
+					{this.state.comment.map(comment => (
 						<Grid item xs={12} align="center">
 							<Comment data={comment} />
 						</Grid>
 					))}
 				<Grid item xs={12} align="center">
-					<CommentInputBox questionID={this.props.ID}/>
+					<CommentInputBox questionID={this.props.ID} addComment={data => this.addComment(data)}/>
 				</Grid>
 			</Grid>
 		)
@@ -100,12 +110,6 @@ class QuestionInfo extends Component {
 class Comment extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			content: "",
-			author: "",
-			date: "",
-			votes: 0
-		}
 	}
 
 	render() {
@@ -153,7 +157,7 @@ class CommentInputBox extends Component {
 		};
 		fetch("/api/create_comment", requestOptions)
 			.then((response) => response.json())
-			.then((data => console.log(data)));
+			.then(data => this.props.addComment(data));
 		
 		document.getElementById("commentContent").value = "";
 	}
