@@ -12,4 +12,6 @@ urlpatterns = [
 	path("downvote_comment/<int:id>", DownvoteCommentView.as_view()),
 	path("remove_downvote/<int:id>", RemoveDownvoteCommentView.as_view()),
 	path("remove_upvote/<int:id>", RemoveUpvoteCommentView.as_view()),
+	path("has_upvoted/<int:id>", HasUserUpvoted.as_view()),
+	path("has_downvoted/<int:id>", HasUserDownvoted.as_view()),
 ]

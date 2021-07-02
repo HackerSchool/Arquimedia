@@ -5,6 +5,7 @@ from exams.models import Question, Comment
 from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
+import json
 
 # Create your views here.
 
@@ -59,7 +60,7 @@ class DeleteCommentView(APIView):
 
 
 class UpvoteCommentView(APIView):
-	serializer_class = CommentVoteChangeSerializer
+	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -75,11 +76,12 @@ class UpvoteCommentView(APIView):
 		comment.upvoters.add(request.user)
 		comment.save()
 
-		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
+	
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
 
 class DownvoteCommentView(APIView):
-	serializer_class = CommentVoteChangeSerializer
+	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -95,11 +97,11 @@ class DownvoteCommentView(APIView):
 		comment.downvoters.add(request.user)
 		comment.save()
 
-		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
 
 class RemoveDownvoteCommentView(APIView):
-	serializer_class = CommentVoteChangeSerializer
+	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -111,11 +113,11 @@ class RemoveDownvoteCommentView(APIView):
 		comment.downvoters.remove(request.user)
 		comment.save()
 
-		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
 
 class RemoveUpvoteCommentView(APIView):
-	serializer_class = CommentVoteChangeSerializer
+	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -127,7 +129,27 @@ class RemoveUpvoteCommentView(APIView):
 		comment.upvoters.remove(request.user)
 		comment.save()
 
-		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+
+
+class HasUserUpvoted(APIView):
+
+	def get(self, request, *args, **kwargs):
+		comment = Comment.objects.get(id=kwargs.get("id"))
+		if request.user in comment.upvoters.all():
+			return Response(status=status.HTTP_200_OK)
+		
+		else: return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class HasUserDownvoted(APIView):
+
+	def get(self, request, *args, **kwargs):
+		comment = Comment.objects.get(id=kwargs.get("id"))
+		if request.user in comment.downvoters.all():
+			return Response(status=status.HTTP_200_OK)
+		
+		else: return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 

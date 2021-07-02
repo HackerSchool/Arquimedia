@@ -55,7 +55,6 @@ class QuestionInfo extends Component {
 		this.removeComment = this.removeComment.bind(this);
 		this.getCurrentUser = this.getCurrentUser.bind(this);
 		this.currentUser = this.getCurrentUser()
-		console.log(this.currentUser);
 		this.getQuestionInfo();
 	}
 
@@ -140,70 +139,143 @@ class Comment extends Component {
 		super(props);
 		this.state = {
 			upvoted: false,
-			downvoted: false
+			downvoted: false,
+			votes: this.props.data.votes
 		}
 		this.deleteComment = this.deleteComment.bind(this);
 		this.upvote = this.upvote.bind(this);
 		this.removeUpvote = this.removeUpvote.bind(this);
 		this.downvote = this.downvote.bind(this);
 		this.removeDownvote = this.removeDownvote.bind(this);
-		console.log(this.props.currentUser);
+		this.hasUpvoted = this.hasUpvoted.bind(this);
+		this.hasDownvoted = this.hasDownvoted.bind(this);
+		this.hasUpvoted();
+		this.hasDownvoted();
+		this.csrftoken = getCookie('csrftoken');
 	}
 
+
+	hasDownvoted() {
+		fetch("/api/has_downvoted/" + this.props.data.id)
+			.then(response => {
+				if (response.status == 200) {
+					this.setState({
+						downvoted: true
+					})
+				}
+			})
+	}
+
+
+	hasUpvoted() {
+		fetch("/api/has_upvoted/" + this.props.data.id)
+			.then(response => {
+				if (response.status == 200) {
+					this.setState({
+						upvoted: true
+					})
+				}
+			})
+	}
+
+
 	deleteComment() {
-		const csrftoken = getCookie('csrftoken')
 		const requestOptions = {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
-				'X-CSRFToken': csrftoken
+				'X-CSRFToken': this.csrftoken
 			}
 		};
 
 		fetch("/api/delete_comment/" + this.props.data.id, requestOptions)
 		.then(response => response.json)
-		.then(data => {
+		.then(() => {
 			this.props.deleteCommentFun(this.props.data);
 		})
 	}
 
 
 	upvote() {
-		
 		if (!this.state.upvoted) {
-			console.log("Upvoting");
-			this.setState({
-				upvoted: true,
-				downvoted: false
-			})
+			const requestOptions = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					'X-CSRFToken': this.csrftoken
+				}
+			};
+			fetch("/api/upvote_comment/" + this.props.data.id, requestOptions)
+				.then(response => response.json())
+				.then(data => {
+					this.setState({
+						upvoted: true,
+						downvoted: false,
+						votes: data.votes
+					})
+				})
+			
 		} else this.removeUpvote()
 	}
 
 
 	removeUpvote() {
-		console.log("Removing upvote");
-
-		this.setState({upvoted: false})
+		const requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				'X-CSRFToken': this.csrftoken
+			}
+		};
+		fetch("/api/remove_upvote/" + this.props.data.id, requestOptions)
+			.then(response => response.json())
+			.then(data => {
+				this.setState({
+					upvoted: false,
+					votes: data.votes
+				})
+			})
 	}
 
 
 	downvote() {
-		
-
 		if (!this.state.downvoted) {
-			console.log("Downvoting");
-			this.setState({
-				downvoted: true,
-				upvoted: false
-			})
+			const requestOptions = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					'X-CSRFToken': this.csrftoken
+				}
+			};
+			fetch("/api/downvote_comment/" + this.props.data.id, requestOptions)
+				.then(response => response.json())
+				.then(data => {
+					this.setState({
+						upvoted: false,
+						downvoted: true,
+						votes: data.votes
+					})
+				})
 		} else this.removeDownvote()
 	}
 
 
 	removeDownvote() {
-		console.log("Removing downvote");
-
-		this.setState({downvoted: false})
+		const requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				'X-CSRFToken': this.csrftoken
+			}
+		};
+		fetch("/api/remove_downvote/" + this.props.data.id, requestOptions)
+			.then(response => response.json())
+			.then(data => {
+				this.setState({
+					downvoted: false,
+					votes: data.votes
+				})
+			})
 	}
 
 
@@ -216,7 +288,7 @@ class Comment extends Component {
 					<CardContent>
 						<Avatar>{avatarLetter}</Avatar>
 						<Typography variant={"h6"}>{this.props.data.author.username}</Typography>
-						<Typography variant={"caption"}>Votos: {this.props.data.votes}</Typography>
+						<Typography variant={"caption"}>Votos: {this.state.votes}</Typography>
 						<Typography variant={"body1"}>
 						<Latex>{this.props.data.content}</Latex>
 						</Typography>
