@@ -36,6 +36,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'users',
     'exams',
+    'api',
+    'rest_framework',
+    'frontend.apps.FrontendConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -133,8 +136,9 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'frontend/static')
 )
-
+print(os.path.join(BASE_DIR, 'frontend/static'))
 # Login and logout redirect
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
