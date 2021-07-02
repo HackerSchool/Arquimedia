@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
 from exams.models import Question, Comment
 from django.contrib.auth.models import User 
@@ -9,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = User
-		fields = ["id", "username"]
+		fields = ("id", "username", )
 
 
 class QuestionShortSerializer(serializers.ModelSerializer):
@@ -17,7 +18,7 @@ class QuestionShortSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Question
-		fields = ('id', )
+		fields = ("id", )
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -39,6 +40,13 @@ class CommentSerializer(serializers.ModelSerializer):
 			question=question
 		)
 		return comment
+
+
+class CommentDeleteSerializer(serializers.ModelSerializer):
+	id = serializers.SlugField()
+	class Meta:
+		model = Comment
+		fields = ("id", )
 
 
 class QuestionSerializer(serializers.ModelSerializer):

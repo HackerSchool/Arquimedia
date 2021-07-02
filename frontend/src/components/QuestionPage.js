@@ -9,6 +9,11 @@ import {
 	TextField,
 	Button
 } from "@material-ui/core";
+import {
+	Delete,
+	ArrowUpward,
+	ArrowDownward
+} from "@material-ui/icons"
 var Latex = require('react-latex');
 
 // Renders a page about a specific Question and allows for comments on it
@@ -42,12 +47,27 @@ class QuestionInfo extends Component {
 			subject: "",
 			year: "",
 			difficulty: "",
-			comment: []
+			comment: [],
+			currentUser: 0
 		}
 		this.getQuestionInfo = this.getQuestionInfo.bind(this);
 		this.addComment = this.addComment.bind(this);
+		this.removeComment = this.removeComment.bind(this);
+		this.getCurrentUser = this.getCurrentUser.bind(this);
+		this.currentUser = this.getCurrentUser()
+		console.log(this.currentUser);
 		this.getQuestionInfo();
 	}
+
+
+	getCurrentUser() {
+		fetch("/api/current_user")
+		.then(response => response.json())
+		.then((data) => {
+			this.setState({currentUser: data.id})
+		})
+	}
+
 
 	getQuestionInfo() {
 		fetch("/api/question/" + this.props.ID)
@@ -72,6 +92,14 @@ class QuestionInfo extends Component {
 		})
 	}
 
+	removeComment(data) {
+		console.log(this.state.comment);
+		console.log(data.id);
+		let newComments = this.state.comment.filter(el => el.id != data.id);
+		this.setState({
+			comment: newComments
+		});
+	}
 
 	render() {
 		return (
@@ -93,11 +121,11 @@ class QuestionInfo extends Component {
 					<Typography variant="h5">{this.state.difficulty}</Typography>
 				</Grid>
 				{/* Comments */}
+				
 					{this.state.comment.map(comment => (
-						<Grid item xs={12} align="center">
-							<Comment data={comment} />
-						</Grid>
+							<Comment data={comment} currentUser={this.state.currentUser} deleteCommentFun={data => this.removeComment(data)}/>
 					))}
+				
 				<Grid item xs={12} align="center">
 					<CommentInputBox questionID={this.props.ID} addComment={data => this.addComment(data)}/>
 				</Grid>
@@ -110,19 +138,92 @@ class QuestionInfo extends Component {
 class Comment extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			upvoted: false,
+			downvoted: false
+		}
+		this.deleteComment = this.deleteComment.bind(this);
+		this.upvote = this.upvote.bind(this);
+		this.removeUpvote = this.removeUpvote.bind(this);
+		this.downvote = this.downvote.bind(this);
+		this.removeDownvote = this.removeDownvote.bind(this);
+		console.log(this.props.currentUser);
 	}
 
+	deleteComment() {
+		const csrftoken = getCookie('csrftoken')
+		const requestOptions = {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				'X-CSRFToken': csrftoken
+			}
+		};
+
+		fetch("/api/delete_comment/" + this.props.data.id, requestOptions)
+		.then(response => response.json)
+		.then(data => {
+			this.props.deleteCommentFun(this.props.data);
+		})
+	}
+
+
+	upvote() {
+		
+		if (!this.state.upvoted) {
+			console.log("Upvoting");
+			this.setState({
+				upvoted: true,
+				downvoted: false
+			})
+		} else this.removeUpvote()
+	}
+
+
+	removeUpvote() {
+		console.log("Removing upvote");
+
+		this.setState({upvoted: false})
+	}
+
+
+	downvote() {
+		
+
+		if (!this.state.downvoted) {
+			console.log("Downvoting");
+			this.setState({
+				downvoted: true,
+				upvoted: false
+			})
+		} else this.removeDownvote()
+	}
+
+
+	removeDownvote() {
+		console.log("Removing downvote");
+
+		this.setState({downvoted: false})
+	}
+
+
 	render() {
+		let avatarLetter = this.props.data.author.username[0];
 		return (
-				<Card>
+				<Card style={{
+					width: "100%"
+				}}>
 					<CardContent>
-						<Avatar>J</Avatar>
-						<Typography variant={"h6"}>Autor: {this.props.data.author.username}</Typography>
+						<Avatar>{avatarLetter}</Avatar>
+						<Typography variant={"h6"}>{this.props.data.author.username}</Typography>
 						<Typography variant={"caption"}>Votos: {this.props.data.votes}</Typography>
 						<Typography variant={"body1"}>
 						<Latex>{this.props.data.content}</Latex>
 						</Typography>
 						<Typography variant={"caption"}>{this.props.data.date}</Typography>
+						{(this.props.currentUser == this.props.data.author.id) && <Button onClick={this.deleteComment}><Delete color="secondary" /></Button>}
+						<Button><ArrowUpward color={this.state.upvoted ? ("primary") : ("action")} onClick={this.upvote}/></Button>
+						<Button><ArrowDownward color={this.state.downvoted ? ("secondary") : ("action")} onClick={this.downvote}/></Button>
 					</CardContent>
 				</Card>
 		)
