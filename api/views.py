@@ -45,7 +45,7 @@ class CreateCommentView(APIView):
 
 
 class DeleteCommentView(APIView):
-	serializer_class = CommentDeleteSerializer
+	serializer_class = CommentSerializer
 
 	def delete(self, request, *args, **kwargs):
 		serializer = self.serializer_class(data=request.data)
@@ -57,6 +57,77 @@ class DeleteCommentView(APIView):
 
 		return Response({"Can't delete other user's comments"}, status=status.HTTP_401_UNAUTHORIZED)
 
+
+class UpvoteCommentView(APIView):
+	serializer_class = CommentVoteChangeSerializer
+
+	def post(self, request, *args, **kwargs):
+		comment = Comment.objects.get(id=kwargs.get("id"))
+		if request.user in comment.upvoters.all():
+			return Response({"User already upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+
+		if request.user in comment.downvoters.all():
+			comment.votes += 2
+			comment.downvoters.remove(request.user)
+		else:
+			comment.votes += 1
+		
+		comment.upvoters.add(request.user)
+		comment.save()
+
+		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
+
+
+class DownvoteCommentView(APIView):
+	serializer_class = CommentVoteChangeSerializer
+
+	def post(self, request, *args, **kwargs):
+		comment = Comment.objects.get(id=kwargs.get("id"))
+		if request.user in comment.downvoters.all():
+			return Response({"User already downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+
+		if request.user in comment.upvoters.all():
+			comment.votes -= 2
+			comment.upvoters.remove(request.user)
+		else:
+			comment.votes -= 1
+		
+		comment.downvoters.add(request.user)
+		comment.save()
+
+		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
+
+
+class RemoveDownvoteCommentView(APIView):
+	serializer_class = CommentVoteChangeSerializer
+
+	def post(self, request, *args, **kwargs):
+		comment = Comment.objects.get(id=kwargs.get("id"))
+		if request.user not in comment.downvoters.all():
+			return Response({"User hasn't downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+
+		comment.votes += 1
+		
+		comment.downvoters.remove(request.user)
+		comment.save()
+
+		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
+
+
+class RemoveUpvoteCommentView(APIView):
+	serializer_class = CommentVoteChangeSerializer
+
+	def post(self, request, *args, **kwargs):
+		comment = Comment.objects.get(id=kwargs.get("id"))
+		if request.user not in comment.upvoters.all():
+			return Response({"User hasn't upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+
+		comment.votes -= 1
+		
+		comment.upvoters.remove(request.user)
+		comment.save()
+
+		return Response({"votes: {}".format(comment.votes)}, status=status.HTTP_200_OK)
 
 
 

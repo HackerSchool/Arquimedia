@@ -42,11 +42,10 @@ class CommentSerializer(serializers.ModelSerializer):
 		return comment
 
 
-class CommentDeleteSerializer(serializers.ModelSerializer):
-	id = serializers.SlugField()
+class CommentVoteChangeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Comment
-		fields = ("id", )
+		fields = ("votes", )
 
 
 class QuestionSerializer(serializers.ModelSerializer):
