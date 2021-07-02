@@ -7,12 +7,15 @@ import {
 	Grid,
 	Avatar,
 	TextField,
-	Button
+	Button,
+	Paper,
+	Divider
 } from "@material-ui/core";
 import {
 	Delete,
 	ArrowUpward,
-	ArrowDownward
+	ArrowDownward,
+	AlternateEmail
 } from "@material-ui/icons"
 var Latex = require('react-latex');
 
@@ -102,33 +105,40 @@ class QuestionInfo extends Component {
 
 	render() {
 		return (
-			<Grid
-				container
-				direction="column"
-				justify="center"
-				alignItems="center">
-				<Grid item xs={12} align="center">
-					<Typography variant="h3"><Latex>{this.state.text}</Latex></Typography>
-				</Grid>
-				<Grid item xs={12} align="center">
-					<Typography variant="h5">{this.state.subject}</Typography>
-				</Grid>
-				<Grid item xs={12} align="center">
-					<Typography variant="h5">{this.state.year}</Typography>
-				</Grid>
-				<Grid item xs={12} align="center">
-					<Typography variant="h5">{this.state.difficulty}</Typography>
+			<div>
+				<Grid
+					container
+					direction="column"
+					justify="center"
+					alignItems="center">
+					<Grid item xs={12} align="center">
+						<Typography variant="h3"><Latex>{this.state.text}</Latex></Typography>
+					</Grid>
+					<Grid item xs={12} align="center">
+						<Typography variant="h5">{this.state.subject}</Typography>
+					</Grid>
+					<Grid item xs={12} align="center">
+						<Typography variant="h5">{this.state.year}</Typography>
+					</Grid>
+					<Grid item xs={12} align="center">
+						<Typography variant="h5">{this.state.difficulty}</Typography>
+					</Grid>
 				</Grid>
 				{/* Comments */}
-				
-					{this.state.comment.map(comment => (
-							<Comment data={comment} currentUser={this.state.currentUser} deleteCommentFun={data => this.removeComment(data)}/>
-					))}
-				
-				<Grid item xs={12} align="center">
+				<div style={{ width: "80%" }}>
+					<Paper style={{ padding: "40px 20px" }} variant="fullWidth">
+						{this.state.comment.map(comment => (
+							<div>
+								<Comment data={comment} currentUser={this.state.currentUser} deleteCommentFun={data => this.removeComment(data)}/>
+								{(comment != this.state.comment[this.state.comment.length- 1]) && (<Divider variant="fullWidth" style={{ margin: "30px 0" }} />)}
+								
+							</div>
+						))}
+					</Paper>
+				</div>
 					<CommentInputBox questionID={this.props.ID} addComment={data => this.addComment(data)}/>
-				</Grid>
-			</Grid>
+				</div>
+			
 		)
 	}
 }
@@ -282,22 +292,38 @@ class Comment extends Component {
 	render() {
 		let avatarLetter = this.props.data.author.username[0];
 		return (
-				<Card style={{
-					width: "100%"
-				}}>
-					<CardContent>
+			<div style={{ padding: 14 }}>
+					
+				<Grid container wrap="nowrap" spacing={2}>
+					<Grid item>
 						<Avatar>{avatarLetter}</Avatar>
-						<Typography variant={"h6"}>{this.props.data.author.username}</Typography>
-						<Typography variant={"caption"}>Votos: {this.state.votes}</Typography>
-						<Typography variant={"body1"}>
-						<Latex>{this.props.data.content}</Latex>
+						<Typography variant={"h6"}>
+										{this.state.votes}
 						</Typography>
+
+					</Grid>
+					<Grid justifyContent="left" item xs zeroMinWidth>
+						<Typography variant={"h6"} style={{ margin: 0, textAlign: "left" }}>{this.props.data.author.username}</Typography>
+						
+						<Typography variant={"body1"} style={{ margin: 0, textAlign: "left" }}>
+									<Latex>{this.props.data.content}</Latex>
+						</Typography>
+
 						<Typography variant={"caption"}>{this.props.data.date}</Typography>
-						{(this.props.currentUser == this.props.data.author.id) && <Button onClick={this.deleteComment}><Delete color="secondary" /></Button>}
+						
 						<Button><ArrowUpward color={this.state.upvoted ? ("primary") : ("action")} onClick={this.upvote}/></Button>
+						
 						<Button><ArrowDownward color={this.state.downvoted ? ("secondary") : ("action")} onClick={this.downvote}/></Button>
-					</CardContent>
-				</Card>
+					
+
+					</Grid>
+					<Grid item xs={1}>
+					{(this.props.currentUser == this.props.data.author.id) && <Button onClick={this.deleteComment}><Delete color="secondary" /></Button>}
+
+					</Grid>
+				</Grid>
+			</div>
+				
 		)
 	}
 }
@@ -314,25 +340,29 @@ class CommentInputBox extends Component {
 	
 
 	createComment() {
-		const csrftoken = getCookie('csrftoken');
-		const requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				'X-CSRFToken': csrftoken
-			},
-			body: JSON.stringify({
-				content: this.state.content,
-				author: {id: 0},
-				votes: 2,
-				question: {id: this.props.questionID}
-			}),
-		};
-		fetch("/api/create_comment", requestOptions)
-			.then((response) => response.json())
-			.then(data => this.props.addComment(data));
+		if (this.state.content != ""){
+			const csrftoken = getCookie('csrftoken');
+			const requestOptions = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					'X-CSRFToken': csrftoken
+				},
+				body: JSON.stringify({
+					content: this.state.content,
+					author: {id: 0},
+					votes: 2,
+					question: {id: this.props.questionID}
+				}),
+			};
+			fetch("/api/create_comment", requestOptions)
+				.then((response) => response.json())
+				.then(data => this.props.addComment(data));
+			
+			document.getElementById("commentContent").value = "";
+			this.setState({content: ""})
+		} else alert("Escreve algo primeiro!")
 		
-		document.getElementById("commentContent").value = "";
 	}
 
 
@@ -355,12 +385,16 @@ class CommentInputBox extends Component {
 							<TextField 
 								id="commentContent"
 								label="Escreve aqui!"
-								onChange={this.handleCommentSubmissionChange}/>
+								onChange={this.handleCommentSubmissionChange}
+								style={{width: "40%"}}
+								/>
 						</form>
 				</Grid>
 
 				<Grid item xs={12} align="center">
-					<Button color="primary" variant="contained" onClick={this.createComment}>
+					<Button color="primary"
+							variant="contained"
+							onClick={this.createComment}>
 						Submeter
 					</Button>
 				</Grid>
