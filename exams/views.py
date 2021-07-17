@@ -162,7 +162,7 @@ def generate_exam(request):
                         subjectAndYearList[0].append(questionsGeom)
     
         questionsExam = []
-        numberOfQuestions=3
+        numberOfQuestions=10
         index=0
 
         if(len(subjectAndYearList[1])!=0 and  len(subjectAndYearList[0])==0):
@@ -180,19 +180,24 @@ def generate_exam(request):
         else:
 
             while(len(questionsExam)!=numberOfQuestions):
-                                                 
-                    choice = subjectAndYearList[0][index][random.randint(0, len(subjectAndYearList[0][index]) - 1)] 
+                    print(len(subjectAndYearList[0]))              
+                    #choice = subjectAndYearList[0][random.randint(0, len(subjectAndYearList[0]) - 1)] 
 
+
+                    """
                     while choice in questionsExam:
-                        choice = subjectAndYearList[0][index][random.randint(0, len(subjectAndYearList[0][index]) - 1)]
+                        choice = subjectAndYearList[0][random.randint(0, len(subjectAndYearList[0]) - 1)]
 
                     questionsExam.append(choice)
+                    subjectAndYearList[0].remove(choice)
 
                     if(index==len(request.POST.getlist('MultipleChoice'))-1):
                         index =0
                     
                     index += 1
-                    
+                    """
+                    questionsExam = random.sample(list(subjectAndYearList[0][0]), 10)
+
         exame = Exam.objects.create()
         
         for question in questionsExam:
