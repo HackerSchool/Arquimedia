@@ -110,7 +110,7 @@ const Navbar = () => {
 						<List>
 							<ListItem>
 								{(user.id != null) ? (
-								(<Avatar>{user.username[0]}</Avatar>)
+								<NavbarAvatar user={user}/>
 						) : (
 							<NavbarButton href="/login" text="login" />
 						)}

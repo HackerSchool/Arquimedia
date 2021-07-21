@@ -11,6 +11,11 @@ const useStyles = makeStyles(theme => ({
 	avatar: {
 		width: "50px",
 		height: "50px"
+	},
+	button: {
+		'&:hover': {
+			borderRadius: 90
+		}
 	}
 }))
 
@@ -27,7 +32,7 @@ const NavbarAvatar = (props) => {
 	}
 
 	return (<div>
-				<Button onClick={handleClick}><Avatar className={classes.avatar}>{props.user.username[0]}</Avatar></Button>
+				<Button onClick={handleClick} className={classes.button}><Avatar className={classes.avatar}>{props.user.username[0]}</Avatar></Button>
 				<Menu
 					id="menu"
 					anchorEl={anchorEl}
