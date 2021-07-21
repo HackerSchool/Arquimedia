@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import MenuIcon from '@material-ui/icons/Menu';
 import NavbarButton from './NavbarButton';
+import NavbarAvatar from './NavbarAvatar';
 import {
 	getUser
 } from "../../api"
@@ -91,7 +92,7 @@ const Navbar = () => {
 					<NavbarButton href="/about-us" text="About us" />
 					<NavbarButton href="/contact" text="Contact" />
 					{(user.id != null) ? (
-							(<Avatar style={{ width: 50, height: 50 }}>{user.username[0]}</Avatar>)
+							(<NavbarAvatar user={user}/>)
 					) : (
 						<NavbarButton href="/login" text="login" />
 					)}
