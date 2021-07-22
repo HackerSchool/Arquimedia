@@ -129,7 +129,7 @@ class QuestionInfo extends Component {
 					<Paper style={{ padding: "40px 20px" }} variant="fullWidth">
 						{this.state.comment.map(comment => (
 							<div>
-								<Comment data={comment} currentUser={this.state.currentUser} deleteCommentFun={data => this.removeComment(data)}/>
+								<Comment key={comment} data={comment} currentUser={this.state.currentUser} deleteCommentFun={data => this.removeComment(data)}/>
 								{(comment != this.state.comment[this.state.comment.length- 1]) && (<Divider variant="fullWidth" style={{ margin: "30px 0" }} />)}
 								
 							</div>
