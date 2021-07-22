@@ -89,8 +89,8 @@ const Navbar = () => {
 				
 				<Grid container className={classes.menu} justify="flex-end">
 					<NavbarButton href="/" text="Home" />
-					<NavbarButton href="/about-us" text="About us" />
-					<NavbarButton href="/contact" text="Contact" />
+					<NavbarButton href="/about-us" text="Sobre nós" />
+					<NavbarButton href="/contact" text="Contactos" />
 					{(user.id != null) ? (
 							(<NavbarAvatar user={user}/>)
 					) : (
@@ -119,10 +119,10 @@ const Navbar = () => {
 								<NavbarButton href="/" text="Home" />
 							</ListItem>
 							<ListItem>
-								<NavbarButton href="/about-us" text="About us" />
+								<NavbarButton href="/about-us" text="Sobre nós" />
 							</ListItem>
 							<ListItem>
-								<NavbarButton href="/contact" text="Contact" />
+								<NavbarButton href="/contact" text="Contactos" />
 							</ListItem>
 						</List>
 					</SwipeableDrawer>

@@ -40,9 +40,10 @@ const NavbarAvatar = (props) => {
 					open={Boolean(anchorEl)}
 					onClose={handleClose}
 				>
-					<MenuItem onClick={handleClose}>Perfil</MenuItem>
-					<MenuItem onClick={handleClose}>Exames</MenuItem> 
-					<MenuItem onClick={handleClose}>Preferências</MenuItem>
+					<MenuItem onClick={handleClose} component="a" href="/perfil">Perfil</MenuItem>
+					<MenuItem onClick={handleClose} component="a" href="/exames">Exames</MenuItem> 
+					<MenuItem onClick={handleClose} component="a" href="/preferencias">Preferências</MenuItem>
+					<MenuItem onClick={handleClose} component="a" href="/logout">Logout</MenuItem>
 				</Menu>
 			</div>)
 }
