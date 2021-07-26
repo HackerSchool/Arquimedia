@@ -17,7 +17,10 @@ import {
 	ArrowDownward,
 	AlternateEmail
 } from "@material-ui/icons"
+import $ from 'jquery';
+
 var Latex = require('react-latex');
+const APIURL = "http://localhost:8000"
 
 // Renders a page about a specific Question and allows for comments on it
 export default class QuestionPage extends Component {
@@ -63,7 +66,10 @@ class QuestionInfo extends Component {
 
 
 	getCurrentUser() {
-		fetch("/api/current_user")
+		fetch(APIURL + "/api/current_user", {
+			headers: {
+			}
+		})
 		.then(response => response.json())
 		.then((data) => {
 			this.setState({currentUser: data.id})
@@ -72,7 +78,10 @@ class QuestionInfo extends Component {
 
 
 	getQuestionInfo() {
-		fetch("/api/question/" + this.props.ID)
+		fetch(APIURL + "/api/question/" + this.props.ID, {
+			headers: {
+			}
+		})
 			.then((response) => response.json())
 			.then((data) => {
 				this.setState({
@@ -166,7 +175,10 @@ class Comment extends Component {
 
 
 	hasDownvoted() {
-		fetch("/api/has_downvoted/" + this.props.data.id)
+		fetch(APIURL + "/api/has_downvoted/" + this.props.data.id, {
+			headers: {
+			}
+		})
 			.then(response => {
 				if (response.status == 200) {
 					this.setState({
@@ -178,7 +190,10 @@ class Comment extends Component {
 
 
 	hasUpvoted() {
-		fetch("/api/has_upvoted/" + this.props.data.id)
+		fetch(APIURL + "/api/has_upvoted/" + this.props.data.id, {
+			headers: {
+			}
+		})
 			.then(response => {
 				if (response.status == 200) {
 					this.setState({
@@ -198,7 +213,10 @@ class Comment extends Component {
 			}
 		};
 
-		fetch("/api/delete_comment/" + this.props.data.id, requestOptions)
+		fetch(APIURL + "/api/delete_comment/" + this.props.data.id, requestOptions, {
+			headers: {
+			}
+		})
 		.then(response => response.json)
 		.then(() => {
 			this.props.deleteCommentFun(this.props.data);
@@ -215,7 +233,7 @@ class Comment extends Component {
 					'X-CSRFToken': this.csrftoken
 				}
 			};
-			fetch("/api/upvote_comment/" + this.props.data.id, requestOptions)
+			fetch(APIURL + "/api/upvote_comment/" + this.props.data.id, requestOptions)
 				.then(response => response.json())
 				.then(data => {
 					this.setState({
@@ -237,7 +255,7 @@ class Comment extends Component {
 				'X-CSRFToken': this.csrftoken
 			}
 		};
-		fetch("/api/remove_upvote/" + this.props.data.id, requestOptions)
+		fetch(APIURL + "/api/remove_upvote/" + this.props.data.id, requestOptions)
 			.then(response => response.json())
 			.then(data => {
 				this.setState({
@@ -257,7 +275,7 @@ class Comment extends Component {
 					'X-CSRFToken': this.csrftoken
 				}
 			};
-			fetch("/api/downvote_comment/" + this.props.data.id, requestOptions)
+			fetch(APIURL + "/api/downvote_comment/" + this.props.data.id, requestOptions)
 				.then(response => response.json())
 				.then(data => {
 					this.setState({
@@ -278,7 +296,7 @@ class Comment extends Component {
 				'X-CSRFToken': this.csrftoken
 			}
 		};
-		fetch("/api/remove_downvote/" + this.props.data.id, requestOptions)
+		fetch(APIURL + "/api/remove_downvote/" + this.props.data.id, requestOptions)
 			.then(response => response.json())
 			.then(data => {
 				this.setState({
@@ -355,7 +373,7 @@ class CommentInputBox extends Component {
 					question: {id: this.props.questionID}
 				}),
 			};
-			fetch("/api/create_comment", requestOptions)
+			fetch(APIURL + "/api/create_comment", requestOptions)
 				.then((response) => response.json())
 				.then(data => this.props.addComment(data));
 			
@@ -412,7 +430,7 @@ function getCookie(name) {
     if (document.cookie && document.cookie !== '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
+            var cookie = $.trim(cookies[i]);
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;

@@ -6,7 +6,7 @@ As our first goal we would like to have available a preparation for the Mathemat
 
 ## Installation
 
-1. Start by  creating a local environment: 
+1. Start by  creating a local environment in `backend`: 
 `python3 -m venv env`
 
 2. You  then activate the environment:
@@ -15,7 +15,7 @@ As our first goal we would like to have available a preparation for the Mathemat
 3. And install all the required modules:
 `pip install -r requirements.txt`
 
-4. Run `npm i` on the frontend directory.
+4. Run `npm i` in `frontend`.
 
 ## Setup Database
 Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https://www.pgadmin.org/download/) (Database GUI).
@@ -31,6 +31,6 @@ Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https:/
     - DATABASE_PORT = The port that used to run the database (Default port is 5432)
 
 ## Run
-1. run `py manage.py runserver` on main directory.
+1. In `backend` run `py manage.py runserver`.
 
-2. run `npm run dev` in frontend.
+2. In `frontend` run `npm start`.

@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
 	const classes = useStyles();
 	const [click, setClick] = useState(false);
-	const [user, setUser] = useState({"id": 0, "username": ""});
+	const [user, setUser] = useState({"id": null, "username": ""});
 	const handleClick = () => {setClick(!click); console.log(click)};
 
 	useEffect(() => {
@@ -73,6 +73,7 @@ const Navbar = () => {
 		axios.get("/api/current_user").then(res => {
 			console.log("response: " + res);
 			setUser(res.data);
+			console.log(res.data)
 		})
 	}, []);
 
