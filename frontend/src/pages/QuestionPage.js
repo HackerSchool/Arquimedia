@@ -68,7 +68,6 @@ class QuestionInfo extends Component {
 	getCurrentUser() {
 		fetch(APIURL + "/api/current_user", {
 			headers: {
-				"Access-Control-Allow-Origin": "*"
 			}
 		})
 		.then(response => response.json())
@@ -81,8 +80,6 @@ class QuestionInfo extends Component {
 	getQuestionInfo() {
 		fetch(APIURL + "/api/question/" + this.props.ID, {
 			headers: {
-				"Access-Control-Allow-Origin": "*",
-				"origin": "*"
 			}
 		})
 			.then((response) => response.json())
@@ -180,7 +177,6 @@ class Comment extends Component {
 	hasDownvoted() {
 		fetch(APIURL + "/api/has_downvoted/" + this.props.data.id, {
 			headers: {
-				"Access-Control-Allow-Origin": "*"
 			}
 		})
 			.then(response => {
@@ -196,7 +192,6 @@ class Comment extends Component {
 	hasUpvoted() {
 		fetch(APIURL + "/api/has_upvoted/" + this.props.data.id, {
 			headers: {
-				"Access-Control-Allow-Origin": "*"
 			}
 		})
 			.then(response => {
@@ -220,7 +215,6 @@ class Comment extends Component {
 
 		fetch(APIURL + "/api/delete_comment/" + this.props.data.id, requestOptions, {
 			headers: {
-				"Access-Control-Allow-Origin": "*",
 			}
 		})
 		.then(response => response.json)
