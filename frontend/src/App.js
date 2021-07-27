@@ -8,8 +8,10 @@ import {
 	Switch,
 	Route,
   } from "react-router-dom";
+import axios from "axios";
 
-
+axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
+  
 function App() {
   return (
     <div>

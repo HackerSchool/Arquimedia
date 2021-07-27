@@ -63,21 +63,14 @@ const Navbar = () => {
 	const handleClick = () => {setClick(!click); console.log(click)};
 
 	useEffect(() => {
-		/*
-		async function fetchData() {
-			const request = await axios.get("/api/current_user");
-			setUser(request.data.username);
-			return request.data;
-		}
-		fetchData();*/
-		axios.get("/api/current_user").then(res => {
-			console.log("response: " + res);
-			setUser(res.data);
-			console.log(res.data)
-		})
-	}, []);
 
-	console.log(user);
+		getUser((res) => {
+			setUser(res.data);
+		}, () => {
+			console.log("Couldn't fetch user")
+		})
+
+	}, []);
 	
 
 	return (
