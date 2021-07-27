@@ -16,7 +16,7 @@ const LoginInput = () => {
 	const handleChangePassword = (e) => setPassword(e.target.value);
 	
 	const handleClick = () => {
-		const res = logIn(username, password)
+		logIn(username, password);
 	}
 
 	return (

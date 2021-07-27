@@ -22,8 +22,8 @@ export async function logIn(username, password) {
 	}).then(res => {
 		console.log(res.data);
 		localStorage.setItem("Authorization", "Token " + res.data.key);
-		return res
-	})
+		window.location.replace("/");
+	}).catch(alert("Utilizador ou Password errada!"))
 }
 
 
