@@ -26,3 +26,8 @@ export async function logIn(username, password) {
 	})
 }
 
+
+// Log out User
+export async function logOut() {
+	axios.post("/rest-auth/logout/").then(localStorage.setItem("Authorization", null));
+}

@@ -6,6 +6,7 @@ import {
 	MenuItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+import { logOut } from '../../api';
 
 const useStyles = makeStyles(theme => ({
 	avatar: {
@@ -31,6 +32,11 @@ const NavbarAvatar = (props) => {
 		setAnchorEl(null);
 	}
 
+	const handleLogout = () => {
+		logOut();
+		window.location.replace("/");
+	}
+
 	return (<div>
 				<Button onClick={handleClick} className={classes.button}><Avatar className={classes.avatar}>{props.user.username[0]}</Avatar></Button>
 				<Menu
@@ -43,7 +49,7 @@ const NavbarAvatar = (props) => {
 					<MenuItem onClick={handleClose} component="a" href="/perfil">Perfil</MenuItem>
 					<MenuItem onClick={handleClose} component="a" href="/exames">Exames</MenuItem> 
 					<MenuItem onClick={handleClose} component="a" href="/preferencias">Preferências</MenuItem>
-					<MenuItem onClick={handleClose} component="a" href="/logout">Logout</MenuItem>
+					<MenuItem onClick={handleClose} component="a" onClick={handleLogout}>Logout</MenuItem>
 				</Menu>
 			</div>)
 }
