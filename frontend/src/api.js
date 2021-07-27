@@ -11,7 +11,7 @@ axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authoriza
 export async function getUser(successCall, errorCall) {
 	axios.get("/api/current_user").then(res => {
 		successCall(res);
-	}).catch(() => errorCall())
+	}).catch((error) => errorCall(error))
 }
 
 // Log in User
@@ -23,7 +23,10 @@ export async function logIn(username, password) {
 		console.log(res.data);
 		localStorage.setItem("Authorization", "Token " + res.data.key);
 		window.location.replace("/");
-	}).catch(alert("Utilizador ou Password errada!"))
+	}).catch((error) => {
+		console.log(error);
+		alert("Utilizador ou Password errada!");
+	})
 }
 
 
