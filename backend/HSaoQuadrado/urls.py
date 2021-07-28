@@ -25,5 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', index),
     url('exame/', include('exams.urls')),
-    path("api/", include("api.urls"))
+    path("api/", include("api.urls")),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
