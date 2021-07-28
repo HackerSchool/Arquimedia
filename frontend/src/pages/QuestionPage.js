@@ -15,8 +15,21 @@ import {
 	Delete,
 	ArrowUpward,
 	ArrowDownward,
-	AlternateEmail
+	AlternateEmail,
+	Restaurant
 } from "@material-ui/icons"
+import {
+	questionInfo,
+	getUser,
+	hasDownvotedAPI,
+	hasUpvotedAPI,
+	upvoteAPI,
+	downvoteAPI,
+	deleteCommentAPI,
+	removeDownvoteAPI,
+	removeUpvoteAPI,
+	createCommentAPI
+} from "../api";
 import $ from 'jquery';
 
 var Latex = require('react-latex');
@@ -66,32 +79,22 @@ class QuestionInfo extends Component {
 
 
 	getCurrentUser() {
-		fetch(APIURL + "/api/current_user", {
-			headers: {
-			}
-		})
-		.then(response => response.json())
-		.then((data) => {
-			this.setState({currentUser: data.id})
+		getUser((res) => {
+			this.setState({currentUser: res.data.id})
 		})
 	}
 
 
 	getQuestionInfo() {
-		fetch(APIURL + "/api/question/" + this.props.ID, {
-			headers: {
-			}
+		questionInfo(this.props.ID, (res) => {
+			this.setState({
+				text: res.data.text,
+				subject: res.data.subject,
+				year: res.data.year,
+				difficulty: res.data.difficulty,
+				comment: res.data.comment
+			})
 		})
-			.then((response) => response.json())
-			.then((data) => {
-				this.setState({
-					text: data.text,
-					subject: data.subject,
-					year: data.year,
-					difficulty: data.difficulty,
-					comment: data.comment
-				})
-			});
 	}
 
 
@@ -175,135 +178,67 @@ class Comment extends Component {
 
 
 	hasDownvoted() {
-		fetch(APIURL + "/api/has_downvoted/" + this.props.data.id, {
-			headers: {
-			}
-		})
-			.then(response => {
-				if (response.status == 200) {
-					this.setState({
-						downvoted: true
-					})
-				}
-			})
+		hasDownvotedAPI(this.props.data.id, () => this.setState({downvoted: true}))
 	}
 
 
 	hasUpvoted() {
-		fetch(APIURL + "/api/has_upvoted/" + this.props.data.id, {
-			headers: {
-			}
-		})
-			.then(response => {
-				if (response.status == 200) {
-					this.setState({
-						upvoted: true
-					})
-				}
-			})
+		hasUpvotedAPI(this.props.data.id, () => this.setState({upvoted: true}))
 	}
 
 
 	deleteComment() {
-		const requestOptions = {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-				'X-CSRFToken': this.csrftoken
-			}
-		};
+		deleteCommentAPI(this.props.data.id, () => {
+			this.props.deleteCommentFun(this.props.data)
+		})
 
-		fetch(APIURL + "/api/delete_comment/" + this.props.data.id, requestOptions, {
-			headers: {
-			}
-		})
-		.then(response => response.json)
-		.then(() => {
-			this.props.deleteCommentFun(this.props.data);
-		})
 	}
 
 
 	upvote() {
 		if (!this.state.upvoted) {
-			const requestOptions = {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					'X-CSRFToken': this.csrftoken
-				}
-			};
-			fetch(APIURL + "/api/upvote_comment/" + this.props.data.id, requestOptions)
-				.then(response => response.json())
-				.then(data => {
-					this.setState({
-						upvoted: true,
-						downvoted: false,
-						votes: data.votes
-					})
+			upvoteAPI(this.props.data.id, (res) => {
+				this.setState({
+					upvoted: true,
+					downvoted: false,
+					votes: res.data.votes
 				})
-			
+			})
 		} else this.removeUpvote()
 	}
 
 
 	removeUpvote() {
-		const requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				'X-CSRFToken': this.csrftoken
-			}
-		};
-		fetch(APIURL + "/api/remove_upvote/" + this.props.data.id, requestOptions)
-			.then(response => response.json())
-			.then(data => {
-				this.setState({
-					upvoted: false,
-					votes: data.votes
-				})
+		removeUpvoteAPI(this.props.data.id, (res) => {
+			this.setState({
+				upvoted: false,
+				votes: res.data.votes
 			})
+		})
+		
 	}
 
 
 	downvote() {
 		if (!this.state.downvoted) {
-			const requestOptions = {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					'X-CSRFToken': this.csrftoken
-				}
-			};
-			fetch(APIURL + "/api/downvote_comment/" + this.props.data.id, requestOptions)
-				.then(response => response.json())
-				.then(data => {
-					this.setState({
-						upvoted: false,
-						downvoted: true,
-						votes: data.votes
-					})
+			downvoteAPI(this.props.data.id, (res) => {
+				this.setState({
+					downvoted: true,
+					upvoted: false,
+					votes: res.data.votes
 				})
+			})
 		} else this.removeDownvote()
 	}
 
 
 	removeDownvote() {
-		const requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				'X-CSRFToken': this.csrftoken
-			}
-		};
-		fetch(APIURL + "/api/remove_downvote/" + this.props.data.id, requestOptions)
-			.then(response => response.json())
-			.then(data => {
-				this.setState({
-					downvoted: false,
-					votes: data.votes
-				})
+		removeDownvoteAPI(this.props.data.id, (res) => {
+			this.setState({
+				downvoted: false,
+				votes: res.data.votes
 			})
+		})
 	}
 
 
@@ -359,26 +294,18 @@ class CommentInputBox extends Component {
 
 	createComment() {
 		if (this.state.content != ""){
-			const csrftoken = getCookie('csrftoken');
-			const requestOptions = {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					'X-CSRFToken': csrftoken
-				},
-				body: JSON.stringify({
-					content: this.state.content,
-					author: {id: 0},
-					votes: 2,
-					question: {id: this.props.questionID}
-				}),
+			const body = {
+				content: this.state.content,
+				author: {id: 0},
+				votes: 2,
+				question: {id: this.props.questionID}
 			};
-			fetch(APIURL + "/api/create_comment", requestOptions)
-				.then((response) => response.json())
-				.then(data => this.props.addComment(data));
-			
-			document.getElementById("commentContent").value = "";
-			this.setState({content: ""})
+
+			createCommentAPI(body, (res) => {
+				this.props.addComment(res.data)
+				document.getElementById("commentContent").value = "";
+				this.setState({content: ""})
+			})
 		} else alert("Escreve algo primeiro!")
 		
 	}
