@@ -34,3 +34,58 @@ export async function logIn(username, password) {
 export async function logOut() {
 	axios.post("/rest-auth/logout/").then(localStorage.setItem("Authorization", null));
 }
+
+
+export async function questionInfo(id, successCall) {
+	axios.get("api/question/" + id)
+	.then((res) => successCall(res))
+	.catch((error) => console.log(error));
+}
+
+
+export async function hasDownvotedAPI(id, successCall) {
+	axios.get("api/has_downvoted/" + id)
+	.then((res) => successCall(res))
+}
+
+
+export async function hasUpvotedAPI(id, successCall) {
+	axios.get("api/has_upvoted/" + id)
+	.then((res) => successCall(res))
+}
+
+
+export async function upvoteAPI(id, successCall) {
+	axios.post("api/upvote_comment/" + id)
+	.then((res) => successCall(res));
+}
+
+
+export async function downvoteAPI(id, successCall) {
+	axios.post("api/downvote_comment/" + id)
+	.then((res) => successCall(res));
+}
+
+
+export async function deleteCommentAPI(id, successCall) {
+	axios.delete("api/delete_comment/" + id)
+	.then((res) => successCall(res))
+}
+
+
+export async function removeUpvoteAPI(id, successCall) {
+	axios.post("api/remove_upvote/" + id)
+	.then((res) => successCall(res))
+}
+
+
+export async function removeDownvoteAPI(id, successCall) {
+	axios.post("api/remove_downvote/" + id)
+	.then((res) => successCall(res))
+}
+
+
+export async function createCommentAPI(body, successCall) {
+	axios.post("api/create_comment", body)
+	.then((res) => successCall(res))
+}
