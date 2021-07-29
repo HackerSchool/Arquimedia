@@ -15,4 +15,5 @@ urlpatterns = [
 	path("has_upvoted/<int:id>", HasUserUpvoted.as_view()),
 	path("has_downvoted/<int:id>", HasUserDownvoted.as_view()),
 	path("exam/<int:id>", ExamView.as_view()),
+	path("create_exam", CreateExamView.as_view()),
 ]

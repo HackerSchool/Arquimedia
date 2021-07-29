@@ -1,3 +1,4 @@
+from random import random
 from django.db.models import query
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -5,7 +6,7 @@ from exams.models import Question, Comment, Exam
 from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
-import json
+import random
 
 # Create your views here.
 
@@ -162,3 +163,46 @@ class ExamView(generics.RetrieveAPIView):
 	serializer_class = ExamSerializer
 	lookup_field = "id"
 	queryset = Exam.objects.all()
+
+
+class CreateExamView(APIView):
+	serializer_class = CreateExamSerializer
+
+	def post(self, request, format=None):
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		serializer = self.serializer_class(data=request.data)
+		if serializer.is_valid():
+			subject = serializer.data.get("subject")
+			year = serializer.data.get("year")
+			subSubjects = serializer.data.get("subSubjects")
+			randomSubSubject = serializer.data.get("randomSubSubject")
+
+			if subSubjects:	
+				for subSubject in subSubjects:
+					if year: questionsQuery = Question.objects.filter(year=year, subsubject=subSubject)
+					else:  questionsQuery = Question.objects.filter(subsubject=subSubject)
+			else:
+				if year: questionsQuery = Question.objects.filter(year=year)
+				else: questionsQuery = Question.objects.all()
+
+
+			questions = []
+			nrOfQuestions = 10
+
+			# Selects randomly a set of final questions for the exam
+			questions = random.sample(list(questionsQuery), nrOfQuestions)
+			
+			exam = Exam.objects.create()
+
+			for question in questions: exam.questions.add(question)
+
+			exam.save()
+
+			return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
+
+
+		print(serializer.data)
+		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
+		

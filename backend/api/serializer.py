@@ -64,3 +64,15 @@ class ExamSerializer(serializers.ModelSerializer):
 	class Meta: 
 		model = Exam
 		fields = ("questions", "failed", "correct", "score", "subject", "year", "difficulty")
+
+
+class StringListField(serializers.ListField):
+	child = serializers.CharField()
+
+
+class CreateExamSerializer(serializers.Serializer):
+	subject = serializers.CharField()
+	randomSubSubject = serializers.BooleanField()
+	subSubjects = StringListField()
+	year = serializers.IntegerField()
+
