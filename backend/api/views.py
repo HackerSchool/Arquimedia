@@ -1,7 +1,7 @@
 from django.db.models import query
 from django.shortcuts import render
 from rest_framework.views import APIView
-from exams.models import Question, Comment
+from exams.models import Question, Comment, Exam
 from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
@@ -152,8 +152,13 @@ class HasUserDownvoted(APIView):
 		else: return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class CurrentUserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+
+class ExamView(generics.RetrieveAPIView):
+	serializer_class = ExamSerializer
+	lookup_field = "id"
+	queryset = Exam.objects.all()

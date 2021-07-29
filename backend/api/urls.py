@@ -14,4 +14,5 @@ urlpatterns = [
 	path("remove_upvote/<int:id>", RemoveUpvoteCommentView.as_view()),
 	path("has_upvoted/<int:id>", HasUserUpvoted.as_view()),
 	path("has_downvoted/<int:id>", HasUserDownvoted.as_view()),
+	path("exam/<int:id>", ExamView.as_view()),
 ]

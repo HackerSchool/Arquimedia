@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
-from exams.models import Question, Comment
+from exams.models import Question, Comment, Exam
 from django.contrib.auth.models import User 
 from rest_framework import serializers
 
@@ -55,3 +55,12 @@ class QuestionSerializer(serializers.ModelSerializer):
 		model = Question
 		fields = ("id", "text", "subject", "subsubject", "year", "difficulty", "comment")
 
+
+class ExamSerializer(serializers.ModelSerializer):
+	questions = QuestionSerializer(many=True)
+	failed = QuestionSerializer(many=True)
+	correct = QuestionSerializer(many=True)
+
+	class Meta: 
+		model = Exam
+		fields = ("questions", "failed", "correct", "score", "subject", "year", "difficulty")
