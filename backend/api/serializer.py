@@ -63,7 +63,7 @@ class ExamSerializer(serializers.ModelSerializer):
 
 	class Meta: 
 		model = Exam
-		fields = ("questions", "failed", "correct", "score", "subject", "year", "difficulty")
+		fields = ("id", "questions", "failed", "correct", "score", "subject", "year", "difficulty")
 
 
 class StringListField(serializers.ListField):

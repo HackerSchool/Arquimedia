@@ -179,13 +179,24 @@ class CreateExamView(APIView):
 			subSubjects = serializer.data.get("subSubjects")
 			randomSubSubject = serializer.data.get("randomSubSubject")
 
-			if subSubjects:	
+			questionsQuery = []
+
+			if (not randomSubSubject):
 				for subSubject in subSubjects:
-					if year: questionsQuery = Question.objects.filter(year=year, subsubject=subSubject)
-					else:  questionsQuery = Question.objects.filter(subsubject=subSubject)
+					if subSubject != "none":
+						if year:
+							temp = list(Question.objects.filter(year=year, subsubject=subSubject))
+							for i in temp: questionsQuery.append(i)
+						else:
+							temp = list(Question.objects.filter(subsubject=subSubject))
+							for i in temp: questionsQuery.append(i)
 			else:
-				if year: questionsQuery = Question.objects.filter(year=year)
-				else: questionsQuery = Question.objects.all()
+				if year:
+					temp = list(Question.objects.filter(year=year))
+					for i in temp: questionsQuery.append(i)
+				else:
+					temp = list(Question.objects.all())
+					for i in temp: questionsQuery.append(i)
 
 
 			questions = []
@@ -203,6 +214,5 @@ class CreateExamView(APIView):
 			return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
 
 
-		print(serializer.data)
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 		

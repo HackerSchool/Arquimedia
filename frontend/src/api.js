@@ -89,3 +89,9 @@ export async function createCommentAPI(body, successCall) {
 	axios.post("api/create_comment", body)
 	.then((res) => successCall(res))
 }
+
+
+export async function createExam(body, successCall) {
+	axios.post("api/create_exam", body)
+	.then((res) => successCall(res))
+}

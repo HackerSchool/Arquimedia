@@ -9,10 +9,8 @@ import {
 	FormControlLabel,
 	Checkbox,
 	Button
-
 } from "@material-ui/core";
-import { SettingsInputAntenna, TurnedIn } from "@material-ui/icons";
-
+import { createExam } from "../api";
 
 const GenExamPage = () => {
 
@@ -28,8 +26,26 @@ const GenExamPage = () => {
 		twelfthGrade: false
 	})
 
+
 	const handleChange = (event) => {		
 		setOptions({...options, [event.target.name]: event.target.checked});
+	}
+
+
+	const handleClick = () => {
+		const subSubjects = [
+			options.geometry ? "Geometria" : "none",
+			options.imaginary ?  "Imaginários" : "none",
+		];
+
+		createExam({
+			subject: "math",
+			randomSubSubject: options.randomSubSubject,
+			subSubjects: subSubjects,
+			year: 0
+		}, (res) => {
+			window.location.href = "/exame/" + res.data.id;
+		})
 	}
 
 
@@ -62,7 +78,7 @@ const GenExamPage = () => {
 				</FormControl>
 			</Grid>
 			<Grid item xs={12}>
-				<Button variant="contained">Gerar exame</Button>
+				<Button variant="contained" onClick={handleClick}>Gerar exame</Button>
 			</Grid>
 			<Grid item>
 				
