@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
 	Button,
 	Avatar,
@@ -33,6 +33,7 @@ const NavbarAvatar = (props) => {
 	}
 
 	const handleLogout = () => {
+		handleClose();
 		logOut();
 		window.location.replace("/");
 	}
@@ -49,7 +50,7 @@ const NavbarAvatar = (props) => {
 					<MenuItem onClick={handleClose} component="a" href="/perfil">Perfil</MenuItem>
 					<MenuItem onClick={handleClose} component="a" href="/exames">Exames</MenuItem> 
 					<MenuItem onClick={handleClose} component="a" href="/preferencias">Preferências</MenuItem>
-					<MenuItem onClick={handleClose} component="a" onClick={handleLogout}>Logout</MenuItem>
+					<MenuItem onClick={handleLogout} component="a">Logout</MenuItem>
 				</Menu>
 			</div>)
 }

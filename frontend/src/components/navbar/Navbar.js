@@ -4,11 +4,9 @@ import {
 	Toolbar,
 	IconButton,
 	Typography,
-	Button,
 	SwipeableDrawer,
 	List,
 	ListItem,
-	Avatar,
 	Grid
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,7 +17,6 @@ import NavbarAvatar from './NavbarAvatar';
 import {
 	getUser
 } from "../../api"
-const axios = require('axios').default;
 const TITLE = "HS ao Quadrado"
 
 const useStyles = makeStyles(theme => ({

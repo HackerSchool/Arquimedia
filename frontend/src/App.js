@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React from "react";
 import QuestionPage from "./pages/QuestionPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import GenExamPage from "./pages/GenExamPage.js";

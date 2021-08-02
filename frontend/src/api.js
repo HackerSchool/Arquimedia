@@ -1,5 +1,3 @@
-import { Email, LocalSeeOutlined } from '@material-ui/icons';
-
 // API Calls should be made here
 const axios = require('axios').default;
 
