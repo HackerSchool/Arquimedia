@@ -11,8 +11,17 @@ import {
 	Button
 } from "@material-ui/core";
 import { createExam } from "../api";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+	body: {
+		textAlign: "center"
+	}
+}))
 
 const GenExamPage = () => {
+	const classes = useStyles();
+
 	const [dictSubSubjects, setDictSubSubjects] = useState({
 		geometry: false,
 		imaginary: false,
@@ -111,11 +120,11 @@ const GenExamPage = () => {
 
 
 	return (
-		<Grid container>
+		<Grid container className={classes.body}>
 			<Grid item xs={12}>
 				<Typography variant="h2">Gera um exame</Typography>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={6}>
 				<FormControl>
 					<FormLabel>Escolhe os temas</FormLabel>
 					<FormGroup>
@@ -127,7 +136,7 @@ const GenExamPage = () => {
 					</FormGroup>
 				</FormControl>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={6}>
 				<FormControl>
 					<FormLabel>Escolhe os anos</FormLabel>
 					<FormGroup>
