@@ -1,11 +1,12 @@
+from random import random
 from django.db.models import query
 from django.shortcuts import render
 from rest_framework.views import APIView
-from exams.models import Question, Comment
+from exams.models import Question, Comment, Exam
 from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
-import json
+import random
 
 # Create your views here.
 
@@ -152,8 +153,66 @@ class HasUserDownvoted(APIView):
 		else: return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class CurrentUserView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+
+class ExamView(generics.RetrieveAPIView):
+	serializer_class = ExamSerializer
+	lookup_field = "id"
+	queryset = Exam.objects.all()
+
+
+class CreateExamView(APIView):
+	serializer_class = CreateExamSerializer
+
+	def post(self, request, format=None):
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		serializer = self.serializer_class(data=request.data)
+		if serializer.is_valid():
+			subject = serializer.data.get("subject")
+			year = serializer.data.get("year")
+			subSubjects = serializer.data.get("subSubjects")
+			randomSubSubject = serializer.data.get("randomSubSubject")
+
+			questionsQuery = []
+
+			if (not randomSubSubject):
+				for subSubject in subSubjects:
+					if subSubject != "none":
+						if year:
+							temp = list(Question.objects.filter(year=year, subsubject=subSubject))
+							for i in temp: questionsQuery.append(i)
+						else:
+							temp = list(Question.objects.filter(subsubject=subSubject))
+							for i in temp: questionsQuery.append(i)
+			else:
+				if year:
+					temp = list(Question.objects.filter(year=year))
+					for i in temp: questionsQuery.append(i)
+				else:
+					temp = list(Question.objects.all())
+					for i in temp: questionsQuery.append(i)
+
+
+			questions = []
+			nrOfQuestions = 10
+
+			# Selects randomly a set of final questions for the exam
+			questions = random.sample(list(questionsQuery), nrOfQuestions)
+			
+			exam = Exam.objects.create()
+
+			for question in questions: exam.questions.add(question)
+
+			exam.save()
+
+			return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
+
+
+		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
+		

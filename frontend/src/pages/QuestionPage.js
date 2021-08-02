@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
 import {
 	Typography,
-	Card,
-	CardContent,
 	Grid,
 	Avatar,
 	TextField,
@@ -15,8 +12,6 @@ import {
 	Delete,
 	ArrowUpward,
 	ArrowDownward,
-	AlternateEmail,
-	Restaurant
 } from "@material-ui/icons"
 import {
 	questionInfo,
@@ -33,7 +28,6 @@ import {
 import $ from 'jquery';
 
 var Latex = require('react-latex');
-const APIURL = "http://localhost:8000"
 
 // Renders a page about a specific Question and allows for comments on it
 export default class QuestionPage extends Component {
@@ -109,7 +103,7 @@ class QuestionInfo extends Component {
 	removeComment(data) {
 		console.log(this.state.comment);
 		console.log(data.id);
-		let newComments = this.state.comment.filter(el => el.id != data.id);
+		let newComments = this.state.comment.filter(el => el.id !== data.id);
 		this.setState({
 			comment: newComments
 		});
@@ -142,7 +136,7 @@ class QuestionInfo extends Component {
 						{this.state.comment.map(comment => (
 							<div>
 								<Comment key={comment} data={comment} currentUser={this.state.currentUser} deleteCommentFun={data => this.removeComment(data)}/>
-								{(comment != this.state.comment[this.state.comment.length- 1]) && (<Divider variant="fullWidth" style={{ margin: "30px 0" }} />)}
+								{(comment !== this.state.comment[this.state.comment.length- 1]) && (<Divider variant="fullWidth" style={{ margin: "30px 0" }} />)}
 								
 							</div>
 						))}
@@ -271,7 +265,7 @@ class Comment extends Component {
 
 					</Grid>
 					<Grid item xs={1}>
-					{(this.props.currentUser == this.props.data.author.id) && <Button onClick={this.deleteComment}><Delete color="secondary" /></Button>}
+					{(this.props.currentUser === this.props.data.author.id) && <Button onClick={this.deleteComment}><Delete color="secondary" /></Button>}
 
 					</Grid>
 				</Grid>
@@ -293,7 +287,7 @@ class CommentInputBox extends Component {
 	
 
 	createComment() {
-		if (this.state.content != ""){
+		if (this.state.content !== ""){
 			const body = {
 				content: this.state.content,
 				author: {id: 0},

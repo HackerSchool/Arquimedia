@@ -182,20 +182,6 @@ def generate_exam(request):
             while(len(questionsExam)!=numberOfQuestions):
                     print(len(subjectAndYearList[0]))              
                     #choice = subjectAndYearList[0][random.randint(0, len(subjectAndYearList[0]) - 1)] 
-
-
-                    """
-                    while choice in questionsExam:
-                        choice = subjectAndYearList[0][random.randint(0, len(subjectAndYearList[0]) - 1)]
-
-                    questionsExam.append(choice)
-                    subjectAndYearList[0].remove(choice)
-
-                    if(index==len(request.POST.getlist('MultipleChoice'))-1):
-                        index =0
-                    
-                    index += 1
-                    """
                     questionsExam = random.sample(list(subjectAndYearList[0][0]), 10)
 
         exame = Exam.objects.create()

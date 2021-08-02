@@ -1,5 +1,3 @@
-import { Email, LocalSeeOutlined } from '@material-ui/icons';
-
 // API Calls should be made here
 const axios = require('axios').default;
 
@@ -87,5 +85,11 @@ export async function removeDownvoteAPI(id, successCall) {
 
 export async function createCommentAPI(body, successCall) {
 	axios.post("api/create_comment", body)
+	.then((res) => successCall(res))
+}
+
+
+export async function createExam(body, successCall) {
+	axios.post("api/create_exam", body)
 	.then((res) => successCall(res))
 }
