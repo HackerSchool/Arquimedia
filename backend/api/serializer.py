@@ -51,7 +51,7 @@ class CommentVoteChangeSerializer(serializers.ModelSerializer):
 class AnswerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Answer
-		fields = ("text", "correct")
+		fields = ("id", "text", "correct")
 
 
 class QuestionSerializer(serializers.ModelSerializer):
