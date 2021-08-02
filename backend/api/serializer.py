@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
-from exams.models import Question, Comment, Exam
+from exams.models import Question, Comment, Exam, Answer
 from django.contrib.auth.models import User 
 from rest_framework import serializers
 
@@ -48,12 +48,22 @@ class CommentVoteChangeSerializer(serializers.ModelSerializer):
 		fields = ("votes", )
 
 
+class AnswerSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Answer
+		fields = ("text", "correct")
+
+
 class QuestionSerializer(serializers.ModelSerializer):
 	comment = CommentSerializer(many=True, read_only=True)
+	answer = AnswerSerializer(many=True)
 
 	class Meta:
 		model = Question
-		fields = ("id", "text", "subject", "subsubject", "year", "difficulty", "comment")
+		fields = ("id", "text", "subject", "subsubject", "year", "difficulty", "comment", "answer")
+
+	def getAnswers(self, question):
+		return [answer for answer in question.answer.all]
 
 
 class ExamSerializer(serializers.ModelSerializer):

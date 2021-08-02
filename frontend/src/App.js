@@ -24,7 +24,8 @@ function App() {
 			</Route>
 			<Route path="/question/:id" component={QuestionPage} />
 			<Route path="/login" component={LoginPage} />
-			<Route path="/exames" component={GenExamPage} />
+			<Route exact path="/exames" component={GenExamPage} />
+			<Route exact path="/exame/:id" component={GenExamPage} />
 			</Switch>
 		</Router>
 	</div>
