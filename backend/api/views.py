@@ -231,7 +231,6 @@ class ExamSubmission(APIView):
 				if answerQuery.correct:
 					profileSubject.addCorrectAnswer(questionQuery)
 					exam.correct.add(questionQuery)
-					print("PASSEI AQUI CRL")
 
 					exam.score += 20
 

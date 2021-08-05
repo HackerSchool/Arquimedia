@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 import { examInfo } from "../api";
 import Question from "../components/question/Question";
-
+import { submitExam } from "../api";
 
 const ExamPage = (props) => {
 	const [exam, setExam] = useState({questions: []});
@@ -28,6 +28,14 @@ const ExamPage = (props) => {
 		exam.questions.forEach((question, i) => {
 			console.log("Para a q:" + question.id + " respondeu " + answers[i]);
 		})
+		let body = {};
+
+		exam.questions.forEach((question, i) => {
+			body[question.id] = answers[i];
+		})
+
+		console.log(body);
+		submitExam(exam.id, body, (res) => window.location.href = "/resultado/" + res.data.id)
 	}
 
 

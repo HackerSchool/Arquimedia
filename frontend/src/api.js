@@ -99,3 +99,9 @@ export async function examInfo(id, successCall) {
 	axios.get("api/exam/" + id)
 	.then((res) => successCall(res));
 }
+
+
+export async function submitExam(id, body, successCall) {
+	axios.post("api/submit_exam/" + id, body)
+	.then((res) => successCall(res));
+}
