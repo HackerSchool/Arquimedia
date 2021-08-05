@@ -32,6 +32,7 @@ const ExamPage = (props) => {
 
 
 	const callBack = (childData, index) => {
+		// creates a copy of asnwers, modifies it and updates answers
 		let newArray = Object.assign({}, answers);
 		newArray[index] = childData;
 		setAnswers(newArray);
