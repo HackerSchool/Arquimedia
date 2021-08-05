@@ -221,7 +221,6 @@ class ExamSubmission(APIView):
 		serializer_class = ExamSerializer
 		exam = Exam.objects.get(id=kwargs.get("id"))
 		profileSubject = request.user.profile.subjects.filter(subject="Matemática")[0]
-		print(request.data)
 		for question, answer in request.data.items():
 
 			questionQuery = Question.objects.get(id=int(question))
