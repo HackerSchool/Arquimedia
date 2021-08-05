@@ -22,6 +22,7 @@ const Question = (props) => {
 
 	const handleAnswer = (event, newAnswer) => {
 		setAnswer(newAnswer)
+		props.callBack(newAnswer, props.answer);
 	}
 
 	return (
