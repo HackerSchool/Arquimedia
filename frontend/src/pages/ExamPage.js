@@ -26,7 +26,6 @@ const ExamPage = (props) => {
 
 	const handleClick = () => {
 		exam.questions.forEach((question, i) => {
-			console.log("Para a q:" + question.id + " respondeu " + answers[i]);
 		})
 		let body = {};
 
@@ -34,7 +33,6 @@ const ExamPage = (props) => {
 			body[question.id] = answers[i];
 		})
 
-		console.log(body);
 		submitExam(exam.id, body, (res) => window.location.href = "/resultado/" + res.data.id)
 	}
 
@@ -44,7 +42,6 @@ const ExamPage = (props) => {
 		let newArray = Object.assign({}, answers);
 		newArray[index] = childData;
 		setAnswers(newArray);
-		console.log("answers updated");
 	}
 
 
