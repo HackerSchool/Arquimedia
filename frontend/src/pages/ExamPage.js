@@ -2,13 +2,26 @@ import { useState, useEffect } from "react";
 import {
 	Typography,
 	Grid,
-	Button
+	Button,
+	Fab
 } from "@material-ui/core";
 import { examInfo } from "../api";
 import Question from "../components/question/Question";
 import { submitExam } from "../api";
+import CountdownClock from "../components/countdownClock/CountdownClock";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+	timer: {
+		position: "fixed",
+		bottom: 0,
+		rigth: 0,
+		padding: "10px"
+	}
+}))
 
 const ExamPage = (props) => {
+	const classes = useStyles();
 	const [exam, setExam] = useState({questions: []});
 	const [loading, setLoading] = useState(true);
 	const [answers, setAnswers] = useState();
@@ -46,16 +59,23 @@ const ExamPage = (props) => {
 
 
 	return (
-		<Grid container align="center" spacing={4} xs={12}>
-			{exam.questions.map((question, i) => (
-				<Grid item xs={12} key={question.id}>
-					<Question key={question.id} question={question} answer={i} callBack={callBack}/>
+		<div>
+			<Grid container align="center" spacing={4} xs={12}>
+				<Grid item xs={12}>
+					<div className={classes.timer}>
+						<CountdownClock duration={exam.questions.length * 60} onComplete={handleClick}/>
+					</div>
 				</Grid>
-			))}
-			<Grid item xs={12}>
-				<Button variant="contained" type="submit" onClick={handleClick}>Concluir</Button>
+				{exam.questions.map((question, i) => (
+					<Grid item xs={12} key={question.id}>
+						<Question key={question.id} question={question} answer={i} callBack={callBack}/>
+					</Grid>
+				))}
+				<Grid item xs={12}>
+					<Button variant="contained" type="submit" onClick={handleClick}>Concluir</Button>
+				</Grid>
 			</Grid>
-		</Grid>
+		</div>
 	)
 }
 

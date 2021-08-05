@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "jquery": "^3.6.0",
     "react": "^17.0.2",
+    "react-countdown": "^2.3.2",
     "react-dom": "^17.0.2",
     "react-latex": "^2.0.0",
     "react-router-dom": "^5.2.0",
