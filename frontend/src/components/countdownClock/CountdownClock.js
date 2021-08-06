@@ -26,6 +26,7 @@ const renderer = props => {
 
 const CountdownClock = (props) => {
 	const classes = useStyles();
+	const duration = props.duration * 1000 + Date.now();
 
 	const completed = () => {
 		setTimeout(() => {
@@ -37,7 +38,7 @@ const CountdownClock = (props) => {
 		<Paper className={classes.clock}>
 			<Typography variant="h4" className={classes.counter}>
 				<Countdown 
-					date={Date.now() + (props.duration * 1000)}
+					date={duration}
 					renderer={renderer}
 					onComplete={completed}
 				/>

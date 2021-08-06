@@ -222,7 +222,7 @@ class ExamSubmission(APIView):
 		serializer_class = ExamSerializer
 		exam = Exam.objects.get(id=kwargs.get("id"))
 
-		if exam.correct or exam.failed:
+		if exam.correct.count() or exam.failed.count():
 			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
 
 
