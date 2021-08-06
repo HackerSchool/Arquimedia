@@ -216,10 +216,16 @@ class CreateExamView(APIView):
 
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ExamSubmission(APIView):
 	def post(self, request, *args, **kwargs):
 		serializer_class = ExamSerializer
 		exam = Exam.objects.get(id=kwargs.get("id"))
+
+		if exam.correct or exam.failed:
+			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 		profileSubject = request.user.profile.subjects.filter(subject="Matemática")[0]
 		for question, answer in request.data.items():
 
