@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage.js";
 import GenExamPage from "./pages/GenExamPage.js";
 import ExamPage from "./pages/ExamPage.js";
 import Navbar from "./components/navbar/Navbar"
+import ResultsPage from "./pages/ResultsPage.js"
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -27,6 +28,7 @@ function App() {
 			<Route path="/login" component={LoginPage} />
 			<Route exact path="/exames" component={GenExamPage} />
 			<Route exact path="/exame/:id" component={ExamPage} />
+			<Route exact path="/resultado/:id" component={ResultsPage} />
 			</Switch>
 		</Router>
 	</div>
