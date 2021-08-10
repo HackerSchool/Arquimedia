@@ -14,11 +14,3 @@ const QuestionAccordionGroup = ({exam}) => {
 
 export default QuestionAccordionGroup;
 
-function isIn(array, object) {
-	array.forEach((el) => {
-		if (el.id === object.id) {
-			return true;
-		}
-	});
-	return false;
-}
