@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import indexes
 from exams.models import Question
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 
 # Create your models here.
 # Create Profile model.
@@ -20,6 +20,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subjects = models.ManyToManyField("SubjectInfo")
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
+    achievements = models.ManyToManyField("Achievement", null=True, related_name="achievements")
 
     def __str__(self):
         return self.user.username
@@ -38,6 +39,14 @@ class XPSystem(models.Model):
 
         super(XPSystem, self).save(*args, **kwargs)
 
+
+class Achievement(models.Model):
+    xp = models.IntegerField()
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.title
 
 class AnswerInfo(models.Model):
     answer = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -114,4 +123,24 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+# Changes the XP value each time an achievement is added or removed from a user
+@receiver(m2m_changed, sender=Profile.achievements.through)
+def updateXP(sender, instance, action, **kwargs):
+
+    # Increments XP when new achievements are added
+    if action == 'pre_add':
+        pk_set = kwargs.pop("pk_set", None)
+        for pk in pk_set:
+            achievement = Achievement.objects.get(id=pk)
+            instance.xp.xp += achievement.xp
+            instance.xp.save()
+
+    # Decrements XP when new achievements are removed
+    if action == 'pre_remove':
+        pk_set = kwargs.pop("pk_set", None)
+        for pk in pk_set:
+            achievement = Achievement.objects.get(id=pk)
+            instance.xp.xp -= achievement.xp
+            instance.xp.save()
 
