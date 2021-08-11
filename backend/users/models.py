@@ -19,9 +19,24 @@ SUBJECTS = (
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subjects = models.ManyToManyField("SubjectInfo")
+    xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
+
+
+class XPSystem(models.Model):
+    xp = models.IntegerField(default=0)
+    currentLevel = models.IntegerField(default=0)
+    levelXP = models.IntegerField(default=1000)
+
+    def save(self, *args, **kwargs):
+        if self.xp >= self.levelXP:
+            self.xp -= self.levelXP
+            self.currentLevel += 1
+            self.levelXP *= 1.5
+
+        super(XPSystem, self).save(*args, **kwargs)
 
 
 class AnswerInfo(models.Model):
@@ -94,7 +109,7 @@ class SubjectInfo(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance, level=XPSystem.objects.create())
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
