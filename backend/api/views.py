@@ -253,3 +253,14 @@ class ExamSubmission(APIView):
 		serializer = serializer_class(exam)
 
 		return 	Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AchievementsListView(generics.ListAPIView):
+	queryset = Achievement.objects.all()
+	serializer_class = AchievementSerializer
+
+
+class ProfileView(generics.RetrieveAPIView):
+	serializer_class = ProfileSerializer
+	lookup_field = "id"
+	queryset = Profile.objects.all()
