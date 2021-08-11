@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import {
-	Typography,
 	Grid,
 } from "@material-ui/core";
 import { examInfo } from "../api";
 import CountdownClock from "../components/countdownClock/CountdownClock";
 import { makeStyles } from "@material-ui/core";
 import QuestionsGroup from "../components/questions/QuestionsGroup";
+import Loading from "../components/loading/Loading";
 
 
 const useStyles = makeStyles(theme => ({
@@ -36,7 +36,7 @@ const ExamPage = (props) => {
 		childRef.current.submit();
 	}
 
-	if (loading) return (<Typography>Loading</Typography>)
+	if (loading) return (<Loading />)
 
 	return (
 		<div>
