@@ -8,6 +8,8 @@ from .serializer import *
 from rest_framework.response import Response
 import random
 
+XP_PER_EXAM = 100
+XP_PER_CORRECT_ANSWER = 10
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
@@ -237,6 +239,7 @@ class ExamSubmission(APIView):
 					profileSubject.addCorrectAnswer(questionQuery)
 					exam.correct.add(questionQuery)
 
+					request.user.profile.xp.xp += XP_PER_CORRECT_ANSWER
 					exam.score += 20
 
 				else: 
@@ -247,9 +250,22 @@ class ExamSubmission(APIView):
 				profileSubject.addWrongAnswer(questionQuery)
 				exam.failed.add(questionQuery)
 
+		request.user.profile.xp.xp += XP_PER_EXAM
+		request.user.profile.xp.save()
 		exam.save()
 		profileSubject.save()
 
 		serializer = serializer_class(exam)
 
 		return 	Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AchievementsListView(generics.ListAPIView):
+	queryset = Achievement.objects.all()
+	serializer_class = AchievementSerializer
+
+
+class ProfileView(generics.RetrieveAPIView):
+	serializer_class = ProfileSerializer
+	lookup_field = "id"
+	queryset = Profile.objects.all()

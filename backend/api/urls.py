@@ -17,4 +17,6 @@ urlpatterns = [
 	path("exam/<int:id>", ExamView.as_view()),
 	path("create_exam", CreateExamView.as_view()),
 	path("submit_exam/<int:id>", ExamSubmission.as_view()),
+	path("achievements", AchievementsListView.as_view()),
+	path("profile/<int:id>", ProfileView.as_view()),
 ]

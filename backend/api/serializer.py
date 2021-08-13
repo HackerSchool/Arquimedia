@@ -1,3 +1,4 @@
+from users.models import Achievement, Profile, XPSystem
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
 from exams.models import Question, Comment, Exam, Answer
@@ -86,3 +87,23 @@ class CreateExamSerializer(serializers.Serializer):
 	subSubjects = StringListField()
 	year = serializers.IntegerField()
 
+
+class AchievementSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Achievement
+		fields = "__all__"
+
+
+class XPSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = XPSystem
+		fields = ("xp", "currentLevel", "levelXP")
+
+class ProfileSerializer(serializers.ModelSerializer):
+	achievements = AchievementSerializer(many=True)
+	xp = XPSerializer()
+	user = UserSerializer()
+
+	class Meta: 
+		model = Profile
+		fields = ("id", "xp", "achievements", "user")
