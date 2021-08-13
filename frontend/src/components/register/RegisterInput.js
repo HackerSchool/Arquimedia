@@ -4,6 +4,7 @@ import {
 	Button
 } from "@material-ui/core"
 import { useState } from "react"
+import { registerUser } from "../../api";
 
 const RegisterInput = () => {
 	const [username, setUsername] = useState();
@@ -19,6 +20,16 @@ const RegisterInput = () => {
 	const handleClick = () => {
 		if (pass1 !== pass2) alert("Passwords são diferents!");
 		else if (username === "" || email === "" || pass1 === "" || pass2 === "") alert("Digitalize os dados");
+		else {
+			const body = {
+				username: username,
+				email: email,
+				password1: pass1,
+				password2: pass2
+			}
+
+			registerUser(body);
+		}
 	}
 
 	return (

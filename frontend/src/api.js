@@ -107,7 +107,10 @@ export async function submitExam(id, body, successCall) {
 }
 
 
-export async function registerUser(body, successCall) {
+export async function registerUser(body) {
 	axios.post("/rest-auth/registration/", body)
-	.then((res) => successCall(res));
+	.then((res) => {
+		localStorage.setItem("Authorization", "Token " + res.data.key);
+		window.location.replace("/");
+	});
 }
