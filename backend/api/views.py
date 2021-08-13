@@ -8,6 +8,8 @@ from .serializer import *
 from rest_framework.response import Response
 import random
 
+XP_PER_EXAM = 100
+XP_PER_CORRECT_ANSWER = 10
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
@@ -237,6 +239,7 @@ class ExamSubmission(APIView):
 					profileSubject.addCorrectAnswer(questionQuery)
 					exam.correct.add(questionQuery)
 
+					request.user.profile.xp.xp += XP_PER_CORRECT_ANSWER
 					exam.score += 20
 
 				else: 
@@ -247,6 +250,8 @@ class ExamSubmission(APIView):
 				profileSubject.addWrongAnswer(questionQuery)
 				exam.failed.add(questionQuery)
 
+		request.user.profile.xp.xp += XP_PER_EXAM
+		request.user.profile.xp.save()
 		exam.save()
 		profileSubject.save()
 
