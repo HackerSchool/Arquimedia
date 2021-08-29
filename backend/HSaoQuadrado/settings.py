@@ -161,3 +161,7 @@ LOGIN_URL = '^login/$'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# Path where images uploaded will be stored
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
+MEDIA_URL = "/images/"
+
