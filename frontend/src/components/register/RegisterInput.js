@@ -1,12 +1,13 @@
 import {
 	Grid,
 	TextField,
-	Button
+	Button,
+	Typography,
 } from "@material-ui/core"
 import { useState } from "react"
 import { registerUser } from "../../api";
 
-const RegisterInput = () => {
+const RegisterInput = ({css}) => {
 	const [username, setUsername] = useState();
 	const [email, setEmail] = useState();
 	const [pass1, setPass1] = useState();
@@ -35,19 +36,22 @@ const RegisterInput = () => {
 	return (
 		<Grid container spacing={4} xs={12}>
 			<Grid item xs={12}>
-				<TextField variant="outlined" label="Username" onChange={handleChangeUsername}/>
+				<Typography variant="h3">Regista-te</Typography>
 			</Grid>
 			<Grid item xs={12}>
-				<TextField variant="outlined" label="E-mail" onChange={handleChangeEmail}/>
+				<TextField className={css} variant="outlined" label="Username" onChange={handleChangeUsername}/>
 			</Grid>
 			<Grid item xs={12}>
-				<TextField variant="outlined" label="pass1" type="password" onChange={handleChangePass1}/>
+				<TextField className={css} variant="outlined" label="E-mail" onChange={handleChangeEmail}/>
 			</Grid>
 			<Grid item xs={12}>
-				<TextField variant="outlined" label="pass2" type="password" onChange={handleChangePass2}/>
+				<TextField className={css} variant="outlined" label="Password" type="password" onChange={handleChangePass1}/>
 			</Grid>
 			<Grid item xs={12}>
-				<Button variant="contained" type="submit" onClick={handleClick}>Registar</Button>
+				<TextField className={css} variant="outlined" label="Repete a password" type="password" onChange={handleChangePass2}/>
+			</Grid>
+			<Grid item xs={12}>
+				<Button className={css} variant="contained" type="submit" onClick={handleClick}>Registar</Button>
 			</Grid>
 		</Grid>
 	)
