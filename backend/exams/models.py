@@ -1,3 +1,4 @@
+from os import extsep, rename
 from django.db import models
 from django.db.models.fields.related import ForeignKey
 from datetime import date
@@ -48,16 +49,22 @@ class Exam(models.Model):
     def __str__(self): return "{}-{}-{}".format(self.subject, self.year, self.difficulty)
 
 
+def renameImage(instance, filename):
+        ext = filename.split(".")[-1]
+        if instance.pk:
+            return "question{}.{}".format(instance.pk, ext)
+
+
 class Question(models.Model):
     text = models.CharField(max_length=1000,  null=False)
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
     difficulty = models.CharField(max_length=10, null=True, choices=DIFFICULTIES)
+    image = models.ImageField(null=True, blank=True, upload_to=renameImage)
 
     #String representation
     def __str__(self): return "{}-{}-{}".format(self.id,self.subsubject, self.year, self.difficulty)
-
 
     def correctAnswer(self):
         return self.answer.get(question=self, correct=True)

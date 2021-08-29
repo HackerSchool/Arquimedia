@@ -33,6 +33,10 @@ const Question = (props) => {
 				</Grid>
 
 				<Grid item xs={12}>
+				<img src={props.question.image} style={{width: "80%"}}/>
+				</Grid>
+
+				<Grid item xs={12}>
 					<ToggleButtonGroup exclusive value={answer} onChange={handleAnswer}>
 						{props.question.answer.map((answer) => (
 								<ToggleButton value={answer.id} key={answer.id}>
