@@ -105,3 +105,12 @@ export async function submitExam(id, body, successCall) {
 	axios.post("api/submit_exam/" + id, body)
 	.then((res) => successCall(res));
 }
+
+
+export async function registerUser(body) {
+	axios.post("/rest-auth/registration/", body)
+	.then((res) => {
+		localStorage.setItem("Authorization", "Token " + res.data.key);
+		window.location.replace("/");
+	});
+}
