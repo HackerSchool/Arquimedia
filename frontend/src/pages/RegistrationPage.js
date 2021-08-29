@@ -5,7 +5,6 @@ import {
 import RegisterInput from "../components/register/RegisterInput";
 import RegisterInfo from "../components/register/RegisterInfo";
 import { makeStyles } from "@material-ui/core";
-import { ClassSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
 	form: {

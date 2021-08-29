@@ -60,6 +60,7 @@ class QuestionInfo extends Component {
 			subject: "",
 			year: "",
 			difficulty: "",
+			image: "",
 			comment: [],
 			currentUser: 0
 		}
@@ -86,6 +87,7 @@ class QuestionInfo extends Component {
 				subject: res.data.subject,
 				year: res.data.year,
 				difficulty: res.data.difficulty,
+				image: res.data.image,
 				comment: res.data.comment
 			})
 		})
@@ -119,6 +121,9 @@ class QuestionInfo extends Component {
 					alignItems="center">
 					<Grid item xs={12} align="center">
 						<Typography variant="h3"><Latex>{this.state.text}</Latex></Typography>
+					</Grid>
+					<Grid item xs={12} align="center" >
+						<img src={this.state.image} alt="Question's image" style={{width: "40%"}}/>
 					</Grid>
 					<Grid item xs={12} align="center">
 						<Typography variant="h5">{this.state.subject}</Typography>
