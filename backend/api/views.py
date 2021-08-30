@@ -1,4 +1,5 @@
 from random import random
+import re
 from django.db.models import query
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -269,3 +270,32 @@ class ProfileView(generics.RetrieveAPIView):
 	serializer_class = ProfileSerializer
 	lookup_field = "id"
 	queryset = Profile.objects.all()
+
+
+class CreateQuestionSubmission(APIView):
+	serializer_class = CreateQuestionSerializer
+	
+	def post(self, request):
+
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		question = self.serializer_class(data=request.data)
+		newQuestion = Question.objects.create()
+		if question.is_valid(): 
+			for answer in question.data.get("answers"):
+				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
+				newAnswer.save()
+
+			newQuestion.text = question.data.get("text")
+			newQuestion.subject = question.data.get("subject")
+			newQuestion.subsubject = question.data.get("subsubject")
+			newQuestion.image = question.data.get("image")
+			newQuestion.year = question.data.get("year")
+
+			newQuestion.save()
+
+			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+
+		else:
+			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)

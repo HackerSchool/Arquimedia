@@ -56,6 +56,7 @@ def renameImage(instance, filename):
 
 
 class Question(models.Model):
+    accepted = models.BooleanField(null=True, default=False)
     text = models.CharField(max_length=1000,  null=False)
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary
