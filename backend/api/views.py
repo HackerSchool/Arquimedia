@@ -281,8 +281,10 @@ class CreateQuestionSubmission(APIView):
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
 		question = self.serializer_class(data=request.data)
-		newQuestion = Question.objects.create()
+		print(question)
 		if question.is_valid(): 
+			newQuestion = Question.objects.create()
+		
 			for answer in question.data.get("answers"):
 				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
 				newAnswer.save()

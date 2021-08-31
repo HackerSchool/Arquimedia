@@ -114,3 +114,9 @@ export async function registerUser(body) {
 		window.location.replace("/");
 	});
 }
+
+
+export async function submitQuestion(body, successCall) {
+	axios.post("api/create_question", body)
+	.then((res) => successCall(res));
+}
