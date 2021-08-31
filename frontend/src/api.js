@@ -131,3 +131,9 @@ export async function submitQuestionImage(body, id, successCall) {
 	axios.post("api/add_image/" + id, body, headers)
 	.then((res) => successCall(res));
 }
+
+
+export async function getSubmittedQuestions(successCall) {
+	axios.get("api/submitted_questions")
+	.then((res) => successCall(res));
+}

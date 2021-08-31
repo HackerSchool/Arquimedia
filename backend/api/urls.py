@@ -21,5 +21,5 @@ urlpatterns = [
 	path("profile/<int:id>", ProfileView.as_view()),
 	path("create_question", CreateQuestionSubmission.as_view()),
 	path("add_image/<int:id>", AddImageToQuestion.as_view()),
-	path("submited_questions", SubmittedQuestions.as_view())
+	path("submitted_questions", SubmittedQuestions.as_view())
 ]
