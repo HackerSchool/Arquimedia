@@ -8,6 +8,7 @@ from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
 import random
+from rest_framework.parsers import FileUploadParser
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -281,7 +282,6 @@ class CreateQuestionSubmission(APIView):
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
 		question = self.serializer_class(data=request.data)
-		print(question)
 		if question.is_valid(): 
 			newQuestion = Question.objects.create()
 		
@@ -292,7 +292,6 @@ class CreateQuestionSubmission(APIView):
 			newQuestion.text = question.data.get("text")
 			newQuestion.subject = question.data.get("subject")
 			newQuestion.subsubject = question.data.get("subsubject")
-			newQuestion.image = question.data.get("image")
 			newQuestion.year = question.data.get("year")
 
 			newQuestion.save()
@@ -301,3 +300,23 @@ class CreateQuestionSubmission(APIView):
 
 		else:
 			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddImageToQuestion(APIView):
+	parser_classes = [FileUploadParser]
+
+	def post(self, request, *args, **kwargs):
+		question = Question.objects.get(id=kwargs.get("id"))
+
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		if question.author != self.request.user:
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		image = request.data["file"]
+
+		question.image = image
+		question.save()
+
+		return Response(status=status.HTTP_202_ACCEPTED)

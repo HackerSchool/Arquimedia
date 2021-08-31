@@ -116,9 +116,11 @@ class AnswerSubmitionSerializer(serializers.Serializer):
 
 class CreateQuestionSerializer(serializers.Serializer):
 	text = serializers.CharField()
-	image = serializers.ImageField(required=False)
 	subsubject = serializers.CharField()
 	subject = serializers.CharField()
 	year = serializers.IntegerField()
 	answers = serializers.ListField(child=AnswerSerializer())
+
+class ImageSerializer(serializers.Serializer):
+	image = serializers.ImageField()
 
