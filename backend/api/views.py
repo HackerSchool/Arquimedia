@@ -321,3 +321,8 @@ class AddImageToQuestion(APIView):
 		question.save()
 
 		return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class SubmittedQuestions(generics.ListAPIView):
+	queryset = Question.objects.filter(accepted=False)
+	serializer_class = QuestionSerializer

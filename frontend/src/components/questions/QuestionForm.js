@@ -64,7 +64,7 @@ const QuestionForm = () => {
 			if (image) {
 				let data = new FormData();
 				data.append("file", image, image.name);
-				submitQuestionImage(data, res.data.id, (res) => console.log(res));				
+				submitQuestionImage(data, res.data.id, () => alert("Questão submetida"));				
 			}
 		})
 	}
