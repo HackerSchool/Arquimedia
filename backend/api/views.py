@@ -8,7 +8,7 @@ from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
 import random
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -293,6 +293,7 @@ class CreateQuestionSubmission(APIView):
 			newQuestion.subject = question.data.get("subject")
 			newQuestion.subsubject = question.data.get("subsubject")
 			newQuestion.year = question.data.get("year")
+			newQuestion.author = request.user
 
 			newQuestion.save()
 
@@ -303,7 +304,7 @@ class CreateQuestionSubmission(APIView):
 
 
 class AddImageToQuestion(APIView):
-	parser_classes = [FileUploadParser]
+	parser_classes = [MultiPartParser]
 
 	def post(self, request, *args, **kwargs):
 		question = Question.objects.get(id=kwargs.get("id"))

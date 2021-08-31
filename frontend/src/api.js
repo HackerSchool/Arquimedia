@@ -120,3 +120,14 @@ export async function submitQuestion(body, successCall) {
 	axios.post("api/create_question", body)
 	.then((res) => successCall(res));
 }
+
+
+export async function submitQuestionImage(body, id, successCall) {
+	const headers = {
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
+	}
+	axios.post("api/add_image/" + id, body, headers)
+	.then((res) => successCall(res));
+}

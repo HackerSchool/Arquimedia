@@ -6,7 +6,10 @@ import {
 	Button
 } from "@material-ui/core"
 import { useState } from "react";
-import { submitQuestion } from "../../api";
+import {
+	submitQuestion,
+	submitQuestionImage
+} from "../../api";
 
 
 const QuestionForm = () => {
@@ -58,12 +61,12 @@ const QuestionForm = () => {
 		}
 
 		submitQuestion(body, (res) => {
-			console.log(res)
+			if (image) {
+				let data = new FormData();
+				data.append("file", image, image.name);
+				submitQuestionImage(data, res.data.id, (res) => console.log(res));				
+			}
 		})
-
-		if (image) {
-			// Send image
-		}
 	}
 
 	return (
