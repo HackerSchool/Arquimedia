@@ -7,6 +7,10 @@ import {
 import { makeStyles } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
+import {
+	deleteQuestion,
+	acceptQuestion
+} from "../../api";
 var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
@@ -19,6 +23,20 @@ const useStyles = makeStyles(theme => ({
 const QuestionApproval = ({question}) => {
 	const classes = useStyles();
 
+	const accept = () => {
+		acceptQuestion(question.id, () => {
+			alert("Questão adicionada à base de dados");
+		})
+	};
+
+
+	const remove = () => {
+		deleteQuestion(question.id, () => {
+			alert("Questão removida");
+		})
+	};
+
+
 	return (
 		<Paper className={classes.question}>
 			<Grid container spacing={4}>
@@ -26,7 +44,7 @@ const QuestionApproval = ({question}) => {
 					<Typography variant="h5"><Latex>{question.text}</Latex></Typography>
 				</Grid>
 				<Grid item xs={4}>
-					<IconButton>
+					<IconButton onClick={remove}>
 						<ClearIcon color="error"/>
 					</IconButton>
 				</Grid>
@@ -34,7 +52,7 @@ const QuestionApproval = ({question}) => {
 					<img src={question.image} style={{width: "80%"}}/>
 				</Grid>
 				<Grid item xs={4}>
-				<IconButton>
+					<IconButton onClick={accept}>
 						<CheckIcon color="primary"/>
 					</IconButton>
 				</Grid>

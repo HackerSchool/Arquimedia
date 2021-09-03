@@ -137,3 +137,15 @@ export async function getSubmittedQuestions(successCall) {
 	axios.get("api/submitted_questions")
 	.then((res) => successCall(res));
 }
+
+
+export async function deleteQuestion(ID, successCall) {
+	axios.post("api/delete_question/" + ID)
+	.then((res) => successCall(res));
+}
+
+
+export async function acceptQuestion(ID, successCall) {
+	axios.post("api/accept_question/" + ID)
+	.then((res) => successCall(res));
+}
