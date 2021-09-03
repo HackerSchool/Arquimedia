@@ -33,7 +33,7 @@ const Question = (props) => {
 				</Grid>
 
 				<Grid item xs={12}>
-				<img src={props.question.image} style={{width: "80%"}}/>
+					<img src={props.question.image} style={{width: "80%"}}/>
 				</Grid>
 
 				<Grid item xs={12}>
