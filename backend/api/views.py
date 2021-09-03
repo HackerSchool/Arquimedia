@@ -326,3 +326,15 @@ class AddImageToQuestion(APIView):
 class SubmittedQuestions(generics.ListAPIView):
 	queryset = Question.objects.filter(accepted=False)
 	serializer_class = QuestionSerializer
+
+
+class DeleteQuestion(APIView):
+	def post(self, request, *args, **kwargs):
+		question = Question.objects.get(id=kwargs.get("id"))
+
+		if (request.user != question.author) or not (request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question.delete()
+
+		return Response(status=status.HTTP_200_OK)
