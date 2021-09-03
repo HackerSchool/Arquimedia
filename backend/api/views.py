@@ -332,9 +332,21 @@ class DeleteQuestion(APIView):
 	def post(self, request, *args, **kwargs):
 		question = Question.objects.get(id=kwargs.get("id"))
 
-		if (request.user != question.author) or not (request.user.is_superuser):
+		if (request.user != question.author) and not (request.user.is_superuser):
 			return Response(status=status.HTTP_403_FORBIDDEN)
 
 		question.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+
+class AcceptQuestion(APIView):
+	def post(self, request, *args, **kwargs):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question = Question.objects.get(id=kwargs.get("id"))
+		question.accepted = True
+		question.save()
 
 		return Response(status=status.HTTP_200_OK)
