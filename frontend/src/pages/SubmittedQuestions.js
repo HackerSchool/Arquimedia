@@ -1,7 +1,8 @@
 import QuestionApproval from "../components/questions/QuestionApproval";
 import {
 	useState,
-	useEffect
+	useEffect,
+	setState
 } from "react";
 import { getSubmittedQuestions } from "../api";
 import {
@@ -10,7 +11,7 @@ import {
 import Loading from "../components/loading/Loading";
 
 const SubmittedQuestions = () => {
-	const [questions, setQuestions] = useState();
+	const [questions, setQuestions] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -20,13 +21,21 @@ const SubmittedQuestions = () => {
 		})
 	}, [])
 
+
+	const updateQuestion = (question) => {
+		setQuestions(questions.filter(function(i) {
+			return i !== question
+			}));
+	}
+
+
 	if (loading) return (<Loading />)
 
 	return (
 		<Grid container spacing={4} align="center" xs={12}>
 			{questions.map((question) => (
 				<Grid item xs={12}>
-					<QuestionApproval question={question} />
+					<QuestionApproval question={question} callBack={updateQuestion}/>
 				</Grid>
 			))}
 		</Grid>

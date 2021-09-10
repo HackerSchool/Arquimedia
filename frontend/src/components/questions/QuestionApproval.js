@@ -11,6 +11,7 @@ import {
 	deleteQuestion,
 	acceptQuestion
 } from "../../api";
+import QuestionImage from "./QuestionImage";
 var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
@@ -20,19 +21,19 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-const QuestionApproval = ({question}) => {
+const QuestionApproval = ({question, callBack}) => {
 	const classes = useStyles();
 
 	const accept = () => {
 		acceptQuestion(question.id, () => {
-			alert("Questão adicionada à base de dados");
+			callBack(question);
 		})
 	};
 
 
 	const remove = () => {
 		deleteQuestion(question.id, () => {
-			alert("Questão removida");
+			callBack(question);
 		})
 	};
 
@@ -43,24 +44,36 @@ const QuestionApproval = ({question}) => {
 				<Grid item xs={12}>
 					<Typography variant="h5"><Latex>{question.text}</Latex></Typography>
 				</Grid>
-				<Grid item xs={4}>
-					<IconButton onClick={remove}>
-						<ClearIcon color="error"/>
-					</IconButton>
+
+				<Grid item xs={12}>
+					<QuestionImage question={question} />
 				</Grid>
-				<Grid item xs={4}>
-					<img src={question.image} style={{width: "80%"}}/>
-				</Grid>
-				<Grid item xs={4}>
-					<IconButton onClick={accept}>
-						<CheckIcon color="primary"/>
-					</IconButton>
-				</Grid>
-				{question.answer.map((answer) => (
-					<Grid item xs={6}>
-						<Typography variant="body"><Latex>{answer.text}</Latex></Typography>
+
+				<Grid item xs={12}>
+					<Grid container>
+						<Grid item xs={4}>
+							<IconButton onClick={remove}>
+								<ClearIcon color="error"/>
+							</IconButton>
+						</Grid>
+
+						<Grid container xs={4}>
+							{question.answer.map((answer) => (
+								<Grid item xs={6}>
+									<Typography variant="body"><Latex>{answer.text}</Latex></Typography>
+								</Grid>
+							))}
+						</Grid>
+
+						<Grid item xs={4}>
+							<IconButton onClick={accept}>
+								<CheckIcon color="primary"/>
+							</IconButton>
+						</Grid>
+
 					</Grid>
-				))}
+				</Grid>
+
 			</Grid>
 		</Paper>
 	)

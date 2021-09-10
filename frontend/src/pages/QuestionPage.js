@@ -123,7 +123,7 @@ class QuestionInfo extends Component {
 						<Typography variant="h3"><Latex>{this.state.text}</Latex></Typography>
 					</Grid>
 					<Grid item xs={12} align="center" >
-						<img src={this.state.image} alt="Question's image" style={{width: "40%"}}/>
+						<img src={this.state.image} alt="visual support" style={{width: "40%"}}/>
 					</Grid>
 					<Grid item xs={12} align="center">
 						<Typography variant="h5">{this.state.subject}</Typography>
