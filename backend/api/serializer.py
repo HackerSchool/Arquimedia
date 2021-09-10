@@ -107,3 +107,20 @@ class ProfileSerializer(serializers.ModelSerializer):
 	class Meta: 
 		model = Profile
 		fields = ("id", "xp", "achievements", "user")
+
+
+class AnswerSubmitionSerializer(serializers.Serializer):
+	text = serializers.CharField()
+	correct = serializers.BooleanField()
+
+
+class CreateQuestionSerializer(serializers.Serializer):
+	text = serializers.CharField()
+	subsubject = serializers.CharField()
+	subject = serializers.CharField()
+	year = serializers.IntegerField()
+	answers = serializers.ListField(child=AnswerSerializer())
+
+class ImageSerializer(serializers.Serializer):
+	image = serializers.ImageField()
+

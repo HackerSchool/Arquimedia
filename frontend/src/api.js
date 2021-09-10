@@ -114,3 +114,38 @@ export async function registerUser(body) {
 		window.location.replace("/");
 	});
 }
+
+
+export async function submitQuestion(body, successCall) {
+	axios.post("api/create_question", body)
+	.then((res) => successCall(res));
+}
+
+
+export async function submitQuestionImage(body, id, successCall) {
+	const headers = {
+		headers: {
+			"Content-Type": "multipart/form-data"
+		}
+	}
+	axios.post("api/add_image/" + id, body, headers)
+	.then((res) => successCall(res));
+}
+
+
+export async function getSubmittedQuestions(successCall) {
+	axios.get("api/submitted_questions")
+	.then((res) => successCall(res));
+}
+
+
+export async function deleteQuestion(ID, successCall) {
+	axios.post("api/delete_question/" + ID)
+	.then((res) => successCall(res));
+}
+
+
+export async function acceptQuestion(ID, successCall) {
+	axios.post("api/accept_question/" + ID)
+	.then((res) => successCall(res));
+}

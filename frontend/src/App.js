@@ -6,6 +6,8 @@ import ExamPage from "./pages/ExamPage.js";
 import Navbar from "./components/navbar/Navbar"
 import ResultsPage from "./pages/ResultsPage.js"
 import RegistrationPage from "./pages/RegistrationPage.js";
+import QuestionSubmissionPage from "./pages/QuestionSubmissionPage";
+import SubmittedQuestions from "./pages/SubmittedQuestions.js";
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -31,6 +33,8 @@ function App() {
 			<Route exact path="/exame/:id" component={ExamPage} />
 			<Route exact path="/resultado/:id" component={ResultsPage} />
 			<Route exact path="/registar" component={RegistrationPage} />
+			<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
+			<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
 			</Switch>
 		</Router>
 	</div>

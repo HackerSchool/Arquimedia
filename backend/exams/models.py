@@ -1,5 +1,6 @@
 from os import extsep, rename
 from django.db import models
+from django.db.models.deletion import CASCADE
 from django.db.models.fields.related import ForeignKey
 from datetime import date
 from django.contrib.auth.models import User
@@ -56,6 +57,8 @@ def renameImage(instance, filename):
 
 
 class Question(models.Model):
+    author = models.ForeignKey(User, related_name="question", null=True, on_delete=CASCADE)
+    accepted = models.BooleanField(null=True, default=False)
     text = models.CharField(max_length=1000,  null=False)
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary

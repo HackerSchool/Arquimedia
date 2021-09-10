@@ -7,6 +7,7 @@ import { useState } from "react";
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { makeStyles } from "@material-ui/core";
+import QuestionImage from "./QuestionImage";
 var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +34,7 @@ const Question = (props) => {
 				</Grid>
 
 				<Grid item xs={12}>
-				<img src={props.question.image} style={{width: "80%"}}/>
+					<QuestionImage question={props.question} />
 				</Grid>
 
 				<Grid item xs={12}>

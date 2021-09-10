@@ -1,4 +1,5 @@
 from random import random
+import re
 from django.db.models import query
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -7,6 +8,7 @@ from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
 import random
+from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -269,3 +271,82 @@ class ProfileView(generics.RetrieveAPIView):
 	serializer_class = ProfileSerializer
 	lookup_field = "id"
 	queryset = Profile.objects.all()
+
+
+class CreateQuestionSubmission(APIView):
+	serializer_class = CreateQuestionSerializer
+	
+	def post(self, request):
+
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		question = self.serializer_class(data=request.data)
+		if question.is_valid(): 
+			newQuestion = Question.objects.create()
+		
+			for answer in question.data.get("answers"):
+				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
+				newAnswer.save()
+
+			newQuestion.text = question.data.get("text")
+			newQuestion.subject = question.data.get("subject")
+			newQuestion.subsubject = question.data.get("subsubject")
+			newQuestion.year = question.data.get("year")
+			newQuestion.author = request.user
+
+			newQuestion.save()
+
+			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+
+		else:
+			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddImageToQuestion(APIView):
+	parser_classes = [MultiPartParser]
+
+	def post(self, request, *args, **kwargs):
+		question = Question.objects.get(id=kwargs.get("id"))
+
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		if question.author != self.request.user:
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		image = request.data["file"]
+
+		question.image = image
+		question.save()
+
+		return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class SubmittedQuestions(generics.ListAPIView):
+	queryset = Question.objects.filter(accepted=False)
+	serializer_class = QuestionSerializer
+
+
+class DeleteQuestion(APIView):
+	def post(self, request, *args, **kwargs):
+		question = Question.objects.get(id=kwargs.get("id"))
+
+		if (request.user != question.author) and not (request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+
+class AcceptQuestion(APIView):
+	def post(self, request, *args, **kwargs):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question = Question.objects.get(id=kwargs.get("id"))
+		question.accepted = True
+		question.save()
+
+		return Response(status=status.HTTP_200_OK)
