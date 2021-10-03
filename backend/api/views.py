@@ -20,11 +20,62 @@ class QuestionsListView(generics.ListAPIView):
 	serializer_class = QuestionSerializer
 
 
-class QuestionView(generics.RetrieveAPIView):
-	serializer_class = QuestionSerializer
-	lookup_field = "id"
-	queryset = Question.objects.all()
+class QuestionView(APIView):
 
+	def get(self, request, id):
+		question = get_object_or_404(Question, id=id)
+
+		return Response(QuestionSerializer(question).data, status=status.HTTP_200_OK)
+
+
+	# Validates a question
+	def put(self, request, id):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question = get_object_or_404(Question, id=id)
+		question.accepted = True
+		question.save()
+
+		return Response(status=status.HTTP_200_OK)
+
+	
+	def delete(self, request, id):
+		question = get_object_or_404(Question, id=id)
+
+		if (request.user != question.author) and not (request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+
+	# Creates new question request, which will have to be validated
+	def post():
+		def post(self, request):
+			if not self.request.user.is_authenticated:
+				return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+			question = CreateQuestionSerializer(data=request.data)
+			if question.is_valid(): 
+				newQuestion = Question.objects.create()
+			
+				for answer in question.data.get("answers"):
+					newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
+					newAnswer.save()
+
+				newQuestion.text = question.data.get("text")
+				newQuestion.subject = question.data.get("subject")
+				newQuestion.subsubject = question.data.get("subsubject")
+				newQuestion.year = question.data.get("year")
+				newQuestion.author = request.user
+
+				newQuestion.save()
+
+				return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+			else:
+				return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
 
 class CommentView(APIView):
 	serializer_class = CommentSerializer
@@ -271,36 +322,6 @@ class ProfileView(generics.RetrieveAPIView):
 	queryset = Profile.objects.all()
 
 
-class CreateQuestionSubmission(APIView):
-	serializer_class = CreateQuestionSerializer
-	
-	def post(self, request):
-
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
-
-		question = self.serializer_class(data=request.data)
-		if question.is_valid(): 
-			newQuestion = Question.objects.create()
-		
-			for answer in question.data.get("answers"):
-				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
-				newAnswer.save()
-
-			newQuestion.text = question.data.get("text")
-			newQuestion.subject = question.data.get("subject")
-			newQuestion.subsubject = question.data.get("subsubject")
-			newQuestion.year = question.data.get("year")
-			newQuestion.author = request.user
-
-			newQuestion.save()
-
-			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
-
-		else:
-			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class AddImageToQuestion(APIView):
 	parser_classes = [MultiPartParser]
 
@@ -325,26 +346,3 @@ class SubmittedQuestions(generics.ListAPIView):
 	queryset = Question.objects.filter(accepted=False)
 	serializer_class = QuestionSerializer
 
-
-class DeleteQuestion(APIView):
-	def post(self, request, *args, **kwargs):
-		question = Question.objects.get(id=kwargs.get("id"))
-
-		if (request.user != question.author) and not (request.user.is_superuser):
-			return Response(status=status.HTTP_403_FORBIDDEN)
-
-		question.delete()
-
-		return Response(status=status.HTTP_200_OK)
-
-
-class AcceptQuestion(APIView):
-	def post(self, request, *args, **kwargs):
-		if not(request.user.is_superuser):
-			return Response(status=status.HTTP_403_FORBIDDEN)
-
-		question = Question.objects.get(id=kwargs.get("id"))
-		question.accepted = True
-		question.save()
-
-		return Response(status=status.HTTP_200_OK)

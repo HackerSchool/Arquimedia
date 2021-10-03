@@ -18,9 +18,6 @@ urlpatterns = [
 	path("submit_exam/<int:id>", ExamSubmission.as_view()),
 	path("achievements", AchievementsListView.as_view()),
 	path("profile/<int:id>", ProfileView.as_view()),
-	path("create_question", CreateQuestionSubmission.as_view()),
 	path("add_image/<int:id>", AddImageToQuestion.as_view()),
 	path("submitted_questions", SubmittedQuestions.as_view()),
-	path("delete_question/<int:id>", DeleteQuestion.as_view()),
-	path("accept_question/<int:id>", AcceptQuestion.as_view())
 ]
