@@ -295,8 +295,7 @@ class ExamView(APIView):
 		if exam.correct.count() or exam.failed.count():
 			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-		profileSubject = request.user.profile.subjects.filter(subject="Matemática")[0]
+		profileSubject = request.user.profile.subjects.get(subject="Matemática")
 		for question, answer in request.data.items():
 
 			questionQuery = Question.objects.get(id=int(question))
