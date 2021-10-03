@@ -9,6 +9,7 @@ from .serializer import *
 from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
+from django.shortcuts import get_object_or_404
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -25,16 +26,18 @@ class QuestionView(generics.RetrieveAPIView):
 	queryset = Question.objects.all()
 
 
-class CommentView(generics.RetrieveAPIView):
-	serializer_class = CommentSerializer
-	lookup_field = "id"
-	queryset = Comment.objects.all()
-
-
-class CreateCommentView(APIView):
+class CommentView(APIView):
 	serializer_class = CommentSerializer
 
-	def post(self, request, format=None):
+	def get(self, request, id):
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+			
+		comment = get_object_or_404(Comment, id=id)
+
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+
+	def post(self, request):
 		if not self.request.user.is_authenticated:
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -49,13 +52,8 @@ class CreateCommentView(APIView):
 		
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class DeleteCommentView(APIView):
-	serializer_class = CommentSerializer
-
-	def delete(self, request, *args, **kwargs):
-		serializer = self.serializer_class(data=request.data)
-		comment = Comment.objects.get(id=kwargs.get("pk"))
+	def delete(self, request, id):
+		comment = get_object_or_404(Comment, id=id)
 		if self.request.user == comment.author:
 			comment.delete()
 
