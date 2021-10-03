@@ -77,6 +77,32 @@ class QuestionView(APIView):
 			else:
 				return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class AddImageToQuestion(APIView):
+	parser_classes = [MultiPartParser]
+
+	def post(self, request, *args, **kwargs):
+		question = Question.objects.get(id=kwargs.get("id"))
+
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		if question.author != self.request.user:
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		image = request.data["file"]
+
+		question.image = image
+		question.save()
+
+		return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class SubmittedQuestions(generics.ListAPIView):
+	queryset = Question.objects.filter(accepted=False)
+	serializer_class = QuestionSerializer
+
+
 class CommentView(APIView):
 	serializer_class = CommentSerializer
 
@@ -206,26 +232,19 @@ class HasUserDownvoted(APIView):
 		else: return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class CurrentUserView(APIView):
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+class ExamView(APIView):
+
+	def get(self, request, id):
+		exam = get_object_or_404(Exam, id=id)
+
+		return Response(ExamSerializer(exam).data, status=status.HTTP_200_OK)
 
 
-class ExamView(generics.RetrieveAPIView):
-	serializer_class = ExamSerializer
-	lookup_field = "id"
-	queryset = Exam.objects.all()
-
-
-class CreateExamView(APIView):
-	serializer_class = CreateExamSerializer
-
-	def post(self, request, format=None):
+	def post(self, request):
 		if not self.request.user.is_authenticated:
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
-		serializer = self.serializer_class(data=request.data)
+		serializer = CreateExamSerializer(data=request.data)
 		if serializer.is_valid():
 			subject = serializer.data.get("subject")
 			year = serializer.data.get("year")
@@ -270,10 +289,8 @@ class CreateExamView(APIView):
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ExamSubmission(APIView):
-	def post(self, request, *args, **kwargs):
-		serializer_class = ExamSerializer
-		exam = Exam.objects.get(id=kwargs.get("id"))
+	def put(self, request, id):
+		exam = get_object_or_404(Exam, id=id)
 
 		if exam.correct.count() or exam.failed.count():
 			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
@@ -306,7 +323,7 @@ class ExamSubmission(APIView):
 		exam.save()
 		profileSubject.save()
 
-		serializer = serializer_class(exam)
+		serializer = ExamSerializer(exam)
 
 		return 	Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -322,27 +339,8 @@ class ProfileView(generics.RetrieveAPIView):
 	queryset = Profile.objects.all()
 
 
-class AddImageToQuestion(APIView):
-	parser_classes = [MultiPartParser]
-
-	def post(self, request, *args, **kwargs):
-		question = Question.objects.get(id=kwargs.get("id"))
-
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
-
-		if question.author != self.request.user:
-			return Response(status=status.HTTP_403_FORBIDDEN)
-
-		image = request.data["file"]
-
-		question.image = image
-		question.save()
-
-		return Response(status=status.HTTP_202_ACCEPTED)
-
-
-class SubmittedQuestions(generics.ListAPIView):
-	queryset = Question.objects.filter(accepted=False)
-	serializer_class = QuestionSerializer
+class CurrentUserView(APIView):
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
