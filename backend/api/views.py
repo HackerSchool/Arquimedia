@@ -17,11 +17,14 @@ XP_PER_CORRECT_ANSWER = 10
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
+
 	queryset = Question.objects.all()
 	serializer_class = QuestionSerializer
 
 
 class QuestionView(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, id):
 		question = get_object_or_404(Question, id=id)
@@ -77,6 +80,7 @@ class QuestionView(APIView):
 
 class AddImageToQuestion(APIView):
 	parser_classes = [MultiPartParser]
+	permission_classes = [IsAuthenticated]
 
 	def post(self, request, *args, **kwargs):
 		question = Question.objects.get(id=kwargs.get("id"))
@@ -96,11 +100,13 @@ class AddImageToQuestion(APIView):
 
 
 class SubmittedQuestions(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
 	queryset = Question.objects.filter(accepted=False)
 	serializer_class = QuestionSerializer
 
 
 class CommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def get(self, request, id):
@@ -137,6 +143,7 @@ class CommentView(APIView):
 
 
 class UpvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -158,6 +165,7 @@ class UpvoteCommentView(APIView):
 
 
 class DownvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -178,6 +186,7 @@ class DownvoteCommentView(APIView):
 
 
 class RemoveDownvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -194,6 +203,7 @@ class RemoveDownvoteCommentView(APIView):
 
 
 class RemoveUpvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -210,6 +220,7 @@ class RemoveUpvoteCommentView(APIView):
 
 
 class HasUserUpvoted(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -220,6 +231,7 @@ class HasUserUpvoted(APIView):
 
 
 class HasUserDownvoted(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -230,6 +242,7 @@ class HasUserDownvoted(APIView):
 
 
 class ExamView(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, id):
 		exam = get_object_or_404(Exam, id=id)
@@ -238,8 +251,6 @@ class ExamView(APIView):
 
 
 	def post(self, request):
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
 		serializer = CreateExamSerializer(data=request.data)
 		if serializer.is_valid():
@@ -325,18 +336,23 @@ class ExamView(APIView):
 
 
 class AchievementsListView(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
 	queryset = Achievement.objects.all()
 	serializer_class = AchievementSerializer
 
 
 class ProfileView(generics.RetrieveAPIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = ProfileSerializer
 	lookup_field = "id"
 	queryset = Profile.objects.all()
 
 
 class CurrentUserView(APIView):
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request):
+		serializer = UserSerializer(request.user)
+		return Response(serializer.data)
+        
 
