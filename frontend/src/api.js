@@ -66,7 +66,7 @@ export async function downvoteAPI(id, successCall) {
 
 
 export async function deleteCommentAPI(id, successCall) {
-	axios.delete("api/delete_comment/" + id)
+	axios.delete("api/comment/" + id)
 	.then((res) => successCall(res))
 }
 
@@ -84,13 +84,13 @@ export async function removeDownvoteAPI(id, successCall) {
 
 
 export async function createCommentAPI(body, successCall) {
-	axios.post("api/create_comment", body)
+	axios.post("api/comment/", body)
 	.then((res) => successCall(res))
 }
 
 
 export async function createExam(body, successCall) {
-	axios.post("api/create_exam", body)
+	axios.post("api/exam/", body)
 	.then((res) => successCall(res))
 }
 
@@ -102,7 +102,7 @@ export async function examInfo(id, successCall) {
 
 
 export async function submitExam(id, body, successCall) {
-	axios.post("api/submit_exam/" + id, body)
+	axios.put("api/exam/" + id, body)
 	.then((res) => successCall(res));
 }
 
@@ -117,7 +117,7 @@ export async function registerUser(body) {
 
 
 export async function submitQuestion(body, successCall) {
-	axios.post("api/create_question", body)
+	axios.post("api/question/", body)
 	.then((res) => successCall(res));
 }
 
@@ -140,12 +140,12 @@ export async function getSubmittedQuestions(successCall) {
 
 
 export async function deleteQuestion(ID, successCall) {
-	axios.post("api/delete_question/" + ID)
+	axios.delete("api/question/" + ID)
 	.then((res) => successCall(res));
 }
 
 
 export async function acceptQuestion(ID, successCall) {
-	axios.post("api/accept_question/" + ID)
+	axios.put("api/question/" + ID)
 	.then((res) => successCall(res));
 }

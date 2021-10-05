@@ -9,32 +9,115 @@ from .serializer import *
 from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated 
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
+
 	queryset = Question.objects.all()
 	serializer_class = QuestionSerializer
 
 
-class QuestionView(generics.RetrieveAPIView):
+class QuestionView(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request, id):
+		question = get_object_or_404(Question, id=id)
+
+		return Response(QuestionSerializer(question).data, status=status.HTTP_200_OK)
+
+
+	# Validates a question
+	def put(self, request, id):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question = get_object_or_404(Question, id=id)
+		question.accepted = True
+		question.save()
+
+		return Response(status=status.HTTP_200_OK)
+
+	
+	def delete(self, request, id):
+		question = get_object_or_404(Question, id=id)
+
+		if (request.user != question.author) and not (request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+
+	# Creates new question request, which will have to be validated
+	def post(self, request):
+		question = CreateQuestionSerializer(data=request.data)
+		if question.is_valid(): 
+			newQuestion = Question.objects.create()
+		
+			for answer in question.data.get("answers"):
+				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
+				newAnswer.save()
+
+			newQuestion.text = question.data.get("text")
+			newQuestion.subject = question.data.get("subject")
+			newQuestion.subsubject = question.data.get("subsubject")
+			newQuestion.year = question.data.get("year")
+			newQuestion.author = request.user
+
+			newQuestion.save()
+
+			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+		else:
+			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddImageToQuestion(APIView):
+	parser_classes = [MultiPartParser]
+	permission_classes = [IsAuthenticated]
+
+	def post(self, request, *args, **kwargs):
+		question = Question.objects.get(id=kwargs.get("id"))
+
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		if question.author != self.request.user:
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		image = request.data["file"]
+
+		question.image = image
+		question.save()
+
+		return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class SubmittedQuestions(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
+	queryset = Question.objects.filter(accepted=False)
 	serializer_class = QuestionSerializer
-	lookup_field = "id"
-	queryset = Question.objects.all()
 
 
-class CommentView(generics.RetrieveAPIView):
-	serializer_class = CommentSerializer
-	lookup_field = "id"
-	queryset = Comment.objects.all()
-
-
-class CreateCommentView(APIView):
+class CommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
-	def post(self, request, format=None):
+	def get(self, request, id):
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+			
+		comment = get_object_or_404(Comment, id=id)
+
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+
+	def post(self, request):
 		if not self.request.user.is_authenticated:
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -49,13 +132,8 @@ class CreateCommentView(APIView):
 		
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class DeleteCommentView(APIView):
-	serializer_class = CommentSerializer
-
-	def delete(self, request, *args, **kwargs):
-		serializer = self.serializer_class(data=request.data)
-		comment = Comment.objects.get(id=kwargs.get("pk"))
+	def delete(self, request, id):
+		comment = get_object_or_404(Comment, id=id)
 		if self.request.user == comment.author:
 			comment.delete()
 
@@ -65,6 +143,7 @@ class DeleteCommentView(APIView):
 
 
 class UpvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -86,6 +165,7 @@ class UpvoteCommentView(APIView):
 
 
 class DownvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -106,6 +186,7 @@ class DownvoteCommentView(APIView):
 
 
 class RemoveDownvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -122,6 +203,7 @@ class RemoveDownvoteCommentView(APIView):
 
 
 class RemoveUpvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
 	def post(self, request, *args, **kwargs):
@@ -138,6 +220,7 @@ class RemoveUpvoteCommentView(APIView):
 
 
 class HasUserUpvoted(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -148,6 +231,7 @@ class HasUserUpvoted(APIView):
 
 
 class HasUserDownvoted(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -157,26 +241,18 @@ class HasUserDownvoted(APIView):
 		else: return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class CurrentUserView(APIView):
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+class ExamView(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request, id):
+		exam = get_object_or_404(Exam, id=id)
+
+		return Response(ExamSerializer(exam).data, status=status.HTTP_200_OK)
 
 
-class ExamView(generics.RetrieveAPIView):
-	serializer_class = ExamSerializer
-	lookup_field = "id"
-	queryset = Exam.objects.all()
+	def post(self, request):
 
-
-class CreateExamView(APIView):
-	serializer_class = CreateExamSerializer
-
-	def post(self, request, format=None):
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
-
-		serializer = self.serializer_class(data=request.data)
+		serializer = CreateExamSerializer(data=request.data)
 		if serializer.is_valid():
 			subject = serializer.data.get("subject")
 			year = serializer.data.get("year")
@@ -221,16 +297,13 @@ class CreateExamView(APIView):
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ExamSubmission(APIView):
-	def post(self, request, *args, **kwargs):
-		serializer_class = ExamSerializer
-		exam = Exam.objects.get(id=kwargs.get("id"))
+	def put(self, request, id):
+		exam = get_object_or_404(Exam, id=id)
 
 		if exam.correct.count() or exam.failed.count():
 			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-		profileSubject = request.user.profile.subjects.filter(subject="Matemática")[0]
+		profileSubject = request.user.profile.subjects.get(subject="Matemática")
 		for question, answer in request.data.items():
 
 			questionQuery = Question.objects.get(id=int(question))
@@ -257,96 +330,29 @@ class ExamSubmission(APIView):
 		exam.save()
 		profileSubject.save()
 
-		serializer = serializer_class(exam)
+		serializer = ExamSerializer(exam)
 
 		return 	Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class AchievementsListView(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
 	queryset = Achievement.objects.all()
 	serializer_class = AchievementSerializer
 
 
 class ProfileView(generics.RetrieveAPIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = ProfileSerializer
 	lookup_field = "id"
 	queryset = Profile.objects.all()
 
 
-class CreateQuestionSubmission(APIView):
-	serializer_class = CreateQuestionSerializer
-	
-	def post(self, request):
+class CurrentUserView(APIView):
+	permission_classes = [IsAuthenticated]
 
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+	def get(self, request):
+		serializer = UserSerializer(request.user)
+		return Response(serializer.data)
+        
 
-		question = self.serializer_class(data=request.data)
-		if question.is_valid(): 
-			newQuestion = Question.objects.create()
-		
-			for answer in question.data.get("answers"):
-				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
-				newAnswer.save()
-
-			newQuestion.text = question.data.get("text")
-			newQuestion.subject = question.data.get("subject")
-			newQuestion.subsubject = question.data.get("subsubject")
-			newQuestion.year = question.data.get("year")
-			newQuestion.author = request.user
-
-			newQuestion.save()
-
-			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
-
-		else:
-			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AddImageToQuestion(APIView):
-	parser_classes = [MultiPartParser]
-
-	def post(self, request, *args, **kwargs):
-		question = Question.objects.get(id=kwargs.get("id"))
-
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
-
-		if question.author != self.request.user:
-			return Response(status=status.HTTP_403_FORBIDDEN)
-
-		image = request.data["file"]
-
-		question.image = image
-		question.save()
-
-		return Response(status=status.HTTP_202_ACCEPTED)
-
-
-class SubmittedQuestions(generics.ListAPIView):
-	queryset = Question.objects.filter(accepted=False)
-	serializer_class = QuestionSerializer
-
-
-class DeleteQuestion(APIView):
-	def post(self, request, *args, **kwargs):
-		question = Question.objects.get(id=kwargs.get("id"))
-
-		if (request.user != question.author) and not (request.user.is_superuser):
-			return Response(status=status.HTTP_403_FORBIDDEN)
-
-		question.delete()
-
-		return Response(status=status.HTTP_200_OK)
-
-
-class AcceptQuestion(APIView):
-	def post(self, request, *args, **kwargs):
-		if not(request.user.is_superuser):
-			return Response(status=status.HTTP_403_FORBIDDEN)
-
-		question = Question.objects.get(id=kwargs.get("id"))
-		question.accepted = True
-		question.save()
-
-		return Response(status=status.HTTP_200_OK)

@@ -2,7 +2,6 @@ import QuestionApproval from "../components/questions/QuestionApproval";
 import {
 	useState,
 	useEffect,
-	setState
 } from "react";
 import { getSubmittedQuestions } from "../api";
 import {
