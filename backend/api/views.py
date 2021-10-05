@@ -10,6 +10,7 @@ from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated 
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -52,30 +53,26 @@ class QuestionView(APIView):
 
 
 	# Creates new question request, which will have to be validated
-	def post():
-		def post(self, request):
-			if not self.request.user.is_authenticated:
-				return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+	def post(self, request):
+		question = CreateQuestionSerializer(data=request.data)
+		if question.is_valid(): 
+			newQuestion = Question.objects.create()
+		
+			for answer in question.data.get("answers"):
+				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
+				newAnswer.save()
 
-			question = CreateQuestionSerializer(data=request.data)
-			if question.is_valid(): 
-				newQuestion = Question.objects.create()
-			
-				for answer in question.data.get("answers"):
-					newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
-					newAnswer.save()
+			newQuestion.text = question.data.get("text")
+			newQuestion.subject = question.data.get("subject")
+			newQuestion.subsubject = question.data.get("subsubject")
+			newQuestion.year = question.data.get("year")
+			newQuestion.author = request.user
 
-				newQuestion.text = question.data.get("text")
-				newQuestion.subject = question.data.get("subject")
-				newQuestion.subsubject = question.data.get("subsubject")
-				newQuestion.year = question.data.get("year")
-				newQuestion.author = request.user
+			newQuestion.save()
 
-				newQuestion.save()
-
-				return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
-			else:
-				return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+		else:
+			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AddImageToQuestion(APIView):

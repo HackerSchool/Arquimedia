@@ -117,7 +117,7 @@ export async function registerUser(body) {
 
 
 export async function submitQuestion(body, successCall) {
-	axios.post("api/question", body)
+	axios.post("api/question/", body)
 	.then((res) => successCall(res));
 }
 

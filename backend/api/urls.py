@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
 	path("questions", QuestionsListView.as_view()),
 	path("question/<int:id>", QuestionView.as_view()),
+	path("question/", QuestionView.as_view()),
 	path("comment/", CommentView.as_view()),
 	path("comment/<int:id>", CommentView.as_view()),
 	path("current_user", CurrentUserView.as_view()),
