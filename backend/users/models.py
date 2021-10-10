@@ -118,7 +118,11 @@ class SubjectInfo(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance, xp=XPSystem.objects.create())
+        subject = SubjectInfo.objects.create(subject="Matemática")
+
+        profile = Profile.objects.create(user=instance, xp=XPSystem.objects.create())
+
+        profile.subjects.add(subject)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
