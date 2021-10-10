@@ -20,7 +20,7 @@ SUBJECTS = (
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    subjects = models.ManyToManyField("SubjectInfo")
+    subjects = models.ManyToManyField("SubjectInfo", related_name='profile')
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
     achievements = models.ManyToManyField("Achievement", null=True, related_name="achievements")
 
@@ -36,9 +36,17 @@ class XPSystem(models.Model):
     # This var will keep track of the value of xp before it is changed
     previousXP = 0
 
+    def __init__(self, *args, **kwargs):
+        super(XPSystem, self).__init__(*args, **kwargs)
+        self.previousXP = self.xp
+
     def save(self, *args, **kwargs):
         if self.previousXP < self.xp:
-            # TODO: Create new event for XP
+            user = self.profile_set.all()[0].user
+            amountXPChanged = self.xp-self.previousXP
+
+            XPEvent.objects.create(user=user, amount=amountXPChanged)
+
             self.previousXP = self.xp
 
         if self.xp >= self.levelXP:
