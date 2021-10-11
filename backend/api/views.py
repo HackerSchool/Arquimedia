@@ -9,7 +9,7 @@ from .serializer import *
 from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.permissions import IsAuthenticated 
 
 XP_PER_EXAM = 100
@@ -366,3 +366,17 @@ class XPEventsAPI(APIView):
 		serializer = XPEventSerializer(events, many=True)
 		return Response(serializer.data)
 
+
+class SubjectAPI(APIView):
+	permission_classes = [IsAuthenticated]
+
+	class Subject:
+		def __init__(self, subject, questions):
+			self.subject = subject
+			self.questions = questions
+				
+	def get(self, request, subject):
+		questions = get_list_or_404(Question, subject=subject)
+		sub = self.Subject(subject=subject, questions=questions)
+
+		return Response(SubjectInfoSerializer(sub).data)
