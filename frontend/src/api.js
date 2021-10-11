@@ -155,3 +155,9 @@ export async function getXpEvents(ID, successCall) {
 	axios.get("api/xpevents/" + ID)
 	.then((res) => successCall(res));
 }
+
+
+export async function getSubjectInfo(Name, successCall) {
+	axios.get("api/subject/" + Name)
+	.then((res) => successCall(res));
+}
