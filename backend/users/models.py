@@ -4,6 +4,8 @@ from django.db.models import indexes
 from exams.models import Question
 from django.dispatch import receiver
 from django.db.models.signals import post_save, m2m_changed
+from datetime import datetime
+
 
 # Create your models here.
 # Create Profile model.
@@ -18,9 +20,9 @@ SUBJECTS = (
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    subjects = models.ManyToManyField("SubjectInfo")
+    subjects = models.ManyToManyField("SubjectInfo", related_name='profile')
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
-    achievements = models.ManyToManyField("Achievement", null=True, related_name="achievements")
+    achievements = models.ManyToManyField("Achievement", related_name="achievements")
 
     def __str__(self):
         return self.user.username
@@ -31,7 +33,22 @@ class XPSystem(models.Model):
     currentLevel = models.IntegerField(default=0)
     levelXP = models.IntegerField(default=1000)
 
+    # This var will keep track of the value of xp before it is changed
+    previousXP = 0
+
+    def __init__(self, *args, **kwargs):
+        super(XPSystem, self).__init__(*args, **kwargs)
+        self.previousXP = self.xp
+
     def save(self, *args, **kwargs):
+        if self.previousXP < self.xp:
+            user = self.profile_set.all()[0].user
+            amountXPChanged = self.xp-self.previousXP
+
+            XPEvent.objects.create(user=user, amount=amountXPChanged)
+
+            self.previousXP = self.xp
+
         if self.xp >= self.levelXP:
             self.xp -= self.levelXP
             self.currentLevel += 1
@@ -113,6 +130,13 @@ class SubjectInfo(models.Model):
         return index
 
 
+
+class XPEvent(models.Model):
+    date = models.DateField(auto_now_add=True)
+    amount = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self): return self.user.username + "::" + self.date.strftime("%m/%d/%Y") + ">" + str(self.amount)
 
 # When a new User object is created, a Profile is attached
 @receiver(post_save, sender=User)

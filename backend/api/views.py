@@ -356,3 +356,13 @@ class CurrentUserView(APIView):
 		return Response(serializer.data)
         
 
+
+class XPEventsAPI(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request, id):
+		user = get_object_or_404(User, id=id)
+		events = XPEvent.objects.filter(user=user)
+		serializer = XPEventSerializer(events, many=True)
+		return Response(serializer.data)
+

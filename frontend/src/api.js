@@ -149,3 +149,9 @@ export async function acceptQuestion(ID, successCall) {
 	axios.put("api/question/" + ID)
 	.then((res) => successCall(res));
 }
+
+
+export async function getXpEvents(ID, successCall) {
+	axios.get("api/xpevents/" + ID)
+	.then((res) => successCall(res));
+}
