@@ -1,4 +1,4 @@
-from users.models import Achievement, Profile, XPSystem
+from users.models import Achievement, Profile, XPEvent, XPSystem
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
 from exams.models import Question, Comment, Exam, Answer
@@ -12,6 +12,12 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ("id", "username", )
+
+
+class XPEventSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = XPEvent
+		fields = ("date", "amount")
 
 
 class QuestionShortSerializer(serializers.ModelSerializer):

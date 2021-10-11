@@ -20,4 +20,5 @@ urlpatterns = [
 	path("profile/<int:id>", ProfileView.as_view()),
 	path("add_image/<int:id>", AddImageToQuestion.as_view()),
 	path("submitted_questions", SubmittedQuestions.as_view()),
+	path("xpevents/<int:id>", XPEventsAPI.as_view())
 ]

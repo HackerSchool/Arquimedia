@@ -22,7 +22,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subjects = models.ManyToManyField("SubjectInfo", related_name='profile')
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
-    achievements = models.ManyToManyField("Achievement", null=True, related_name="achievements")
+    achievements = models.ManyToManyField("Achievement", related_name="achievements")
 
     def __str__(self):
         return self.user.username
