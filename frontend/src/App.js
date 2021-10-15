@@ -14,6 +14,7 @@ import {
 	Route,
   } from "react-router-dom";
 import axios from "axios";
+import AchivementTray from "./components/profile/AchivementTray.js";
 
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
   
@@ -35,6 +36,10 @@ function App() {
 			<Route exact path="/registar" component={RegistrationPage} />
 			<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
 			<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
+
+			
+
+			<Route exact path="/teste" component={AchivementTray} /> //TODO : //Delete This :(
 			</Switch>
 		</Router>
 	</div>
