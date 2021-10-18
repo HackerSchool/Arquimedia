@@ -11,6 +11,7 @@ import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.permissions import IsAuthenticated 
+import datetime
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -380,3 +381,57 @@ class SubjectAPI(APIView):
 		sub = self.Subject(subject=subject, questions=questions)
 
 		return Response(SubjectInfoSerializer(sub).data)
+
+
+class Leaderboard(APIView):
+
+	class XPProfile:
+		def __init__(self, id, xp):
+			self.id = id
+			self.xp = xp
+
+	def get(self, request, time=None):
+		def checkForUser(list, userID):
+			for i in list:
+				if i.id == userID: return True
+
+			return False
+
+		def getXPProfile(list, userID):
+			for i in list:
+				if i.id == userID: return i
+
+
+		if time == None:
+			users = Profile.objects.order_by("xp__xp")
+			return Response(ProfileLeaderboardSerializer(users, many=True).data)
+		elif time == "month":
+			date = datetime.date.today() - datetime.timedelta(days=30)
+		elif time == "day":
+			date = datetime.date.today() - datetime.timedelta(days=1)
+		else:
+			return Response({"Bad Request": "Invalid date"}, status=status.HTTP_400_BAD_REQUEST)
+
+		events = XPEvent.objects.filter(date__gte=date)
+
+		users = []
+		for n, i in enumerate(events):
+			repeated = False
+			for e in events[:n]:
+				if i.user == e.user:
+					repeated = True
+
+			if not repeated: users.append(i.user)
+
+
+		usersXP = []
+		for user in users:
+			for event in events:
+				if user == event.user:
+					if not checkForUser(usersXP, user.id): 
+						usersXP.append(self.XPProfile(user.id, event.amount))
+					else:
+						getXPProfile(usersXP, user.id).xp += event.amount
+
+		return Response(ProfileLeaderboardTimedSerializer(usersXP, many=True).data)
+
