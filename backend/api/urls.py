@@ -22,4 +22,6 @@ urlpatterns = [
 	path("submitted_questions", SubmittedQuestions.as_view()),
 	path("xpevents/<int:id>", XPEventsAPI.as_view()),
 	path("subject/<str:subject>", SubjectAPI.as_view()),
+	path("leaderboard/", Leaderboard.as_view()),
+	path("leaderboard/<str:time>", Leaderboard.as_view()),
 ]

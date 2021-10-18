@@ -153,3 +153,14 @@ class ImageSerializer(serializers.Serializer):
 class SubjectInfoSerializer(serializers.Serializer):
 	subject = serializers.CharField()
 	questions = QuestionShortSerializer(many=True)
+
+
+class ProfileLeaderboardSerializer(serializers.ModelSerializer):
+	xp = XPSerializer()
+	class Meta:
+		model = Profile
+		fields = ("id", "xp")
+
+class ProfileLeaderboardTimedSerializer(serializers.Serializer):
+	id = serializers.IntegerField()
+	xp = serializers.IntegerField()
