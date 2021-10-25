@@ -122,11 +122,19 @@ class SubjectSerializer(serializers.ModelSerializer):
 		fields = "__all__"
 
 
+class SimpleProfileSerializer(serializers.ModelSerializer):
+	user = UserSerializer()
+	class Meta:
+		model = Profile
+		fields = ("user",)
+
+
 class ProfileSerializer(serializers.ModelSerializer):
 	achievements = AchievementSerializer(many=True)
 	xp = XPSerializer()
 	user = UserSerializer()
 	subjects = SubjectSerializer(many=True)
+	follows = SimpleProfileSerializer(many=True)
 
 	class Meta: 
 		model = Profile
