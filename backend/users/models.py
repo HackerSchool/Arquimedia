@@ -23,7 +23,7 @@ class Profile(models.Model):
     subjects = models.ManyToManyField("SubjectInfo", related_name='profile')
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
     achievements = models.ManyToManyField("Achievement", related_name="achievements")
-    follows = models.ManyToManyField("Profile")
+    follows = models.ManyToManyField(User, "follows")
 
     def __str__(self):
         return self.user.username
