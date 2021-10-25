@@ -28,6 +28,12 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def addToFollowing(self, profile):
+        self.follows.add(profile)
+
+    def removeFromFollowing(self, profile):
+        self.follows.remove(profile)
+
 
 class XPSystem(models.Model):
     xp = models.IntegerField(default=0)
