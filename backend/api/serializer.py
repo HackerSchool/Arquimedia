@@ -127,6 +127,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 	xp = XPSerializer()
 	user = UserSerializer()
 	subjects = SubjectSerializer(many=True)
+	follows = UserSerializer(many=True)
 
 	class Meta: 
 		model = Profile

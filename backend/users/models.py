@@ -23,9 +23,16 @@ class Profile(models.Model):
     subjects = models.ManyToManyField("SubjectInfo", related_name='profile')
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
     achievements = models.ManyToManyField("Achievement", related_name="achievements")
+    follows = models.ManyToManyField(User, "follows")
 
     def __str__(self):
         return self.user.username
+
+    def addToFollowing(self, profile):
+        self.follows.add(profile)
+
+    def removeFromFollowing(self, profile):
+        self.follows.remove(profile)
 
 
 class XPSystem(models.Model):

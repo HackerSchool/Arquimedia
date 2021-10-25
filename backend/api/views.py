@@ -435,3 +435,31 @@ class Leaderboard(APIView):
 
 		return Response(ProfileLeaderboardTimedSerializer(usersXP, many=True).data)
 
+
+class Follow(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request, id):
+		user_profile = request.user.profile
+
+		user_to_follow = User.objects.get(id=id)
+
+		if request.user == user_to_follow:
+			return Response(status=status.HTTP_400_BAD_REQUEST)
+
+		user_profile.addToFollowing(user_to_follow)
+
+		return Response(status=status.HTTP_200_OK)
+	
+
+	def delete(self, request, id):
+		user_profile = request.user.profile
+
+		user_to_remove_follow = User.objects.get(id=id)
+
+		if user_to_remove_follow not in user_profile.follows.all():
+			return Response(status=status.HTTP_400_BAD_REQUEST)
+
+		user_profile.removeFromFollowing(user_to_remove_follow)
+
+		return Response(status=status.HTTP_200_OK)
