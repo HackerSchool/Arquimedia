@@ -161,3 +161,15 @@ export async function getSubjectInfo(Name, successCall) {
 	axios.get("api/subject/" + Name)
 	.then((res) => successCall(res));
 }
+
+
+export async function followUser(ID, successCall) {
+	axios.get("api/follow/" + ID)
+	.then((res) => successCall(res));
+}
+
+
+export async function unfollowUser(ID, successCall) {
+	axios.delete("api/follow/" + ID)
+	.then((res) => successCall(res));
+}
