@@ -64,10 +64,18 @@ class XPSystem(models.Model):
         super(XPSystem, self).save(*args, **kwargs)
 
 
+def renameImage(instance, filename):
+        ext = filename.split(".")[-1]
+        if instance.pk:
+            return "achievement{}.{}".format(instance.pk, ext)
+
+
+
 class Achievement(models.Model):
     xp = models.IntegerField()
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
+    image = models.ImageField(null=True, blank=True, upload_to=renameImage)
 
     def __str__(self):
         return self.title
