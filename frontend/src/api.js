@@ -54,13 +54,13 @@ export async function hasUpvotedAPI(id, successCall) {
 
 
 export async function upvoteAPI(id, successCall) {
-	axios.post("api/upvote_comment/" + id)
+	axios.post("api/upvote/" + id)
 	.then((res) => successCall(res));
 }
 
 
 export async function downvoteAPI(id, successCall) {
-	axios.post("api/downvote_comment/" + id)
+	axios.post("api/downvote/" + id)
 	.then((res) => successCall(res));
 }
 
@@ -72,13 +72,13 @@ export async function deleteCommentAPI(id, successCall) {
 
 
 export async function removeUpvoteAPI(id, successCall) {
-	axios.post("api/remove_upvote/" + id)
+	axios.delete("api/upvote/" + id)
 	.then((res) => successCall(res))
 }
 
 
 export async function removeDownvoteAPI(id, successCall) {
-	axios.post("api/remove_downvote/" + id)
+	axios.delete("api/downvote/" + id)
 	.then((res) => successCall(res))
 }
 
