@@ -89,7 +89,6 @@ class StringListField(serializers.ListField):
 
 class CreateExamSerializer(serializers.Serializer):
 	subject = serializers.CharField()
-	randomSubSubject = serializers.BooleanField()
 	subSubjects = StringListField()
 	year = serializers.IntegerField()
 

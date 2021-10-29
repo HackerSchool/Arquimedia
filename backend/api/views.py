@@ -253,20 +253,18 @@ class ExamView(APIView):
 			subject = serializer.data.get("subject")
 			year = serializer.data.get("year")
 			subSubjects = serializer.data.get("subSubjects")
-			randomSubSubject = serializer.data.get("randomSubSubject")
 
 			questionsQuery = []
 
-			if (not randomSubSubject):
+			if (subSubjects): # If there are any subsubjects specified
 				for subSubject in subSubjects:
-					if subSubject != "none":
-						if year:
-							temp = list(Question.objects.filter(year=year, subsubject=subSubject))
-							for i in temp: questionsQuery.append(i)
-						else:
-							temp = list(Question.objects.filter(subsubject=subSubject))
-							for i in temp: questionsQuery.append(i)
-			else:
+					if year:
+						temp = list(Question.objects.filter(year=year, subsubject=subSubject))
+						for i in temp: questionsQuery.append(i)
+					else:
+						temp = list(Question.objects.filter(subsubject=subSubject))
+						for i in temp: questionsQuery.append(i)
+			else: # User wants a random subsubjects exam
 				if year:
 					temp = list(Question.objects.filter(year=year))
 					for i in temp: questionsQuery.append(i)
