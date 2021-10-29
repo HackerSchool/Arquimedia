@@ -38,7 +38,9 @@ const useStyles = makeStyles(theme => ({
     select:{
         backgroundColor:'#FFFFFF',
         minWidth : 120,
+        borderRadius: 5
     }
+    
 }))
 
 const subjects = ['Todas','Matemática','Física e Química'];
@@ -65,7 +67,7 @@ function AchivementTray() {
 
                 <Grid  item xs="auto">
 				<Select className={classes.select}  value={selectedOption} onChange={(event) => setSelectedOption(event.target.value)}
-                MenuProps = {MenuProps} label='Disciplinas'>
+                MenuProps = {MenuProps} label='Disciplinas' disableUnderline>
                     {subjects.map((subject)=>
                         <MenuItem value = {subject}>
                                 <Typography variant= 'subtitle1'>
