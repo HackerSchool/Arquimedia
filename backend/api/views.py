@@ -147,8 +147,9 @@ class UpvoteCommentView(APIView):
 	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
+	# Upvotes a Comment
+	def post(self, request, id):
+		comment = Comment.objects.get(id=id)
 		if request.user in comment.upvoters.all():
 			return Response({"User already upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -164,13 +165,28 @@ class UpvoteCommentView(APIView):
 	
 		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
+	# Removes an upvote from a Comment
+	def delete(self, request, id):
+		comment = Comment.objects.get(id=id)
+		if request.user not in comment.upvoters.all():
+			return Response({"User hasn't upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+
+		comment.votes -= 1
+		
+		comment.upvoters.remove(request.user)
+		comment.save()
+
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+
+
 
 class DownvoteCommentView(APIView):
 	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
+	# Downvotes a Comment
+	def post(self, request, id):
+		comment = Comment.objects.get(id=id)
 		if request.user in comment.downvoters.all():
 			return Response({"User already downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -185,36 +201,15 @@ class DownvoteCommentView(APIView):
 
 		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
-
-class RemoveDownvoteCommentView(APIView):
-	permission_classes = [IsAuthenticated]
-	serializer_class = CommentSerializer
-
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
+	# Removes a downvote from a Comment
+	def delete(self, request, id):
+		comment = Comment.objects.get(id=id)
 		if request.user not in comment.downvoters.all():
 			return Response({"User hasn't downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
 
 		comment.votes += 1
 		
 		comment.downvoters.remove(request.user)
-		comment.save()
-
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
-
-
-class RemoveUpvoteCommentView(APIView):
-	permission_classes = [IsAuthenticated]
-	serializer_class = CommentSerializer
-
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
-		if request.user not in comment.upvoters.all():
-			return Response({"User hasn't upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
-
-		comment.votes -= 1
-		
-		comment.upvoters.remove(request.user)
 		comment.save()
 
 		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
@@ -258,20 +253,18 @@ class ExamView(APIView):
 			subject = serializer.data.get("subject")
 			year = serializer.data.get("year")
 			subSubjects = serializer.data.get("subSubjects")
-			randomSubSubject = serializer.data.get("randomSubSubject")
 
 			questionsQuery = []
 
-			if (not randomSubSubject):
+			if (subSubjects): # If there are any subsubjects specified
 				for subSubject in subSubjects:
-					if subSubject != "none":
-						if year:
-							temp = list(Question.objects.filter(year=year, subsubject=subSubject))
-							for i in temp: questionsQuery.append(i)
-						else:
-							temp = list(Question.objects.filter(subsubject=subSubject))
-							for i in temp: questionsQuery.append(i)
-			else:
+					if year:
+						temp = list(Question.objects.filter(year=year, subsubject=subSubject))
+						for i in temp: questionsQuery.append(i)
+					else:
+						temp = list(Question.objects.filter(subsubject=subSubject))
+						for i in temp: questionsQuery.append(i)
+			else: # User wants a random subsubjects exam
 				if year:
 					temp = list(Question.objects.filter(year=year))
 					for i in temp: questionsQuery.append(i)

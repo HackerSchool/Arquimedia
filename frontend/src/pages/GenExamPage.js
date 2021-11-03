@@ -98,10 +98,11 @@ const GenExamPage = () => {
 
 
 	const handleClick = () => {
-		const subSubjects = [
-			dictSubSubjects.geometry ? "Geometria" : "none",
-			dictSubSubjects.imaginary ?  "Imaginários" : "none",
-		];
+		const subSubjects = [];
+
+		if (dictSubSubjects.geometry) subSubjects.push("Geometria");
+
+		if (dictSubSubjects.geometry) subSubjects.push("Imaginários");
 
 		let year = 0;
 		if (options.tenthGrade) year = 10;
