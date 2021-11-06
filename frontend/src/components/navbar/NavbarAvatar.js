@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { logOut } from '../../api';
+import MenuCircular from '../MenuCircular/MenuCircular';
 
 const useStyles = makeStyles(theme => ({
 	avatar: {
@@ -39,19 +40,10 @@ const NavbarAvatar = (props) => {
 	}
 
 	return (<div>
-				<Button onClick={handleClick} className={classes.button}><Avatar className={classes.avatar}>{props.user.username[0]}</Avatar></Button>
-				<Menu
-					id="menu"
-					anchorEl={anchorEl}
-					keepMounted
-					open={Boolean(anchorEl)}
-					onClose={handleClose}
-				>
-					<MenuItem onClick={handleClose} component="a" href="/perfil">Perfil</MenuItem>
-					<MenuItem onClick={handleClose} component="a" href="/exames">Exames</MenuItem> 
-					<MenuItem onClick={handleClose} component="a" href="/preferencias">Preferências</MenuItem>
-					<MenuItem onClick={handleLogout} component="a">Logout</MenuItem>
-				</Menu>
+				
+				<MenuCircular userLetter={props.user.username[0]}>
+				</MenuCircular>
+				
 			</div>)
 }
 

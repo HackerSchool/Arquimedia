@@ -14,9 +14,13 @@ import FunctionsIcon from '@material-ui/icons/Functions';
 import MenuIcon from '@material-ui/icons/Menu';
 import NavbarButton from './NavbarButton';
 import NavbarAvatar from './NavbarAvatar';
+
+
 import {
 	getUser
 } from "../../api"
+import Loading from '../loading/Loading';
+
 const TITLE = "HS ao Quadrado"
 
 const useStyles = makeStyles(theme => ({
@@ -58,17 +62,19 @@ const Navbar = () => {
 	const [click, setClick] = useState(false);
 	const [user, setUser] = useState({"id": null, "username": ""});
 	const handleClick = () => {setClick(!click); console.log(click)};
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 
 		getUser((res) => {
 			setUser(res.data);
+			setLoading(false);
 		}, () => {
 			console.log("Couldn't fetch user")
 		})
 
 	}, []);
-	
+
 
 	return (
 		<AppBar position="static" className={classes.navbar}>
@@ -79,16 +85,25 @@ const Navbar = () => {
 				<Typography variant="h4" className={classes.title}>{TITLE}</Typography>
 				
 				<Grid container className={classes.menu} justify="flex-end">
-					<NavbarButton href="/" text="Home" />
-					<NavbarButton href="/about-us" text="Sobre nós" />
-					<NavbarButton href="/contact" text="Contactos" />
-					{(user.id != null) ? (
-							(<NavbarAvatar user={user}/>)
-					) : (
-						<NavbarButton href="/login" text="login" />
-					)}
 					
+				{(loading) ? (
+					<Loading/>
+				) : [
+						(user.id != null) ? (
+								(
+								<NavbarButton href="/" text="Home" /> &&
+								<NavbarButton href="/about-us" text="Sobre nós" /> &&
+								<NavbarButton href="/contact" text="Contactos" /> &&
+								<NavbarAvatar user={user}/>)
+						) : [
+							<NavbarButton href="/login" text="login" /> &&
+							<NavbarButton href="/registar" text="registar" />
+						]
+					]
+				}	
+	
 				</Grid>
+
 				<div className={classes.menuMobile}>
 					<IconButton onClick={handleClick}>
 						<MenuIcon fontSize="large"/>
@@ -103,15 +118,15 @@ const Navbar = () => {
 								{(user.id != null) ? (
 								<NavbarAvatar user={user}/>
 						) : (
-							<NavbarButton href="/login" text="login" />
+							<NavbarButton href="/login" text="login" /> &&
+							<NavbarButton href="/register" text="registar" />
 						)}
 							</ListItem>
+
 							<ListItem>
 								<NavbarButton href="/" text="Home" />
 							</ListItem>
-							<ListItem>
-								<NavbarButton href="/about-us" text="Sobre nós" />
-							</ListItem>
+							
 							<ListItem>
 								<NavbarButton href="/contact" text="Contactos" />
 							</ListItem>
