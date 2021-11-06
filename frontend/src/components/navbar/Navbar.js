@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 		}
 	},
 	toolbar: {
-		height: 100,
+		height: 300,
 		marginRight: "10%",
 		marginLeft: "10%"
 	}
@@ -89,16 +89,17 @@ const Navbar = () => {
 				{(loading) ? (
 					<Loading/>
 				) : [
-						(user.id != null) ? (
-								(
-								<NavbarButton href="/" text="Home" /> &&
-								<NavbarButton href="/about-us" text="Sobre nós" /> &&
-								<NavbarButton href="/contact" text="Contactos" /> &&
-								<NavbarAvatar user={user}/>)
-						) : [
-							<NavbarButton href="/login" text="login" /> &&
+						(user.id != null) ? 
+							(
+								<List>
+								<NavbarAvatar user={user}/>
+								</List>
+						) : (
+							<List>
 							<NavbarButton href="/registar" text="registar" />
-						]
+							<NavbarButton href="/login" text="login" /> 
+							</List>
+						)
 					]
 				}	
 	
@@ -118,7 +119,7 @@ const Navbar = () => {
 								{(user.id != null) ? (
 								<NavbarAvatar user={user}/>
 						) : (
-							<NavbarButton href="/login" text="login" /> &&
+							<NavbarButton href="/login" text="login" /> ||
 							<NavbarButton href="/register" text="registar" />
 						)}
 							</ListItem>
