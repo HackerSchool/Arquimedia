@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { examInfo } from "../api";
 import Loading from "../components/loading/Loading";
