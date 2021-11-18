@@ -13,13 +13,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import MenuIcon from '@material-ui/icons/Menu';
 import NavbarButton from './NavbarButton';
-import NavbarAvatar from './NavbarAvatar';
 
 
 import {
 	getUser
 } from "../../api"
 import Loading from '../loading/Loading';
+import MenuCircular from '../MenuCircular/MenuCircular';
 
 const TITLE = "HS ao Quadrado"
 
@@ -92,7 +92,7 @@ const Navbar = () => {
 						(user.id != null) ? 
 							(
 								<List>
-								<NavbarAvatar user={user}/>
+									<MenuCircular userLetter={user.username[0]} />
 								</List>
 						) : (
 							<List>
@@ -117,7 +117,7 @@ const Navbar = () => {
 						<List>
 							<ListItem>
 								{(user.id != null) ? (
-								<NavbarAvatar user={user}/>
+									<MenuCircular userLetter={user.username[0]} />
 						) : (
 							<NavbarButton href="/login" text="login" /> ||
 							<NavbarButton href="/register" text="registar" />
