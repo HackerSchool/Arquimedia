@@ -1,10 +1,4 @@
 import React from 'react';
-import {
-	Button,
-	Avatar,
-	Menu,
-	MenuItem
-} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { logOut } from '../../api';
 import MenuCircular from '../MenuCircular/MenuCircular';
@@ -31,12 +25,6 @@ const NavbarAvatar = (props) => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
-	}
-
-	const handleLogout = () => {
-		handleClose();
-		logOut();
-		window.location.replace("/");
 	}
 
 	return (<div>
