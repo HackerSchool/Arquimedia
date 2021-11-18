@@ -4,7 +4,6 @@ import LoginPage from "./pages/LoginPage.js";
 import GenExamPage from "./pages/GenExamPage.js";
 import ExamPage from "./pages/ExamPage.js";
 import Navbar from "./components/navbar/Navbar"
-import MenuCircular from "./components/MenuCircular/MenuCircular"
 import ResultsPage from "./pages/ResultsPage.js"
 import RegistrationPage from "./pages/RegistrationPage.js";
 import QuestionSubmissionPage from "./pages/QuestionSubmissionPage";
