@@ -4,6 +4,12 @@ import {
 	Paper
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import { useEffect, useState } from "react";
+import {
+	getUser,
+	getProfile,
+	getXpEvents
+} from "../api";
 
 const useStyles = makeStyles(theme => ({
 	page: {
@@ -13,6 +19,19 @@ const useStyles = makeStyles(theme => ({
 
 const ResultsPage = (props) => {
 	const classes = useStyles();
+	const [profile, setProfile] = useState();
+	const [xpEvents, setXpEvents] = useState();
+
+	useEffect(() => {
+		getUser((res1) => {
+			getProfile(res1.data.id, (res2) => {
+				setProfile(res2.data);
+			});
+			getXpEvents(res1.data.id, (res3) => {
+				setXpEvents(res3.data);
+			});
+		});
+	}, []);
 
 	return (
 		<Grid container align="center" spacing={4} xs={12} className={classes.page} >
