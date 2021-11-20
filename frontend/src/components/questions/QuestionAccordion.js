@@ -12,7 +12,7 @@ import LaunchIcon from '@material-ui/icons/Launch';
 var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
-	root: {
+	rootAccordion: {
 		width: "60%"
 	}
 }))
@@ -24,7 +24,7 @@ const QuestionAccordion = ({question, failed}) => {
 	let correctAnswer = question.answer.find(e => e.correct);
 
 	return (
-		<Accordion className={classes.root}>
+		<Accordion className={classes.rootAccordion}>
 			<AccordionSummary expandIcon={<ExpandMoreIcon />} style={{
 				backgroundColor: (failed ? "#ff8c8c" : "#b4ff8c"),
 			}}>
