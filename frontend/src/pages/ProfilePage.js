@@ -10,7 +10,7 @@ import {
 	getProfile,
 	getXpEvents
 } from "../api";
-import XPGraph from "../components/xp/XPGrahp";
+import XPGraph from "../components/xp/XPGraph";
 import Loading from "../components/loading/Loading";
 
 const useStyles = makeStyles(theme => ({
