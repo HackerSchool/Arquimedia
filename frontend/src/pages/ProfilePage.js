@@ -17,6 +17,11 @@ import SubjectInfoPanel from "../components/subject/SubjectInfoPanel";
 const useStyles = makeStyles(theme => ({
 	page: {
 		marginTop: "80px"
+	},
+	panel: {
+		backgroundColor: "#F4F4F4",
+		borderRadius: 20,
+		boxShadow: "-3px 3px 4px #Bbb9b9"
 	}
 }));
 
@@ -46,22 +51,22 @@ const ProfilePage = () => {
 	return (
 		<Grid container align="center" spacing={4} xs={12} className={classes.page} >
 			<Grid item xs={4}> {/* General Info */}
-				<Paper> {/* delete this component when implementing */}
+				<Paper className={classes.panel}> {/* delete this component when implementing */}
 					This is where the General info pannel will be
 				</Paper>
 			</Grid>
 			<Grid item xs={8}> {/* XP Graph */}
-				<Paper> 
+				<Paper className={classes.panel}> 
 					<XPGraph xpEvents={xpEvents} />
 				</Paper>
 			</Grid>
 			<Grid item xs={4}> {/* Subject info */}
-				<Paper> 
+				<Paper className={classes.panel}> 
 					<SubjectInfoPanel profile={profile}/>
 				</Paper>
 			</Grid>
 			<Grid item xs={8}> {/* Subject Achievements Info */}
-				<Paper> {/* delete this component when implementing */}
+				<Paper className={classes.panel}> {/* delete this component when implementing */}
 					This is where the subject achievements pannel will be
 				</Paper>	
 			</Grid>
