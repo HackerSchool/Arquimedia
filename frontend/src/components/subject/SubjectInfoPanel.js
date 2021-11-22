@@ -21,9 +21,30 @@ const SubjectInfoPanel = ({profile}) => {
     const classes = useStyles();
     const [subject, setSubject] = useState(profile.subjects[0]);
 
+    const computeGeral = () => {
+        let newGeralSubject = {
+            id: null,
+            wrongAnswers: [],
+            correctAnswers: [],
+            subject: "Geral",
+            examCounter: 0
+        }
+
+        profile.subjects.forEach(sub => {
+            newGeralSubject.wrongAnswers = newGeralSubject.wrongAnswers.concat(sub.wrongAnswers);
+            newGeralSubject.correctAnswers = newGeralSubject.correctAnswers.concat(sub.correctAnswers);
+            newGeralSubject.examCounter += sub.examCounter;
+        }); 
+
+        return newGeralSubject;
+    }
+
     const handleChange = (event) => {
-        const newSubject = profile.subjects.filter(sub => sub.subject === event.target.value)[0];
-        setSubject(newSubject);
+        if (event.target.value === "Geral") {
+            setSubject(computeGeral());
+        } else {
+            setSubject(profile.subjects.filter((sub) => event.target.value === sub.subject)[0]);
+        }
     };
 
     return (
@@ -40,6 +61,8 @@ const SubjectInfoPanel = ({profile}) => {
                     {profile.subjects.map(subj => (
                         <MenuItem value={subj.subject}>{subj.subject}</MenuItem>
                     ))}
+                        <MenuItem value={"Geral"}>Geral</MenuItem>
+                        
                 </Select>
             </Grid>
             <Grid item>
