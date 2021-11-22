@@ -100,7 +100,7 @@ const XPGraph = (xpEvents) => {
             <VictoryLine 
                 interpolation="catmullRom"
                 style={{
-                    data: { stroke: "#c43a31" },
+                    data: { stroke: "#EB5757" },
                     parent: { border: "1px solid #ccc"}
                 }}
                 data={data}
@@ -112,7 +112,7 @@ const XPGraph = (xpEvents) => {
                 x={"date"}
                 y={"amount"}
                 style={{
-                    data: { fill: "#c43a31" },
+                    data: { fill: "#EB5757" },
                     parent: { border: "1px solid #ccc"}
                 }}
                 size={7}
