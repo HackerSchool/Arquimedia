@@ -12,7 +12,6 @@ const XPGraph = (xpEvents) => {
         if (arr.length < 7) {
             let currentDate = new Date(arr[0].date);
             currentDate.setDate(currentDate.getDate() - 1);
-            console.log(currentDate)
             for (let i = 0; i < 7 - arr.length; i++) {
                 res.unshift({
                     date: currentDate.toDateString(),
@@ -69,11 +68,8 @@ const XPGraph = (xpEvents) => {
 
     const cleanData = (data) => {
         let limit = Date.now() - 7; // limit is one week 
-        console.log(data)
         data = sumSimilar(data);
-        console.log(data)
         data = addEmptyDays(data);
-        console.log(data)
         data = data.filter(item => new Date(item.date) < limit);
         return data;
     };
@@ -82,8 +78,6 @@ const XPGraph = (xpEvents) => {
         let weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
         for (let i = 0; i < data.length - 2; i++) {
             data[i].date = weekdays[(new Date(data[i].date).getDay())]
-            console.log("esta merda nao ta em loop infinito")
-            console.log(data)
         }
         data[data.length - 2].date = "Ontem";
         data[data.length - 1].date = "Hoje";
