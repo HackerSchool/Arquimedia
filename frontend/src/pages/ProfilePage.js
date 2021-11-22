@@ -12,6 +12,7 @@ import {
 } from "../api";
 import XPGraph from "../components/xp/XPGraph";
 import Loading from "../components/loading/Loading";
+import SubjectInfoPanel from "../components/subject/SubjectInfoPanel";
 
 const useStyles = makeStyles(theme => ({
 	page: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const ResultsPage = (props) => {
+const ProfilePage = () => {
 	const classes = useStyles();
 	const [profile, setProfile] = useState();
 	const [xpEvents, setXpEvents] = useState();
@@ -28,16 +29,19 @@ const ResultsPage = (props) => {
 	useEffect(() => {
 		getUser((res1) => {
 			getProfile(res1.data.id, (res2) => {
+				getXpEvents(res1.data.id, (res3) => {
+					setXpEvents(res3.data);
+					setLoading(false);
+				});
 				setProfile(res2.data);
-			});
-			getXpEvents(res1.data.id, (res3) => {
-				setXpEvents(res3.data);
-				setLoading(false);
 			});
 		});
 	}, []);
 
 	if (loading) return <Loading />;
+
+	console.log(profile);
+	console.log(xpEvents);
 
 	return (
 		<Grid container align="center" spacing={4} xs={12} className={classes.page} >
@@ -47,13 +51,13 @@ const ResultsPage = (props) => {
 				</Paper>
 			</Grid>
 			<Grid item xs={8}> {/* XP Graph */}
-				<Paper> {/* delete this component when implementing */}
+				<Paper> 
 					<XPGraph xpEvents={xpEvents} />
 				</Paper>
 			</Grid>
 			<Grid item xs={4}> {/* Subject info */}
-				<Paper> {/* delete this component when implementing */}
-					This is where the subject info pannel will be
+				<Paper> 
+					<SubjectInfoPanel profile={profile}/>
 				</Paper>
 			</Grid>
 			<Grid item xs={8}> {/* Subject Achievements Info */}
@@ -65,4 +69,4 @@ const ResultsPage = (props) => {
 	);
 };
 
-export default ResultsPage;
+export default ProfilePage;
