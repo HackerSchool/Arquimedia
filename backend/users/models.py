@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import indexes
 from exams.models import Question
 from django.dispatch import receiver
-from django.db.models.signals import post_save, m2m_changed
+from django.db.models.signals import post_save, m2m_changed, pre_save
 from datetime import datetime
 
 
@@ -90,10 +90,10 @@ class SubjectInfo(models.Model):
     examCounter = models.IntegerField(default=0)
     wrongAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="wrongAnswers")
     correctAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="correctAnswers")
+    index = models.IntegerField(default=0)
 
     def __str__(self):
         return self.subject
-
 
     def addCorrectAnswer(self, answer):
         correctAnswers = self.correctAnswers.all()
@@ -106,6 +106,7 @@ class SubjectInfo(models.Model):
 
         newAnswer = AnswerInfo.objects.create(answer=answer)
         self.correctAnswers.add(newAnswer)
+        self.index = self.getIndex()
 
     
     def addWrongAnswer(self, answer):
@@ -119,6 +120,7 @@ class SubjectInfo(models.Model):
 
         newAnswer = AnswerInfo.objects.create(answer=answer)
         self.wrongAnswers.add(newAnswer)
+        self.index = self.getIndex()
 
     
     def getPercentageOfQuestionsAnswered(self):
