@@ -14,12 +14,26 @@ const useStyles = makeStyles(theme => ({
         "& .MuiSvgIcon-root": {
             color: "#EB5757"
         }
+    },
+    indexCircle: index => ({
+        backgroundColor: (index > 80 ? "#00FF47" : (index > 50 ? "#FFED47" : "#EB5757")),
+        width: "9rem",
+        height: "9rem",
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    }),
+    index: {
+        fontWeight: 600,
+        color: "white"
     }
 }));
 
 const SubjectInfoPanel = ({profile}) => {
-    const classes = useStyles();
     const [subject, setSubject] = useState(profile.subjects[0]);
+    const classes = useStyles(subject.index);
+    console.log(classes)
 
     const computeGeral = () => {
         let newGeralSubject = {
@@ -27,15 +41,18 @@ const SubjectInfoPanel = ({profile}) => {
             wrongAnswers: [],
             correctAnswers: [],
             subject: "Geral",
-            examCounter: 0
+            examCounter: 0,
+            index: 0
         }
 
         profile.subjects.forEach(sub => {
             newGeralSubject.wrongAnswers = newGeralSubject.wrongAnswers.concat(sub.wrongAnswers);
             newGeralSubject.correctAnswers = newGeralSubject.correctAnswers.concat(sub.correctAnswers);
             newGeralSubject.examCounter += sub.examCounter;
+            newGeralSubject.index += sub.index;
         }); 
 
+        newGeralSubject.index /= profile.subjects.length;
         return newGeralSubject;
     }
 
@@ -79,6 +96,13 @@ const SubjectInfoPanel = ({profile}) => {
                 <Typography variant={"h6"}>
                     Respostas corretas: {subject.correctAnswers.length}
                 </Typography>
+            </Grid>
+            <Grid item>
+                <div className={classes.indexCircle}>
+                    <Typography variant={"h3"} className={classes.index}>
+                        {subject.index}
+                    </Typography>
+                </div>
             </Grid>
         </Grid>
     );
