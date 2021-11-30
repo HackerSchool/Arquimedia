@@ -10,11 +10,12 @@ from datetime import datetime
 # Create your models here.
 # Create Profile model.
 
-MATH, PHYSICS = "Matemática", "Física-Química"
+MATH, PHYSICS, GERAL = "Matemática", "Física-Química", "Geral"
 
 SUBJECTS = (
    (MATH, "Matemática"),
-   (PHYSICS, "Física-Química")
+   (PHYSICS, "Física-Química"),
+    (GERAL, "Geral")
 )
 
 
@@ -76,6 +77,7 @@ class Achievement(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     image = models.ImageField(null=True, blank=True, upload_to=renameImage)
+    subject = models.CharField(default=GERAL, choices=SUBJECTS, max_length=50, null=False)
 
     def __str__(self):
         return self.title
