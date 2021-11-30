@@ -1,7 +1,7 @@
 import {Grid, Typography, responsiveFontSizes, createTheme, MuiThemeProvider, Select, FormControl, MenuItem, InputLabel, OutlinedInput, colors} from '@material-ui/core';
 import {React, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AchivementsOutter from '../../containers/AchivementsOutter';
+import AchivementsOutter from '../../containers/AchievementsOutter';
 
 
 let theme = createTheme();
