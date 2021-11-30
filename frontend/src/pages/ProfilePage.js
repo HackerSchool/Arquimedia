@@ -68,7 +68,7 @@ const ProfilePage = () => {
 			</Grid>
 			<Grid item xs={8}> {/* Subject Achievements Info */}
 				<Paper className={classes.panel}>
-					<AchivementTray />
+					<AchivementTray achievements={profile.achievements}/>
 				</Paper>	
 			</Grid>
 		</Grid>

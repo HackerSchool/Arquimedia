@@ -30,8 +30,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-function AchivementTray() {
+function AchivementTray(achievements) {
     const classes = useStyles();
+    const objects = achievements.achievements;
 
     return (
             <Grid  className={classes.outterbox} container spacing={4}>
@@ -39,13 +40,15 @@ function AchivementTray() {
                 <Grid item xs={12} >
                     <MuiThemeProvider theme = {theme}>
                         <Typography  variant='h5'>
-                            Achivements
+                            Medalhas
                         </Typography>
                     </MuiThemeProvider>
                 </Grid>
 
                 <Grid item xs={12}>
-
+                    {objects.map(i => (
+                        <h1>Ola</h1>
+                    ))}
                 </Grid>
             </Grid>
     )
