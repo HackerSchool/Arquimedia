@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from django.db.models import indexes
 from exams.models import Question
 from django.dispatch import receiver
-from django.db.models.signals import post_save, m2m_changed
+from django.db.models.signals import post_save, m2m_changed, pre_save
+from datetime import datetime
+
 
 # Create your models here.
 # Create Profile model.
@@ -18,12 +20,19 @@ SUBJECTS = (
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    subjects = models.ManyToManyField("SubjectInfo")
+    subjects = models.ManyToManyField("SubjectInfo", related_name='profile')
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
-    achievements = models.ManyToManyField("Achievement", null=True, related_name="achievements")
+    achievements = models.ManyToManyField("Achievement", related_name="achievements")
+    follows = models.ManyToManyField(User, "follows")
 
     def __str__(self):
         return self.user.username
+
+    def addToFollowing(self, profile):
+        self.follows.add(profile)
+
+    def removeFromFollowing(self, profile):
+        self.follows.remove(profile)
 
 
 class XPSystem(models.Model):
@@ -31,7 +40,22 @@ class XPSystem(models.Model):
     currentLevel = models.IntegerField(default=0)
     levelXP = models.IntegerField(default=1000)
 
+    # This var will keep track of the value of xp before it is changed
+    previousXP = 0
+
+    def __init__(self, *args, **kwargs):
+        super(XPSystem, self).__init__(*args, **kwargs)
+        self.previousXP = self.xp
+
     def save(self, *args, **kwargs):
+        if self.previousXP < self.xp:
+            user = self.profile_set.all()[0].user
+            amountXPChanged = self.xp-self.previousXP
+
+            XPEvent.objects.create(user=user, amount=amountXPChanged)
+
+            self.previousXP = self.xp
+
         if self.xp >= self.levelXP:
             self.xp -= self.levelXP
             self.currentLevel += 1
@@ -40,10 +64,18 @@ class XPSystem(models.Model):
         super(XPSystem, self).save(*args, **kwargs)
 
 
+def renameImage(instance, filename):
+        ext = filename.split(".")[-1]
+        if instance.pk:
+            return "achievement{}.{}".format(instance.pk, ext)
+
+
+
 class Achievement(models.Model):
     xp = models.IntegerField()
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
+    image = models.ImageField(null=True, blank=True, upload_to=renameImage)
 
     def __str__(self):
         return self.title
@@ -58,10 +90,10 @@ class SubjectInfo(models.Model):
     examCounter = models.IntegerField(default=0)
     wrongAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="wrongAnswers")
     correctAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="correctAnswers")
+    index = models.IntegerField(default=0)
 
     def __str__(self):
         return self.subject
-
 
     def addCorrectAnswer(self, answer):
         correctAnswers = self.correctAnswers.all()
@@ -74,6 +106,7 @@ class SubjectInfo(models.Model):
 
         newAnswer = AnswerInfo.objects.create(answer=answer)
         self.correctAnswers.add(newAnswer)
+        self.index = self.getIndex()
 
     
     def addWrongAnswer(self, answer):
@@ -87,6 +120,7 @@ class SubjectInfo(models.Model):
 
         newAnswer = AnswerInfo.objects.create(answer=answer)
         self.wrongAnswers.add(newAnswer)
+        self.index = self.getIndex()
 
     
     def getPercentageOfQuestionsAnswered(self):
@@ -114,11 +148,22 @@ class SubjectInfo(models.Model):
 
 
 
+class XPEvent(models.Model):
+    date = models.DateField(auto_now_add=True)
+    amount = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self): return self.user.username + "::" + self.date.strftime("%m/%d/%Y") + ">" + str(self.amount)
+
 # When a new User object is created, a Profile is attached
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance, xp=XPSystem.objects.create())
+        subject = SubjectInfo.objects.create(subject="Matemática")
+
+        profile = Profile.objects.create(user=instance, xp=XPSystem.objects.create())
+
+        profile.subjects.add(subject)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

@@ -1,4 +1,4 @@
-from users.models import Achievement, Profile, XPSystem
+from users.models import Achievement, AnswerInfo, Profile, SubjectInfo, XPEvent, XPSystem
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
 from exams.models import Question, Comment, Exam, Answer
@@ -12,6 +12,12 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ("id", "username", )
+
+
+class XPEventSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = XPEvent
+		fields = ("date", "amount")
 
 
 class QuestionShortSerializer(serializers.ModelSerializer):
@@ -83,7 +89,6 @@ class StringListField(serializers.ListField):
 
 class CreateExamSerializer(serializers.Serializer):
 	subject = serializers.CharField()
-	randomSubSubject = serializers.BooleanField()
 	subSubjects = StringListField()
 	year = serializers.IntegerField()
 
@@ -99,14 +104,33 @@ class XPSerializer(serializers.ModelSerializer):
 		model = XPSystem
 		fields = ("xp", "currentLevel", "levelXP")
 
+
+class answersInfoSerializer(serializers.ModelSerializer):
+	answer = QuestionShortSerializer()
+	class Meta:
+		model = AnswerInfo
+		fields = "__all__"
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+	wrongAnswers = answersInfoSerializer(many=True)
+	correctAnswers = answersInfoSerializer(many=True)
+
+	class Meta:
+		model = SubjectInfo
+		fields = "__all__"
+
+
 class ProfileSerializer(serializers.ModelSerializer):
 	achievements = AchievementSerializer(many=True)
 	xp = XPSerializer()
 	user = UserSerializer()
+	subjects = SubjectSerializer(many=True)
+	follows = UserSerializer(many=True)
 
 	class Meta: 
 		model = Profile
-		fields = ("id", "xp", "achievements", "user")
+		fields = ("__all__")
 
 
 class AnswerSubmitionSerializer(serializers.Serializer):
@@ -121,6 +145,22 @@ class CreateQuestionSerializer(serializers.Serializer):
 	year = serializers.IntegerField()
 	answers = serializers.ListField(child=AnswerSerializer())
 
+
 class ImageSerializer(serializers.Serializer):
 	image = serializers.ImageField()
 
+
+class SubjectInfoSerializer(serializers.Serializer):
+	subject = serializers.CharField()
+	questions = QuestionShortSerializer(many=True)
+
+
+class ProfileLeaderboardSerializer(serializers.ModelSerializer):
+	xp = XPSerializer()
+	class Meta:
+		model = Profile
+		fields = ("id", "xp")
+
+class ProfileLeaderboardTimedSerializer(serializers.Serializer):
+	id = serializers.IntegerField()
+	xp = serializers.IntegerField()

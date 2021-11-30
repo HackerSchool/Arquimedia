@@ -12,6 +12,13 @@ export async function getUser(successCall, errorCall) {
 	}).catch((error) => errorCall(error))
 }
 
+// Fetch given user's profile
+export async function getProfile(id, successCall) {
+	axios.get("api/profile/" + id)
+	.then((res) => successCall(res))
+	.catch((error) => console.log(error));
+}
+
 // Log in User
 export async function logIn(username, password) {
 	axios.post("/rest-auth/login/", {
@@ -54,43 +61,43 @@ export async function hasUpvotedAPI(id, successCall) {
 
 
 export async function upvoteAPI(id, successCall) {
-	axios.post("api/upvote_comment/" + id)
+	axios.post("api/upvote/" + id)
 	.then((res) => successCall(res));
 }
 
 
 export async function downvoteAPI(id, successCall) {
-	axios.post("api/downvote_comment/" + id)
+	axios.post("api/downvote/" + id)
 	.then((res) => successCall(res));
 }
 
 
 export async function deleteCommentAPI(id, successCall) {
-	axios.delete("api/delete_comment/" + id)
+	axios.delete("api/comment/" + id)
 	.then((res) => successCall(res))
 }
 
 
 export async function removeUpvoteAPI(id, successCall) {
-	axios.post("api/remove_upvote/" + id)
+	axios.delete("api/upvote/" + id)
 	.then((res) => successCall(res))
 }
 
 
 export async function removeDownvoteAPI(id, successCall) {
-	axios.post("api/remove_downvote/" + id)
+	axios.delete("api/downvote/" + id)
 	.then((res) => successCall(res))
 }
 
 
 export async function createCommentAPI(body, successCall) {
-	axios.post("api/create_comment", body)
+	axios.post("api/comment/", body)
 	.then((res) => successCall(res))
 }
 
 
 export async function createExam(body, successCall) {
-	axios.post("api/create_exam", body)
+	axios.post("api/exam/", body)
 	.then((res) => successCall(res))
 }
 
@@ -102,7 +109,7 @@ export async function examInfo(id, successCall) {
 
 
 export async function submitExam(id, body, successCall) {
-	axios.post("api/submit_exam/" + id, body)
+	axios.put("api/exam/" + id, body)
 	.then((res) => successCall(res));
 }
 
@@ -117,7 +124,7 @@ export async function registerUser(body) {
 
 
 export async function submitQuestion(body, successCall) {
-	axios.post("api/create_question", body)
+	axios.post("api/question/", body)
 	.then((res) => successCall(res));
 }
 
@@ -140,12 +147,36 @@ export async function getSubmittedQuestions(successCall) {
 
 
 export async function deleteQuestion(ID, successCall) {
-	axios.post("api/delete_question/" + ID)
+	axios.delete("api/question/" + ID)
 	.then((res) => successCall(res));
 }
 
 
 export async function acceptQuestion(ID, successCall) {
-	axios.post("api/accept_question/" + ID)
+	axios.put("api/question/" + ID)
+	.then((res) => successCall(res));
+}
+
+
+export async function getXpEvents(ID, successCall) {
+	axios.get("api/xpevents/" + ID)
+	.then((res) => successCall(res));
+}
+
+
+export async function getSubjectInfo(Name, successCall) {
+	axios.get("api/subject/" + Name)
+	.then((res) => successCall(res));
+}
+
+
+export async function followUser(ID, successCall) {
+	axios.get("api/follow/" + ID)
+	.then((res) => successCall(res));
+}
+
+
+export async function unfollowUser(ID, successCall) {
+	axios.delete("api/follow/" + ID)
 	.then((res) => successCall(res));
 }

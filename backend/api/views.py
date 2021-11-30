@@ -9,32 +9,116 @@ from .serializer import *
 from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
+from django.shortcuts import get_object_or_404, get_list_or_404
+from rest_framework.permissions import IsAuthenticated 
+import datetime
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
+
 	queryset = Question.objects.all()
 	serializer_class = QuestionSerializer
 
 
-class QuestionView(generics.RetrieveAPIView):
+class QuestionView(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request, id):
+		question = get_object_or_404(Question, id=id)
+
+		return Response(QuestionSerializer(question).data, status=status.HTTP_200_OK)
+
+
+	# Validates a question
+	def put(self, request, id):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question = get_object_or_404(Question, id=id)
+		question.accepted = True
+		question.save()
+
+		return Response(status=status.HTTP_200_OK)
+
+	
+	def delete(self, request, id):
+		question = get_object_or_404(Question, id=id)
+
+		if (request.user != question.author) and not (request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+
+	# Creates new question request, which will have to be validated
+	def post(self, request):
+		question = CreateQuestionSerializer(data=request.data)
+		if question.is_valid(): 
+			newQuestion = Question.objects.create()
+		
+			for answer in question.data.get("answers"):
+				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
+				newAnswer.save()
+
+			newQuestion.text = question.data.get("text")
+			newQuestion.subject = question.data.get("subject")
+			newQuestion.subsubject = question.data.get("subsubject")
+			newQuestion.year = question.data.get("year")
+			newQuestion.author = request.user
+
+			newQuestion.save()
+
+			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+		else:
+			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddImageToQuestion(APIView):
+	parser_classes = [MultiPartParser]
+	permission_classes = [IsAuthenticated]
+
+	def post(self, request, *args, **kwargs):
+		question = Question.objects.get(id=kwargs.get("id"))
+
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+
+		if question.author != self.request.user:
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		image = request.data["file"]
+
+		question.image = image
+		question.save()
+
+		return Response(status=status.HTTP_202_ACCEPTED)
+
+
+class SubmittedQuestions(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
+	queryset = Question.objects.filter(accepted=False)
 	serializer_class = QuestionSerializer
-	lookup_field = "id"
-	queryset = Question.objects.all()
 
 
-class CommentView(generics.RetrieveAPIView):
-	serializer_class = CommentSerializer
-	lookup_field = "id"
-	queryset = Comment.objects.all()
-
-
-class CreateCommentView(APIView):
+class CommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
-	def post(self, request, format=None):
+	def get(self, request, id):
+		if not self.request.user.is_authenticated:
+			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+			
+		comment = get_object_or_404(Comment, id=id)
+
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+
+	def post(self, request):
 		if not self.request.user.is_authenticated:
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -49,13 +133,8 @@ class CreateCommentView(APIView):
 		
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class DeleteCommentView(APIView):
-	serializer_class = CommentSerializer
-
-	def delete(self, request, *args, **kwargs):
-		serializer = self.serializer_class(data=request.data)
-		comment = Comment.objects.get(id=kwargs.get("pk"))
+	def delete(self, request, id):
+		comment = get_object_or_404(Comment, id=id)
 		if self.request.user == comment.author:
 			comment.delete()
 
@@ -65,10 +144,12 @@ class DeleteCommentView(APIView):
 
 
 class UpvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
+	# Upvotes a Comment
+	def post(self, request, id):
+		comment = Comment.objects.get(id=id)
 		if request.user in comment.upvoters.all():
 			return Response({"User already upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -84,12 +165,28 @@ class UpvoteCommentView(APIView):
 	
 		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
+	# Removes an upvote from a Comment
+	def delete(self, request, id):
+		comment = Comment.objects.get(id=id)
+		if request.user not in comment.upvoters.all():
+			return Response({"User hasn't upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+
+		comment.votes -= 1
+		
+		comment.upvoters.remove(request.user)
+		comment.save()
+
+		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+
+
 
 class DownvoteCommentView(APIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = CommentSerializer
 
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
+	# Downvotes a Comment
+	def post(self, request, id):
+		comment = Comment.objects.get(id=id)
 		if request.user in comment.downvoters.all():
 			return Response({"User already downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -104,12 +201,9 @@ class DownvoteCommentView(APIView):
 
 		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
-
-class RemoveDownvoteCommentView(APIView):
-	serializer_class = CommentSerializer
-
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
+	# Removes a downvote from a Comment
+	def delete(self, request, id):
+		comment = Comment.objects.get(id=id)
 		if request.user not in comment.downvoters.all():
 			return Response({"User hasn't downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -121,23 +215,8 @@ class RemoveDownvoteCommentView(APIView):
 		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
 
 
-class RemoveUpvoteCommentView(APIView):
-	serializer_class = CommentSerializer
-
-	def post(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
-		if request.user not in comment.upvoters.all():
-			return Response({"User hasn't upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
-
-		comment.votes -= 1
-		
-		comment.upvoters.remove(request.user)
-		comment.save()
-
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
-
-
 class HasUserUpvoted(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -148,6 +227,7 @@ class HasUserUpvoted(APIView):
 
 
 class HasUserDownvoted(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, *args, **kwargs):
 		comment = Comment.objects.get(id=kwargs.get("id"))
@@ -157,44 +237,34 @@ class HasUserDownvoted(APIView):
 		else: return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class CurrentUserView(APIView):
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+class ExamView(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request, id):
+		exam = get_object_or_404(Exam, id=id)
+
+		return Response(ExamSerializer(exam).data, status=status.HTTP_200_OK)
 
 
-class ExamView(generics.RetrieveAPIView):
-	serializer_class = ExamSerializer
-	lookup_field = "id"
-	queryset = Exam.objects.all()
+	def post(self, request):
 
-
-class CreateExamView(APIView):
-	serializer_class = CreateExamSerializer
-
-	def post(self, request, format=None):
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
-
-		serializer = self.serializer_class(data=request.data)
+		serializer = CreateExamSerializer(data=request.data)
 		if serializer.is_valid():
 			subject = serializer.data.get("subject")
 			year = serializer.data.get("year")
 			subSubjects = serializer.data.get("subSubjects")
-			randomSubSubject = serializer.data.get("randomSubSubject")
 
 			questionsQuery = []
 
-			if (not randomSubSubject):
+			if (subSubjects): # If there are any subsubjects specified
 				for subSubject in subSubjects:
-					if subSubject != "none":
-						if year:
-							temp = list(Question.objects.filter(year=year, subsubject=subSubject))
-							for i in temp: questionsQuery.append(i)
-						else:
-							temp = list(Question.objects.filter(subsubject=subSubject))
-							for i in temp: questionsQuery.append(i)
-			else:
+					if year:
+						temp = list(Question.objects.filter(year=year, subsubject=subSubject))
+						for i in temp: questionsQuery.append(i)
+					else:
+						temp = list(Question.objects.filter(subsubject=subSubject))
+						for i in temp: questionsQuery.append(i)
+			else: # User wants a random subsubjects exam
 				if year:
 					temp = list(Question.objects.filter(year=year))
 					for i in temp: questionsQuery.append(i)
@@ -221,16 +291,13 @@ class CreateExamView(APIView):
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ExamSubmission(APIView):
-	def post(self, request, *args, **kwargs):
-		serializer_class = ExamSerializer
-		exam = Exam.objects.get(id=kwargs.get("id"))
+	def put(self, request, id):
+		exam = get_object_or_404(Exam, id=id)
 
 		if exam.correct.count() or exam.failed.count():
 			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-		profileSubject = request.user.profile.subjects.filter(subject="Matemática")[0]
+		profileSubject = request.user.profile.subjects.get(subject="Matemática")
 		for question, answer in request.data.items():
 
 			questionQuery = Question.objects.get(id=int(question))
@@ -257,96 +324,135 @@ class ExamSubmission(APIView):
 		exam.save()
 		profileSubject.save()
 
-		serializer = serializer_class(exam)
+		serializer = ExamSerializer(exam)
 
 		return 	Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class AchievementsListView(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
 	queryset = Achievement.objects.all()
 	serializer_class = AchievementSerializer
 
 
 class ProfileView(generics.RetrieveAPIView):
+	permission_classes = [IsAuthenticated]
 	serializer_class = ProfileSerializer
 	lookup_field = "id"
 	queryset = Profile.objects.all()
 
 
-class CreateQuestionSubmission(APIView):
-	serializer_class = CreateQuestionSerializer
-	
-	def post(self, request):
+class CurrentUserView(APIView):
+	permission_classes = [IsAuthenticated]
 
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+	def get(self, request):
+		serializer = UserSerializer(request.user)
+		return Response(serializer.data)
+        
 
-		question = self.serializer_class(data=request.data)
-		if question.is_valid(): 
-			newQuestion = Question.objects.create()
-		
-			for answer in question.data.get("answers"):
-				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
-				newAnswer.save()
 
-			newQuestion.text = question.data.get("text")
-			newQuestion.subject = question.data.get("subject")
-			newQuestion.subsubject = question.data.get("subsubject")
-			newQuestion.year = question.data.get("year")
-			newQuestion.author = request.user
+class XPEventsAPI(APIView):
+	permission_classes = [IsAuthenticated]
 
-			newQuestion.save()
+	def get(self, request, id):
+		user = get_object_or_404(User, id=id)
+		events = XPEvent.objects.filter(user=user)
+		serializer = XPEventSerializer(events, many=True)
+		return Response(serializer.data)
 
-			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
 
+class SubjectAPI(APIView):
+	permission_classes = [IsAuthenticated]
+
+	class Subject:
+		def __init__(self, subject, questions):
+			self.subject = subject
+			self.questions = questions
+				
+	def get(self, request, subject):
+		questions = get_list_or_404(Question, subject=subject)
+		sub = self.Subject(subject=subject, questions=questions)
+
+		return Response(SubjectInfoSerializer(sub).data)
+
+
+class Leaderboard(APIView):
+
+	class XPProfile:
+		def __init__(self, id, xp):
+			self.id = id
+			self.xp = xp
+
+	def get(self, request, time=None):
+		def checkForUser(list, userID):
+			for i in list:
+				if i.id == userID: return True
+
+			return False
+
+		def getXPProfile(list, userID):
+			for i in list:
+				if i.id == userID: return i
+
+
+		if time == None:
+			users = Profile.objects.order_by("xp__xp")
+			return Response(ProfileLeaderboardSerializer(users, many=True).data)
+		elif time == "month":
+			date = datetime.date.today() - datetime.timedelta(days=30)
+		elif time == "day":
+			date = datetime.date.today() - datetime.timedelta(days=1)
 		else:
-			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"Bad Request": "Invalid date"}, status=status.HTTP_400_BAD_REQUEST)
+
+		events = XPEvent.objects.filter(date__gte=date)
+
+		users = []
+		for n, i in enumerate(events):
+			repeated = False
+			for e in events[:n]:
+				if i.user == e.user:
+					repeated = True
+
+			if not repeated: users.append(i.user)
 
 
-class AddImageToQuestion(APIView):
-	parser_classes = [MultiPartParser]
+		usersXP = []
+		for user in users:
+			for event in events:
+				if user == event.user:
+					if not checkForUser(usersXP, user.id): 
+						usersXP.append(self.XPProfile(user.id, event.amount))
+					else:
+						getXPProfile(usersXP, user.id).xp += event.amount
 
-	def post(self, request, *args, **kwargs):
-		question = Question.objects.get(id=kwargs.get("id"))
-
-		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
-
-		if question.author != self.request.user:
-			return Response(status=status.HTTP_403_FORBIDDEN)
-
-		image = request.data["file"]
-
-		question.image = image
-		question.save()
-
-		return Response(status=status.HTTP_202_ACCEPTED)
+		return Response(ProfileLeaderboardTimedSerializer(usersXP, many=True).data)
 
 
-class SubmittedQuestions(generics.ListAPIView):
-	queryset = Question.objects.filter(accepted=False)
-	serializer_class = QuestionSerializer
+class Follow(APIView):
+	permission_classes = [IsAuthenticated]
 
+	def get(self, request, id):
+		user_profile = request.user.profile
 
-class DeleteQuestion(APIView):
-	def post(self, request, *args, **kwargs):
-		question = Question.objects.get(id=kwargs.get("id"))
+		user_to_follow = User.objects.get(id=id)
 
-		if (request.user != question.author) and not (request.user.is_superuser):
-			return Response(status=status.HTTP_403_FORBIDDEN)
+		if request.user == user_to_follow:
+			return Response(status=status.HTTP_400_BAD_REQUEST)
 
-		question.delete()
+		user_profile.addToFollowing(user_to_follow)
 
 		return Response(status=status.HTTP_200_OK)
+	
 
+	def delete(self, request, id):
+		user_profile = request.user.profile
 
-class AcceptQuestion(APIView):
-	def post(self, request, *args, **kwargs):
-		if not(request.user.is_superuser):
-			return Response(status=status.HTTP_403_FORBIDDEN)
+		user_to_remove_follow = User.objects.get(id=id)
 
-		question = Question.objects.get(id=kwargs.get("id"))
-		question.accepted = True
-		question.save()
+		if user_to_remove_follow not in user_profile.follows.all():
+			return Response(status=status.HTTP_400_BAD_REQUEST)
+
+		user_profile.removeFromFollowing(user_to_remove_follow)
 
 		return Response(status=status.HTTP_200_OK)
