@@ -13,6 +13,7 @@ import {
 import XPGraph from "../components/xp/XPGraph";
 import Loading from "../components/loading/Loading";
 import SubjectInfoPanel from "../components/subject/SubjectInfoPanel";
+import AchivementTray from "../components/profile/AchievementTray";
 
 const useStyles = makeStyles(theme => ({
 	page: {
@@ -66,8 +67,8 @@ const ProfilePage = () => {
 				</Paper>
 			</Grid>
 			<Grid item xs={8}> {/* Subject Achievements Info */}
-				<Paper className={classes.panel}> {/* delete this component when implementing */}
-					This is where the subject achievements pannel will be
+				<Paper className={classes.panel}>
+					<AchivementTray />
 				</Paper>	
 			</Grid>
 		</Grid>

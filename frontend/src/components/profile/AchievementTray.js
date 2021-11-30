@@ -27,37 +27,16 @@ const MenuProps = {
   },
 };
 const useStyles = makeStyles(theme => ({
-	outterbox: {
-		borderRadius : 15,
-        backgroundColor: '#999999C7',
-	},
-	innerbox: {
-		borderRadius : 16,
-		backgroundColor: '#CCC9C9',
-	},
-    select:{
-        backgroundColor:'#FFFFFF',
-        minWidth : 120,
-        borderRadius: 5
-    }
-    
 }))
-
-const subjects = ['Todas','Matemática','Física e Química'];
 
 
 function AchivementTray() {
-
     const classes = useStyles();
-    const [selectedOption, setSelectedOption] = useState(subjects[0]);  
-    
 
     return (
-        <div>
-
             <Grid  className={classes.outterbox} container spacing={4}>
 
-                <Grid item xs={true} >
+                <Grid item xs={12} >
                     <MuiThemeProvider theme = {theme}>
                         <Typography  variant='h5'>
                             Achivements
@@ -65,30 +44,10 @@ function AchivementTray() {
                     </MuiThemeProvider>
                 </Grid>
 
-                <Grid  item xs="auto">
-				<Select className={classes.select}  value={selectedOption} onChange={(event) => setSelectedOption(event.target.value)}
-                MenuProps = {MenuProps} label='Disciplinas' disableUnderline>
-                    {subjects.map((subject)=>
-                        <MenuItem value = {subject}>
-                                <Typography variant= 'subtitle1'>
-                                    {subject}
-                                </Typography>
-                        </MenuItem>
-                    )}
-				</Select>
-                
-                </Grid>
-                <Grid>
-                    {/* Dotted Line */}
+                <Grid item xs={12}>
 
                 </Grid>
-                <Grid item xs={12}>
-                   
-                    <AchivementsOutter class={classes.innerbox}></AchivementsOutter>
-                </Grid>
             </Grid>
-                
-        </div>
     )
 }
 
