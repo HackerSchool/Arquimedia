@@ -1,7 +1,8 @@
 import {Grid, Typography, responsiveFontSizes, createTheme, MuiThemeProvider, Select, FormControl, MenuItem, InputLabel, OutlinedInput, colors} from '@material-ui/core';
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AchivementsOutter from '../../containers/AchievementsOutter';
+import { getAllAchievements } from "../../api"
+import Loading from '../loading/Loading';
 
 
 let theme = createTheme();
@@ -33,6 +34,17 @@ const useStyles = makeStyles(theme => ({
 function AchivementTray(achievements) {
     const classes = useStyles();
     const objects = achievements.achievements;
+    const [allAchievements, setAllAchievements] = useState();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        getAllAchievements((res) => {
+            setAllAchievements(res.data);
+            setLoading(false);
+        })
+    }, [])
+
+    if (loading) return <Loading />;
 
     return (
             <Grid  className={classes.outterbox} container spacing={4}>
@@ -46,7 +58,7 @@ function AchivementTray(achievements) {
                 </Grid>
 
                 <Grid item xs={12}>
-                    {objects.map(i => (
+                    {allAchievements.map(i => (
                         <h1>Ola</h1>
                     ))}
                 </Grid>
