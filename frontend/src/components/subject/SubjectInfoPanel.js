@@ -30,11 +30,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const SubjectInfoPanel = ({profile}) => {
-    const [subject, setSubject] = useState(profile.subjects[0]);
-    const classes = useStyles(subject.index);
-    console.log(classes)
-
+const SubjectInfoPanel = ({profile, changeSubject}) => {
     const computeGeral = () => {
         let newGeralSubject = {
             id: null,
@@ -56,11 +52,17 @@ const SubjectInfoPanel = ({profile}) => {
         return newGeralSubject;
     }
 
+    const geral = computeGeral();
+    const [subject, setSubject] = useState(geral);
+    const classes = useStyles(subject.index);
+
     const handleChange = (event) => {
         if (event.target.value === "Geral") {
-            setSubject(computeGeral());
+            setSubject(geral);
+            changeSubject("Geral");
         } else {
             setSubject(profile.subjects.filter((sub) => event.target.value === sub.subject)[0]);
+            changeSubject(event.target.value);
         }
     };
 
