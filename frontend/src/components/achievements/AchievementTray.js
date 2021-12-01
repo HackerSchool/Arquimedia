@@ -3,8 +3,13 @@ import {React, useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getAllAchievements } from "../../api"
 import Loading from '../loading/Loading';
+import Achievement from './Achievement';
 
 const useStyles = makeStyles(() => ({
+    outterbox: {
+        paddingLeft: "1rem",
+        paddingRight: "1rem"
+    }
 }))
 
 function AchievementTray({achievements, subjectProp}) {
@@ -40,8 +45,9 @@ function AchievementTray({achievements, subjectProp}) {
 
     if (loading) return <Loading />;
 
+    console.log(achievements)
     return (
-            <Grid className={classes.outterbox} container spacing={4}>
+            <Grid className={classes.outterbox} container spacing={4} direction="column">
 
                 <Grid item xs={12} >
                     <Typography  variant='h5'>
@@ -49,10 +55,12 @@ function AchievementTray({achievements, subjectProp}) {
                     </Typography>
                 </Grid>
 
-                <Grid item xs={12}>
-                    {achievementsToDisplay.map(i => (
-                        <h1>Ola</h1>
-                    ))}
+                <Grid item container spacing={12} justify="space-between" xs={3}>
+                        {achievementsToDisplay.map(i => (
+                            <Grid item xs={1}>
+                                <Achievement achievement={i} achieved={achievements.some(j => j.id === i.id)}/>
+                            </Grid>
+                        ))}
                 </Grid>
             </Grid>
     )
