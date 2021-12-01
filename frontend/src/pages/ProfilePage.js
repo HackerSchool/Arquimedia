@@ -13,6 +13,7 @@ import {
 import XPGraph from "../components/xp/XPGraph";
 import Loading from "../components/loading/Loading";
 import SubjectInfoPanel from "../components/subject/SubjectInfoPanel";
+import AchievementTray from "../components/achievements/AchievementTray";
 
 const useStyles = makeStyles(theme => ({
 	page: {
@@ -29,7 +30,8 @@ const ProfilePage = () => {
 	const classes = useStyles();
 	const [profile, setProfile] = useState();
 	const [xpEvents, setXpEvents] = useState();
-	const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
+	const [selectedSubject, setSelectedSubject] = useState("Geral");
 
 	useEffect(() => {
 		getUser((res1) => {
@@ -45,9 +47,6 @@ const ProfilePage = () => {
 
 	if (loading) return <Loading />;
 
-	console.log(profile);
-	console.log(xpEvents);
-
 	return (
 		<Grid container align="center" spacing={4} xs={12} className={classes.page} >
 			<Grid item xs={4}> {/* General Info */}
@@ -62,12 +61,12 @@ const ProfilePage = () => {
 			</Grid>
 			<Grid item xs={4}> {/* Subject info */}
 				<Paper className={classes.panel}> 
-					<SubjectInfoPanel profile={profile}/>
+					<SubjectInfoPanel profile={profile} changeSubject={setSelectedSubject}/>
 				</Paper>
 			</Grid>
 			<Grid item xs={8}> {/* Subject Achievements Info */}
-				<Paper className={classes.panel}> {/* delete this component when implementing */}
-					This is where the subject achievements pannel will be
+				<Paper className={classes.panel}>
+					<AchievementTray achievements={profile.achievements} subjectProp={selectedSubject}/>
 				</Paper>	
 			</Grid>
 		</Grid>

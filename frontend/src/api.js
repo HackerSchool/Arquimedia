@@ -180,3 +180,8 @@ export async function unfollowUser(ID, successCall) {
 	axios.delete("api/follow/" + ID)
 	.then((res) => successCall(res));
 }
+
+export async function getAllAchievements(successCall) {
+	axios.get("api/achievements")
+	.then((res) => successCall(res));
+}
