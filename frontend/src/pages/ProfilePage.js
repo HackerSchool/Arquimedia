@@ -13,7 +13,7 @@ import {
 import XPGraph from "../components/xp/XPGraph";
 import Loading from "../components/loading/Loading";
 import SubjectInfoPanel from "../components/subject/SubjectInfoPanel";
-import AchivementTray from "../components/profile/AchievementTray";
+import AchievementTray from "../components/achievements/AchievementTray";
 
 const useStyles = makeStyles(theme => ({
 	page: {
@@ -66,7 +66,7 @@ const ProfilePage = () => {
 			</Grid>
 			<Grid item xs={8}> {/* Subject Achievements Info */}
 				<Paper className={classes.panel}>
-					<AchivementTray achievements={profile.achievements} subjectProp={selectedSubject}/>
+					<AchievementTray achievements={profile.achievements} subjectProp={selectedSubject}/>
 				</Paper>	
 			</Grid>
 		</Grid>

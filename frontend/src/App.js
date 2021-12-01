@@ -15,7 +15,6 @@ import {
 	Route,
   } from "react-router-dom";
 import axios from "axios";
-import AchivementTray from "./components/profile/AchievementTray.js";
 
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
   
