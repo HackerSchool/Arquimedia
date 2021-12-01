@@ -5,7 +5,7 @@ import {
     Typography,
 } from '@material-ui/core'
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles(theme => ({
@@ -14,19 +14,35 @@ const useStyles = makeStyles(theme => ({
         height: "125px",
         
     },
-    linear: {
-        width: "300px",
-    },
     esquerda: {
         textAlign: 'left',
         marginLeft: "60px",
         padding: "5px",
     },
-    determinate: {
+    xpBar: {
         colorPrimary: 'pink',
         colorSecondary: 'blue',
+    },
+    colorPrimary: {
+        backgroundColor: '#FFFFFF',
+    },
+    barColorPrimary: {
+        backgroundColor: '#00FF47',
     }
 }));
+
+const BorderLinearProgress = withStyles({
+    root: {
+        height: 20,
+        width: "80%",
+        backgroundColor: '#FFFFFF',
+        borderRadius: 20,
+    },
+    bar: {
+        borderRadius: 20,
+        backgroundColor: '#00FF47',
+    },
+})(LinearProgress);
 
 
 export const ProfileBasicInfo = ({profile, XPEvents}) => {
@@ -96,12 +112,12 @@ export const ProfileBasicInfo = ({profile, XPEvents}) => {
             <Grid item xs={12} className={classes.esquerda}>
                 <Typography variant="h6">Nível: {profile.xp.currentLevel}</Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.esquerda}>
                 <div className={classes.linear}>
-                    <LinearProgress 
-                        color="secondary"
-                        variant="determinate" 
-                        value={profile.xp.xp/profile.xp.levelXP * 100} />
+                    <BorderLinearProgress 
+                        variant="determinate"
+                        value={profile.xp.xp/profile.xp.levelXP * 100}
+                    />
                 </div>
             </Grid>
             <Grid item xs={12} className={classes.esquerda}>
