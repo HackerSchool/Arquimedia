@@ -13,6 +13,7 @@ import {
 import XPGraph from "../components/xp/XPGraph";
 import Loading from "../components/loading/Loading";
 import SubjectInfoPanel from "../components/subject/SubjectInfoPanel";
+import { ProfileBasicInfo } from "../components/profile/ProfileBasicInfo";
 
 const useStyles = makeStyles(theme => ({
 	page: {
@@ -51,8 +52,8 @@ const ProfilePage = () => {
 	return (
 		<Grid container align="center" spacing={4} xs={12} className={classes.page} >
 			<Grid item xs={4}> {/* General Info */}
-				<Paper className={classes.panel}> {/* delete this component when implementing */}
-					This is where the General info pannel will be
+				<Paper className={classes.panel}>
+					<ProfileBasicInfo profile={profile} XPEvents={xpEvents}/>
 				</Paper>
 			</Grid>
 			<Grid item xs={8}> {/* XP Graph */}

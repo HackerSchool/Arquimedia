@@ -69,6 +69,22 @@ const XPGraph = (xpEvents) => {
     const cleanData = (data) => {
         let limit = Date.now() - 7; // limit is one week 
         data = sumSimilar(data);
+        data.splice(6, 0, {
+            date: "2021-11-30",
+            amount: 160
+        })
+        data.splice(6, 0, {
+            date: "2021-11-29",
+            amount: 150
+        })
+        data.splice(6, 0, {
+            date: "2021-11-28",
+            amount: 200
+        })
+        data.splice(6, 0, {
+            date: "2021-11-27",
+            amount: 400
+        })
         data = addEmptyDays(data);
         data = data.filter(item => new Date(item.date) < limit);
         return data;
