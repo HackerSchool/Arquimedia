@@ -5,8 +5,33 @@ import {
     Typography,
 } from '@material-ui/core'
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles(theme => ({
+	avatar: {
+        width: "125px",
+        height: "125px",
+        
+    },
+    linear: {
+        width: "300px",
+    },
+    esquerda: {
+        textAlign: 'left',
+        marginLeft: "60px",
+        padding: "5px",
+    },
+    determinate: {
+        colorPrimary: 'pink',
+        colorSecondary: 'blue',
+    }
+}));
+
 
 export const ProfileBasicInfo = ({profile, XPEvents}) => {
+    const classes = useStyles();
+
     const sumSimilar = arr => {
         const res = [];
         for (let i = 0; i < arr.length; i++) {
@@ -62,22 +87,29 @@ export const ProfileBasicInfo = ({profile, XPEvents}) => {
     console.log(hasGainedXpToday)
     return (
         <Grid container >
-            <Grid item xs={12}>
-                <Avatar>{profile.user.username[0]}</Avatar>
+            <Grid item xs={12} style={{ padding: '10px' }}>
+                <Avatar className={classes.avatar}>{profile.user.username[0]}</Avatar>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="h4">{profile.user.username}</Typography>
+                <Typography variant="h4">@{profile.user.username}</Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.esquerda}>
+                <Typography variant="h6">Nível: {profile.xp.currentLevel}</Typography>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="h6">{profile.xp.currentLevel}</Typography>
-                <LinearProgress variant="determinate" value={profile.xp.xp/profile.xp.levelXP * 100} />
+                <div className={classes.linear}>
+                    <LinearProgress 
+                        color="secondary"
+                        variant="determinate" 
+                        value={profile.xp.xp/profile.xp.levelXP * 100} />
+                </div>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.esquerda}>
                 <Typography variant="h6">
                     Streak: {streak} {hasGainedXpToday ? "🔥" : "🕯️"}
                 </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.esquerda}>
                 <Typography variant="h6">
                     A seguir: {profile.follows.length}
                 </Typography>
@@ -85,3 +117,5 @@ export const ProfileBasicInfo = ({profile, XPEvents}) => {
         </Grid>
     )
 }
+
+
