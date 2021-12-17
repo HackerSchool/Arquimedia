@@ -10,7 +10,6 @@ function random_but_color() {
 
 	div = document.getElementById("QuestionsDiv");
 	label_list = div.querySelectorAll(".colbut")
-	console.log(label_list);
 	
 	// Randomizes COLORS array 
 	COLORS.sort(() => .5 - Math.random());
@@ -19,8 +18,6 @@ function random_but_color() {
 	let i, count = 0;
 	for(i = 0; i <= label_list.length - 1; i++){
 		let random_color = COLORS[count++];
-
-		console.log(label_list[i]);
 
 		// Attributes the element a random color
 		label_list[i].style.color = random_color;

@@ -100,7 +100,7 @@ export const ProfileBasicInfo = ({profile, XPEvents}) => {
                                 && currentDay.getMonth() === (new Date(XPEvents.at(-1).date)).getMonth()
                                 && currentDay.getFullYear() === (new Date(XPEvents.at(-1).date)).getFullYear());
     const streak = computeStreak(XPEvents, hasGainedXpToday);
-    console.log(hasGainedXpToday)
+
     return (
         <Grid container >
             <Grid item xs={12} style={{ padding: '10px' }}>

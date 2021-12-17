@@ -103,8 +103,6 @@ class QuestionInfo extends Component {
 	}
 
 	removeComment(data) {
-		console.log(this.state.comment);
-		console.log(data.id);
 		let newComments = this.state.comment.filter(el => el.id !== data.id);
 		this.setState({
 			comment: newComments

@@ -37,7 +37,6 @@ function AchievementTray({achievements, subjectProp}) {
     useEffect(() => {
         getAllAchievements((res) => {
             setAllAchievements(res.data);
-            console.log(allAchievements)
             setAchievementsToDisplay(filterAchievements(res.data, subjectProp))
             setLoading(false);
         })
@@ -45,7 +44,6 @@ function AchievementTray({achievements, subjectProp}) {
 
     if (loading) return <Loading />;
 
-    console.log(achievements)
     return (
             <Grid className={classes.outterbox} container spacing={4} direction="column">
 
