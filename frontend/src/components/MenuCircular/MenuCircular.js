@@ -17,8 +17,8 @@ const handleLogout = () => {
 
 const useStyles = makeStyles(theme => ({
     avatar: {
-        width: "50px",
-        height: "50px"
+        width: "80px",
+        height: "80px"
     },}))
 
 const MenuCircular = (props) => {
@@ -29,21 +29,21 @@ const MenuCircular = (props) => {
 	return (
 		<Planet
 		centerContent={
-		
-		<div
-				style={{
-					height: 50,
-					width: 50,
-					borderRadius: '50%',
-					backgroundColor: '#1da8a4',
-				}}
-			>
-			<Avatar className={classes.avatar}>{props.userLetter}</Avatar></div>
+			<div style={{
+						height: 80,
+						width: 80,
+						borderRadius: '50%',
+						backgroundColor: '#1da8a4',
+					}}
+			>	
+				<Avatar className={classes.avatar}>{props.userLetter}</Avatar>
+			
+			</div>
+			
 		}
-		hideOrbit
 		autoClose
+		hideOrbit
 		orbitRadius={90}
-		bounceOnClose
 		tension={600}
 		friction={25}
 	>    
