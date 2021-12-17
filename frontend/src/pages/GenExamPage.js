@@ -66,7 +66,6 @@ const GenExamPage = () => {
 
 
 	const handleChangeYear = (event) => {
-		console.log(event)
 		if (options.randomGrade) setOptions({...options, "randomGrade": false});
 		setDictYear({...dictYears, [event.target.name]: event.target.checked});
 	}

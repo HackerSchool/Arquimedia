@@ -23,7 +23,6 @@ function deleteComment(id){
 function addComment(questionId, user){
 	// This function will make an Ajax request to delete a certain comment
 	let text = document.getElementById("CommentInput").value;
-	console.log(text);
 	let url = "http://localhost:8000/exame/add_comment";
 	let request = new XMLHttpRequest();
 	
@@ -57,7 +56,6 @@ function addComment(questionId, user){
 function upvoteComment(id) {
 	let url = "http://localhost:8000/exame/upvote/" + id;
 	let request = new XMLHttpRequest();
-	console.log("upvote clicked");
 	request.open("POST", url);
 
 	request.onreadystatechange = function() {
@@ -78,7 +76,6 @@ function upvoteComment(id) {
 function downvoteComment(id) {
 	let url = "http://localhost:8000/exame/downvote/" + id;
 	let request = new XMLHttpRequest();
-	console.log("downvote clicked");
 	request.open("POST", url);
 
 	request.onreadystatechange = function() {

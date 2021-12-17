@@ -12,6 +12,13 @@ export async function getUser(successCall, errorCall) {
 	}).catch((error) => errorCall(error))
 }
 
+// Fetch given user's profile
+export async function getProfile(id, successCall) {
+	axios.get("api/profile/" + id)
+	.then((res) => successCall(res))
+	.catch((error) => console.log(error));
+}
+
 // Log in User
 export async function logIn(username, password) {
 	axios.post("/rest-auth/login/", {
@@ -171,5 +178,10 @@ export async function followUser(ID, successCall) {
 
 export async function unfollowUser(ID, successCall) {
 	axios.delete("api/follow/" + ID)
+	.then((res) => successCall(res));
+}
+
+export async function getAllAchievements(successCall) {
+	axios.get("api/achievements")
 	.then((res) => successCall(res));
 }
