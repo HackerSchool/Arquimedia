@@ -99,14 +99,25 @@ const XPGraph = (xpEvents) => {
         data[data.length - 1].date = "Hoje";
     }
 
+    const getMaxXP = data => {
+        let max = 100;
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].amount > max) max = data[i].amount + 10; 
+        }
+
+        return max;
+    }
+
     let data = cleanData(xpEvents.xpEvents);
     data = data.slice(Math.max(data.length - 7, 0));
     convertToWeekDays(data)
 
+    let maxAmount = getMaxXP(data);
+
     return (
         <VictoryChart
             theme={VictoryTheme.material}
-            minDomain={{ y: 0 }}
+            maxDomain={{ y: maxAmount }}
             width={1000}
             animate={{
                 duration: 2000,
