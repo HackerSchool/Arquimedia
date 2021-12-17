@@ -7,8 +7,7 @@ import Achievement from './Achievement';
 
 const useStyles = makeStyles(() => ({
     outterbox: {
-        paddingLeft: "1rem",
-        paddingRight: "1rem"
+        padding: "1rem"
     }
 }))
 
@@ -45,7 +44,7 @@ function AchievementTray({achievements, subjectProp}) {
     if (loading) return <Loading />;
 
     return (
-            <Grid className={classes.outterbox} container spacing={4} direction="column">
+            <Grid className={classes.outterbox} container direction="column">
 
                 <Grid item xs={12} >
                     <Typography  variant='h5'>

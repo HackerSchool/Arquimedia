@@ -17,13 +17,14 @@ import { ProfileBasicInfo } from "../components/profile/ProfileBasicInfo";
 import AchievementTray from "../components/achievements/AchievementTray";
 
 const useStyles = makeStyles(theme => ({
-	page: {
+	body: {
 		marginTop: "80px"
 	},
 	panel: {
 		backgroundColor: "#F4F4F4",
 		borderRadius: 20,
-		boxShadow: "-3px 3px 4px #Bbb9b9"
+		boxShadow: "-3px 3px 4px #Bbb9b9",
+		height: "100%",
 	}
 }));
 
@@ -49,7 +50,7 @@ const ProfilePage = () => {
 	if (loading) return <Loading />;
 
 	return (
-		<Grid container align="center" spacing={4} xs={12} className={classes.page} >
+		<Grid container align="center" spacing={3} xs={12} className={classes.body} >
 			<Grid item xs={4}> {/* General Info */}
 				<Paper className={classes.panel}>
 					<ProfileBasicInfo profile={profile} XPEvents={xpEvents}/>
@@ -70,6 +71,7 @@ const ProfilePage = () => {
 					<AchievementTray achievements={profile.achievements} subjectProp={selectedSubject}/>
 				</Paper>	
 			</Grid>
+			<Grid item xs={12}></Grid>
 		</Grid>
 	);
 };

@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
         borderRadius: "50%",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginBottom: "1rem"
     }),
     index: {
         fontWeight: 600,
@@ -67,7 +68,7 @@ const SubjectInfoPanel = ({profile, changeSubject}) => {
     };
 
     return (
-        <Grid container direction="column" alignItems="stretch" spacing={1}>
+        <Grid container direction="column" alignItems="stretch">
             <Grid item>
                 <Select
                     labelId="subject"
