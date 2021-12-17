@@ -92,7 +92,7 @@ const Navbar = () => {
 						(user.id != null) ? 
 							(
 								<List>
-									<MenuCircular userLetter={user.username[0]} />
+									<MenuCircular user={user} />
 								</List>
 						) : (
 							<List>
@@ -117,7 +117,7 @@ const Navbar = () => {
 						<List>
 							<ListItem>
 								{(user.id != null) ? (
-									<MenuCircular userLetter={user.username[0]} />
+									<MenuCircular user={user} />
 						) : (
 							<NavbarButton href="/login" text="login" /> ||
 							<NavbarButton href="/register" text="registar" />
