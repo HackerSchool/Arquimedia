@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {
 	Typography,
 	Grid,
-	Avatar,
 	TextField,
 	Button,
 	Paper,
 	Divider
 } from "@material-ui/core";
+import AvatarUser from "../components/avatar/AvatarUser";
 import {
 	Delete,
 	ArrowUpward,
@@ -238,15 +238,13 @@ class Comment extends Component {
 		})
 	}
 
-
 	render() {
-		let avatarLetter = this.props.data.author.username[0];
 		return (
 			<div style={{ padding: 14 }}>
 					
 				<Grid container wrap="nowrap" spacing={2}>
 					<Grid item>
-						<Avatar>{avatarLetter}</Avatar>
+						<AvatarUser user={this.props.data.author}/>
 						<Typography variant={"h6"}>
 										{this.state.votes}
 						</Typography>

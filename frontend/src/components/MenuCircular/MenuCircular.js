@@ -1,6 +1,7 @@
 import { Planet } from 'react-planet';
 import React from "react";
-import { Avatar , IconButton } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
+import AvatarUser from '../avatar/AvatarUser';
 import { makeStyles } from '@material-ui/core/styles';
 import SchoolIcon from '@material-ui/icons/School';
 import PersonIcon from '@material-ui/icons/Person';
@@ -36,7 +37,7 @@ const MenuCircular = (props) => {
 						backgroundColor: '#1da8a4',
 					}}
 			>	
-				<Avatar className={classes.avatar}>{props.userLetter}</Avatar>
+				<AvatarUser className={classes.avatar} user={props.user} />
 			
 			</div>
 			
