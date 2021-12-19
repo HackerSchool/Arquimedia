@@ -1,9 +1,9 @@
 import React from 'react'
 import {
     Grid,
-    Avatar,
     Typography,
 } from '@material-ui/core'
+import AvatarUser from '../avatar/AvatarUser';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
@@ -104,7 +104,7 @@ export const ProfileBasicInfo = ({profile, XPEvents}) => {
     return (
         <Grid container >
             <Grid item xs={12} style={{ padding: '10px' }}>
-                <Avatar className={classes.avatar}>{profile.user.username[0]}</Avatar>
+                <AvatarUser className={classes.avatar} user={profile.user}/>
             </Grid>
             <Grid item xs={12}>
                 <Typography variant="h4">@{profile.user.username}</Typography>
