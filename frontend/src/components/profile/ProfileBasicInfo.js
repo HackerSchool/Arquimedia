@@ -96,7 +96,9 @@ export const ProfileBasicInfo = ({profile, XPEvents}) => {
     }
 
     const currentDay = new Date();
-    const hasGainedXpToday = (currentDay.getDate() === (new Date(XPEvents.at(-1).date)).getDate() 
+    console.log(XPEvents)
+    const hasGainedXpToday = (XPEvents.length !== 0
+                                && currentDay.getDate() === (new Date(XPEvents.at(-1).date)).getDate() 
                                 && currentDay.getMonth() === (new Date(XPEvents.at(-1).date)).getMonth()
                                 && currentDay.getFullYear() === (new Date(XPEvents.at(-1).date)).getFullYear());
     const streak = computeStreak(XPEvents, hasGainedXpToday);
