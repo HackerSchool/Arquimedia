@@ -16,7 +16,6 @@ function AvatarUser(user) {
     // s=400   -> image size
     const src = base + hash + ".png?d=retro&s=400";
 
-    console.log(src)
     return (
         <Avatar className={user.className} src={src}>{user.user.username[0]}</Avatar>
     )
