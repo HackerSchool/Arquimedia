@@ -181,7 +181,14 @@ export async function unfollowUser(ID, successCall) {
 	.then((res) => successCall(res));
 }
 
+
 export async function getAllAchievements(successCall) {
 	axios.get("api/achievements")
+	.then((res) => successCall(res));
+}
+
+
+export async function fetchLeaderboard(span, successCall) {
+	axios.delete("api/leaderboard/" + span)
 	.then((res) => successCall(res));
 }
