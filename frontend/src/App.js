@@ -8,6 +8,7 @@ import ResultsPage from "./pages/ResultsPage.js"
 import RegistrationPage from "./pages/RegistrationPage.js";
 import QuestionSubmissionPage from "./pages/QuestionSubmissionPage";
 import SubmittedQuestions from "./pages/SubmittedQuestions.js";
+import LandingPage from "./pages/LandingPage.js";
 import ProfilePage from "./pages/ProfilePage.js";
 import {
 	BrowserRouter as Router,
@@ -25,9 +26,7 @@ function App() {
 
 		<Router>
 			<Switch>
-			<Route exact path="/test">
-				<p>This is the home page</p>
-			</Route>
+			<Route exact path="/" component={LandingPage}/>
 			<Route path="/question/:id" component={QuestionPage} />
 			<Route path="/login" component={LoginPage} />
 			<Route exact path="/exames" component={GenExamPage} />
