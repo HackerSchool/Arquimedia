@@ -64,6 +64,9 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: "15",
 		color: "red"
 	},
+	circular: {
+		paddingBottom: "1rem"
+	}
 }))
 
 
@@ -95,9 +98,7 @@ const Navbar = () => {
 			
 				{(user.id != null) ? 
 					(
-					<List>
-						<MenuCircular user={user} />
-					</List>
+						<MenuCircular user={user}/>
 				) : (
 					<div>
 						<Link href="/sobre" text="Quem somos?" variant="h6" style={{marginRight:"3rem"}}>Quem somos?</Link>/>
