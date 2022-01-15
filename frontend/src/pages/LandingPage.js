@@ -22,7 +22,7 @@ const LandingPage = () => {
 	const classes = useStyles();
 
 	return (
-		<Grid container className={classes.mainBox} xs={12} justifyContent="space-between" alignItems="center">
+		<Grid container className={classes.mainBox} xs={12} justifyContent="center" alignItems="center">
 			<Grid item container xs={6} direction="column" align='center' spacing={6}>
 				<Grid item>
 					<Typography className={classes.slogan}>
@@ -30,7 +30,7 @@ const LandingPage = () => {
 					</Typography>
 				</Grid>
 				<Grid item>
-					<NormalButton xs={6} text="Inscreve-te" href="/login" color="white" bgColor="red" fontSize={41} />
+					<NormalButton xs={6} text="Inscreve-te" href="/login"  fontSize={41} />
 				</Grid>
 			</Grid>
 			<Grid item>

@@ -101,8 +101,8 @@ const Navbar = () => {
 						<MenuCircular user={user}/>
 				) : (
 					<div>
-						<Link href="/sobre" text="Quem somos?" variant="h6" style={{marginRight:"3rem"}}>Quem somos?</Link>/>
-						<NormalButton text="Entrar" href="/login" color="white" bgColor="red" fontSize={22} />
+						<Link href="/sobre" variant="h6" style={{marginRight:"3rem", color:"black"}}>Quem somos?</Link>
+						<NormalButton text="Entrar" href="/login" fontSize={22} />
 					</div>
 				)}
 	

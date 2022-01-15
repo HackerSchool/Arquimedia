@@ -16,12 +16,16 @@ import {
 	Route,
   } from "react-router-dom";
 import axios from "axios";
+import {
+	ThemeProvider,
+} from "@material-ui/core/styles";
+import globalTheme from "./globalTheme"
 
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
-  
+
 function App() {
   return (
-    <div>
+    <ThemeProvider theme={globalTheme}>
 		<Navbar />
 
 		<Router>
@@ -38,7 +42,7 @@ function App() {
 			<Route exact path="/perfil" component={ProfilePage} />
 			</Switch>
 		</Router>
-	</div>
+	</ThemeProvider>
   );
 }
 
