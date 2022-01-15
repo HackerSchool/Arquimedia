@@ -18,8 +18,8 @@ const handleLogout = () => {
 
 const useStyles = makeStyles(theme => ({
     avatar: {
-        width: "80px",
-        height: "80px"
+        width: 80,
+        height: 80
     },}))
 
 const MenuCircular = (props) => {
@@ -28,11 +28,10 @@ const MenuCircular = (props) => {
 
 
 	return (
-		<Planet
+		<div style={{marginTop: "-2.5rem"}}>
+			<Planet
 		centerContent={
 			<div style={{
-						height: 80,
-						width: 80,
 						borderRadius: '50%',
 						backgroundColor: '#1da8a4',
 					}}
@@ -126,6 +125,7 @@ const MenuCircular = (props) => {
 		<div /> 
 		
 	</Planet>
+		</div>
 	);	
 };
 

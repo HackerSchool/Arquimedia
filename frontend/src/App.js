@@ -8,6 +8,7 @@ import ResultsPage from "./pages/ResultsPage.js"
 import RegistrationPage from "./pages/RegistrationPage.js";
 import QuestionSubmissionPage from "./pages/QuestionSubmissionPage";
 import SubmittedQuestions from "./pages/SubmittedQuestions.js";
+import LandingPage from "./pages/LandingPage.js";
 import ProfilePage from "./pages/ProfilePage.js";
 import {
 	BrowserRouter as Router,
@@ -15,19 +16,21 @@ import {
 	Route,
   } from "react-router-dom";
 import axios from "axios";
+import {
+	ThemeProvider,
+} from "@material-ui/core/styles";
+import globalTheme from "./globalTheme"
 
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
-  
+
 function App() {
   return (
-    <div>
+    <ThemeProvider theme={globalTheme}>
 		<Navbar />
 
 		<Router>
 			<Switch>
-			<Route exact path="/test">
-				<p>This is the home page</p>
-			</Route>
+			<Route exact path="/" component={LandingPage}/>
 			<Route path="/question/:id" component={QuestionPage} />
 			<Route path="/login" component={LoginPage} />
 			<Route exact path="/exames" component={GenExamPage} />
@@ -39,7 +42,7 @@ function App() {
 			<Route exact path="/perfil" component={ProfilePage} />
 			</Switch>
 		</Router>
-	</div>
+	</ThemeProvider>
   );
 }
 
