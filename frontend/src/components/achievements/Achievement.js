@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 const Achievement = ({achievement, achieved}) => {
     const classes = useStyles(achieved);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [hovered, setHovered] = useState(false);
 
     const handleOpen = (event) => {
       setAnchorEl(event.currentTarget);
@@ -45,6 +44,7 @@ const Achievement = ({achievement, achieved}) => {
             <img src={achievement.image} className={classes.img}
                 onMouseEnter={handleOpen}
                 onMouseLeave={handleClose}
+                alt="Achievement's descriptive icon"
             />
             <Popover
                 id={id}

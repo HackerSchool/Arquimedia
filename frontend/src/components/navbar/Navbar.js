@@ -3,17 +3,13 @@ import {
 	AppBar,
 	Toolbar,
 	IconButton,
-	Typography,
 	SwipeableDrawer,
 	List,
 	ListItem,
 	Grid,
-	SvgIcon,
-	Button,
 	Link
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import FunctionsIcon from '@material-ui/icons/Functions';
 import MenuIcon from '@material-ui/icons/Menu';
 import NavbarButton from './NavbarButton';
 import { ReactComponent as Logo } from "../../assets/logo_blue.svg"
@@ -23,7 +19,6 @@ import NormalButton from '../buttons/NormalButton';
 import {
 	getUser
 } from "../../api"
-import Loading from '../loading/Loading';
 import MenuCircular from '../MenuCircular/MenuCircular';
 
 const useStyles = makeStyles(theme => ({
@@ -75,19 +70,15 @@ const Navbar = () => {
 	const [click, setClick] = useState(false);
 	const [user, setUser] = useState({"id": null, "username": ""});
 	const handleClick = () => {setClick(!click); console.log(click)};
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-
 		getUser((res) => {
 			setUser(res.data);
-			setLoading(false);
 		}, () => {
 			console.log("Couldn't fetch user")
 		})
 
 	}, []);
-
 
 	return (
 		<AppBar position="static" className={classes.navbar}>
