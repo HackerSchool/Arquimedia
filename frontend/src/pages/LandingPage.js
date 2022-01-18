@@ -7,14 +7,13 @@ import NormalButton from '../components/buttons/NormalButton'
 const useStyles = makeStyles(theme => ({
 	mainBox: {
 		marginTop: "5rem",
-		paddingLeft: "3rem"
 	},
 	slogan: {
 		fontSize: 55,
 		textAlign: "center",
 	},
 	girl: {
-		marginRight: "20rem"
+		marginLeft: "5rem"
 	}
 }))
 
@@ -22,8 +21,8 @@ const LandingPage = () => {
 	const classes = useStyles();
 
 	return (
-		<Grid container className={classes.mainBox} xs={12} justifyContent="center" alignItems="center">
-			<Grid item container xs={6} direction="column" align='center' spacing={6}>
+		<Grid container className={classes.mainBox} xs={12} justifyContent="center" alignItems="center" spacing={8}>
+			<Grid item container xs={4} direction="column" align='center' spacing={6}>
 				<Grid item>
 					<Typography className={classes.slogan}>
 						Exames nacionais<br/><i>made easy</i> <Emoji />

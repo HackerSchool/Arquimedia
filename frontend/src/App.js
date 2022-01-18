@@ -25,24 +25,26 @@ axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authoriza
 
 function App() {
   return (
-    <ThemeProvider theme={globalTheme}>
-		<Navbar />
-
-		<Router>
-			<Switch>
-			<Route exact path="/" component={LandingPage}/>
-			<Route path="/question/:id" component={QuestionPage} />
-			<Route path="/login" component={LoginPage} />
-			<Route exact path="/exames" component={GenExamPage} />
-			<Route exact path="/exame/:id" component={ExamPage} />
-			<Route exact path="/resultado/:id" component={ResultsPage} />
-			<Route exact path="/registar" component={RegistrationPage} />
-			<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
-			<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
-			<Route exact path="/perfil" component={ProfilePage} />
-			</Switch>
-		</Router>
-	</ThemeProvider>
+	
+		<ThemeProvider theme={globalTheme}>
+			<Navbar />
+			<div style={{marginRight: "12em", marginLeft: "13em"}}>
+				<Router>
+					<Switch>
+					<Route exact path="/" component={LandingPage}/>
+					<Route path="/question/:id" component={QuestionPage} />
+					<Route path="/login" component={LoginPage} />
+					<Route exact path="/exames" component={GenExamPage} />
+					<Route exact path="/exame/:id" component={ExamPage} />
+					<Route exact path="/resultado/:id" component={ResultsPage} />
+					<Route exact path="/registar" component={RegistrationPage} />
+					<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
+					<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
+					<Route exact path="/perfil" component={ProfilePage} />
+					</Switch>
+				</Router>
+			</div>
+		</ThemeProvider>
   );
 }
 
