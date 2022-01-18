@@ -1,4 +1,4 @@
-import {Grid, Typography, responsiveFontSizes, createTheme, MuiThemeProvider, Select, FormControl, MenuItem, InputLabel, OutlinedInput, colors} from '@material-ui/core';
+import {Grid, Typography} from '@material-ui/core';
 import {React, useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getAllAchievements } from "../../api"
@@ -31,7 +31,7 @@ function AchievementTray({achievements, subjectProp}) {
     // Updates the achievements to the current selected subject
     useEffect(() => {
         setAchievementsToDisplay(filterAchievements(allAchievements, subjectProp));
-    }, [subjectProp]);
+    }, [subjectProp, allAchievements]);
 
     useEffect(() => {
         getAllAchievements((res) => {
@@ -39,7 +39,7 @@ function AchievementTray({achievements, subjectProp}) {
             setAchievementsToDisplay(filterAchievements(res.data, subjectProp))
             setLoading(false);
         })
-    }, []);
+    }, [subjectProp]);
 
     if (loading) return <Loading />;
 
