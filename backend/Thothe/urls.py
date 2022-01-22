@@ -20,7 +20,8 @@ from django.contrib.auth import views as auth_views
 from .views import index
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import TemplateView
+from rest_auth import views
 
 urlpatterns = [
     path('', include("users.urls")),
@@ -29,7 +30,7 @@ urlpatterns = [
     url('exame/', include('exams.urls')),
     path("api/", include("api.urls")),
     url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/password/reset/confirm/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
 

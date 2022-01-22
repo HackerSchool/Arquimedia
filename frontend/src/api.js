@@ -185,3 +185,32 @@ export async function getAllAchievements(successCall) {
 	axios.get("api/achievements")
 	.then((res) => successCall(res));
 }
+
+/** Calls for a password reset
+ * 
+ * example of body: {
+ * 						email: "johndoe@gmail.com"
+ * 					}
+ * 
+ */
+export async function requestPasswordReset(body, successCall, errorCall) {
+	axios.post("rest-auth/password/reset/", body)
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
+}
+
+/** Confirms a password reset
+ *  body example: 
+ * {
+ *    newPassword1: "johndovotesCHEGA",
+ * 	  newPassword2: "johndovotesCHEGA",
+ * 	  uid: "MQ"
+ *    token: "QWJBEQWUYBfqunu22412"	
+ * }
+ * 
+ */
+export async function confirmPasswordReset(body, successCall, errorCall) {
+	axios.post("rest-auth/password/reset/confirm/", body)
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
+}
