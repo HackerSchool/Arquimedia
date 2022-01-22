@@ -1,0 +1,9 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Olá!
+
+Estás a receber este email porque o utilizador {{ user_display }} utilizou este endereço de e-mail para registar uma conta em thothe.pt.
+
+Para confirmar que isto está correto, <a href="http://localhost:3000/auth/account/confirm/email/{{ key }}" target="_blank">Entre aqui.</a>
+{% endblocktrans %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Obrigado por estudares connosco!
+A equipa da Thothe{% endblocktrans %}
+{% endautoescape %}

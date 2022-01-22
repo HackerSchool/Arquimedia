@@ -130,10 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = { 'DEFAULT_AUTHENTICATION_CLASSES': [ 'rest_framework.authentication.TokenAuthentication',],}
 
-REST_AUTH_SERIALIZERS = {
-    'PASSWORD_RESET_SERIALIZER': 
-        'Thothe.serializers.PasswordResetSerializer',
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -163,6 +159,9 @@ LOGOUT_REDIRECT_URL = '/'
 #Login Path for Login required Decorators
 LOGIN_URL = '^login/$'
 
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

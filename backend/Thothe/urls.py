@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from .views import index
@@ -22,6 +22,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from rest_auth import views
+from api.views import VerifyEmailView
 
 urlpatterns = [
     path('', include("users.urls")),
@@ -31,7 +32,11 @@ urlpatterns = [
     path("api/", include("api.urls")),
     url(r'^rest-auth/', include('rest_auth.urls')),
     path('rest-auth/password/reset/confirm/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    re_path(r'^rest-auth/account-confirm-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(),
+        name='account_confirm_email'),
+    re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(),
+        name='account_email_verification_sent'),
 ]
 
 # Allows to fetch images
