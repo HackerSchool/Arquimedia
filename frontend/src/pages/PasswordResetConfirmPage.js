@@ -22,7 +22,7 @@ const PasswordResetConfirmPage = (props) => {
 	const [alert, setAlert] = useState(false);
 
 	const confirmReset = () => {
-		if (pass1 != pass2) {
+		if (pass1 !== pass2) {
 			setAlert(true);
 			return;
 		}
