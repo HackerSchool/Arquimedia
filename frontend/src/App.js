@@ -11,6 +11,7 @@ import SubmittedQuestions from "./pages/SubmittedQuestions.js";
 import LandingPage from "./pages/LandingPage.js";
 import ProfilePage from "./pages/ProfilePage.js";
 import PasswordResetPage from "./pages/PasswordResetPage.js";
+import PasswordResetConfirmPage from "./pages/PasswordResetConfirmPage.js";
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -43,6 +44,7 @@ function App() {
 					<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
 					<Route exact path="/perfil" component={ProfilePage} />
 					<Route exact path="/password/reset" component={PasswordResetPage} />
+					<Route exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
 					</Switch>
 				</Router>
 			</div>
