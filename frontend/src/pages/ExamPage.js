@@ -8,7 +8,7 @@ import CountdownClock from "../components/countdownClock/CountdownClock";
 import { makeStyles } from "@material-ui/core";
 import QuestionsGroup from "../components/questions/QuestionsGroup";
 import Loading from "../components/loading/Loading";
-
+import CustomizedSteppers from "../components/questions/Stepper"; 
 
 const useStyles = makeStyles(theme => ({
 	timer: {
@@ -41,6 +41,7 @@ const ExamPage = (props) => {
 
 	return (
 		<div>
+			<CustomizedSteppers/>
 			<Grid container align="center" spacing={4} xs={12}>
 				<Grid item xs={12}>
 					<div className={classes.timer}>
