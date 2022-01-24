@@ -16,13 +16,14 @@ var Latex = require('react-latex');
 const useStyles = makeStyles(theme => ({
 	questionBox: {
 		width: "70%",
-		padding: 4,
+		borderRadius: 20,
+		boxShadow: "0px 4px 4px #9A9A9A"
 	},
 
-	questions: {
-		width: "100%",
+	answers: {
 		backgroundColor: '#EB5757',
-		borderRadius: 10,
+		width: "100%",
+		borderRadius: 20,
 	},
 
 	number: {
@@ -32,6 +33,9 @@ const useStyles = makeStyles(theme => ({
 		border: 20,
 		padding: 5,
 		borderColor: '#EB5757',
+		position: 'relative',
+		height: "2rem",
+		top: "-1rem",
 	},
 
 	bold: {
@@ -39,10 +43,12 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	options: {
-		backgroundColor: '#EB5757',
 		padding: 10,
 		fontWeight: 1,
+	},
 
+	paperAnswer: {
+		borderRadius: 38
 	}
 
 }))
@@ -57,57 +63,42 @@ const Question = (props) => {
 	}
 
 	return (
-		<div>	
+		<Paper className={classes.questionBox}>	
 		
-			<Grid container className={classes.questionBox}>
+			<Grid container direction="row" justifyContent="flex-start" style={{margin: 0}} spacing={0}>
 
 				<Grid item xs={8} justifyContent="center">
+					{/* Question's number */}
 					<Grid item xs={5}>
 						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> Questão ___ </Typography></Paper>
 					</Grid>
-				</Grid>
-				
-				<Grid container> 
 
-					<Grid item xs={8} spacing={3}>
-						<Grid item xs={12} spacing={3}>
-							<Paper className={classes.paper}><Typography variant="h5"><Latex>{props.question.text}</Latex></Typography></Paper>
-						</Grid>
-						<Grid item xs={12} spacing={3}>
+					{/* Question's text */}
+					<Grid item xs={12} spacing={3}>
+							<Typography variant="h5"><Latex>{props.question.text}</Latex></Typography>
+					</Grid>
+
+					{/* Question's image */}
+					<Grid item xs={12} spacing={3}>
 							<Paper className={classes.paper}><QuestionImage question={props.question} /></Paper>
-						</Grid>
 					</Grid>
+				</Grid>
 
-					<Grid item xs={4} spacing={10}>
-
-								<Grid container xs={12} className={classes.questions} justifyContent="center" direction={'column'}>
-
+				{/* Answers */}
+				<Grid container item xs={4}> 
+					<Paper className={classes.answers}>
+						{props.question.answer.map(answer => {
+								return (
 									<Grid item className={classes.options}>
-										<Paper><Typography variant="h6"> Texto da Resposta 1 </Typography></Paper>
+										<Paper className={classes.paperAnswer}><Typography variant="h6"> {answer.text} </Typography></Paper>
 									</Grid>
-
-									<Grid item className={classes.options}>
-										<Paper><Typography variant="h6"> Texto da Resposta 2 </Typography></Paper>
-									</Grid>
-
-									<Grid item className={classes.options}>
-										<Paper className={classes.paper}><Typography variant="h6"> Texto da Resposta 3 </Typography></Paper>
-									</Grid>
-
-									<Grid item className={classes.options}>
-										<Paper className={classes.paper}><Typography variant="h6"> Texto da Resposta 4 </Typography></Paper>
-									</Grid>
-
-								</Grid>
-
-						
-
-					</Grid>
-
+								)
+							})}
+					</Paper>
 				</Grid>
 			</Grid>
       	
-	</div>
+	</Paper>
 	)
 }
 
