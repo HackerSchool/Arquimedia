@@ -12,8 +12,8 @@ from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 import datetime
-from rest_auth.registration.views import ConfirmEmailView
 from rest_auth.registration.serializers import VerifyEmailSerializer
+from allauth.account.models import EmailAddress
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -459,18 +459,18 @@ class Follow(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
-class VerifyEmailView(APIView, ConfirmEmailView):
+class VerifyEmailView(APIView):
 	permission_classes = (AllowAny,)
 	allowed_methods = ('GET', 'OPTIONS', 'HEAD')
 
-	def get_serializer(self, data):
-		return VerifyEmailSerializer(data=data)
+	def get(self, request, code, user_id):
+		user = User.objects.get(id=user_id)
 
-	def get(self, request, key):
-		print(key)
-		serializer = self.get_serializer(data={"key": key})
-		serializer.is_valid(raise_exception=True)
-		self.kwargs['key'] = serializer.validated_data['key']
-		confirmation = self.get_object()
-		confirmation.confirm(self.request)
-		return Response({'detail': 'ok'}, status=status.HTTP_200_OK)
+		if (user.profile.email_confirmation_code == code):
+			email = EmailAddress.objects.get(user=user)
+			email.verified = True
+			email.save()
+
+			return Response({'detail': 'ok'}, status=status.HTTP_200_OK)
+		
+		return Response({'detail': 'wrong code'}, status=status.HTTP_400_BAD_REQUEST)

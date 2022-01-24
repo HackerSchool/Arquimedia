@@ -159,9 +159,8 @@ LOGOUT_REDIRECT_URL = '/'
 #Login Path for Login required Decorators
 LOGIN_URL = '^login/$'
 
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# Disables the verification email sent by allauth
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

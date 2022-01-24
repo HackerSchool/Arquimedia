@@ -32,11 +32,7 @@ urlpatterns = [
     path("api/", include("api.urls")),
     url(r'^rest-auth/', include('rest_auth.urls')),
     path('rest-auth/password/reset/confirm/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    re_path(r'^rest-auth/account-confirm-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(),
-        name='account_confirm_email'),
-    re_path(r'^rest-auth/account-confirm-email/', VerifyEmailView.as_view(),
-        name='account_email_verification_sent'),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
 
 # Allows to fetch images
