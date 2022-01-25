@@ -463,8 +463,8 @@ class VerifyEmailView(APIView):
 	permission_classes = (AllowAny,)
 	allowed_methods = ('GET', 'OPTIONS', 'HEAD')
 
-	def get(self, request, code, user_id):
-		user = User.objects.get(id=user_id)
+	def get(self, request, code, username):
+		user = User.objects.get(username=username)
 
 		if (user.profile.email_confirmation_code == code):
 			email = EmailAddress.objects.get(user=user)
