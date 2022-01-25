@@ -206,15 +206,21 @@ export async function requestPasswordReset(body, successCall, errorCall) {
 /** Confirms a password reset
  *  body example: 
  * {
- *    newPassword1: "johndovotesCHEGA",
- * 	  newPassword2: "johndovotesCHEGA",
+ *    newPassword1: "MiguelVotaCHEGA",
+ * 	  newPassword2: "MiguelVotaCHEGA",
  * 	  uid: "MQ"
  *    token: "QWJBEQWUYBfqunu22412"	
  * }
  * 
  */
 export async function confirmPasswordReset(body, successCall, errorCall) {
-	axios.post("rest-auth/password/reset/confirm/", body)
+	axios.post("api/password/reset/confirm/", body)
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
+}
+
+export async function confirmEmail(body, code, username, successCall, errorCall) {
+	axios.post("api/email-confirm/" + username + "/" + code, body)
 	.then((res) => successCall(res))
 	.catch((error) => errorCall(error));
 }
