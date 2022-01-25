@@ -30,7 +30,12 @@ const RegisterInput = ({css}) => {
 				password2: pass2
 			}
 
-			registerUser(body);
+			registerUser(body, () => {
+				console.log("User registered!")
+			}, (error) => {
+				console.log("Something went wrong!");
+				console.log(error)
+			});
 		}
 	}
 
