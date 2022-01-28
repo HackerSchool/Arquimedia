@@ -130,10 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = { 'DEFAULT_AUTHENTICATION_CLASSES': [ 'rest_framework.authentication.TokenAuthentication',],}
 
-REST_AUTH_SERIALIZERS = {
-    'PASSWORD_RESET_SERIALIZER': 
-        'Thothe.serializers.PasswordResetSerializer',
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -163,6 +159,8 @@ LOGOUT_REDIRECT_URL = '/'
 #Login Path for Login required Decorators
 LOGIN_URL = '^login/$'
 
+# Disables the verification email sent by allauth
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

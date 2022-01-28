@@ -1,18 +1,40 @@
 import React from "react";
 import {
 	Grid,
-	TextField,
-	Button,
-	Typography,
+	makeStyles,
+	InputBase
 } from "@material-ui/core"
 import { useState } from "react"
 import { registerUser } from "../../api";
+import { ReactComponent as Logo } from "../../assets/logo_white.svg"
+import NormalButton from "../buttons/NormalButton";
+import CodeInput from "./CodeInput";
 
-const RegisterInput = ({css}) => {
+const useStyles = makeStyles(theme => ({
+	input: {
+		backgroundColor: "#fff",
+		borderRadius: 50,
+		disableUnderline: true,
+		height: 65,
+		width: "22rem",
+	},
+	container: {
+		width: "100%"
+	},
+	containerForm: {
+		width: "100%",
+		marginTop: "5rem"
+	}
+}))
+
+const RegisterInput = (props) => {
 	const [username, setUsername] = useState();
 	const [email, setEmail] = useState();
 	const [pass1, setPass1] = useState();
 	const [pass2, setPass2] = useState();
+	const [codePhase, setcodePhase] = useState(false);
+
+	const classes = useStyles();
 
 	const handleChangeUsername = (e) => setUsername(e.target.value);
 	const handleChangeEmail = (e) => setEmail(e.target.value);
@@ -30,29 +52,38 @@ const RegisterInput = ({css}) => {
 				password2: pass2
 			}
 
-			registerUser(body);
+			registerUser(body, () => {
+				setcodePhase(true);
+			}, (error) => {
+				console.log("Something went wrong!");
+				console.log(error)
+			});
 		}
 	}
 
+	if (codePhase) return <CodeInput username={username} password={pass1}/>
+
 	return (
-		<Grid container spacing={4} xs={12}>
-			<Grid item xs={12}>
-				<Typography variant="h3">Regista-te</Typography>
+		<Grid className={classes.container} container spacing={4} direction="column" alignContent="center">
+			<Grid item>
+				<Logo className={classes.logo} />
 			</Grid>
-			<Grid item xs={12}>
-				<TextField className={css} variant="outlined" label="Username" onChange={handleChangeUsername}/>
-			</Grid>
-			<Grid item xs={12}>
-				<TextField className={css} variant="outlined" label="E-mail" onChange={handleChangeEmail}/>
-			</Grid>
-			<Grid item xs={12}>
-				<TextField className={css} variant="outlined" label="Password" type="password" onChange={handleChangePass1}/>
-			</Grid>
-			<Grid item xs={12}>
-				<TextField className={css} variant="outlined" label="Repete a password" type="password" onChange={handleChangePass2}/>
-			</Grid>
-			<Grid item xs={12}>
-				<Button className={css} variant="contained" type="submit" onClick={handleClick}>Registar</Button>
+			<Grid className={classes.containerForm} container spacing={4} direction="column">
+				<Grid item>
+					<InputBase className={classes.input} inputProps={{ style: { margin: "0 1rem 0 1rem", fontSize: 26 } }} margin="dense" variant="outlined" placeholder="Nome de utilizador" onChange={handleChangeUsername}/>
+				</Grid>
+				<Grid item>
+					<InputBase className={classes.input} inputProps={{ style: { margin: "0 1rem 0 1rem", fontSize: 26 } }} variant="outlined" placeholder="E-mail" onChange={handleChangeEmail}/>
+				</Grid>
+				<Grid item>
+					<InputBase className={classes.input} inputProps={{ style: { margin: "0 1rem 0 1rem", fontSize: 26 } }} variant="outlined" placeholder="Password" type="password" onChange={handleChangePass1}/>
+				</Grid>
+				<Grid item>
+					<InputBase className={classes.input} inputProps={{ style: { margin: "0 1rem 0 1rem", fontSize: 26 } }} variant="outlined" placeholder="Repete a password" type="password" onChange={handleChangePass2}/>
+				</Grid>
+				<Grid item style={{marginTop: "4rem"}}>
+					<NormalButton fontSize={45} text="Registar" onClick={handleClick}/>
+				</Grid>
 			</Grid>
 		</Grid>
 	)

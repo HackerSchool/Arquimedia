@@ -5,6 +5,9 @@ from exams.models import Question
 from django.dispatch import receiver
 from django.db.models.signals import post_save, m2m_changed, pre_save
 from datetime import datetime
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+import random
 
 
 # Create your models here.
@@ -25,6 +28,7 @@ class Profile(models.Model):
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
     achievements = models.ManyToManyField("Achievement", related_name="achievements")
     follows = models.ManyToManyField(User, "follows")
+    email_confirmation_code = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
@@ -164,6 +168,24 @@ def create_user_profile(sender, instance, created, **kwargs):
         subject = SubjectInfo.objects.create(subject="Matemática")
 
         profile = Profile.objects.create(user=instance, xp=XPSystem.objects.create())
+
+        # Generate random code to confirm email
+        code = random.randint(100000, 999999)
+        profile.email_confirmation_code = code
+
+        # Send email to confirm account
+        email_template = render_to_string("account/email/email_confirmation_message.txt", {
+                'code': code,
+                'user': instance
+            })
+
+        send_mail(
+            "[Thothe] Confirma a Tua Conta Por Favor",
+            email_template,
+            "noreply@thothe.pt",
+            (instance.email,),
+            fail_silently=False,
+        )
 
         profile.subjects.add(subject)
 

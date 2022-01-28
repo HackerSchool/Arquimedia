@@ -16,11 +16,16 @@ export async function getUser(successCall, errorCall) {
 export async function getProfile(id, successCall) {
 	axios.get("api/profile/" + id)
 	.then((res) => successCall(res))
-	.catch((error) => console.log(error));
+	.catch((error) => {
+		// If something went wrong in fetching the user maybe we should clean the current token
+		localStorage.setItem("Authorization", null);
+		console.log(error);
+	});
 }
 
 // Log in User
 export async function logIn(username, password) {
+	// TODO: add successCall and errorCall
 	axios.post("/rest-auth/login/", {
 		username: username, 
 		password: password
@@ -29,6 +34,7 @@ export async function logIn(username, password) {
 		localStorage.setItem("Authorization", "Token " + res.data.key);
 		window.location.replace("/");
 	}).catch((error) => {
+		localStorage.setItem("Authorization", null);
 		console.log(error);
 		alert("Utilizador ou Password errada!");
 	})
@@ -114,12 +120,10 @@ export async function submitExam(id, body, successCall) {
 }
 
 
-export async function registerUser(body) {
+export async function registerUser(body, successCall, errorCall) {
 	axios.post("/rest-auth/registration/", body)
-	.then((res) => {
-		localStorage.setItem("Authorization", "Token " + res.data.key);
-		window.location.replace("/");
-	});
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
 }
 
 
@@ -202,15 +206,21 @@ export async function requestPasswordReset(body, successCall, errorCall) {
 /** Confirms a password reset
  *  body example: 
  * {
- *    newPassword1: "johndovotesCHEGA",
- * 	  newPassword2: "johndovotesCHEGA",
+ *    newPassword1: "MiguelVotaCHEGA",
+ * 	  newPassword2: "MiguelVotaCHEGA",
  * 	  uid: "MQ"
  *    token: "QWJBEQWUYBfqunu22412"	
  * }
  * 
  */
 export async function confirmPasswordReset(body, successCall, errorCall) {
-	axios.post("rest-auth/password/reset/confirm/", body)
+	axios.post("api/password/reset/confirm/", body)
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
+}
+
+export async function confirmEmail(code, username, successCall, errorCall) {
+	axios.get("api/email-confirm/" + username + "/" + code)
 	.then((res) => successCall(res))
 	.catch((error) => errorCall(error));
 }

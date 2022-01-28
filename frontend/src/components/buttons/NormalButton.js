@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: 25,
 		fontSize: props.fontSize,
 		textTransform: "none",
-		borderRigth: "4px"
+		borderRigth: "4px",
+		padding: "0 1rem 0 1rem"
 	})
 }))
 
@@ -25,7 +26,9 @@ const NormalButton = props => {
 					color: props.color
 				}}
 				href={props.href}
-				className={classes.button}>
+				className={classes.button}
+				onClick={props.onClick}
+				>
 
 					{props.text}
 
