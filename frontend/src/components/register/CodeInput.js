@@ -24,12 +24,20 @@ const useStyles = makeStyles(theme => ({
 		color: "#fff",
 		fontWeight: 'medium',
 		paddingBottom: "7rem"
+	},
+	error: {
+		color: "#EB5757",
+		fontWeight: 'bold',
+		backgroundColor: '#fff',
+		width: "10rem",
+		borderRadius: 20
 	}
 }))
 
 const CodeInput = (props) => {
 	const classes = useStyles();
 	const [code, setCode] = useState("");
+	const [wrongCode, setWrongCode] = useState(false);
 	const mountedRef = useRef()
 
 	useEffect(() => {
@@ -48,7 +56,7 @@ const CodeInput = (props) => {
 				}, () => {
 					// wrong code?
 					setTimeout(() => {
-						alert("wrong code")
+						setWrongCode(true)
 					}, 50)
 				})
 			}
@@ -64,12 +72,17 @@ const CodeInput = (props) => {
 			<Grid item>
 				<InputBase 
 					className={classes.input} 
-					inputProps={{ style: { margin: "0 1rem 0 1rem", fontSize: 60, letterSpacing: 16 } }} 
+					inputProps={{ style: { margin: "0 1rem 0 1rem", fontSize: 60, letterSpacing: 14 }, maxLength: 6 }} 
 					margin="dense" 
 					variant="outlined" 
 					placeholder="Código" 
 					onChange={(e) => setCode(e.target.value)}
 				/>
+			</Grid>
+			<Grid item>
+			{wrongCode && (
+					<Typography className={classes.error} variant="h6">Código errado!</Typography>
+				)}
 			</Grid>
 		</Grid>
 	)
