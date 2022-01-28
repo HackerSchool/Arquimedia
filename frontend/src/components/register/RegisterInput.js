@@ -1,8 +1,6 @@
 import React from "react";
 import {
 	Grid,
-	TextField,
-	Button,
 	makeStyles,
 	InputBase
 } from "@material-ui/core"

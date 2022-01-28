@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	Grid,
 } from "@material-ui/core";
 import RegisterInput from "../components/register/RegisterInput";
 import RegisterInfo from "../components/register/RegisterInfo";
 import { makeStyles } from "@material-ui/core";
-import CodeInput from "../components/register/CodeInput";
 
 const useStyles = makeStyles(theme => ({
 	container: {

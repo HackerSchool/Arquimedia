@@ -44,7 +44,7 @@ const CodeInput = (props) => {
 		if (mountedRef.current) {
 			mountedRef.current = false
 		} else {
-			if (code.length == 6) {
+			if (code.length === 6) {
 				// request the data base
 				console.log("Hello");
 				confirmEmail(code, props.username, () => {
@@ -61,7 +61,7 @@ const CodeInput = (props) => {
 				})
 			}
 		}
-	}, [code])
+	}, [code, props.history, props.password, props.username])
 
 	return (
 		<Grid className={classes.container} container spacing={4} direction="column" justify='center'>
