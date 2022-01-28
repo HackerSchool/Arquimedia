@@ -29,25 +29,27 @@ function App() {
   return (
 	
 		<ThemeProvider theme={globalTheme}>
-			<Navbar />
-			<div style={{marginRight: "12em", marginLeft: "13em"}}>
-				<Router>
-					<Switch>
-					<Route exact path="/" component={LandingPage}/>
-					<Route path="/question/:id" component={QuestionPage} />
-					<Route path="/login" component={LoginPage} />
-					<Route exact path="/exames" component={GenExamPage} />
-					<Route exact path="/exame/:id" component={ExamPage} />
-					<Route exact path="/resultado/:id" component={ResultsPage} />
+			<Router>
+				<Switch>
 					<Route exact path="/registar" component={RegistrationPage} />
-					<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
-					<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
-					<Route exact path="/perfil" component={ProfilePage} />
-					<Route exact path="/password/reset" component={PasswordResetPage} />
-					<Route exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
-					</Switch>
-				</Router>
-			</div>
+					<div>
+						<Navbar />
+						<div style={{marginRight: "12em", marginLeft: "13em"}}>
+							<Route exact path="/" component={LandingPage}/>
+							<Route path="/question/:id" component={QuestionPage} />
+							<Route path="/login" component={LoginPage} />
+							<Route exact path="/exames" component={GenExamPage} />
+							<Route exact path="/exame/:id" component={ExamPage} />
+							<Route exact path="/resultado/:id" component={ResultsPage} />
+							<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
+							<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
+							<Route exact path="/perfil" component={ProfilePage} />
+							<Route exact path="/password/reset" component={PasswordResetPage} />
+							<Route exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
+						</div>
+					</div>
+				</Switch>
+			</Router>
 		</ThemeProvider>
   );
 }

@@ -219,8 +219,8 @@ export async function confirmPasswordReset(body, successCall, errorCall) {
 	.catch((error) => errorCall(error));
 }
 
-export async function confirmEmail(body, code, username, successCall, errorCall) {
-	axios.post("api/email-confirm/" + username + "/" + code, body)
+export async function confirmEmail(code, username, successCall, errorCall) {
+	axios.get("api/email-confirm/" + username + "/" + code)
 	.then((res) => successCall(res))
 	.catch((error) => errorCall(error));
 }

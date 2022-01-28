@@ -3,25 +3,32 @@ import {
 	Grid,
 	Typography,
 	Button,
-	Link
+	Link,
+	makeStyles
 } from "@material-ui/core";
+import { ReactComponent as Rising } from "../../assets/growth-curve-cuate.svg"
+
+const useStyles = makeStyles(theme => ({
+	svg: {
+		position: 'absolute',
+		bottom: 0
+	},
+	text: {
+		fontWeight: 'bold',
+		fontSize: 50,
+		textAlign: 'start',
+		marginLeft: '6rem',
+		marginTop: '12rem',
+	}
+}))
 
 const RegisterInfo = () => {
+	const classes = useStyles();
+	
 	return (
 		<Grid container spacing={4} xs={12}>
-			<Grid item xs={12}>
-				<Typography variant="h3">Junta-te a nós</Typography>
-			</Grid>
-			<Grid item xs={12}>
-				<Typography variant="h5">
-					Estuda para os exames nacionais<br /> com treino customizado <br /> e feedback de progresso
-				</Typography>
-			</Grid>
-			<Grid item xs={12}>
-				<Link>
-					<Button variant="contained" >Sobre nós</Button>
-				</Link>
-			</Grid>
+			<Typography variant="h1" className={classes.text}>Preparado para<br /><span style={{textDecoration: 'underline'}}>subir notas?</span></Typography>
+			<Rising  className={classes.svg}/>
 		</Grid>
 	)
 }

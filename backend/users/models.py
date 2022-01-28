@@ -170,7 +170,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile = Profile.objects.create(user=instance, xp=XPSystem.objects.create())
 
         # Generate random code to confirm email
-        code = random.randint(10000, 999999)
+        code = random.randint(100000, 999999)
         profile.email_confirmation_code = code
 
         # Send email to confirm account
