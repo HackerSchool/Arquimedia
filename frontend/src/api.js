@@ -212,8 +212,8 @@ export async function requestPasswordReset(body, successCall, errorCall) {
  * }
  * 
  */
-export async function confirmPasswordReset(body, successCall, errorCall) {
-	axios.post("api/password/reset/confirm/", body)
+export async function confirmPasswordReset(uid, token, body, successCall, errorCall) {
+	axios.post("rest-auth/password/reset/confirm/" + uid + "/" + token + "/", body)
 	.then((res) => successCall(res))
 	.catch((error) => errorCall(error));
 }
