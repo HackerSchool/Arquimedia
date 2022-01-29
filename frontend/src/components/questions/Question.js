@@ -10,6 +10,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { makeStyles } from "@material-ui/core";
 import QuestionImage from "./QuestionImage";
+import Answer from "./Answers";
 
 var Latex = require('react-latex');
 
@@ -46,11 +47,6 @@ const useStyles = makeStyles(theme => ({
 		padding: 10,
 		fontWeight: 1,
 	},
-
-	paperAnswer: {
-		borderRadius: 38
-	}
-
 }))
 
 const Question = (props) => {
@@ -90,7 +86,7 @@ const Question = (props) => {
 						{shuffle(props.question.answer).map(answer => {
 								return (
 									<Grid item className={classes.options}>
-										<Paper className={classes.paperAnswer}><Typography variant="h6"> {answer.text} </Typography></Paper>
+										<Answer answer={answer} />
 									</Grid>
 								)
 							})}
