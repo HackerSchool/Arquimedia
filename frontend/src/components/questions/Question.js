@@ -87,7 +87,7 @@ const Question = (props) => {
 				{/* Answers */}
 				<Grid container item xs={4}> 
 					<Paper className={classes.answers}>
-						{props.question.answer.map(answer => {
+						{shuffle(props.question.answer).map(answer => {
 								return (
 									<Grid item className={classes.options}>
 										<Paper className={classes.paperAnswer}><Typography variant="h6"> {answer.text} </Typography></Paper>
@@ -100,6 +100,24 @@ const Question = (props) => {
       	
 	</Paper>
 	)
+}
+
+// used to shuffle the answers in the question
+const shuffle = (array) => {
+	let currentIndex = array.length,  randomIndex;
+
+	// While there remain elements to shuffle...
+	while (currentIndex != 0) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex--;
+
+		// And swap it with the current element.
+		[array[currentIndex], array[randomIndex]] = [
+		array[randomIndex], array[currentIndex]];
+	}
+
+	return array;
 }
 
 export default Question;
