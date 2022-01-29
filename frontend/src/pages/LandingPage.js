@@ -29,7 +29,7 @@ const LandingPage = () => {
 					</Typography>
 				</Grid>
 				<Grid item>
-					<NormalButton xs={6} text="Inscreve-te" href="/login"  fontSize={41} />
+					<NormalButton xs={6} text="Inscreve-te" href="/registar"  fontSize={41} />
 				</Grid>
 			</Grid>
 			<Grid item>

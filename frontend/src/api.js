@@ -24,7 +24,7 @@ export async function getProfile(id, successCall) {
 }
 
 // Log in User
-export async function logIn(username, password) {
+export async function logIn(username, password, errorCall) {
 	// TODO: add successCall and errorCall
 	axios.post("/rest-auth/login/", {
 		username: username, 
@@ -35,8 +35,7 @@ export async function logIn(username, password) {
 		window.location.replace("/");
 	}).catch((error) => {
 		localStorage.setItem("Authorization", null);
-		console.log(error);
-		alert("Utilizador ou Password errada!");
+		errorCall();
 	})
 }
 

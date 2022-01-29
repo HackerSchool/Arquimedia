@@ -31,13 +31,13 @@ function App() {
 		<ThemeProvider theme={globalTheme}>
 			<Router>
 				<Switch>
+					<Route path="/login" component={LoginPage} />
 					<Route exact path="/registar" component={RegistrationPage} />
 					<div>
 						<Navbar />
 						<div style={{marginRight: "12em", marginLeft: "13em"}}>
 							<Route exact path="/" component={LandingPage}/>
 							<Route path="/question/:id" component={QuestionPage} />
-							<Route path="/login" component={LoginPage} />
 							<Route exact path="/exames" component={GenExamPage} />
 							<Route exact path="/exame/:id" component={ExamPage} />
 							<Route exact path="/resultado/:id" component={ResultsPage} />
