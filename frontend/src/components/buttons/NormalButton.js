@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
 
 const NormalButton = props => {
 	const classes = useStyles(props);
-	console.log(props)
 
 	return (
 		<ThemeProvider theme={globalTheme}>

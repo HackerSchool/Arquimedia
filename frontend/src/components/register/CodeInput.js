@@ -51,7 +51,6 @@ const CodeInput = (props) => {
 					setTimeout(() => {
 						// code is okay, log user
 						logIn(props.username, props.password)
-						props.history.push('/profile')
 					}, 50)
 				}, () => {
 					// wrong code?

@@ -26,7 +26,7 @@ const PasswordResetConfirmPage = (props) => {
 			setAlert(true);
 			return;
 		}
-		confirmPasswordReset({
+		confirmPasswordReset(props.match.params.uid, props.match.params.token, {
 			new_password1: pass1,
 			new_password2: pass2,
 			uid: props.match.params.uid,
