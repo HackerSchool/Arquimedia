@@ -98,6 +98,7 @@ const Navbar = () => {
 
 	}, []);
 
+
 	return (
 		<AppBar position="static" className={classes.navbar}>
 			<Toolbar className={classes.toolbar}>
