@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Typography,
 	Grid,
@@ -51,11 +51,11 @@ const useStyles = makeStyles(theme => ({
 
 const Question = (props) => {
 	const classes = useStyles();
-	const [answer, setAnswer] = useState("")
+	const [selectedAnswer, setSelectedAnswer] = useState("")
 
-	const handleAnswer = (event, newAnswer) => {
-		setAnswer(newAnswer)
-		props.callBack(newAnswer, props.answer);
+	const handleAnswer = (newAnswerId) => {
+		setSelectedAnswer(newAnswerId)
+		props.callBack(newAnswerId, props.answer);
 	}
 
 	return (
@@ -83,10 +83,10 @@ const Question = (props) => {
 				{/* Answers */}
 				<Grid container item xs={4}> 
 					<Paper className={classes.answers}>
-						{shuffle(props.question.answer).map(answer => {
+						{props.question.answer.map(answer => {
 								return (
 									<Grid item className={classes.options}>
-										<Answer answer={answer} />
+										<Answer selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
 									</Grid>
 								)
 							})}
@@ -98,22 +98,5 @@ const Question = (props) => {
 	)
 }
 
-// used to shuffle the answers in the question
-const shuffle = (array) => {
-	let currentIndex = array.length,  randomIndex;
-
-	// While there remain elements to shuffle...
-	while (currentIndex != 0) {
-		// Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex--;
-
-		// And swap it with the current element.
-		[array[currentIndex], array[randomIndex]] = [
-		array[randomIndex], array[currentIndex]];
-	}
-
-	return array;
-}
 
 export default Question;
