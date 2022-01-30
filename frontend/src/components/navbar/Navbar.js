@@ -49,11 +49,29 @@ const useStyles = makeStyles(theme => ({
 	},
 	toolbar: {
 		height: 300,
-		marginRight: "20rem",
-		marginLeft: "2rem"
+		marginRight: "2rem",
+		marginLeft: "-8rem",
+		[theme.breakpoints.between(800,960)]: {
+			marginLeft: "-16rem",
+		},
+		[theme.breakpoints.between(580, 800)]: {
+			marginLeft: "-12rem",
+		},
+		[theme.breakpoints.down('xs')]: {
+			marginLeft: "-3rem",
+		},
+
 	},
 	logo: {
-		height: 114,
+		[theme.breakpoints.down('xs')]: {
+		height: 75,
+		},
+		[theme.breakpoints.between('xs','sm')]: {
+			height: 95,
+		},
+		[theme.breakpoints.up('sm')]: {
+			height: 114,
+		},
 	},
 	registerBtn: {
 		borderRadius: "15",
@@ -83,7 +101,7 @@ const Navbar = () => {
 	return (
 		<AppBar position="static" className={classes.navbar}>
 			<Toolbar className={classes.toolbar}>
-				<Logo className={classes.logo} />
+				<Logo  className={classes.logo} />
 				
 				<Grid container className={classes.menu} justify="flex-end">
 			
@@ -104,6 +122,7 @@ const Navbar = () => {
 						<MenuIcon fontSize="large"/>
 					</IconButton>
 					<SwipeableDrawer
+						anchor='right'
 						open={click}
 						onClose={handleClick}
 						onOpen={handleClick}
