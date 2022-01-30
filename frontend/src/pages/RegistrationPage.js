@@ -1,6 +1,8 @@
 import React from "react";
 import {
 	Grid,
+	useTheme,
+	useMediaQuery,
 } from "@material-ui/core";
 import RegisterInput from "../components/register/RegisterInput";
 import RegisterInfo from "../components/register/RegisterInfo";
@@ -13,22 +15,44 @@ const useStyles = makeStyles(theme => ({
 		boxSizing: "border-box"
 	},
 	form: {
-		backgroundColor: "#56CCF2",
-	}
+		backgroundColor: theme.palette.primary.main,
+		opacity:0.8,
+	},
 }))
 
 const RegistrationPage = () => {
 	const classes = useStyles();
+	const theme = useTheme();
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	return (
-		<Grid className={classes.container} container direction="row" align="center">
-			<Grid item xs={7}>
-				<RegisterInfo />
-			</Grid>
-			<Grid className={classes.form} item xs={5}>
+		<div className={classes.form}>
+			{(isSmallScreen) ? 
+			(
+
+			<Grid classes={classes.container} container direction="row" justifyContent="flex-start" alignItems="center"
+			>
+				<Grid item xs={4}>
+					<RegisterInfo />
+				</Grid>
+				<Grid item xs={5}>
 					<RegisterInput />
+				</Grid>
 			</Grid>
-		</Grid>
+
+			)
+				: 
+			(
+			<Grid className={classes.container} container direction="row" align="center">
+				<Grid item xs={7}>
+					<RegisterInfo />
+				</Grid>
+				<Grid item xs={5}>
+					<RegisterInput />
+				</Grid>
+			</Grid>)}
+
+		</div>
 	)
 }
 

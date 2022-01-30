@@ -4,7 +4,6 @@ import {
 	Typography,
 	useTheme,
 	useMediaQuery,
-	Container,
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import LoginInput from "../components/login/LoginInput";
