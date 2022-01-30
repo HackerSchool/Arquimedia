@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -48,17 +48,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getSteps() {
-  return ['', '', '','','', '', '','','', '', '','',''];
-}
-
-export default function CustomizedSteppers() {
+export default function CustomizedSteppers(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+  const steps = Array(props.size).fill('');
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === steps.length - 1) {
+      props.submitExam()
+    }
+    else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -68,6 +69,10 @@ export default function CustomizedSteppers() {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  useEffect(() => {
+    props.changeIndex(activeStep)
+  }, [activeStep])
 
   return (
     <div className={classes.root}>

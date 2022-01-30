@@ -36,13 +36,8 @@ const QuestionsGroup = forwardRef((props, ref) => {
 
 	return (
 		<Grid container spacing={4}>
-			{props.exam.questions.map((question, i) => (
-				<Grid item xs={12} key={question.id}>
-					<Question key={question.id} question={question} answer={i} callBack={callBack}/>
-				</Grid>
-			))}
-			<Grid item xs={12}>
-					<Button variant="contained" type="submit" onClick={handleClick}>Concluir</Button>
+			<Grid item xs={12} key={props.exam.questions[props.questionIndex].id}>
+				<Question key={props.exam.questions[props.questionIndex].id} question={props.exam.questions[props.questionIndex]} callBack={callBack}/>
 			</Grid>
 		</Grid>
 	)

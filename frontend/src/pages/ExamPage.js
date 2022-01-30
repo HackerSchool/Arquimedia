@@ -24,6 +24,7 @@ const ExamPage = (props) => {
 	const classes = useStyles();
 	const [exam, setExam] = useState({questions: []});
 	const [loading, setLoading] = useState(true);
+	const [currentQuestion, setCurrentQuestion] = useState(0)
 	
 	useEffect(() => {
 		examInfo(props.match.params.id, (res) => {
@@ -44,7 +45,11 @@ const ExamPage = (props) => {
 
 	return (
 		<div>
-			<CustomizedSteppers/>
+			<CustomizedSteppers 
+				size={exam.questions.length} 
+				changeIndex={(index) => setCurrentQuestion(index)}
+				submitExam={onComplete}
+			/>
 			<Grid container align="center" spacing={4} xs={12}>
 				<Grid item xs={12}>
 					<div className={classes.timer}>
@@ -52,7 +57,7 @@ const ExamPage = (props) => {
 					</div>
 				</Grid>
 				<Grid item xs={12}>
-					<QuestionsGroup exam={exam} ref={childRef}/>
+					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion}/>
 				</Grid>
 			</Grid>
 		</div>
