@@ -11,12 +11,16 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
 	container: {
 		height: "100vh",
+
 		border: 3,
-		boxSizing: "border-box"
+		boxSizing: "border-box",
+
 	},
 	form: {
 		backgroundColor: theme.palette.primary.main,
 		opacity:0.8,
+        height: '100vh'
+
 	},
 }))
 
@@ -26,16 +30,13 @@ const RegistrationPage = () => {
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	return (
-		<div className={classes.form}>
+		<div  >
 			{(isSmallScreen) ? 
-			(
-
-			<Grid classes={classes.container} container direction="row" justifyContent="flex-start" alignItems="center"
-			>
-				<Grid item xs={4}>
+			(<Grid className={classes.form} classes={classes.container} container direction="row" justifyContent="flex-start" alignItems="center">
+				<Grid item xs={3}>
 					<RegisterInfo />
 				</Grid>
-				<Grid item xs={5}>
+				<Grid  item xs={9}>
 					<RegisterInput />
 				</Grid>
 			</Grid>
@@ -47,7 +48,7 @@ const RegistrationPage = () => {
 				<Grid item xs={7}>
 					<RegisterInfo />
 				</Grid>
-				<Grid item xs={5}>
+				<Grid className={classes.form} item xs={5}>
 					<RegisterInput />
 				</Grid>
 			</Grid>)}

@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
 	form: {
 		backgroundColor: theme.palette.primary.main,
 		opacity:0.8,
+		width: '100vw',
+        height: '100vh'
+
 	},
 	svg: {
 		bottom: 0,
@@ -65,11 +68,11 @@ const LoginPage = () => {
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	return (
-		<div className={classes.form}>
+		<div >
 			{(isSmallScreen) ? 
 			(
 
-			<Grid classes={classes.container} container direction="row" justifyContent="flex-start" alignItems="center"
+			<Grid className={classes.form} classes={classes.container} container direction="row" justifyContent="flex-start" alignItems="center"
 			>
 				<Grid item xs={4}>
 					<Typography variant="h1" className={classes.text}>Um exame por dia<br />não sabes o <span style={{textDecoration: 'underline'}}>bem</span> que te fazia!</Typography>
@@ -88,7 +91,7 @@ const LoginPage = () => {
 					<Typography variant="h1" className={classes.text}>Um exame por dia<br />não sabes o <span style={{textDecoration: 'underline'}}>bem</span> que te fazia!</Typography>
 					<Girl  className={classes.svg}/>
 				</Grid>
-				<Grid item xs={5}>
+				<Grid className={classes.form} item xs={5}>
 					<LoginInput />
 				</Grid>
 			</Grid>)}
