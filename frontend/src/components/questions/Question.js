@@ -53,9 +53,9 @@ const Question = (props) => {
 	const classes = useStyles();
 	const [selectedAnswer, setSelectedAnswer] = useState("")
 
-	const handleAnswer = (newAnswerId) => {
-		setSelectedAnswer(newAnswerId)
-		props.callBack(newAnswerId, props.answer);
+	const handleAnswer = (newAnswer) => {
+		setSelectedAnswer(newAnswer)
+		props.callBack(newAnswer, props.answer);
 	}
 
 	return (

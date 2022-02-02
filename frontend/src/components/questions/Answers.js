@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 const Answer = (props) => {
 	const classes = useStyles(props.selected);
 
-	const changeChosenAnswer = (event) => {
+	const changeChosenAnswer = () => {
 		// do something to change the answer
 		props.changeAnswer(props.answer.id)
 	}
