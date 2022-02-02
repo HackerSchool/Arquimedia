@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 const Question = (props) => {
 	const classes = useStyles();
-	const [selectedAnswer, setSelectedAnswer] = useState("")
+	const [selectedAnswer, setSelectedAnswer] = useState(props.selected)
 
 	const handleAnswer = (newAnswer) => {
 		setSelectedAnswer(newAnswer)

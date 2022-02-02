@@ -3,13 +3,11 @@ import Question from "./Question";
 import { useRef, forwardRef, useImperativeHandle } from "react";
 import {
 	Grid,
-	Button
 } from "@material-ui/core";
 import { submitExam } from "../../api";
 
 const QuestionsGroup = forwardRef((props, ref) => {
 	let answers = useRef(Array(props.exam.questions.length).fill(0));
-	//const [answers, setAnswers] = useState(Array(props.exam.questions.length).fill(0))
 
 	useImperativeHandle(
 		ref,
@@ -20,12 +18,8 @@ const QuestionsGroup = forwardRef((props, ref) => {
 
 	const callBack = (childData, index) => {
 		// creates a copy of answers, modifies it and updates answers
-
-		//let newArray = Object.assign({}, answers.current);
 		let newArray = Object.assign({}, answers.current);
 		newArray[index] = childData;
-		console.log(answers);
-		console.log(newArray)
 		answers.current = newArray;
 	}
 
@@ -42,7 +36,7 @@ const QuestionsGroup = forwardRef((props, ref) => {
 	return (
 		<Grid container spacing={4}>
 			<Grid item xs={12} key={props.exam.questions[props.questionIndex].id}>
-				<Question answer={props.questionIndex} key={props.exam.questions[props.questionIndex].id} question={props.exam.questions[props.questionIndex]} callBack={callBack}/>
+				<Question selected={answers.current[props.questionIndex]} answer={props.questionIndex} key={props.exam.questions[props.questionIndex].id} question={props.exam.questions[props.questionIndex]} callBack={callBack}/>
 			</Grid>
 		</Grid>
 	)
