@@ -66,7 +66,7 @@ const Question = (props) => {
 				<Grid item xs={8} justifyContent="center">
 					{/* Question's number */}
 					<Grid item xs={5}>
-						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> Questão ___ </Typography></Paper>
+						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> Questão {props.answer + 1} </Typography></Paper>
 					</Grid>
 
 					{/* Question's text */}

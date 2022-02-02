@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import {
 	Grid,
+	Button
 } from "@material-ui/core";
 import { examInfo } from "../api";
 import CountdownClock from "../components/countdownClock/CountdownClock";
@@ -12,10 +13,7 @@ import CustomizedSteppers from "../components/questions/Stepper";
 
 const useStyles = makeStyles(theme => ({
 	timer: {
-		position: "fixed",
-		bottom: 0,
-		rigth: 0,
-		padding: "10px"
+		margin: "2rem 0 6rem 0"
 	}
 }))
 
@@ -41,6 +39,18 @@ const ExamPage = (props) => {
 		childRef.current.submit();
 	}
 
+	const increaseCurrent = () => {
+		if (currentQuestion < exam.questions.length - 1) {
+			setCurrentQuestion(currentQuestion + 1)
+		}
+	}
+
+	const decreaseCurrent = () => {
+		if (currentQuestion > 0) {
+			setCurrentQuestion(currentQuestion - 1)
+		}
+	}
+
 	if (loading) return (<Loading />)
 
 	return (
@@ -49,15 +59,23 @@ const ExamPage = (props) => {
 				size={exam.questions.length} 
 				changeIndex={(index) => setCurrentQuestion(index)}
 				submitExam={onComplete}
+				current={currentQuestion}
 			/>
-			<Grid container align="center" spacing={4} xs={12}>
-				<Grid item xs={12}>
-					<div className={classes.timer}>
-						<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete}/>
-					</div>
+			<div className={classes.timer} align="center">
+				<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete}/>
+			</div>
+			<Grid container align="center" spacing={4} xs={12} direction="row" alignItems="center">
+				<Grid item xs={1}>
+					<Button onClick={decreaseCurrent}>Anterior</Button>
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={10}>
 					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion}/>
+					{currentQuestion == exam.questions.length - 1 && (
+						<Button onClick={onComplete}>Submeter exame</Button>
+					)}
+				</Grid>
+				<Grid item xs={1}>
+					<Button onClick={increaseCurrent}>Seguinte</Button>
 				</Grid>
 			</Grid>
 		</div>

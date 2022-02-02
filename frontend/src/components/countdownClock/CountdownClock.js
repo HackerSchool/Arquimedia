@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import {
 	Paper,
 	Typography,
@@ -27,7 +27,7 @@ const renderer = props => {
 
 const CountdownClock = (props) => {
 	const classes = useStyles();
-	const duration = props.duration * 1000 + Date.now();
+	const duration = useRef(props.duration * 1000 + Date.now());
 
 	const completed = () => {
 		setTimeout(() => {
@@ -39,7 +39,7 @@ const CountdownClock = (props) => {
 		<Paper className={classes.clock}>
 			<Typography variant="h4" className={classes.counter}>
 				<Countdown 
-					date={duration}
+					date={duration.current}
 					renderer={renderer}
 					onComplete={completed}
 				/>

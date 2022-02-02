@@ -50,68 +50,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustomizedSteppers(props) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
   const steps = Array(props.size).fill('');
-
-  const handleNext = () => {
-    if (activeStep === steps.length - 1) {
-      props.submitExam()
-    }
-    else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  useEffect(() => {
-    props.changeIndex(activeStep)
-  }, [activeStep])
 
   return (
     <div className={classes.root}>
-      <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector/>}>
+      <Stepper alternativeLabel activeStep={props.current} connector={<QontoConnector/>}>
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              Terminaste! Se tiveres termpo revê as tuas respostas e de seguida consulta a correção: *botão para a correção ou algo do género*
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Rever desde o Início!
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}></Typography>
-            <div>
-              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                Back
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
