@@ -18,10 +18,11 @@ const useStyles = makeStyles(theme => ({
 		padding: 0,
 		width: "80%",
 		borderRadius: 38,
-		boxShadow: (selected && "3px 6px 0px rgba(0, 0, 0, 0.25"),
-		"&:hover": {
-			backgroundColor: "#ff6e6e",
-		}
+		boxShadow: (selected === true && "3px 6px 0px rgba(0, 0, 0, 0.25)"),
+		transition: "transform 0.15s ease-in-out",
+		'&:hover': {
+			transform: "scale3d(1.05, 1.05, 1)"
+		 },
 	}),
 	icon: {
 		position: 'absolute',
