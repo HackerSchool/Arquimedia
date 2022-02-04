@@ -19,13 +19,16 @@ const useStyles = makeStyles(theme => ({
 		width: "70%",
 		borderRadius: 20,
 		boxShadow: "0px 4px 4px #9A9A9A",
-		backgroundColor: "#F9F9F9"
+		backgroundColor: "#F9F9F9",
 	},
 
 	answers: {
 		backgroundColor: '#EB5757',
 		width: "100%",
 		borderRadius: 20,
+		justifyContent: "center",
+		display: "flex",
+		flexDirection: 'column',
 	},
 
 	number: {
@@ -47,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 	options: {
 		padding: 10,
 		fontWeight: 1,
-	},
+	}
 }))
 
 const Question = (props) => {
@@ -62,7 +65,7 @@ const Question = (props) => {
 	return (
 		<Paper className={classes.questionBox}>	
 		
-			<Grid container direction="row" justifyContent="flex-start" style={{margin: 0}} spacing={0}>
+			<Grid container alignItems="stretch" direction="row" justifyContent="flex-start" style={{margin: 0}} spacing={0}>
 
 				<Grid item xs={8} justifyContent="center">
 					{/* Question's number */}
@@ -83,7 +86,7 @@ const Question = (props) => {
 
 				{/* Answers */}
 				<Grid container item xs={4}> 
-					<Paper className={classes.answers}>
+					<Paper className={classes.answers} alignItems="center" direction="column">
 						{props.question.answer.map(answer => {
 								return (
 									<Grid item className={classes.options}>
