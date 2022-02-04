@@ -2,19 +2,43 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import {
 	Grid,
-	Button
+	Button,
+	IconButton
 } from "@material-ui/core";
 import { examInfo } from "../api";
 import CountdownClock from "../components/countdownClock/CountdownClock";
 import { makeStyles } from "@material-ui/core";
 import QuestionsGroup from "../components/questions/QuestionsGroup";
 import Loading from "../components/loading/Loading";
-import CustomizedSteppers from "../components/questions/Stepper"; 
+import CustomizedSteppers from "../components/questions/Stepper";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const useStyles = makeStyles(theme => ({
 	timer: {
 		margin: "2rem 0 6rem 0"
-	}
+	},
+	beforeBttn: {
+		color: "white",
+		backgroundColor: theme.palette.secondary.main,
+		transition: "transform 0.15s ease-in-out",
+		'&:hover': {
+			backgroundColor: "#E3E3E3",
+			transform: "scale3d(1.1, 1.1, 1)"
+		 },
+	},
+	nextBttn: {
+		color: "white",
+		backgroundColor: theme.palette.primary.main,
+		transition: "transform 0.15s ease-in-out",
+		'&:hover': {
+			backgroundColor: "#E3E3E3",
+			transform: "scale3d(1.1, 1.1, 1)"
+		 },
+	},
+	container: {
+		width: "100%"
+	},
 }))
 
 const ExamPage = (props) => {
@@ -54,7 +78,7 @@ const ExamPage = (props) => {
 	if (loading) return (<Loading />)
 
 	return (
-		<div>
+		<div className={classes.container}>
 			<CustomizedSteppers 
 				size={exam.questions.length} 
 				changeIndex={(index) => setCurrentQuestion(index)}
@@ -66,18 +90,20 @@ const ExamPage = (props) => {
 			</div>
 			<Grid container align="center" spacing={4} xs={12} direction="row" alignItems="center">
 				<Grid item xs={1}>
-					<Button onClick={decreaseCurrent}>Anterior</Button>
+					<IconButton className={classes.beforeBttn} onClick={decreaseCurrent}><ArrowBackIcon fontSize="large" /></IconButton>
 				</Grid>
 				<Grid item xs={10}>
 					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion}/>
-					{currentQuestion == exam.questions.length - 1 && (
-						<Button onClick={onComplete}>Submeter exame</Button>
-					)}
 				</Grid>
 				<Grid item xs={1}>
-					<Button onClick={increaseCurrent}>Seguinte</Button>
+					<IconButton className={classes.nextBttn} onClick={increaseCurrent}><ArrowForwardIcon fontSize="large" /></IconButton>
 				</Grid>
 			</Grid>
+			<div align="center">
+				{currentQuestion == exam.questions.length - 1 && (
+					<Button onClick={onComplete}>Submeter</Button>
+				)}
+			</div>
 		</div>
 	)
 }
