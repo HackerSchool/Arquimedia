@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
 	questionBox: {
 		width: "70%",
 		borderRadius: 20,
-		boxShadow: "0px 4px 4px #9A9A9A"
+		boxShadow: "0px 4px 4px #9A9A9A",
+		backgroundColor: "#F9F9F9"
 	},
 
 	answers: {

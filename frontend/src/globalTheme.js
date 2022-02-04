@@ -12,6 +12,9 @@ const globalTheme = createTheme({
 		},
 		text: {
 			primary: "#000"
+		},
+		grey: { // for some reason theme.palette.grey.main doesn't work
+			primary: "#F1F1F1"
 		}
 	},
 });

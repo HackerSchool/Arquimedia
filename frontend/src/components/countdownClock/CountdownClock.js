@@ -9,13 +9,14 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
 	clock: {
 		width: "fit-content",
-		padding: "0.5rem"
+		padding: "0.5rem",
+		backgroundColor: "#F9F9F9"
 	},
 	counter: {
 		padding: "10px"
 	},
 	counter: (props) => ({
-		color: theme.palette.secondary.main
+		color: theme.palette.secondary.main,
 	}),
 }))
 

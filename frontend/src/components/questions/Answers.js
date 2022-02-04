@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
 	paperAnswer:{
 		width: "100%",
 		borderRadius: 38,
+		backgroundColor: "#F9F9F9"
 	},
 	buttonWrapper: selected => ({
 		padding: 0,
