@@ -8,19 +8,23 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	clock: {
-		width: "fit-content"
+		width: "fit-content",
+		padding: "0.5rem"
 	},
 	counter: {
 		padding: "10px"
-	}
+	},
+	counter: (props) => ({
+		color: theme.palette.secondary.main
+	}),
 }))
 
 
 // renderer changes the format on the CountdownClock
 const renderer = props => {
 	return (
-		<span>
-			{props.minutes}:{props.seconds}
+		<span style={{color: (props.minutes === 0 && props.seconds < 30) ? "#EB5757" : "black"}}>
+			{props.minutes}:{props.seconds < 10 && 0}{props.seconds}
 		</span>
 	)
 }
