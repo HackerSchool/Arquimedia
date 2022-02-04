@@ -39,6 +39,21 @@ const useStyles = makeStyles(theme => ({
 	container: {
 		width: "100%"
 	},
+	finishBttnWrapper: {
+		marginTop: "4rem"
+	},
+	finishBttn: {
+		backgroundColor: theme.palette.secondary.main,
+		color: "white",
+		fontSize: 24,
+		borderRadius: 20,
+		padding: "1rem",
+		transition: "transform 0.15s ease-in-out",
+		'&:hover': {
+			backgroundColor: theme.palette.primary.main,
+			transform: "scale3d(1.05, 1.05, 1)"
+		},
+	},
 }))
 
 const ExamPage = (props) => {
@@ -99,9 +114,9 @@ const ExamPage = (props) => {
 					<IconButton className={classes.nextBttn} onClick={increaseCurrent}><ArrowForwardIcon fontSize="large" /></IconButton>
 				</Grid>
 			</Grid>
-			<div align="center">
+			<div align="center" className={classes.finishBttnWrapper}>
 				{currentQuestion == exam.questions.length - 1 && (
-					<Button onClick={onComplete}>Submeter</Button>
+					<Button className={classes.finishBttn} onClick={onComplete}>Submeter</Button>
 				)}
 			</div>
 		</div>
