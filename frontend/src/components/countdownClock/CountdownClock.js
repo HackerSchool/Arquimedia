@@ -12,11 +12,9 @@ const useStyles = makeStyles(theme => ({
 		padding: "0.5rem",
 		backgroundColor: "#F9F9F9"
 	},
-	counter: {
-		padding: "10px"
-	},
 	counter: (props) => ({
 		color: theme.palette.secondary.main,
+		padding: "10px"
 	}),
 }))
 

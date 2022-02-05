@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Check from '@material-ui/icons/Check';
 import StepConnector from '@material-ui/core/StepConnector';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 const QontoConnector = withStyles({
     line: {

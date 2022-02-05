@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 		padding: "1rem",
 		transition: "transform 0.15s ease-in-out",
 		'&:hover': {
-			backgroundColor: theme.palette.primary.main,
+			backgroundColor: "#E3E3E3",
 			transform: "scale3d(1.05, 1.05, 1)"
 		},
 	},
@@ -115,7 +115,7 @@ const ExamPage = (props) => {
 				</Grid>
 			</Grid>
 			<div align="center" className={classes.finishBttnWrapper}>
-				{currentQuestion == exam.questions.length - 1 && (
+				{currentQuestion === exam.questions.length - 1 && (
 					<Button className={classes.finishBttn} onClick={onComplete}>Submeter</Button>
 				)}
 			</div>
@@ -128,7 +128,7 @@ const shuffle = (array) => {
 	let currentIndex = array.length,  randomIndex;
 
 	// While there remain elements to shuffle...
-	while (currentIndex != 0) {
+	while (currentIndex !== 0) {
 		// Pick a remaining element...
 		randomIndex = Math.floor(Math.random() * currentIndex);
 		currentIndex--;

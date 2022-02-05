@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
 	Typography,
 	Grid,
 	Paper,
 } from "@material-ui/core";
 import { useState } from "react";
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { makeStyles } from "@material-ui/core";
 import QuestionImage from "./QuestionImage";
 import Answer from "./Answers";
