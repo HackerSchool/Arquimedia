@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import {
 	Paper,
 	Typography,
@@ -8,26 +8,29 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
 	clock: {
-		width: "fit-content"
+		width: "fit-content",
+		padding: "0.5rem",
+		backgroundColor: "#F9F9F9"
 	},
-	counter: {
+	counter: (props) => ({
+		color: theme.palette.secondary.main,
 		padding: "10px"
-	}
+	}),
 }))
 
 
 // renderer changes the format on the CountdownClock
 const renderer = props => {
 	return (
-		<span>
-			{props.minutes}:{props.seconds}
+		<span style={{color: (props.minutes === 0 && props.seconds < 30) ? "#EB5757" : "black"}}>
+			{props.minutes}:{props.seconds < 10 && 0}{props.seconds}
 		</span>
 	)
 }
 
 const CountdownClock = (props) => {
 	const classes = useStyles();
-	const duration = props.duration * 1000 + Date.now();
+	const duration = useRef(props.duration * 1000 + Date.now());
 
 	const completed = () => {
 		setTimeout(() => {
@@ -39,7 +42,7 @@ const CountdownClock = (props) => {
 		<Paper className={classes.clock}>
 			<Typography variant="h4" className={classes.counter}>
 				<Countdown 
-					date={duration}
+					date={duration.current}
 					renderer={renderer}
 					onComplete={completed}
 				/>
