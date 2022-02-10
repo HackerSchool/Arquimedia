@@ -56,6 +56,8 @@ const Question = (props) => {
 
 	const handleAnswer = (newAnswer) => {
 		setSelectedAnswer(newAnswer)
+		if (props.preview)
+			return;
 		props.callBack(newAnswer, props.answer);
 	}
 
@@ -67,7 +69,7 @@ const Question = (props) => {
 				<Grid item xs={8} justifyContent="center">
 					{/* Question's number */}
 					<Grid item xs={5}>
-						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> Questão {props.answer + 1} </Typography></Paper>
+						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> {props.preview ? "Preview" : "Questão " + (props.answer + 1)} </Typography></Paper>
 					</Grid>
 
 					{/* Question's text */}
@@ -77,7 +79,7 @@ const Question = (props) => {
 
 					{/* Question's image */}
 					<Grid item xs={12} spacing={3}>
-							<Paper className={classes.paper}><QuestionImage question={props.question} /></Paper>
+						<QuestionImage preview={props.preview} question={props.question} />
 					</Grid>
 				</Grid>
 
@@ -87,7 +89,7 @@ const Question = (props) => {
 						{props.question.answer.map(answer => {
 								return (
 									<Grid item className={classes.options}>
-										<Answer selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
+										<Answer preview={props.preview} selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
 									</Grid>
 								)
 							})}

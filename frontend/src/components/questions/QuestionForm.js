@@ -11,6 +11,7 @@ import {
 	submitQuestion,
 	submitQuestionImage
 } from "../../api";
+import Question from '../questions/Question'
 
 
 const QuestionForm = () => {
@@ -23,6 +24,28 @@ const QuestionForm = () => {
 	const [wrong1, setWrong1] = useState();
 	const [wrong2, setWrong2] = useState();
 	const [wrong3, setWrong3] = useState();
+	let question = {
+		text: text,
+		answer: [
+			{
+				text: correct,
+				id: 1
+			},
+			{
+				text: wrong1,
+				id: 2
+			},
+			{
+				text: wrong2,
+				id: 3
+			},
+			{
+				text: wrong3,
+				id: 4
+			},
+		],
+		image: image
+	}
 
 	const handleSubjectChange = (event) => setSubject(event.target.value);
 	const handleSubSubjectChange = (event) => setSubSubject(event.target.value);
@@ -111,6 +134,9 @@ const QuestionForm = () => {
 			</Grid>
 			<Grid item xs={12}>
 				<Button variant="contained" onClick={handleSubmition}>Submeter</Button>
+			</Grid>
+			<Grid item xs={12}>
+				<Question question={question} preview={true}/>
 			</Grid>
 		</Grid>
 	)

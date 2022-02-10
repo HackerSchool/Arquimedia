@@ -1,11 +1,12 @@
 import React from "react";
 
-const QuestionImage = ({question}) => {
+const QuestionImage = (props) => {
+	const src = props.preview ? (props.question.image && URL.createObjectURL(props.question.image)) : "http://localhost:8000" + props.question.image
 
 	return (
 		<div>
-			{question.image && 
-				<img src={"http://localhost:8000" + question.image} alt="visual support" style={{height: "20rem", width: "auto"}}/>
+			{props.question.image && 
+				<img src={src} alt="visual support" style={{height: "20rem", width: "auto"}}/>
 			}
 		</div>
 	)
