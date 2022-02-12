@@ -200,7 +200,7 @@ const QuestionForm = () => {
 			</Grid>
 
 			<Grid item xs={12}>
-				<NormalButton text="Submeter" fontSize={30} backgroundColor={globalTheme.palette.primary.main} onClick={handleSubmition} />
+				<NormalButton text="Submeter" fontSize={30} scale={1.05} backgroundColor={globalTheme.palette.primary.main} onClick={handleSubmition} />
 			</Grid>
 
 			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={submitted} text="Questão submetida com sucesso! Obrigado." type="success"/>
