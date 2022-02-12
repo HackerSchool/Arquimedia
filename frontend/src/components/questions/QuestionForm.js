@@ -5,7 +5,9 @@ import {
 	Select,
 	MenuItem,
 	Button,
-	makeStyles
+	makeStyles,
+	Tooltip,
+	Typography
 } from "@material-ui/core"
 import { useState } from "react";
 import {
@@ -13,10 +15,22 @@ import {
 	submitQuestionImage
 } from "../../api";
 import Question from '../questions/Question'
+import InfoIcon from '@material-ui/icons/Info';
+import Info from "@material-ui/icons/Info";
+
+var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
 	contentInput: {
 		width: "30rem"
+	},
+	tooltipText: {
+		textDecoration: "none",
+		color: theme.palette.primary.main
+	},
+	tooltipKatex: {
+		position: "absolute",
+		rigth: "3rem"
 	}
 }))
 
@@ -105,6 +119,21 @@ const QuestionForm = () => {
 			{/* Question content */}
 			<Grid item xs={6}>
 				<TextField className={classes.contentInput} label="Texto" variant="outlined" multiline rows={5} onChange={handleText}/>
+				<Tooltip
+				className={classes.tooltipKatex}
+				interactive
+				title={
+					<React.Fragment>
+						<Typography variant="h6">Escreve equações matemáticas usando KaTeX!</Typography>
+						<Typography>Começa por escrever a equação dentro de dois <b>$equação$</b></Typography>
+						<Typography><b>Exemplo</b>: $x^2=4$ fica <Latex>$x^2=4$</Latex></Typography>
+						<Typography>Descobre mais lendo a <b><a target="_blank" className={classes.tooltipText} href="https://katex.org/docs/supported.html">documentação</a></b></Typography>
+					</React.Fragment>
+				}
+				
+				>
+					<InfoIcon />
+				</Tooltip>
 			</Grid>
 
 			{/* Answers */}
@@ -156,7 +185,7 @@ const QuestionForm = () => {
 			<Grid item xs={12}>
 				<Button variant="contained" onClick={handleSubmition}>Submeter</Button>
 			</Grid>
-			
+
 			<Grid item xs={12}>
 				<Question question={question} preview={true}/>
 			</Grid>
