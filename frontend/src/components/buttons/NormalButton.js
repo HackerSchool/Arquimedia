@@ -10,7 +10,9 @@ const useStyles = makeStyles(theme => ({
 		fontSize: props.fontSize,
 		textTransform: "none",
 		borderRigth: "4px",
-		padding: "0 1rem 0 1rem"
+		padding: "0 1rem 0 1rem",
+		backgroundColor: props.backgroundColor,
+		color: props.color
 	})
 }))
 
@@ -20,10 +22,6 @@ const NormalButton = props => {
 	return (
 		<ThemeProvider theme={globalTheme}>
 			<Button
-				style={{
-					backgroundColor: props.backgroundColor,
-					color: props.color
-				}}
 				href={props.href}
 				className={classes.button}
 				onClick={props.onClick}

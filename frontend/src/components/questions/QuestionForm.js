@@ -17,6 +17,8 @@ import {
 import Question from '../questions/Question'
 import InfoIcon from '@material-ui/icons/Info';
 import AlertSnackBar from "../alerts/AlertSnackBar";
+import NormalButton from "../buttons/NormalButton"
+import globalTheme from "../../globalTheme";
 
 var Latex = require('react-latex');
 
@@ -198,7 +200,7 @@ const QuestionForm = () => {
 			</Grid>
 
 			<Grid item xs={12}>
-				<Button variant="contained" onClick={handleSubmition}>Submeter</Button>
+				<NormalButton text="Submeter" fontSize={30} backgroundColor={globalTheme.palette.primary.main} onClick={handleSubmition} />
 			</Grid>
 
 			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={submitted} text="Questão submetida com sucesso! Obrigado." type="success"/>
