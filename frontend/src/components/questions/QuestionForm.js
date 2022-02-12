@@ -4,7 +4,8 @@ import {
 	TextField,
 	Select,
 	MenuItem,
-	Button
+	Button,
+	makeStyles
 } from "@material-ui/core"
 import { useState } from "react";
 import {
@@ -13,6 +14,11 @@ import {
 } from "../../api";
 import Question from '../questions/Question'
 
+const useStyles = makeStyles(theme => ({
+	contentInput: {
+		width: "30rem"
+	}
+}))
 
 const QuestionForm = () => {
 	const [subject, setSubject] = useState("Matematica");
@@ -24,6 +30,7 @@ const QuestionForm = () => {
 	const [wrong1, setWrong1] = useState();
 	const [wrong2, setWrong2] = useState();
 	const [wrong3, setWrong3] = useState();
+	const classes = useStyles()
 	let question = {
 		text: text,
 		answer: [
@@ -94,37 +101,45 @@ const QuestionForm = () => {
 	}
 
 	return (
-		<Grid container spacing={3} xs={12} align="center">
-			<Grid item xs={12}>
-				<TextField label="Texto" variant="outlined" multiline rows={5} onChange={handleText}/>
+		<Grid container spacing={6} xs={12} align="center">
+			{/* Question content */}
+			<Grid item xs={6}>
+				<TextField className={classes.contentInput} label="Texto" variant="outlined" multiline rows={5} onChange={handleText}/>
 			</Grid>
-			<Grid item xs={12}>
-				<input type="file" label="Adicionar imagem" onChange={handleImage} accept ="image/*"/>
+
+			{/* Answers */}
+			<Grid item xs={6} container>
+				<Grid item xs={6} onChange={handleCorrect}>
+					<TextField label="Resposta Correta" variant="outlined" />
+				</Grid>
+				<Grid item xs={6} onChange={handleWrong1}>
+					<TextField label="Resposta incorreta" variant="outlined" />
+				</Grid>
+				<Grid item xs={6} onChange={handleWrong2}>
+					<TextField label="Resposta incorreta" variant="outlined" />
+				</Grid>
+				<Grid item xs={6} onChange={handleWrong3}>
+					<TextField label="Resposta incorreta" variant="outlined" />
+				</Grid>
 			</Grid>
-			<Grid item xs={6} onChange={handleCorrect}>
-				<TextField label="Resposta Correta" variant="outlined" />
-			</Grid>
-			<Grid item xs={6} onChange={handleWrong1}>
-				<TextField label="Resposta incorreta" variant="outlined" />
-			</Grid>
-			<Grid item xs={6} onChange={handleWrong2}>
-				<TextField label="Resposta incorreta" variant="outlined" />
-			</Grid>
-			<Grid item xs={6} onChange={handleWrong3}>
-				<TextField label="Resposta incorreta" variant="outlined" />
-			</Grid>
+
+			{/* Subject */}
 			<Grid item xs={4}>
 				<Select value={subject} onChange={handleSubjectChange} label="Disciplina">
 					<MenuItem value="Matematica">Matemática</MenuItem>
 					<MenuItem value="Fisica">Fisica</MenuItem>
 				</Select>
 			</Grid>
+
+			{/* Subsubject */}
 			<Grid item xs={4}>
 				<Select value={subSubject} onChange={handleSubSubjectChange}>
 					<MenuItem value="Imaginarios">Imaginários</MenuItem>
 					<MenuItem value="Geometria">Geometria</MenuItem>
 				</Select>
 			</Grid>
+
+			{/* Year */}
 			<Grid item xs={4}>
 				<Select value={year} onChange={handleYear}>
 					<MenuItem value={10}>10</MenuItem>
@@ -132,9 +147,16 @@ const QuestionForm = () => {
 					<MenuItem value={12}>12</MenuItem>
 				</Select>
 			</Grid>
+
+			{/* Image */}
+			<Grid item xs={12}>
+				<input type="file" label="Adicionar imagem" onChange={handleImage} accept ="image/*"/>
+			</Grid>
+
 			<Grid item xs={12}>
 				<Button variant="contained" onClick={handleSubmition}>Submeter</Button>
 			</Grid>
+			
 			<Grid item xs={12}>
 				<Question question={question} preview={true}/>
 			</Grid>
