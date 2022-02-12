@@ -47,6 +47,10 @@ const useStyles = makeStyles(theme => ({
 	options: {
 		padding: 10,
 		fontWeight: 1,
+	},
+
+	questionText: {
+		whiteSpace: "pre-line"
 	}
 }))
 
@@ -74,7 +78,7 @@ const Question = (props) => {
 
 					{/* Question's text */}
 					<Grid item xs={12} spacing={3}>
-							<Typography variant="h5"><Latex>{props.question.text}</Latex></Typography>
+							<Typography variant="h5" className={classes.questionText}><Latex>{props.question.text}</Latex></Typography>
 					</Grid>
 
 					{/* Question's image */}
