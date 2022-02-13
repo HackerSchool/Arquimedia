@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 	},
 	svg: {
+		position:"absolute",
 		bottom: 0,
 		marginBottom: "2rem",
 		left: 0,
@@ -30,11 +31,15 @@ const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.down('md')]:
 		{
 			height: 250,
+			position:"static",
+
 		},
 		[theme.breakpoints.down(820)]:
 		{
 			marginBottom: "-4rem",
 			marginLeft: "-2rem",
+			bottom: 250,
+			position:"static",
 		},
 		
 	},

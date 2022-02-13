@@ -8,18 +8,15 @@ import { ReactComponent as Rising } from "../../assets/growth-curve-cuate.svg"
 
 const useStyles = makeStyles(theme => ({
 	svg: {
+		position:"absolute",
 		bottom: 0,
-		marginBottom: "2rem",
 		left: 0,
-		marginLeft: "6rem",
-		[theme.breakpoints.down('md')]:
-		{
-			height: 500,
-		},
 		[theme.breakpoints.down(820)]:
 		{
+			height: 500,
 			marginBottom: "-4rem",
 			marginLeft: "-2rem",
+			position:"static",
 		},
 		
 	},
@@ -28,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 		fontSize: 50,
 		[theme.breakpoints.between('sm', 'md')]:
 		{
-			fontSize: 35,
+			fontSize: 50,
 		},
 		[theme.breakpoints.down('sm')]:
 		{

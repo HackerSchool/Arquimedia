@@ -49,8 +49,12 @@ const useStyles = makeStyles(theme => ({
 	},
 	toolbar: {
 		height: 300,
-		marginRight: "2rem",
-		marginLeft: "-8rem",
+		marginRight: "20rem",
+		marginLeft: "2rem",
+		[theme.breakpoints.down('md')]: {
+			marginRight: "2rem",
+			marginLeft: "-8rem",
+		},
 		[theme.breakpoints.between(800,960)]: {
 			marginLeft: "-16rem",
 		},
