@@ -2,27 +2,54 @@ import React, {useState, useEffect} from 'react'
 import {
     Grid,
     Paper,
-    Typography,
     Select,
-    MenuItem
+    MenuItem,
+    makeStyles,
+    Typography
 } from '@material-ui/core'
 import { fetchLeaderboard } from '../api'
 import Loading from '../components/loading/Loading';
 import LeaderboardBar from '../components/profile/LeaderboardBar';
+import globalTheme from '../globalTheme';
 
 const SPANS = [
-    "month",
-    "day"
+    "mês",
+    "dia"
 ]
+
+const TO_ENGLISH = {
+    "mês": "month",
+    "dia": "day"
+}
+
+const useStyles = makeStyles(theme => ({
+    panel: {
+        width: "70%",
+        marginRight: 'auto',
+        marginLeft: 'auto',
+    },
+    dropdown: {
+        fontSize: globalTheme.typography.h4.fontSize,
+        '&.gutters': {
+            fontSize: globalTheme.typography.h4.fontSize,
+        },
+        color: globalTheme.palette.secondary.main
+    },
+    title: {
+        marginLeft: '1rem'
+    }
+}))
 
 function LeaderboardPage() {
     const [leaderboard, setLeaderboard] = useState();
-    const [span, setSpan] = useState("month");
+    const [span, setSpan] = useState("mês");
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const classes = useStyles();
+
     useEffect(() => {
-        fetchLeaderboard(span, (res) => {
+        fetchLeaderboard(TO_ENGLISH[span], (res) => {
             setLeaderboard(res.data);
             setLoading(false);
         })
@@ -44,20 +71,25 @@ function LeaderboardPage() {
     };
 
     return (
-        <Paper>
-            <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                open={open}
-                onClose={handleClose}
-                onOpen={handleOpen}
-                value={span}
-                onChange={handleChange}
-            >   
-                {SPANS.map((span) => (
-                    <MenuItem value={span}>{span}</MenuItem>
-                ))}
-            </Select>
+        <Paper className={classes.panel}>
+            <Typography variant='h4' className={classes.title}>
+                Leaderboard do <span/>
+                <Select
+                    labelId="demo-controlled-open-select-label"
+                    id="demo-controlled-open-select"
+                    open={open}
+                    onClose={handleClose}
+                    onOpen={handleOpen}
+                    value={span}
+                    onChange={handleChange}
+                    className={classes.dropdown}
+                >   
+                    {SPANS.map((span) => (
+                        <MenuItem value={span}>{span}</MenuItem>
+                    ))}
+                </Select>
+            </Typography>
+
             <Grid container>
                 {leaderboard.map((user, index) => (
                     <LeaderboardBar id={user.id} place={index + 1}/>
