@@ -59,8 +59,8 @@ function LeaderboardPage() {
                 ))}
             </Select>
             <Grid container>
-                {leaderboard.map((user) => (
-                    <LeaderboardBar id={user.id}/>
+                {leaderboard.map((user, index) => (
+                    <LeaderboardBar id={user.id} place={index + 1}/>
                 ))}
             </Grid> 
         </Paper>
