@@ -23,7 +23,7 @@ const TO_ENGLISH = {
     "dia": "day"
 }
 
-const USERS_PER_PAGE = 2
+const USERS_PER_PAGE = 10
 
 const useStyles = makeStyles(theme => ({
     panel: {
