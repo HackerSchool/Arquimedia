@@ -8,7 +8,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
 	id = serializers.SlugField()
 	username = serializers.ReadOnlyField()
-	
+
 	class Meta:
 		model = User
 		fields = ("id", "username", "email")
@@ -163,4 +163,4 @@ class ProfileLeaderboardSerializer(serializers.ModelSerializer):
 
 class ProfileLeaderboardTimedSerializer(serializers.Serializer):
 	id = serializers.IntegerField()
-	xp = serializers.IntegerField()
+	xp = serializers.IntegerField() 

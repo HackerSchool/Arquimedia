@@ -16,11 +16,16 @@ export async function getUser(successCall, errorCall) {
 export async function getProfile(id, successCall) {
 	axios.get("api/profile/" + id)
 	.then((res) => successCall(res))
-	.catch((error) => console.log(error));
+	.catch((error) => {
+		// If something went wrong in fetching the user maybe we should clean the current token
+		localStorage.setItem("Authorization", null);
+		console.log(error);
+	});
 }
 
 // Log in User
-export async function logIn(username, password) {
+export async function logIn(username, password, errorCall) {
+	// TODO: add successCall and errorCall
 	axios.post("/rest-auth/login/", {
 		username: username, 
 		password: password
@@ -29,8 +34,8 @@ export async function logIn(username, password) {
 		localStorage.setItem("Authorization", "Token " + res.data.key);
 		window.location.replace("/");
 	}).catch((error) => {
-		console.log(error);
-		alert("Utilizador ou Password errada!");
+		localStorage.setItem("Authorization", null);
+		errorCall();
 	})
 }
 
@@ -114,12 +119,10 @@ export async function submitExam(id, body, successCall) {
 }
 
 
-export async function registerUser(body) {
+export async function registerUser(body, successCall, errorCall) {
 	axios.post("/rest-auth/registration/", body)
-	.then((res) => {
-		localStorage.setItem("Authorization", "Token " + res.data.key);
-		window.location.replace("/");
-	});
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
 }
 
 
@@ -191,4 +194,39 @@ export async function getAllAchievements(successCall) {
 export async function fetchLeaderboard(span, successCall) {
 	axios.delete("api/leaderboard/" + span)
 	.then((res) => successCall(res));
+}
+
+/** Calls for a password reset
+ * 
+ * example of body: {
+ * 						email: "johndoe@gmail.com"
+ * 					}
+ * 
+ */
+export async function requestPasswordReset(body, successCall, errorCall) {
+	axios.post("rest-auth/password/reset/", body)
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
+}
+
+/** Confirms a password reset
+ *  body example: 
+ * {
+ *    newPassword1: "MiguelVotaCHEGA",
+ * 	  newPassword2: "MiguelVotaCHEGA",
+ * 	  uid: "MQ"
+ *    token: "QWJBEQWUYBfqunu22412"	
+ * }
+ * 
+ */
+export async function confirmPasswordReset(uid, token, body, successCall, errorCall) {
+	axios.post("rest-auth/password/reset/confirm/" + uid + "/" + token + "/", body)
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
+}
+
+export async function confirmEmail(code, username, successCall, errorCall) {
+	axios.get("api/email-confirm/" + username + "/" + code)
+	.then((res) => successCall(res))
+	.catch((error) => errorCall(error));
 }

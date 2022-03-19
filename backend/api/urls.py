@@ -22,5 +22,6 @@ urlpatterns = [
 	path("subject/<str:subject>", SubjectAPI.as_view()),
 	path("leaderboard/", Leaderboard.as_view()),
 	path("leaderboard/<str:time>", Leaderboard.as_view()),
-	path("follow/<int:id>", Follow.as_view())
+	path("follow/<int:id>", Follow.as_view()),
+	path("email-confirm/<str:username>/<int:code>", VerifyEmailView.as_view())
 ]

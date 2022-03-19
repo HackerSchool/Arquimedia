@@ -5,7 +5,7 @@ const QuestionImage = ({question}) => {
 	return (
 		<div>
 			{question.image && 
-				<img src={question.image} alt="visual support" style={{width: "80%"}}/>
+				<img src={"http://localhost:8000" + question.image} alt="visual support" style={{height: "20rem", width: "auto"}}/>
 			}
 		</div>
 	)

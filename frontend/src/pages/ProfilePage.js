@@ -18,7 +18,7 @@ import AchievementTray from "../components/achievements/AchievementTray";
 
 const useStyles = makeStyles(theme => ({
 	body: {
-		marginTop: "80px"
+		marginTop: "80px",
 	},
 	panel: {
 		backgroundColor: "#F4F4F4",

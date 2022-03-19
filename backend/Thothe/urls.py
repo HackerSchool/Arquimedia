@@ -1,4 +1,4 @@
-"""HSaoQuadrado URL Configuration
+"""Thothe URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -14,13 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
-from .views import index
+from .views import CustomLoginView, index, CustomRegisterView
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import TemplateView
+from rest_auth import views
+from api.views import VerifyEmailView
 
 urlpatterns = [
     path('', include("users.urls")),
@@ -28,9 +30,11 @@ urlpatterns = [
     url(r'^$', index),
     url('exame/', include('exams.urls')),
     path("api/", include("api.urls")),
+    url(r'^rest-auth/login/', CustomLoginView.as_view()),
+    url(r'^rest-auth/registration/', CustomRegisterView.as_view()),
     url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
+    path('rest-auth/password/reset/confirm/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 ]
 
 # Allows to fetch images

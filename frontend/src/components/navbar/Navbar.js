@@ -3,25 +3,23 @@ import {
 	AppBar,
 	Toolbar,
 	IconButton,
-	Typography,
 	SwipeableDrawer,
 	List,
 	ListItem,
-	Grid
+	Grid,
+	Link
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import FunctionsIcon from '@material-ui/icons/Functions';
 import MenuIcon from '@material-ui/icons/Menu';
 import NavbarButton from './NavbarButton';
+import { ReactComponent as Logo } from "../../assets/logo_blue.svg"
+import NormalButton from '../buttons/NormalButton';
 
 
 import {
 	getUser
 } from "../../api"
-import Loading from '../loading/Loading';
 import MenuCircular from '../MenuCircular/MenuCircular';
-
-const TITLE = "HS ao Quadrado"
 
 const useStyles = makeStyles(theme => ({
 	menuButton: {
@@ -35,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 	navbar: {
 		backgroundColor: "white",
 		boxShadow: theme.shadows[0],
-		padding: 0,
+		marginTop: "1.5rem",
 		height: 90
 	},
 	menu: {
@@ -51,8 +49,18 @@ const useStyles = makeStyles(theme => ({
 	},
 	toolbar: {
 		height: 300,
-		marginRight: "10%",
-		marginLeft: "10%"
+		marginRight: "20rem",
+		marginLeft: "2rem"
+	},
+	logo: {
+		height: 114,
+	},
+	registerBtn: {
+		borderRadius: "15",
+		color: "red"
+	},
+	circular: {
+		paddingBottom: "1rem"
 	}
 }))
 
@@ -62,46 +70,32 @@ const Navbar = () => {
 	const [click, setClick] = useState(false);
 	const [user, setUser] = useState({"id": null, "username": ""});
 	const handleClick = () => {setClick(!click); console.log(click)};
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-
 		getUser((res) => {
 			setUser(res.data);
-			setLoading(false);
 		}, () => {
 			console.log("Couldn't fetch user")
 		})
 
 	}, []);
 
-
 	return (
 		<AppBar position="static" className={classes.navbar}>
 			<Toolbar className={classes.toolbar}>
-				<IconButton edge="start" color="inherit" aria-label="menu" className={classes.menuButton}>
-				<FunctionsIcon fontSize="large" />
-				</IconButton>
-				<Typography variant="h4" className={classes.title}>{TITLE}</Typography>
+				<Logo className={classes.logo} />
 				
 				<Grid container className={classes.menu} justify="flex-end">
-					
-				{(loading) ? (
-					<Loading/>
-				) : [
-						(user.id != null) ? 
-							(
-								<List>
-									<MenuCircular user={user} />
-								</List>
-						) : (
-							<List>
-							<NavbarButton href="/registar" text="registar" />
-							<NavbarButton href="/login" text="login" /> 
-							</List>
-						)
-					]
-				}	
+			
+				{(user.id != null) ? 
+					(
+						<MenuCircular user={user}/>
+				) : (
+					<div>
+						<Link href="/sobre" variant="h6" style={{marginRight:"3rem", color:"black"}}>Quem somos?</Link>
+						<NormalButton text="Entrar" href="/login" fontSize={22} />
+					</div>
+				)}
 	
 				</Grid>
 

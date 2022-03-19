@@ -10,8 +10,10 @@ from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404, get_list_or_404
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.permissions import IsAuthenticated, AllowAny
 import datetime
+from rest_auth.registration.serializers import VerifyEmailSerializer
+from allauth.account.models import EmailAddress
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
@@ -348,7 +350,7 @@ class CurrentUserView(APIView):
 	def get(self, request):
 		serializer = UserSerializer(request.user)
 		return Response(serializer.data)
-        
+		
 
 
 class XPEventsAPI(APIView):
@@ -456,3 +458,19 @@ class Follow(APIView):
 		user_profile.removeFromFollowing(user_to_remove_follow)
 
 		return Response(status=status.HTTP_200_OK)
+
+class VerifyEmailView(APIView):
+	permission_classes = (AllowAny,)
+	allowed_methods = ('GET', 'OPTIONS', 'HEAD')
+
+	def get(self, request, code, username):
+		user = User.objects.get(username=username)
+
+		if (user.profile.email_confirmation_code == code):
+			email = EmailAddress.objects.get(user=user)
+			email.verified = True
+			email.save()
+
+			return Response({'detail': 'ok'}, status=status.HTTP_200_OK)
+		
+		return Response({'detail': 'wrong code'}, status=status.HTTP_400_BAD_REQUEST)

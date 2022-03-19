@@ -1,21 +1,19 @@
 import React from "react";
 import {
 	Grid,
-	Paper
 } from "@material-ui/core";
 import RegisterInput from "../components/register/RegisterInput";
 import RegisterInfo from "../components/register/RegisterInfo";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-	form: {
-		width: "50%",
-		backgroundColor: "yellow",
-		color: "black",
-		borderRadius: "50px",
+	container: {
+		height: "100vh",
+		border: 3,
+		boxSizing: "border-box"
 	},
-	inputs: {
-		borderTopColor: "white"
+	form: {
+		backgroundColor: "#56CCF2",
 	}
 }))
 
@@ -23,14 +21,12 @@ const RegistrationPage = () => {
 	const classes = useStyles();
 
 	return (
-		<Grid container direction="row" align="center">
-			<Grid item xs={6}>
+		<Grid className={classes.container} container direction="row" align="center">
+			<Grid item xs={7}>
 				<RegisterInfo />
 			</Grid>
-			<Grid item xs={6}>
-				<Paper className={classes.form}>
-					<RegisterInput css={classes.inputs}/>
-				</Paper>
+			<Grid className={classes.form} item xs={5}>
+					<RegisterInput />
 			</Grid>
 		</Grid>
 	)
