@@ -12,6 +12,7 @@ import LandingPage from "./pages/LandingPage.js";
 import ProfilePage from "./pages/ProfilePage.js";
 import PasswordResetPage from "./pages/PasswordResetPage.js";
 import PasswordResetConfirmPage from "./pages/PasswordResetConfirmPage.js";
+import LeaderboardPage from "./pages/LeaderboardPage.js";
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -40,6 +41,7 @@ function App() {
 							<Route path="/question/:id" component={QuestionPage} />
 							<Route exact path="/exames" component={GenExamPage} />
 							<Route exact path="/exame/:id" component={ExamPage} />
+							<Route exact path="/leaderboards" component={LeaderboardPage} />
 							<Route exact path="/resultado/:id" component={ResultsPage} />
 							<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
 							<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />

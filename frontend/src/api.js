@@ -192,7 +192,7 @@ export async function getAllAchievements(successCall) {
 
 
 export async function fetchLeaderboard(span, successCall) {
-	axios.delete("api/leaderboard/" + span)
+	axios.get("api/leaderboard/" + span)
 	.then((res) => successCall(res));
 }
 
