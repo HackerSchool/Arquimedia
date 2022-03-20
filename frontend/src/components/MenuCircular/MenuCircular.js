@@ -64,7 +64,7 @@ const MenuCircular = (props) => {
 
 		<div /> 
 
-		<IconButton href="/achievements" title="Achievements"><div
+		<IconButton href="/leaderboards" title="Leaderboards"><div
 			style={{
 				height: 40,
 				width: 40,
