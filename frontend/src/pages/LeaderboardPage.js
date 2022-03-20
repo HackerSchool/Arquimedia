@@ -40,6 +40,9 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         marginLeft: '1rem'
+    },
+    pagination: {
+        paddingBottom: '1rem'
     }
 }))
 
@@ -102,11 +105,11 @@ function LeaderboardPage() {
                 {leaderboard
                 .slice(USERS_PER_PAGE * (page - 1), USERS_PER_PAGE * page)
                 .map((user, index) => (
-                    <LeaderboardBar key={user.id} id={user.id} place={index + 1}/>
+                    <LeaderboardBar key={user.id} id={user.id} place={index + 1} page={page - 1}/>
                 ))}
             </Grid> 
 
-            <Grid container>
+            <Grid container justify='center' className={classes.pagination}>
                 <Pagination
                     onChange={pageChange}
                     defaultPage={1}

@@ -17,13 +17,17 @@ const useStyles = makeStyles(theme => ({
     },
     container: {
         margin: '1rem'
+    },
+    position: {
+        width: "1rem"
     }
 }))
 
 // TODO: Include user's streak
-function LeaderboardBar({id, place}) {
+function LeaderboardBar({id, place, page}) {
     const [profile, setProfile] = useState();
     const [loading, setLoading] = useState(true);
+    const position = page * 10 + place
 
     const classes = useStyles();
 
@@ -38,8 +42,8 @@ function LeaderboardBar({id, place}) {
 
     return (
         <Grid container alignItems='center' className={classes.container}>
-            <Grid item>
-                <Typography>{place}</Typography>    
+            <Grid item className={classes.position}>
+                <Typography>{position === 1 ? "🥇" : (position === 2 ? "🥈" : (position === 3 ? "🥉" : position))}</Typography>    
             </Grid>
             <Grid item className={classes.icon}>
                 <AvatarUser user={profile.user} />
