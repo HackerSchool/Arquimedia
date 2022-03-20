@@ -82,9 +82,11 @@ const Question = (props) => {
 					</Grid>
 
 					{/* Question's image */}
-					<Grid item xs={12} spacing={3}>
-						<QuestionImage preview={props.preview} question={props.question} />
-					</Grid>
+					{props.question.image && (
+						<Grid item xs={12} spacing={3}>
+							<QuestionImage preview={props.preview} question={props.question} />
+						</Grid>
+					)}
 				</Grid>
 
 				{/* Answers */}

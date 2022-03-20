@@ -1,7 +1,8 @@
 import React from "react";
 
 const QuestionImage = (props) => {
-	const src = props.preview ? (props.question.image && URL.createObjectURL(props.question.image)) : "http://localhost:8000" + props.question.image
+	// Image can be already uploaded (string) or being uploaded now (file).
+	const src = typeof props.question.image === 'string' ? props.question.image : URL.createObjectURL(props.question.image)
 
 	return (
 		<div>

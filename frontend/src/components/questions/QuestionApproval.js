@@ -1,8 +1,6 @@
 import React from "react";
 import {
 	Grid,
-	Typography,
-	Paper,
 	IconButton
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core";
@@ -12,13 +10,11 @@ import {
 	deleteQuestion,
 	acceptQuestion
 } from "../../api";
-import QuestionImage from "./QuestionImage";
-var Latex = require('react-latex');
+import Question from "../questions/Question"
 
 const useStyles = makeStyles(theme => ({
 	question: {
-		width: "30%",
-		padding: 0
+		width: "100%",
 	}
 }))
 
@@ -38,45 +34,24 @@ const QuestionApproval = ({question, callBack}) => {
 		})
 	};
 
-
 	return (
-		<Paper className={classes.question}>
-			<Grid container spacing={4}>
-				<Grid item xs={12}>
-					<Typography variant="h5"><Latex>{question.text}</Latex></Typography>
-				</Grid>
-
-				<Grid item xs={12}>
-					<QuestionImage question={question} />
-				</Grid>
-
-				<Grid item xs={12}>
-					<Grid container>
-						<Grid item xs={4}>
-							<IconButton onClick={remove}>
-								<ClearIcon color="error"/>
-							</IconButton>
-						</Grid>
-
-						<Grid container xs={4}>
-							{question.answer.map((answer) => (
-								<Grid item xs={6}>
-									<Typography variant="body"><Latex>{answer.text}</Latex></Typography>
-								</Grid>
-							))}
-						</Grid>
-
-						<Grid item xs={4}>
-							<IconButton onClick={accept}>
-								<CheckIcon color="primary"/>
-							</IconButton>
-						</Grid>
-
-					</Grid>
-				</Grid>
-
+		<Grid className={classes.question} container direction="row" alignItems="center">
+			<Grid item xs={1}>
+				<IconButton onClick={remove}>
+					<ClearIcon color="error"/>
+				</IconButton>
 			</Grid>
-		</Paper>
+
+			<Grid item xs={10}>
+				<Question question={question} preview={true}/>
+			</Grid>
+
+			<Grid item xs={1}>
+				<IconButton onClick={accept}>
+					<CheckIcon color="primary"/>
+				</IconButton>
+			</Grid>
+		</Grid>
 	)
 };
 

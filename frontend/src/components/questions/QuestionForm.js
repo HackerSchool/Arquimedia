@@ -4,7 +4,6 @@ import {
 	TextField,
 	Select,
 	MenuItem,
-	Button,
 	makeStyles,
 	Tooltip,
 	Typography
@@ -144,7 +143,7 @@ const QuestionForm = () => {
 						<Typography variant="h6">Escreve equações matemáticas usando KaTeX!</Typography>
 						<Typography>Começa por escrever a equação dentro de dois <b>$equação$</b></Typography>
 						<Typography><b>Exemplo</b>: $x^2=4$ fica <Latex>$x^2=4$</Latex></Typography>
-						<Typography>Descobre mais lendo a <b><a target="_blank" className={classes.tooltipText} href="https://katex.org/docs/supported.html">documentação</a></b></Typography>
+						<Typography>Descobre mais lendo a <b><a target="_blank" rel="noreferrer" className={classes.tooltipText} href="https://katex.org/docs/supported.html">documentação</a></b></Typography>
 					</React.Fragment>
 				}
 				
@@ -199,15 +198,16 @@ const QuestionForm = () => {
 				<input name='image' type="file" label="Adicionar imagem" onChange={handleChange} accept ="image/*"/>
 			</Grid>
 
-			<Grid item xs={12}>
-				<NormalButton text="Submeter" fontSize={30} scale={1.05} backgroundColor={globalTheme.palette.primary.main} onClick={handleSubmition} />
-			</Grid>
-
 			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={submitted} text="Questão submetida com sucesso! Obrigado." type="success"/>
 
 			<Grid item xs={12}>
 				<Question question={question} preview={true}/>
 			</Grid>
+
+			<Grid item xs={12}>
+				<NormalButton text="Submeter" fontSize={30} scale={1.05} backgroundColor={globalTheme.palette.primary.main} onClick={handleSubmition} />
+			</Grid>
+
 		</Grid>
 	)
 }
