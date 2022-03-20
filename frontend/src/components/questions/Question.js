@@ -47,6 +47,10 @@ const useStyles = makeStyles(theme => ({
 	options: {
 		padding: 10,
 		fontWeight: 1,
+	},
+
+	questionText: {
+		whiteSpace: "pre-line"
 	}
 }))
 
@@ -56,6 +60,8 @@ const Question = (props) => {
 
 	const handleAnswer = (newAnswer) => {
 		setSelectedAnswer(newAnswer)
+		if (props.preview)
+			return;
 		props.callBack(newAnswer, props.answer);
 	}
 
@@ -67,18 +73,20 @@ const Question = (props) => {
 				<Grid item xs={8} justifyContent="center">
 					{/* Question's number */}
 					<Grid item xs={5}>
-						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> Questão {props.answer + 1} </Typography></Paper>
+						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> {props.preview ? "Preview" : "Questão " + (props.answer + 1)} </Typography></Paper>
 					</Grid>
 
 					{/* Question's text */}
 					<Grid item xs={12} spacing={3}>
-							<Typography variant="h5"><Latex>{props.question.text}</Latex></Typography>
+							<Typography variant="h5" className={classes.questionText}><Latex>{props.question.text}</Latex></Typography>
 					</Grid>
 
 					{/* Question's image */}
-					<Grid item xs={12} spacing={3}>
-							<Paper className={classes.paper}><QuestionImage question={props.question} /></Paper>
-					</Grid>
+					{props.question.image && (
+						<Grid item xs={12} spacing={3}>
+							<QuestionImage preview={props.preview} question={props.question} />
+						</Grid>
+					)}
 				</Grid>
 
 				{/* Answers */}
@@ -87,7 +95,7 @@ const Question = (props) => {
 						{props.question.answer.map(answer => {
 								return (
 									<Grid item className={classes.options}>
-										<Answer selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
+										<Answer preview={props.preview} selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
 									</Grid>
 								)
 							})}

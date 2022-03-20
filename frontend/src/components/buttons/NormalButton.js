@@ -10,7 +10,14 @@ const useStyles = makeStyles(theme => ({
 		fontSize: props.fontSize,
 		textTransform: "none",
 		borderRigth: "4px",
-		padding: "0 1rem 0 1rem"
+		padding: "0 1rem 0 1rem",
+		backgroundColor: props.backgroundColor,
+		color: props.color,
+		transition: "transform 0.15s ease-in-out",
+		'&:hover': {
+			backgroundColor: "#E3E3E3",
+			transform: `scale3d(${props.scale}, ${props.scale}, 1)`
+		},
 	})
 }))
 
@@ -20,10 +27,6 @@ const NormalButton = props => {
 	return (
 		<ThemeProvider theme={globalTheme}>
 			<Button
-				style={{
-					backgroundColor: props.backgroundColor,
-					color: props.color
-				}}
 				href={props.href}
 				className={classes.button}
 				onClick={props.onClick}
@@ -39,13 +42,15 @@ const NormalButton = props => {
 NormalButton.propTypes = {
 	text: PropTypes.string,
 	href: PropTypes.string,
-	fontSize: PropTypes.number
+	fontSize: PropTypes.number,
+	scale: PropTypes.number,
 }
 
 NormalButton.defaultProps = {
 	color: "white",
 	backgroundColor: globalTheme.palette.secondary.main,
-	fontSize: 100
+	fontSize: 100,
+	scale: 1.1
 }
 
 export default NormalButton

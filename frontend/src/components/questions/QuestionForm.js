@@ -4,36 +4,93 @@ import {
 	TextField,
 	Select,
 	MenuItem,
-	Button
+	makeStyles,
+	Tooltip,
+	Typography
 } from "@material-ui/core"
 import { useState } from "react";
 import {
 	submitQuestion,
 	submitQuestionImage
 } from "../../api";
+import Question from '../questions/Question'
+import InfoIcon from '@material-ui/icons/Info';
+import AlertSnackBar from "../alerts/AlertSnackBar";
+import NormalButton from "../buttons/NormalButton"
+import globalTheme from "../../globalTheme";
 
+var Latex = require('react-latex');
+
+const useStyles = makeStyles(theme => ({
+	contentInput: {
+		width: "30rem"
+	},
+	tooltipText: {
+		textDecoration: "none",
+		color: theme.palette.primary.main
+	},
+	tooltipKatex: {
+		position: "absolute",
+		rigth: "3rem"
+	}
+}))
+
+const initialState = {
+	subject: "Matematica",
+	subSubject: "Geometria",
+	text: "",
+	year: 10,
+	image: null,
+	correct: "",
+	wrong1: "",
+	wrong2: "",
+	wrong3: "",
+}
 
 const QuestionForm = () => {
-	const [subject, setSubject] = useState("Matematica");
-	const [subSubject, setSubSubject] = useState("Geometria");
-	const [text, setText] = useState();
-	const [year, setYear] = useState(10);
-	const [image, setImage] = useState();
-	const [correct, setCorrect] = useState();
-	const [wrong1, setWrong1] = useState();
-	const [wrong2, setWrong2] = useState();
-	const [wrong3, setWrong3] = useState();
+	const [submitted, setSubmitted] = useState(false);
+	const [
+		{subject,
+		subSubject,
+		text,
+		year,
+		image,
+		correct,
+		wrong1,
+		wrong2,
+		wrong3}, setState
+	] = useState(initialState)
+	const classes = useStyles()
+	let question = {
+		text: text,
+		answer: [
+			{
+				text: correct,
+				id: 1
+			},
+			{
+				text: wrong1,
+				id: 2
+			},
+			{
+				text: wrong2,
+				id: 3
+			},
+			{
+				text: wrong3,
+				id: 4
+			},
+		],
+		image: image
+	}
 
-	const handleSubjectChange = (event) => setSubject(event.target.value);
-	const handleSubSubjectChange = (event) => setSubSubject(event.target.value);
-	const handleText = (event) => setText(event.target.value);
-	const handleYear = (event) => setYear(event.target.value);
-	const handleImage = (event) => setImage(event.target.files[0]);
-	const handleCorrect = (event) => setCorrect(event.target.value);
-	const handleWrong1 = (event) => setWrong1(event.target.value);
-	const handleWrong2 = (event) => setWrong2(event.target.value);
-	const handleWrong3 = (event) => setWrong3(event.target.value);
-
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		if (name === 'image') 
+    		setState((prevState) => ({ ...prevState, [name]: e.target.files[0] }));
+    	else 
+			setState((prevState) => ({ ...prevState, [name]: value }));
+	}
 
 	const handleSubmition = () => {
 		const body = {
@@ -65,53 +122,92 @@ const QuestionForm = () => {
 			if (image) {
 				let data = new FormData();
 				data.append("file", image, image.name);
-				submitQuestionImage(data, res.data.id, () => alert("Questão submetida"));				
+				submitQuestionImage(data, res.data.id, () => {});				
 			}
+
+			setSubmitted(true)
+			setState(initialState)
 		})
 	}
 
 	return (
-		<Grid container spacing={3} xs={12} align="center">
-			<Grid item xs={12}>
-				<TextField label="Texto" variant="outlined" multiline rows={5} onChange={handleText}/>
+		<Grid container spacing={6} xs={12} align="center">
+			{/* Question content */}
+			<Grid item xs={6}>
+				<TextField value={text} name="text" className={classes.contentInput} label="Texto" variant="outlined" multiline rows={5} onChange={handleChange}/>
+				<Tooltip
+				className={classes.tooltipKatex}
+				interactive
+				title={
+					<React.Fragment>
+						<Typography variant="h6">Escreve equações matemáticas usando KaTeX!</Typography>
+						<Typography>Começa por escrever a equação dentro de dois <b>$equação$</b></Typography>
+						<Typography><b>Exemplo</b>: $x^2=4$ fica <Latex>$x^2=4$</Latex></Typography>
+						<Typography>Descobre mais lendo a <b><a target="_blank" rel="noreferrer" className={classes.tooltipText} href="https://katex.org/docs/supported.html">documentação</a></b></Typography>
+					</React.Fragment>
+				}
+				
+				>
+					<InfoIcon />
+				</Tooltip>
 			</Grid>
-			<Grid item xs={12}>
-				<input type="file" label="Adicionar imagem" onChange={handleImage} accept ="image/*"/>
+
+			{/* Answers */}
+			<Grid item xs={6} container>
+				<Grid item xs={6}>
+					<TextField value={correct} name='correct' onChange={handleChange} label="Resposta Correta" variant="outlined" />
+				</Grid>
+				<Grid item xs={6}>
+					<TextField value={wrong1} name='wrong1' onChange={handleChange} label="Resposta incorreta" variant="outlined" />
+				</Grid>
+				<Grid item xs={6}>
+					<TextField value={wrong2} name='wrong2' onChange={handleChange} label="Resposta incorreta" variant="outlined" />
+				</Grid>
+				<Grid item xs={6}>
+					<TextField value={wrong3} name='wrong3' onChange={handleChange} label="Resposta incorreta" variant="outlined" />
+				</Grid>
 			</Grid>
-			<Grid item xs={6} onChange={handleCorrect}>
-				<TextField label="Resposta Correta" variant="outlined" />
-			</Grid>
-			<Grid item xs={6} onChange={handleWrong1}>
-				<TextField label="Resposta incorreta" variant="outlined" />
-			</Grid>
-			<Grid item xs={6} onChange={handleWrong2}>
-				<TextField label="Resposta incorreta" variant="outlined" />
-			</Grid>
-			<Grid item xs={6} onChange={handleWrong3}>
-				<TextField label="Resposta incorreta" variant="outlined" />
-			</Grid>
+
+			{/* Subject */}
 			<Grid item xs={4}>
-				<Select value={subject} onChange={handleSubjectChange} label="Disciplina">
+				<Select name='subject' value={subject} onChange={handleChange} label="Disciplina">
 					<MenuItem value="Matematica">Matemática</MenuItem>
 					<MenuItem value="Fisica">Fisica</MenuItem>
 				</Select>
 			</Grid>
+
+			{/* Subsubject */}
 			<Grid item xs={4}>
-				<Select value={subSubject} onChange={handleSubSubjectChange}>
+				<Select name='subSubject' value={subSubject} onChange={handleChange}>
 					<MenuItem value="Imaginarios">Imaginários</MenuItem>
 					<MenuItem value="Geometria">Geometria</MenuItem>
 				</Select>
 			</Grid>
+
+			{/* Year */}
 			<Grid item xs={4}>
-				<Select value={year} onChange={handleYear}>
+				<Select name='year' value={year} onChange={handleChange}>
 					<MenuItem value={10}>10</MenuItem>
 					<MenuItem value={11}>11</MenuItem>
 					<MenuItem value={12}>12</MenuItem>
 				</Select>
 			</Grid>
+
+			{/* Image */}
 			<Grid item xs={12}>
-				<Button variant="contained" onClick={handleSubmition}>Submeter</Button>
+				<input name='image' type="file" label="Adicionar imagem" onChange={handleChange} accept ="image/*"/>
 			</Grid>
+
+			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={submitted} text="Questão submetida com sucesso! Obrigado." type="success"/>
+
+			<Grid item xs={12}>
+				<Question question={question} preview={true}/>
+			</Grid>
+
+			<Grid item xs={12}>
+				<NormalButton text="Submeter" fontSize={30} scale={1.05} backgroundColor={globalTheme.palette.primary.main} onClick={handleSubmition} />
+			</Grid>
+
 		</Grid>
 	)
 }

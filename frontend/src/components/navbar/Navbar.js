@@ -34,7 +34,8 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "white",
 		boxShadow: theme.shadows[0],
 		marginTop: "1.5rem",
-		height: 90
+		height: 90,
+		marginBottom: "3rem"
 	},
 	menu: {
 		[theme.breakpoints.down("sm")]: {
