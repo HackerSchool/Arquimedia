@@ -13,6 +13,7 @@ import ProfilePage from "./pages/ProfilePage.js";
 import PasswordResetPage from "./pages/PasswordResetPage.js";
 import PasswordResetConfirmPage from "./pages/PasswordResetConfirmPage.js";
 import LeaderboardPage from "./pages/LeaderboardPage.js";
+import PageNotFound from "./pages/PageNotFound.js";
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -48,6 +49,7 @@ function App() {
 							<Route exact path="/perfil" component={ProfilePage} />
 							<Route exact path="/password/reset" component={PasswordResetPage} />
 							<Route exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
+							<Route exact path="*" component={PageNotFound} />
 						</div>
 					</div>
 				</Switch>
