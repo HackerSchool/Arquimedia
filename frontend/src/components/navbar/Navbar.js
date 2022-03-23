@@ -14,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import NavbarButton from './NavbarButton';
 import { ReactComponent as Logo } from "../../assets/logo_blue.svg"
 import NormalButton from '../buttons/NormalButton';
+import AvatarUser from '../avatar/AvatarUser';
 
 
 import {
@@ -62,7 +63,12 @@ const useStyles = makeStyles(theme => ({
 	},
 	circular: {
 		paddingBottom: "1rem"
-	}
+	},
+	avatar: {
+        width: 80,
+        height: 80,
+		
+    }
 }))
 
 
@@ -112,7 +118,8 @@ const Navbar = () => {
 						<List>
 							<ListItem>
 								{(user.id != null) ? (
-									<MenuCircular user={user} />
+									<AvatarUser className={classes.avatar} user={user} />
+
 						) : (
 							<NavbarButton href="/login" text="login" /> ||
 							<NavbarButton href="/register" text="registar" />
@@ -122,10 +129,26 @@ const Navbar = () => {
 							<ListItem>
 								<NavbarButton href="/" text="Home" />
 							</ListItem>
-							
+							<ListItem>
+								<NavbarButton href="/perfil" text="Perfil" />
+							</ListItem>
+							<ListItem>
+								<NavbarButton href="/exames" text="Realizar Exames" />
+							</ListItem>
+							<ListItem>
+								<NavbarButton href="/leaderboards" text="Leaderboards" />
+							</ListItem>
 							<ListItem>
 								<NavbarButton href="/contact" text="Contactos" />
 							</ListItem>
+							<ListItem>
+								<NavbarButton href="" text="Logout" />
+							</ListItem>
+
+
+
+
+
 						</List>
 					</SwipeableDrawer>
 					
