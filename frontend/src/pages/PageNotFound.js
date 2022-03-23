@@ -20,13 +20,17 @@ const PageNotFound = () => {
 	// pick a random svg
 	const RandomSVG = SVGS[Math.floor(Math.random() * SVGS.length)];
 
+	const handleClick = () => {
+		window.history.back()
+	}
+
 	return (
 		<Grid container className={classes.container} justify="center" align="center">
 			<Grid item xs={12}>
 				<RandomSVG className={classes.svg}/>
 			</Grid>
 			<Grid item>
-				<NormalButton className={classes.button} text="Voltar atrás" fontSize={50} scale={1.015}/>
+				<NormalButton onClick={handleClick} className={classes.button} text="Voltar atrás" fontSize={50} scale={1.015}/>
 			</Grid>
 		</Grid>
 	)
