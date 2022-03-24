@@ -38,18 +38,20 @@ function App() {
 					<div>
 						<Navbar />
 						<div style={{marginRight: "12em", marginLeft: "13em"}}>
-							<Route exact path="/" component={LandingPage}/>
-							<Route path="/question/:id" component={QuestionPage} />
-							<Route exact path="/exames" component={GenExamPage} />
-							<Route exact path="/exame/:id" component={ExamPage} />
-							<Route exact path="/leaderboards" component={LeaderboardPage} />
-							<Route exact path="/resultado/:id" component={ResultsPage} />
-							<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
-							<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
-							<Route exact path="/perfil" component={ProfilePage} />
-							<Route exact path="/password/reset" component={PasswordResetPage} />
-							<Route exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
-							<Route exact path="*" component={PageNotFound} />
+							<Switch>
+								<Route exact path="/" component={LandingPage}/>
+								<Route exact path="/question/:id" component={QuestionPage} />
+								<Route exact path="/exames" component={GenExamPage} />
+								<Route exact path="/exame/:id" component={ExamPage} />
+								<Route exact path="/leaderboards" component={LeaderboardPage} />
+								<Route exact path="/resultado/:id" component={ResultsPage} />
+								<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
+								<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
+								<Route exact path="/perfil" component={ProfilePage} />
+								<Route exact path="/password/reset" component={PasswordResetPage} />
+								<Route exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
+								<Route path="*" component={PageNotFound} />
+							</Switch>
 						</div>
 					</div>
 				</Switch>
