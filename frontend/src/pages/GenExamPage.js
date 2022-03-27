@@ -16,7 +16,10 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
 	body: {
 		textAlign: "center"
-	}
+	},
+	upperSideText:{
+		color : theme.palette.secondary.main
+	},
 }))
 
 const GenExamPage = () => {
@@ -121,9 +124,15 @@ const GenExamPage = () => {
 	// TODO: REVIEW everything above this line for the new page, see if it makes sense
 	return (
 		<Grid container>
-			<Grid item xs = {5}></Grid>
-			<Grid item xs = {2}></Grid>
-			<Grid item xs = {5}></Grid>
+			<Grid item xs = {5}>
+				<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
+			</Grid>
+			<Grid item xs = {2}>
+				<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
+			</Grid>
+			<Grid item xs = {5}>
+				<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
+			</Grid>
 			<Grid container xs = {12}>
 
 				<Grid container xs ={6}> {/*left lower panel*/}
