@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {
 	Typography,
 	Grid,
+	Divider,
+	Select,
 	Switch,
 	FormControl,
 	FormLabel,
@@ -12,6 +14,8 @@ import {
 } from "@material-ui/core";
 import { createExam } from "../api";
 import { makeStyles } from '@material-ui/core/styles';
+import NormalButton from "../components/buttons/NormalButton";
+import AlertSnackBar from "../components/alerts/AlertSnackBar";
 
 const useStyles = makeStyles(theme => ({
 	body: {
@@ -42,6 +46,9 @@ const GenExamPage = () => {
 		randomSubSubject: true,
 		randomGrade: true
 	})
+
+	const [subject, setSubject] = useState("none")
+	const [error, setError] = useState(false);
 
 	const baseSubSubjects = {
 		geometry: false,
@@ -97,28 +104,39 @@ const GenExamPage = () => {
 		}
 	}
 
+	const handleChangeSubject = (event) => {
+		setSubject(event.target.value)
+	}
+
 
 
 	const handleClick = () => {
-		const subSubjects = [];
+		console.log(subject)
+		setError(false)
+		if (subject == "none") {
+			setError(true)
+		} else {
+	
+			const subSubjects = [];
 
-		if (dictSubSubjects.geometry) subSubjects.push("Geometria");
+			if (dictSubSubjects.geometry) subSubjects.push("Geometria");
 
-		if (dictSubSubjects.geometry) subSubjects.push("Imaginários");
+			if (dictSubSubjects.geometry) subSubjects.push("Imaginários");
 
-		let year = 0;
-		if (options.tenthGrade) year = 10;
-		if (options.eleventhGrade) year = 11;
-		if (options.twelfthGrade) year = 12;
+			let year = 0;
+			if (options.tenthGrade) year = 10;
+			if (options.eleventhGrade) year = 11;
+			if (options.twelfthGrade) year = 12;
 
-		createExam({
-			subject: "math",
-			randomSubSubject: options.randomSubSubject,
-			subSubjects: subSubjects,
-			year: year
-		}, (res) => {
-			window.location.href = "/exame/" + res.data.id;
-		})
+			createExam({
+				subject: subject,
+				randomSubSubject: options.randomSubSubject,
+				subSubjects: subSubjects,
+				year: year
+			}, (res) => {
+				window.location.href = "/exame/" + res.data.id;
+			})
+		}
 	}
 
 	// TODO: REVIEW everything above this line for the new page, see if it makes sense
@@ -135,41 +153,81 @@ const GenExamPage = () => {
 			</Grid>
 			<Grid container xs = {12}>
 
-				<Grid container xs ={6}> {/*left lower panel*/}
-					<Grid container> {/*Pick Subject*/}
+				<Grid container xs ={5}> {/*left lower panel*/}
+					<Grid alignContent="flex-start" container xs = {6}> {/*Pick Subject*/}
 						<Grid item>
-
+							<Typography> 1 - Escolhe a disciplina </Typography>
 						</Grid>
 						<Grid container>
+							<Select onChange={handleChangeSubject} native defaultValue="none" id="grouped-native-select"> {/*Change how the exam is generated in accordance with what select gives back*/}
+								<option aria-label="Escolhe uma Disciplina" value="none"> Nenhuma</option>
+								<optgroup label="Ciências e Tecnologias">
+									<option value={"math"}>Matemática A</option>
+									<option value={"physics"}>Física e Química</option>
+								</optgroup>
+								<optgroup label="Línguas e Humanidades">
+									<option value={"none"}>História A</option>
+								</optgroup>
+							</Select>
 
 						</Grid>
 					</Grid> 
 
-					<Grid container> {/* Pick year*/}
+					<Grid container xs = {6}> {/* Pick year*/}
 						<Grid item>
-
+							<Typography> 2 - Escolhe a ano </Typography>
 						</Grid>	
 						<Grid container>
-
+							<FormControl>
+								<FormGroup>
+									<FormControlLabel control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label="Aleatório"/>
+									<FormControlLabel control={<Checkbox checked={dictYears.tenthGrade} onChange={handleChangeYear} name="tenthGrade"/>} label="10º"/>
+									<FormControlLabel control={<Checkbox checked={dictYears.eleventhGrade} onChange={handleChangeYear} name="eleventhGrade"/>} label="11º"/>
+									<FormControlLabel control={<Checkbox checked={dictYears.twelfthGrade} onChange={handleChangeYear} name="twelfthGrade"/>} label="12º"/>
+								</FormGroup>
+							</FormControl>
 						</Grid>
 					</Grid> 
 
-					<Grid container> {/*Pick Themes*/}
+					<Grid container xs ={12}> {/*Pick Themes*/}
 						<Grid item>
-
+							<Typography> 3 - Escolhe os tópicos </Typography>
 						</Grid>
 						<Grid container>
-
+							<FormControl>
+								<FormGroup>
+									<FormControlLabel control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label="Aleatório"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="geometry"/>} label="Geometria"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="imaginary"/>} label="Imaginários"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="statistics"/>} label="Estatística"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="probability"/>} label="Probabilidades"/>
+								</FormGroup>
+							</FormControl>
 						</Grid>
 					</Grid> 
 
-					<Grid item> {/*Começar Button*/}
-					</Grid> 
+					<Grid justifyContent="center" container > {/*Começar Button*/}
+						<Grid>
+							<Button variant="contained" onClick={handleClick}>Começar</Button>
+						</Grid>
+						
+					</Grid>
+					
+						
+						
+					
 				</Grid>
 
-				<Grid container xs ={6}> {/*right lower panel*/}
-					<Grid item>
+				<Grid container xs = {2}>
+					<Divider style={{color:"red"}} orientation="vertical" flexItem /> {/*Vertical Divider*/}
+				</Grid>
+				
+				
+					
 
+				<Grid container xs = {5}> {/*right lower panel*/}
+					<Grid item>
+						<Typography> Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances. </Typography>
 					</Grid>
 					<Grid item>
 
@@ -178,7 +236,7 @@ const GenExamPage = () => {
 				</Grid>
 
 			</Grid>
-
+			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={error} text="Por favor selecione uma disciplina antes de começar" type="error"/>
 		</Grid>
 
 
