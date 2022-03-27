@@ -118,9 +118,68 @@ const GenExamPage = () => {
 		})
 	}
 
-
+	// TODO: REVIEW everything above this line for the new page, see if it makes sense
 	return (
-		<Grid container className={classes.body}>
+		<Grid container>
+			<Grid item xs = {5}></Grid>
+			<Grid item xs = {2}></Grid>
+			<Grid item xs = {5}></Grid>
+			<Grid container xs = {12}>
+
+				<Grid container xs ={6}> {/*left lower panel*/}
+					<Grid container> {/*Pick Subject*/}
+						<Grid item>
+
+						</Grid>
+						<Grid container>
+
+						</Grid>
+					</Grid> 
+
+					<Grid container> {/* Pick year*/}
+						<Grid item>
+
+						</Grid>	
+						<Grid container>
+
+						</Grid>
+					</Grid> 
+
+					<Grid container> {/*Pick Themes*/}
+						<Grid item>
+
+						</Grid>
+						<Grid container>
+
+						</Grid>
+					</Grid> 
+
+					<Grid item> {/*Começar Button*/}
+					</Grid> 
+				</Grid>
+
+				<Grid container xs ={6}> {/*right lower panel*/}
+					<Grid item>
+
+					</Grid>
+					<Grid item>
+
+					</Grid>
+
+				</Grid>
+
+			</Grid>
+
+		</Grid>
+
+
+
+
+
+
+
+
+/* 		<Grid container className={classes.body}>
 			<Grid item xs={12}>
 				<Typography variant="h2">Gera um exame</Typography>
 			</Grid>
@@ -153,7 +212,9 @@ const GenExamPage = () => {
 			<Grid item>
 				
 			</Grid>
-		</Grid>
+		</Grid> */
+
+
 	);
 } 
 
