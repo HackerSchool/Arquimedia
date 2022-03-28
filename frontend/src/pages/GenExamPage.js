@@ -14,8 +14,12 @@ import {
 } from "@material-ui/core";
 import { createExam } from "../api";
 import { makeStyles } from '@material-ui/core/styles';
-import NormalButton from "../components/buttons/NormalButton";
 import AlertSnackBar from "../components/alerts/AlertSnackBar";
+import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg";
+import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
+import { ReactComponent as WhiteDownwardArrow } from "../assets/dropdownarrow.svg";
+
+
 
 const useStyles = makeStyles(theme => ({
 	body: {
@@ -139,6 +143,7 @@ const GenExamPage = () => {
 		}
 	}
 
+
 	// TODO: REVIEW everything above this line for the new page, see if it makes sense
 	return (
 		<Grid container>
@@ -175,15 +180,15 @@ const GenExamPage = () => {
 
 					<Grid container xs = {6}> {/* Pick year*/}
 						<Grid item>
-							<Typography> 2 - Escolhe a ano </Typography>
+							<Typography> 2 - Escolhe o ano </Typography>
 						</Grid>	
 						<Grid container>
 							<FormControl>
 								<FormGroup>
-									<FormControlLabel control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label="Aleatório"/>
-									<FormControlLabel control={<Checkbox checked={dictYears.tenthGrade} onChange={handleChangeYear} name="tenthGrade"/>} label="10º"/>
-									<FormControlLabel control={<Checkbox checked={dictYears.eleventhGrade} onChange={handleChangeYear} name="eleventhGrade"/>} label="11º"/>
-									<FormControlLabel control={<Checkbox checked={dictYears.twelfthGrade} onChange={handleChangeYear} name="twelfthGrade"/>} label="12º"/>
+									<FormControlLabel control={<Checkbox checked={options.randomGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomGrade} name="randomGrade"/>} label="Aleatório"/>
+									<FormControlLabel control={<Checkbox checked={dictYears.tenthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="tenthGrade"/>} label="10º"/>
+									<FormControlLabel control={<Checkbox checked={dictYears.eleventhGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="eleventhGrade"/>} label="11º"/>
+									<FormControlLabel control={<Checkbox checked={dictYears.twelfthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="twelfthGrade"/>} label="12º"/>
 								</FormGroup>
 							</FormControl>
 						</Grid>
@@ -196,11 +201,11 @@ const GenExamPage = () => {
 						<Grid container>
 							<FormControl>
 								<FormGroup>
-									<FormControlLabel control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label="Aleatório"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="geometry"/>} label="Geometria"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="imaginary"/>} label="Imaginários"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="statistics"/>} label="Estatística"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="probability"/>} label="Probabilidades"/>
+									<FormControlLabel control={<Checkbox checked={options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label="Aleatório"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>}  onChange={handleChangeSubSubjects} name="geometry"/>} label="Geometria"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="imaginary"/>} label="Imaginários"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="statistics"/>} label="Estatística"/>
+									<FormControlLabel control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="probability"/>} label="Probabilidades"/>
 								</FormGroup>
 							</FormControl>
 						</Grid>
