@@ -7,9 +7,13 @@ axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authoriza
 
 // Fetch current User
 export async function getUser(successCall, errorCall) {
-	axios.get("/api/current_user").then(res => {
-		successCall(res);
-	}).catch((error) => errorCall(error))
+	if (isAuthenticated()) {
+		axios.get("/api/current_user").then(res => {
+			successCall(res);
+		}).catch((error) => errorCall(error))
+		return;
+	}
+	errorCall();
 }
 
 // Fetch given user's profile

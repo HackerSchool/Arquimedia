@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	AppBar,
 	Toolbar,
@@ -15,12 +15,8 @@ import NavbarButton from './NavbarButton';
 import { ReactComponent as Logo } from "../../assets/logo_blue.svg"
 import NormalButton from '../buttons/NormalButton';
 import AvatarUser from '../avatar/AvatarUser';
-
-
-import {
-	getUser
-} from "../../api"
 import MenuCircular from '../MenuCircular/MenuCircular';
+import { userContext } from '../../context/UserContextProvider';
 
 const useStyles = makeStyles(theme => ({
 	menuButton: {
@@ -75,17 +71,9 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
 	const classes = useStyles();
 	const [click, setClick] = useState(false);
-	const [user, setUser] = useState({"id": null, "username": ""});
 	const handleClick = () => {setClick(!click); console.log(click)};
-
-	useEffect(() => {
-		getUser((res) => {
-			setUser(res.data);
-		}, () => {
-			console.log("Couldn't fetch user")
-		})
-
-	}, []);
+	const [user, loading] = useContext(userContext);
+	console.log(loading)
 
 	return (
 		<AppBar position="static" className={classes.navbar}>
@@ -94,7 +82,7 @@ const Navbar = () => {
 				
 				<Grid container className={classes.menu} justify="flex-end">
 			
-				{(user.id != null) ? 
+				{user ? 
 					(
 						<MenuCircular user={user}/>
 				) : (
@@ -117,7 +105,7 @@ const Navbar = () => {
 						>
 						<List>
 							<ListItem>
-								{(user.id != null) ? (
+								{user ? (
 									<AvatarUser className={classes.avatar} user={user} />
 
 						) : (

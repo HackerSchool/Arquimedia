@@ -1,10 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { userContext } from '../../context/UserContextProvider'
 import { isAuthenticated } from '../../api'
+import { Route } from 'react-router-dom'
 
 // Only allows moderators to access page
 export const ModRoute = (props) => {
+	const [user] = useContext(userContext);
 
-	if (isAuthenticated() && props.user.mod) {
+	if (isAuthenticated() && user?.mod) {
 		return <Route {...props} />
 	}
 	
