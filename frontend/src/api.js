@@ -18,9 +18,13 @@ export async function getProfile(id, successCall) {
 	.then((res) => successCall(res))
 	.catch((error) => {
 		// If something went wrong in fetching the user maybe we should clean the current token
-		localStorage.setItem("Authorization", null);
+		localStorage.removeItem("Authorization");
 		console.log(error);
 	});
+}
+
+export function isAuthenticated() {
+	return localStorage.getItem("Authorization") != null;
 }
 
 // Log in User
@@ -34,7 +38,7 @@ export async function logIn(username, password, errorCall) {
 		localStorage.setItem("Authorization", "Token " + res.data.key);
 		window.location.replace("/");
 	}).catch((error) => {
-		localStorage.setItem("Authorization", null);
+		localStorage.removeItem("Authorization");
 		errorCall();
 	})
 }
@@ -42,7 +46,7 @@ export async function logIn(username, password, errorCall) {
 
 // Log out User
 export async function logOut() {
-	axios.post("/rest-auth/logout/").then(localStorage.setItem("Authorization", null));
+	axios.post("/rest-auth/logout/").then(localStorage.removeItem("Authorization"));
 }
 
 
