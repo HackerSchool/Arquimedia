@@ -36,7 +36,7 @@ function LeaderboardBar({id, place, page}) {
             setProfile(res.data)
             setLoading(false);
         })
-    }, [])
+    }, [id])
 
     if (loading) return <Loading />
 
