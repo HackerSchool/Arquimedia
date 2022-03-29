@@ -45,7 +45,7 @@ function App() {
 					<Navbar />
 					<div style={{marginRight: "12em", marginLeft: "13em"}}>
 						<Switch>
-							<AuthRoute exact path="/" component={LandingPage}/>
+							<Route exact path="/" component={LandingPage}/>
 							<AuthRoute exact path="/question/:id" component={QuestionPage} />
 							<AuthRoute exact path="/exames" component={GenExamPage} />
 							<AuthRoute exact path="/exame/:id" component={ExamPage} />
