@@ -24,9 +24,10 @@ import {
 	ThemeProvider,
 } from "@material-ui/core/styles";
 import globalTheme from "./globalTheme"
-import {ModRoute} from "./components/routes/ModRoute.js"
-import {AuthRoute} from "./components/routes/AuthRoute.js"
+import {ModRoute} from "./routes/ModRoute.js"
+import {AuthRoute} from "./routes/AuthRoute.js"
 import { UserContextProvider} from "./context/UserContextProvider.js"
+import { SnackbarProvider } from 'notistack';
 
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
 
@@ -34,6 +35,7 @@ function App() {
 
 	return (
 		<UserContextProvider>
+			<SnackbarProvider maxSnack={5}>
 			<ThemeProvider theme={globalTheme}>
 				<Router>
 					<Switch>
@@ -59,6 +61,7 @@ function App() {
 					</div>
 				</Router>
 			</ThemeProvider>
+			</SnackbarProvider>
 		</UserContextProvider>
 	);
 }
