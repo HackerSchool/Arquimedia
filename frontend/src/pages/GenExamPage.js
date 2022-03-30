@@ -10,24 +10,48 @@ import {
 	FormGroup,
 	FormControlLabel,
 	Checkbox,
-	Button
+	Button,
+	MenuItem,
+	ListSubheader
 } from "@material-ui/core";
 import { createExam } from "../api";
 import { makeStyles } from '@material-ui/core/styles';
 import AlertSnackBar from "../components/alerts/AlertSnackBar";
 import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg";
 import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
-import { ReactComponent as WhiteDownwardArrow } from "../assets/dropdownarrow.svg";
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
 
 
 
 const useStyles = makeStyles(theme => ({
 	body: {
-		textAlign: "center"
+		textAlign: "center",
 	},
 	upperSideText:{
 		color : theme.palette.secondary.main
 	},
+	bg:{
+		backgroundColor:'black'
+	},
+	boxes:{
+		backgroundColor:'black',
+		border:"2px solid grey",
+		borderRadius: '10px',
+		padding:'10px',
+		color:'white'
+	},
+    select: { //change select css, events and whatnot
+		backgroundColor: 'black',
+		borderRadius:'10px',
+		border: "2px solid grey",
+		color: "#fff",
+		minHeight:'70px',
+		minWidth: '150px',
+		padding:'5px',
+    },
+    "& .MuiSvgIcon-root": {
+        color: "white",
+    },
 }))
 
 const GenExamPage = () => {
@@ -109,13 +133,13 @@ const GenExamPage = () => {
 	}
 
 	const handleChangeSubject = (event) => {
+		
 		setSubject(event.target.value)
 	}
 
 
 
 	const handleClick = () => {
-		console.log(subject)
 		setError(false)
 		if (subject == "none") {
 			setError(true)
@@ -164,15 +188,21 @@ const GenExamPage = () => {
 							<Typography> 1 - Escolhe a disciplina </Typography>
 						</Grid>
 						<Grid container>
-							<Select onChange={handleChangeSubject} native defaultValue="none" id="grouped-native-select"> {/*Change how the exam is generated in accordance with what select gives back*/}
-								<option aria-label="Escolhe uma Disciplina" value="none"> Nenhuma</option>
-								<optgroup label="Ciências e Tecnologias">
-									<option value={"math"}>Matemática A</option>
-									<option value={"physics"}>Física e Química</option>
-								</optgroup>
-								<optgroup label="Línguas e Humanidades">
-									<option value={"none"}>História A</option>
-								</optgroup>
+							<Select
+							 autoWidth
+							 IconComponent={() => <ArrowDropDownRoundedIcon/>}
+							 onChange={handleChangeSubject}
+							 id="grouped-select"
+							 defaultValue="none"
+							 className={classes.select} 
+							 disableUnderline> {/*Change how the exam is generated in accordance with what select gives back*/}
+								<MenuItem  value="none"> Nenhuma</MenuItem>
+								<ListSubheader>Ciências e Tecnologias</ListSubheader>
+									<MenuItem value={"math"}>Matemática A</MenuItem>
+									<MenuItem value={"physics"}>Física e Química</MenuItem>
+								
+								<ListSubheader>Línguas e Humanidades</ListSubheader>
+									<MenuItem>História A</MenuItem>
 							</Select>
 
 						</Grid>
@@ -183,8 +213,8 @@ const GenExamPage = () => {
 							<Typography> 2 - Escolhe o ano </Typography>
 						</Grid>	
 						<Grid container>
-							<FormControl>
-								<FormGroup>
+							<FormControl className={classes.boxes}>
+								<FormGroup >
 									<FormControlLabel control={<Checkbox checked={options.randomGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomGrade} name="randomGrade"/>} label="Aleatório"/>
 									<FormControlLabel control={<Checkbox checked={dictYears.tenthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="tenthGrade"/>} label="10º"/>
 									<FormControlLabel control={<Checkbox checked={dictYears.eleventhGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="eleventhGrade"/>} label="11º"/>
@@ -199,8 +229,8 @@ const GenExamPage = () => {
 							<Typography> 3 - Escolhe os tópicos </Typography>
 						</Grid>
 						<Grid container>
-							<FormControl>
-								<FormGroup>
+							<FormControl className={classes.boxes}>
+								<FormGroup >
 									<FormControlLabel control={<Checkbox checked={options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label="Aleatório"/>
 									<FormControlLabel control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>}  onChange={handleChangeSubSubjects} name="geometry"/>} label="Geometria"/>
 									<FormControlLabel control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="imaginary"/>} label="Imaginários"/>
