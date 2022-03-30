@@ -32,32 +32,36 @@ import { SnackbarProvider } from 'notistack';
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
 
 function App() {
+
 	return (
 		<UserContextProvider>
 			<ThemeProvider theme={globalTheme}>
 			<SnackbarProvider maxSnack={5}>
 				<Router>
-						<Switch>
-							<Route exact path="/login" component={LoginPage} />
-							<Route exact path="/registar" component={RegistrationPage} />
-						</Switch>
-						{!["/login", "/registar"].includes(window.location.pathname) && <Navbar />}
-						<div style={{marginRight: "12em", marginLeft: "13em"}}>
 							<Switch>
-								<Route exact path="/" component={LandingPage}/>
-								<AuthRoute exact path="/question/:id" component={QuestionPage} />
-								<AuthRoute exact path="/exames" component={GenExamPage} />
-								<AuthRoute exact path="/exame/:id" component={ExamPage} />
-								<AuthRoute exact path="/leaderboards" component={LeaderboardPage} />
-								<AuthRoute exact path="/resultado/:id" component={ResultsPage} />
-								<AuthRoute exact path="/submeter_questao" component={QuestionSubmissionPage} />
-								<ModRoute exact path="/questoes_submetidas" component={SubmittedQuestions} />
-								<AuthRoute exact path="/perfil" component={ProfilePage} />
-								<AuthRoute exact path="/password/reset" component={PasswordResetPage} />
-								<AuthRoute exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
-								<AuthRoute path="*" component={PageNotFound} />
+								<Route  path="/login" component={LoginPage} />
+								<Route  path="/registar" component={RegistrationPage} />
+								<div>
+									<Navbar />
+									<div style={{marginRight: "12em", marginLeft: "12em"}}>
+									<Switch>
+									<Route exact path="/" component={LandingPage}/>
+
+									<AuthRoute  path="/question/:id" component={QuestionPage} />
+									<AuthRoute  path="/exames" component={GenExamPage} />
+									<AuthRoute  path="/exame/:id" component={ExamPage} />
+									<AuthRoute  path="/leaderboards" component={LeaderboardPage} />
+									<AuthRoute  path="/resultado/:id" component={ResultsPage} />
+									<AuthRoute  path="/submeter_questao" component={QuestionSubmissionPage} />
+									<ModRoute  path="/questoes_submetidas" component={SubmittedQuestions} />
+									<AuthRoute  path="/perfil" component={ProfilePage} />
+									<AuthRoute  path="/password/reset" component={PasswordResetPage} />
+									<AuthRoute  path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />								
+									<Route path="*" component={PageNotFound} />
+									</Switch>
+									</div>
+								</div>
 							</Switch>
-						</div>
 					</Router>
 				</SnackbarProvider>
 			</ThemeProvider>
