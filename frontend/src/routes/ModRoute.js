@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext, useEffect} from 'react'
 import { userContext } from '../context/UserContextProvider'
 import { isAuthenticated } from '../api'
 import { Route, Redirect } from 'react-router-dom'
@@ -10,6 +10,12 @@ export const ModRoute = (props) => {
 	const [user, loading] = useContext(userContext);
 	const { enqueueSnackbar } = useSnackbar();
 
+	useEffect(() => {
+		if (!loading && (!isAuthenticated() || !user?.mod)) {
+			enqueueSnackbar("Ops... Esta página é de acesso restrito!", {variant: "error"})
+		}
+	}, [loading, enqueueSnackbar, user]);
+
 	if (loading) return <Loading />
 
 	if (isAuthenticated() && user?.mod) {
@@ -17,7 +23,6 @@ export const ModRoute = (props) => {
 	}
 	
 	// warn user of restricted access page
-	enqueueSnackbar("Ops... Esta página é de acesso restrito!", {variant: "error"})
 	return (
 		<Redirect to="/" />
 	)

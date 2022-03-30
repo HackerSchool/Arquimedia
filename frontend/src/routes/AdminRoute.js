@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext, useEffect } from 'react'
 import { isAuthenticated } from '../../api'
 import { Route, Redirect } from 'react-router-dom'
 import { userContext } from '../../context/UserContextProvider'
@@ -9,6 +9,12 @@ import Loading from '../components/loading/Loading'
 export const AdminRoute = (props) => {
 	const [user, loading] = useContext(userContext);
 	const { enqueueSnackbar } = useSnackbar(); 
+
+	useEffect(() => {
+		if (!loading && (!isAuthenticated() || !user?.admin)) {
+			enqueueSnackbar("Ops... Esta página é de acesso restrito!", {variant: "error"})
+		}
+	}, [loading, enqueueSnackbar, user]);
 
 	if (loading) return <Loading />
 
