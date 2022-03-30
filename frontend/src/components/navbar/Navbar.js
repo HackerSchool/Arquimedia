@@ -17,6 +17,8 @@ import NormalButton from '../buttons/NormalButton';
 import AvatarUser from '../avatar/AvatarUser';
 import MenuCircular from '../MenuCircular/MenuCircular';
 import { userContext } from '../../context/UserContextProvider';
+import Loading from '../loading/Loading'
+
 
 const useStyles = makeStyles(theme => ({
 	menuButton: {
@@ -73,7 +75,6 @@ const Navbar = () => {
 	const [click, setClick] = useState(false);
 	const handleClick = () => {setClick(!click); console.log(click)};
 	const [user, loading] = useContext(userContext);
-	console.log(loading)
 
 	return (
 		<AppBar position="static" className={classes.navbar}>
@@ -85,12 +86,12 @@ const Navbar = () => {
 				{user ? 
 					(
 						<MenuCircular user={user}/>
-				) : (
+				) : ( loading ? (<Loading />) : (
 					<div>
 						<Link href="/sobre" variant="h6" style={{marginRight:"3rem", color:"black"}}>Quem somos?</Link>
 						<NormalButton text="Entrar" href="/login" fontSize={22} />
 					</div>
-				)}
+				))}
 	
 				</Grid>
 

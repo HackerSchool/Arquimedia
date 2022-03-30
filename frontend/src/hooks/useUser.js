@@ -1,27 +1,25 @@
-import {useEffect, useState, useRef} from 'react'
+import {useEffect, useState} from 'react'
 import { getUser } from '../api';
+
+let cache;
 
 export default function useUser() {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const cache = useRef({})
 
 	useEffect(() => {
 		setLoading(true)
-		if (cache.current[user]) {
-			const data = cache.current[user];
-			console.log("using cache")
-			setUser(data);
+		if (cache) {
+			setUser(cache);
+			setLoading(false);
 		} else {
 			getUser((res) => {
 				setUser(res.data);
-				cache.current[user] = res.data;
-				console.log("using api")
-			}, () => {
-				
-			})
+				cache = res.data;
+				setLoading(false);
+			}, () => {}
+			)
 		};
-		setLoading(false);
 	}, [user])
 
 	return [user, loading];

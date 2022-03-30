@@ -24,44 +24,43 @@ import {
 	ThemeProvider,
 } from "@material-ui/core/styles";
 import globalTheme from "./globalTheme"
-import {ModRoute} from "./routes/ModRoute.js"
-import {AuthRoute} from "./routes/AuthRoute.js"
+import { ModRoute } from "./routes/ModRoute.js"
+import { AuthRoute } from "./routes/AuthRoute.js"
 import { UserContextProvider} from "./context/UserContextProvider.js"
 import { SnackbarProvider } from 'notistack';
 
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
 
 function App() {
-
 	return (
 		<UserContextProvider>
-			<SnackbarProvider maxSnack={5}>
 			<ThemeProvider theme={globalTheme}>
+			<SnackbarProvider maxSnack={5}>
 				<Router>
-					<Switch>
-						<Route path="/login" component={LoginPage} />
-						<Route exact path="/registar" component={RegistrationPage} />
-					</Switch>
-					<Navbar />
-					<div style={{marginRight: "12em", marginLeft: "13em"}}>
 						<Switch>
-							<Route exact path="/" component={LandingPage}/>
-							<AuthRoute exact path="/question/:id" component={QuestionPage} />
-							<AuthRoute exact path="/exames" component={GenExamPage} />
-							<AuthRoute exact path="/exame/:id" component={ExamPage} />
-							<AuthRoute exact path="/leaderboards" component={LeaderboardPage} />
-							<AuthRoute exact path="/resultado/:id" component={ResultsPage} />
-							<AuthRoute exact path="/submeter_questao" component={QuestionSubmissionPage} />
-							<ModRoute exact path="/questoes_submetidas" component={SubmittedQuestions} />
-							<AuthRoute exact path="/perfil" component={ProfilePage} />
-							<AuthRoute exact path="/password/reset" component={PasswordResetPage} />
-							<AuthRoute exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
-							<AuthRoute path="*" component={PageNotFound} />
+							<Route path="/login" component={LoginPage} />
+							<Route exact path="/registar" component={RegistrationPage} />
 						</Switch>
-					</div>
-				</Router>
+						<Navbar />
+						<div style={{marginRight: "12em", marginLeft: "13em"}}>
+							<Switch>
+								<AuthRoute exact path="/" component={LandingPage}/>
+								<AuthRoute exact path="/question/:id" component={QuestionPage} />
+								<AuthRoute exact path="/exames" component={GenExamPage} />
+								<AuthRoute exact path="/exame/:id" component={ExamPage} />
+								<AuthRoute exact path="/leaderboards" component={LeaderboardPage} />
+								<AuthRoute exact path="/resultado/:id" component={ResultsPage} />
+								<AuthRoute exact path="/submeter_questao" component={QuestionSubmissionPage} />
+								<ModRoute exact path="/questoes_submetidas" component={SubmittedQuestions} />
+								<AuthRoute exact path="/perfil" component={ProfilePage} />
+								<AuthRoute exact path="/password/reset" component={PasswordResetPage} />
+								<AuthRoute exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
+								<AuthRoute path="*" component={PageNotFound} />
+							</Switch>
+						</div>
+					</Router>
+				</SnackbarProvider>
 			</ThemeProvider>
-			</SnackbarProvider>
 		</UserContextProvider>
 	);
 }
