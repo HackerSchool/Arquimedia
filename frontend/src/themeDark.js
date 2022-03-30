@@ -1,9 +1,10 @@
 import { createTheme } from "@material-ui/core";
 
-const globalTheme = createTheme({
+
+const themeDark = createTheme({
 	palette: {
 		background: {
-			default: '#ffffff'
+			default: '#000000'
 		},
 		primary: {
 			main: "#56CCF2",
@@ -14,7 +15,7 @@ const globalTheme = createTheme({
 			contrastText: "#fff"
 		},
 		text: {
-			primary:'#000000'
+			primary: '#ffffff'
 		},
 		grey: { // for some reason theme.palette.grey.main doesn't work
 			primary: "#F1F1F1"
@@ -22,4 +23,4 @@ const globalTheme = createTheme({
 	},
 });
 
-export default globalTheme;
+export default themeDark;
