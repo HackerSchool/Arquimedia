@@ -10,7 +10,7 @@ export const AuthRoute = props => {
 		if (!isAuthenticated()) {
 			enqueueSnackbar("Inicia sessão para aceder a esta página.", {variant: "warning"})
 		}
-	}, []);
+	}, [enqueueSnackbar]);
 
 	if (isAuthenticated()) return <Route {...props} />
 	

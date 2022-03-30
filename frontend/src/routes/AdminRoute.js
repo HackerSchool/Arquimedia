@@ -22,8 +22,6 @@ export const AdminRoute = (props) => {
 		return <Route {...props} />
 	}
 	
-	// warn user of restricted access page
-	enqueueSnackbar("Ops... Esta página é de acesso restrito!")
 	return (
 		<Redirect to="/" />
 	)

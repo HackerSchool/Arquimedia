@@ -17,7 +17,9 @@ export default function useUser() {
 				setUser(res.data);
 				cache = res.data;
 				setLoading(false);
-			}, () => {}
+			}, () => {
+				setLoading(false);
+			}
 			)
 		};
 	}, [user])

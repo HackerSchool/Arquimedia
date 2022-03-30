@@ -83,15 +83,18 @@ const Navbar = () => {
 				
 				<Grid container className={classes.menu} justify="flex-end">
 			
-				{user ? 
+				{loading ? 
 					(
+						<Loading />
+					) : ( user ? ( 
 						<MenuCircular user={user}/>
-				) : ( loading ? (<Loading />) : (
-					<div>
-						<Link href="/sobre" variant="h6" style={{marginRight:"3rem", color:"black"}}>Quem somos?</Link>
-						<NormalButton text="Entrar" href="/login" fontSize={22} />
-					</div>
-				))}
+						) : (
+						<div>
+							<Link href="/sobre" variant="h6" style={{marginRight:"3rem", color:"black"}}>Quem somos?</Link>
+							<NormalButton text="Entrar" href="/login" fontSize={22} />
+						</div>
+						)
+					)}
 	
 				</Grid>
 
