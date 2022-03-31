@@ -12,14 +12,22 @@ import {
 	Checkbox,
 	Button,
 	MenuItem,
-	ListSubheader
+	ListSubheader,
+	List,
+	ListItemText,
+	ListItem,
+	ListItemIcon,
+	IconButton,
 } from "@material-ui/core";
 import { createExam } from "../api";
 import { makeStyles } from '@material-ui/core/styles';
 import AlertSnackBar from "../components/alerts/AlertSnackBar";
 import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg";
 import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
+import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
+import RightArrow from '@material-ui/icons/ArrowForwardRounded';
+import themeDark from '../themeDark'
 
 
 
@@ -30,20 +38,17 @@ const useStyles = makeStyles(theme => ({
 	upperSideText:{
 		color : theme.palette.secondary.main
 	},
-	bg:{
-		backgroundColor:'black'
-	},
 	boxes:{
-		backgroundColor:'black',
+		backgroundColor: themeDark.palette.background.default,
 		border:"2px solid grey",
 		borderRadius: '10px',
 		padding:'10px',
-		color:'white'
+		color: themeDark.palette.text.primary
 	},
     select: { //change select css, events and whatnot
-		backgroundColor: 'black',
-		borderRadius:'10px',
-		border: "2px solid grey",
+		backgroundColor: themeDark.palette.background.default,
+		border:"2px solid grey",
+		borderRadius: '10px',
 		color: "#fff",
 		minHeight:'70px',
 		minWidth: '150px',
@@ -52,6 +57,33 @@ const useStyles = makeStyles(theme => ({
     "& .MuiSvgIcon-root": {
         color: "white",
     },
+	list: {
+		backgroundColor: theme.palette.background.default,
+		overflow: 'auto',
+		maxHeight: 300,
+	  },
+	  listSection: {
+		backgroundColor: 'inherit',
+		color:'inherit',
+		padding:30,
+	  },
+	  ul: {
+		padding: 0,
+		backgroundColor: 'inherit',
+		color:'inherit',
+	  },
+	  listItem :{
+		backgroundColor: themeDark.palette.background.default,
+		color: themeDark.palette.text.primary,
+		border:"2px solid grey",
+		borderRadius: '10px',
+		margin: '30px 0px',
+		padding: 7,
+	  },
+	  rightArrow:{
+		color:'EB5757',
+
+	  },
 }))
 
 const GenExamPage = () => {
@@ -77,6 +109,25 @@ const GenExamPage = () => {
 
 	const [subject, setSubject] = useState("none")
 	const [error, setError] = useState(false);
+
+	const courseArray = [
+		{
+			name: "Ciências e Tecnologias",
+			subjects:[
+			"Matemática A",
+			"Física e Química"],
+			subjectsKey:['math', 'physics'],
+		},
+		{
+			name: "Línguas e Humanidades",
+			subjects:[
+				"História A"
+			],
+			subjectsKey:['none'],
+		},
+		
+	]
+
 
 	const baseSubSubjects = {
 		geometry: false,
@@ -141,7 +192,7 @@ const GenExamPage = () => {
 
 	const handleClick = () => {
 		setError(false)
-		if (subject == "none") {
+		if (subject === "none") {
 			setError(true)
 		} else {
 	
@@ -165,6 +216,40 @@ const GenExamPage = () => {
 				window.location.href = "/exame/" + res.data.id;
 			})
 		}
+	}
+
+	
+	const handleClickCustom = (index1,index2) => { //Function for the perosnalised Exam experience of the right Panel
+		console.log(courseArray);
+		const key = courseArray[index1].subjectsKey[index2]
+		setSubject(key) 
+		
+		setError(false)
+		if (key === "none") {
+			setError(true)
+		} else {
+	
+			const subSubjects = [];
+
+			if (dictSubSubjects.geometry) subSubjects.push("Geometria");
+
+			if (dictSubSubjects.geometry) subSubjects.push("Imaginários");
+
+			let year = 0;
+			if (options.tenthGrade) year = 10;
+			if (options.eleventhGrade) year = 11;
+			if (options.twelfthGrade) year = 12;
+
+			createExam({
+				subject: subject,
+				randomSubSubject: options.randomSubSubject,
+				subSubjects: subSubjects,
+				year: year
+			}, (res) => {
+				window.location.href = "/exame/" + res.data.id;
+			})
+		}
+		
 	}
 
 
@@ -264,7 +349,26 @@ const GenExamPage = () => {
 					<Grid item>
 						<Typography> Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances. </Typography>
 					</Grid>
-					<Grid item>
+					<Grid container justifyContent="center">
+					<List className={classes.list} subheader={<li />}>
+					{courseArray.map((courseDict,index1) => (
+						<li key={`${courseDict.name}`} className={classes.listSection}>
+						<ul className={classes.ul}>
+							<ListSubheader>{`${courseDict.name}`}</ListSubheader>
+							{courseDict.subjects.map((subjectName, index2) => (
+							<ListItem  className = {classes.listItem} key={`${courseDict.name}-${subjectName}`}>
+								<ListItemText primary={`${subjectName}`} />
+								<ListItemIcon>
+								<IconButton onClick={() =>handleClickCustom(index1, index2)}  edge="end" aria-label="comments">
+									<RedRoundArrow />
+								</IconButton>
+								</ListItemIcon>
+							</ListItem>
+							))}
+						</ul>
+						</li>
+					))}
+					</List>
 
 					</Grid>
 
@@ -273,6 +377,7 @@ const GenExamPage = () => {
 			</Grid>
 			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={error} text="Por favor selecione uma disciplina antes de começar" type="error"/>
 		</Grid>
+		
 
 
 

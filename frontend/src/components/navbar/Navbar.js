@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 		color: "grey",
 	},
 	navbar: {
-		backgroundColor: "white",
+		backgroundColor: theme.palette.background.default,
 		boxShadow: theme.shadows[0],
 		marginTop: "1.5rem",
 		height: 90,
