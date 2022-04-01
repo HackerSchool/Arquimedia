@@ -1,10 +1,10 @@
 import React from "react";
 import {
 	Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import RegisterInput from "../components/register/RegisterInput";
 import RegisterInfo from "../components/register/RegisterInfo";
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(theme => ({
 	container: {

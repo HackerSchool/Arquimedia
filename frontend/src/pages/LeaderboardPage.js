@@ -1,17 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import {
-    Grid,
-    Paper,
-    Select,
-    MenuItem,
-    makeStyles,
-    Typography
-} from '@material-ui/core'
+import { Grid, Paper, Select, MenuItem, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { fetchLeaderboard } from '../api'
 import Loading from '../components/loading/Loading';
 import LeaderboardBar from '../components/profile/LeaderboardBar';
 import globalTheme from '../globalTheme';
-import Pagination from '@material-ui/lab/Pagination';
+import Pagination from '@mui/material/Pagination';
 
 const SPANS = [
     "mês",
@@ -109,7 +103,7 @@ function LeaderboardPage() {
                 ))}
             </Grid> 
 
-            <Grid container justify='center' className={classes.pagination}>
+            <Grid container justifyContent='center' className={classes.pagination}>
                 <Pagination
                     onChange={pageChange}
                     defaultPage={1}
@@ -117,7 +111,7 @@ function LeaderboardPage() {
                     count={leaderboard.length > USERS_PER_PAGE ? Math.ceil(leaderboard.length / USERS_PER_PAGE) : 1}/>
             </Grid>
         </Paper>
-    )
+    );
 }
 
 export default LeaderboardPage

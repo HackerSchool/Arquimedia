@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core'
+import makeStyles from '@mui/styles/makeStyles';
 import {
     Popover,
     Paper,
     Typography,
     Grid
-} from '@material-ui/core'
+} from '@mui/material'
 
 const useStyles = makeStyles(theme => ({
     img: achieved => ({

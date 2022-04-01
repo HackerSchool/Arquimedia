@@ -1,12 +1,12 @@
 import { Planet } from 'react-planet';
 import React from "react";
-import { IconButton } from '@material-ui/core'
+import { IconButton } from '@mui/material'
 import AvatarUser from '../avatar/AvatarUser';
-import { makeStyles } from '@material-ui/core/styles';
-import SchoolIcon from '@material-ui/icons/School';
-import PersonIcon from '@material-ui/icons/Person';
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import makeStyles from '@mui/styles/makeStyles';
+import SchoolIcon from '@mui/icons-material/School';
+import PersonIcon from '@mui/icons-material/Person';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { logOut } from '../../api';
 
 
@@ -28,7 +28,7 @@ const MenuCircular = (props) => {
 
 
 	return (
-		<div style={{marginTop: "-2.5rem"}}>
+        <div style={{marginTop: "-2.5rem"}}>
 			<Planet
 		centerContent={
 			<div style={{
@@ -49,7 +49,7 @@ const MenuCircular = (props) => {
 	>    
 
 
-		<IconButton href="" title="Logout" onClick={handleLogout}><div
+		<IconButton href="" title="Logout" onClick={handleLogout} size="large"><div
 			style={{
 				height: 40,
 				width: 40,
@@ -64,7 +64,7 @@ const MenuCircular = (props) => {
 
 		<div /> 
 
-		<IconButton href="/leaderboards" title="Leaderboards"><div
+		<IconButton href="/leaderboards" title="Leaderboards" size="large"><div
 			style={{
 				height: 40,
 				width: 40,
@@ -79,7 +79,7 @@ const MenuCircular = (props) => {
 
 		<div /> 
 	
-		<IconButton href="/exames" title="Realizar Exames"><div 
+		<IconButton href="/exames" title="Realizar Exames" size="large"><div 
 			style={{
 				height: 40,
 				width: 40,
@@ -94,7 +94,7 @@ const MenuCircular = (props) => {
 
 		<div /> 
 
-		<IconButton href="/perfil" title="Perfil"><div
+		<IconButton href="/perfil" title="Perfil" size="large"><div
 			style={{
 				height: 40,
 				width: 40,
@@ -126,7 +126,7 @@ const MenuCircular = (props) => {
 		
 	</Planet>
 		</div>
-	);	
+    );	
 };
 
 export default MenuCircular;

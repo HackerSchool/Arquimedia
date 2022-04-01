@@ -8,9 +8,9 @@ import {
 	ListItem,
 	Grid,
 	Link
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import MenuIcon from '@mui/icons-material/Menu';
 import NavbarButton from './NavbarButton';
 import { ReactComponent as Logo } from "../../assets/logo_blue.svg"
 import NormalButton from '../buttons/NormalButton';
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: "3rem"
 	},
 	menu: {
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.down('md')]: {
 			display: "none"
 		},
 	},
@@ -77,11 +77,11 @@ const Navbar = () => {
 	const [user, loading] = useContext(userContext);
 
 	return (
-		<AppBar position="static" className={classes.navbar}>
+        <AppBar position="static" className={classes.navbar}>
 			<Toolbar className={classes.toolbar}>
 				<Logo className={classes.logo} />
 				
-				<Grid container className={classes.menu} justify="flex-end">
+				<Grid container className={classes.menu} justifyContent="flex-end">
 			
 				{loading ? 
 					(
@@ -99,7 +99,7 @@ const Navbar = () => {
 				</Grid>
 
 				<div className={classes.menuMobile}>
-					<IconButton onClick={handleClick}>
+					<IconButton onClick={handleClick} size="large">
 						<MenuIcon fontSize="large"/>
 					</IconButton>
 					<SwipeableDrawer
@@ -148,7 +148,7 @@ const Navbar = () => {
 				</div>
 			</Toolbar>
 		</AppBar>
-	)
+    );
 };
 
 export default Navbar;

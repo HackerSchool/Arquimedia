@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar } from '@material-ui/core';
+import { Avatar } from '@mui/material';
 import md5 from 'md5';
 
 // user isn't really an user object but more like the props object

@@ -5,10 +5,10 @@ import {
 	AccordionDetails,
 	Typography,
 	Button
-} from "@material-ui/core";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { makeStyles } from "@material-ui/core";
-import LaunchIcon from '@material-ui/icons/Launch';
+} from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import makeStyles from '@mui/styles/makeStyles';
+import LaunchIcon from '@mui/icons-material/Launch';
 var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({

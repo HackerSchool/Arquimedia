@@ -4,15 +4,15 @@ import {
 	Grid,
 	Button,
 	IconButton
-} from "@material-ui/core";
+} from "@mui/material";
 import { examInfo } from "../api";
 import CountdownClock from "../components/countdownClock/CountdownClock";
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 import QuestionsGroup from "../components/questions/QuestionsGroup";
 import Loading from "../components/loading/Loading";
 import CustomizedSteppers from "../components/questions/Stepper";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const useStyles = makeStyles(theme => ({
 	timer: {
@@ -96,7 +96,7 @@ const ExamPage = (props) => {
 	if (loading) return (<Loading />)
 
 	return (
-		<Grid className={classes.container}>
+        <Grid className={classes.container}>
 			<Grid item xs={12}>
 				<CustomizedSteppers 
 					className={classes.steppers}
@@ -113,13 +113,13 @@ const ExamPage = (props) => {
 			</Grid>
 			<Grid item container align="center" spacing={4} xs={12} direction="row" alignItems="center">
 				<Grid item xs={1}>
-					<IconButton className={classes.beforeBttn} onClick={decreaseCurrent}><ArrowBackIcon fontSize="large" /></IconButton>
+					<IconButton className={classes.beforeBttn} onClick={decreaseCurrent} size="large"><ArrowBackIcon fontSize="large" /></IconButton>
 				</Grid>
 				<Grid item xs={10}>
 					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion}/>
 				</Grid>
 				<Grid item xs={1}>
-					<IconButton className={classes.nextBttn} onClick={increaseCurrent}><ArrowForwardIcon fontSize="large" /></IconButton>
+					<IconButton className={classes.nextBttn} onClick={increaseCurrent} size="large"><ArrowForwardIcon fontSize="large" /></IconButton>
 				</Grid>
 			</Grid>
 			<div align="center" className={classes.finishBttnWrapper}>
@@ -128,7 +128,7 @@ const ExamPage = (props) => {
 				)}
 			</div>
 		</Grid>
-	)
+    );
 }
 
 // used to shuffle the answers in the question

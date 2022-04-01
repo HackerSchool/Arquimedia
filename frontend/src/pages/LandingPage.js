@@ -1,5 +1,6 @@
 import React from 'react'
-import { Grid, makeStyles, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { ReactComponent as Girl } from "../assets/girl_studying.svg"
 import { ReactComponent as Emoji } from "../assets/winking_emoji.svg"
 import NormalButton from '../components/buttons/NormalButton'

@@ -3,9 +3,9 @@ import {
 	Typography,
 	Grid,
 	Paper,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 import QuestionImage from "./QuestionImage";
 import Answer from "./Answers";
 

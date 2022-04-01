@@ -1,9 +1,6 @@
 import React from "react";
-import {
-	Grid,
-	makeStyles,
-	InputBase
-} from "@material-ui/core"
+import { Grid, InputBase } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { useState } from "react"
 import { registerUser } from "../../api";
 import { ReactComponent as Logo } from "../../assets/logo_white.svg"
