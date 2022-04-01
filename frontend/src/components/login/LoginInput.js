@@ -43,7 +43,6 @@ const LoginInput = () => {
 	}
 
 	const handleKeyPress = (e) => {
-		console.log(e.keyCode)
 		if (e.keyCode === 13) {
 			handleClick();
 		}

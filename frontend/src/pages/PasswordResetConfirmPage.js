@@ -33,7 +33,6 @@ const PasswordResetConfirmPage = (props) => {
 			token: props.match.params.token,
 		}, () => {
 			// send user login
-			console.log("Password mudada")
 		}, (error) => {
 			// check the error
 			setAlert(true);

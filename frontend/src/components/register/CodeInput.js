@@ -46,7 +46,6 @@ const CodeInput = (props) => {
 		} else {
 			if (code.length === 6) {
 				// request the data base
-				console.log("Hello");
 				confirmEmail(code, props.username, () => {
 					setTimeout(() => {
 						// code is okay, log user

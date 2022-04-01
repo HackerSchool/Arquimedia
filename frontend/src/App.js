@@ -24,40 +24,49 @@ import {
 	ThemeProvider,
 } from "@material-ui/core/styles";
 import globalTheme from "./globalTheme"
+import { ModRoute } from "./routes/ModRoute.js"
+import { AuthRoute } from "./routes/AuthRoute.js"
+import { UserContextProvider} from "./context/UserContextProvider.js"
+import { SnackbarProvider } from 'notistack';
 
 axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
 
 function App() {
-  return (
-	
-		<ThemeProvider theme={globalTheme}>
-			<Router>
-				<Switch>
-					<Route path="/login" component={LoginPage} />
-					<Route exact path="/registar" component={RegistrationPage} />
-					<div>
-						<Navbar />
-						<div style={{marginRight: "12em", marginLeft: "13em"}}>
+
+	return (
+		<UserContextProvider>
+			<ThemeProvider theme={globalTheme}>
+			<SnackbarProvider maxSnack={5}>
+				<Router>
 							<Switch>
-								<Route exact path="/" component={LandingPage}/>
-								<Route exact path="/question/:id" component={QuestionPage} />
-								<Route exact path="/exames" component={GenExamPage} />
-								<Route exact path="/exame/:id" component={ExamPage} />
-								<Route exact path="/leaderboards" component={LeaderboardPage} />
-								<Route exact path="/resultado/:id" component={ResultsPage} />
-								<Route exact path="/submeter_questao" component={QuestionSubmissionPage} />
-								<Route exact path="/questoes_submetidas" component={SubmittedQuestions} />
-								<Route exact path="/perfil" component={ProfilePage} />
-								<Route exact path="/password/reset" component={PasswordResetPage} />
-								<Route exact path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />
-								<Route path="*" component={PageNotFound} />
+								<Route  path="/login" component={LoginPage} />
+								<Route  path="/registar" component={RegistrationPage} />
+								<div>
+									<Navbar />
+									<div style={{marginRight: "12em", marginLeft: "12em"}}>
+									<Switch>
+									<Route exact path="/" component={LandingPage}/>
+
+									<AuthRoute  path="/question/:id" component={QuestionPage} />
+									<AuthRoute  path="/exames" component={GenExamPage} />
+									<AuthRoute  path="/exame/:id" component={ExamPage} />
+									<AuthRoute  path="/leaderboards" component={LeaderboardPage} />
+									<AuthRoute  path="/resultado/:id" component={ResultsPage} />
+									<AuthRoute  path="/submeter_questao" component={QuestionSubmissionPage} />
+									<ModRoute  path="/questoes_submetidas" component={SubmittedQuestions} />
+									<AuthRoute  path="/perfil" component={ProfilePage} />
+									<AuthRoute  path="/password/reset" component={PasswordResetPage} />
+									<AuthRoute  path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />								
+									<Route path="*" component={PageNotFound} />
+									</Switch>
+									</div>
+								</div>
 							</Switch>
-						</div>
-					</div>
-				</Switch>
-			</Router>
-		</ThemeProvider>
-  );
+					</Router>
+				</SnackbarProvider>
+			</ThemeProvider>
+		</UserContextProvider>
+	);
 }
 
 export default App;
