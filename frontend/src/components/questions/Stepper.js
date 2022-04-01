@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -30,25 +30,10 @@ const QontoConnector = withStyles({
     
   })(StepConnector);
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  button: {
-    marginRight: theme.spacing(1),
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
-
 export default function CustomizedSteppers(props) {
-  const classes = useStyles();
   const steps = Array(props.size).fill('');
 
   return (
-    <div className={classes.root}>
       <Stepper alternativeLabel activeStep={props.current} connector={<QontoConnector/>}>
         {steps.map((label) => (
           <Step key={label}>
@@ -56,6 +41,5 @@ export default function CustomizedSteppers(props) {
           </Step>
         ))}
       </Stepper>
-    </div>
   );
 }

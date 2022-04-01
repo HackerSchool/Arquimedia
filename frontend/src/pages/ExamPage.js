@@ -54,6 +54,9 @@ const useStyles = makeStyles(theme => ({
 			transform: "scale3d(1.05, 1.05, 1)"
 		},
 	},
+	steppers: {
+		width: 100
+	}
 }))
 
 const ExamPage = (props) => {
@@ -93,17 +96,22 @@ const ExamPage = (props) => {
 	if (loading) return (<Loading />)
 
 	return (
-		<div className={classes.container}>
-			<CustomizedSteppers 
-				size={exam.questions.length} 
-				changeIndex={(index) => setCurrentQuestion(index)}
-				submitExam={onComplete}
-				current={currentQuestion}
-			/>
-			<div className={classes.timer} align="center">
-				<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete}/>
-			</div>
-			<Grid container align="center" spacing={4} xs={12} direction="row" alignItems="center">
+		<Grid className={classes.container}>
+			<Grid item xs={12}>
+				<CustomizedSteppers 
+					className={classes.steppers}
+					size={exam.questions.length} 
+					changeIndex={(index) => setCurrentQuestion(index)}
+					submitExam={onComplete}
+					current={currentQuestion}
+				/>
+			</Grid>
+			<Grid item xs={12}>
+				<div className={classes.timer} align="center">
+					<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete}/>
+				</div>
+			</Grid>
+			<Grid item container align="center" spacing={4} xs={12} direction="row" alignItems="center">
 				<Grid item xs={1}>
 					<IconButton className={classes.beforeBttn} onClick={decreaseCurrent}><ArrowBackIcon fontSize="large" /></IconButton>
 				</Grid>
@@ -119,7 +127,7 @@ const ExamPage = (props) => {
 					<Button className={classes.finishBttn} onClick={onComplete}>Submeter</Button>
 				)}
 			</div>
-		</div>
+		</Grid>
 	)
 }
 
