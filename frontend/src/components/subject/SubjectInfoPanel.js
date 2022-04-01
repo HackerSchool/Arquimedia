@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
         fontSize: "2rem",
         "& .MuiSvgIcon-root": {
             color: "#EB5757"
-        }
+        },
+        border: "none"
     },
     indexCircle: index => ({
         backgroundColor: (index > 80 ? "#00FF47" : (index > 50 ? "#FFED47" : "#EB5757")),

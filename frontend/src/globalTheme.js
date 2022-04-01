@@ -17,6 +17,13 @@ const globalTheme = createTheme(adaptV4Theme({
 			primary: "#F1F1F1"
 		}
 	},
+	overrides: {
+		MuiOutlinedInput: {
+			notchedOutline: {
+				border: 0,
+			}
+		}
+	}
 }));
 
 export default globalTheme;
