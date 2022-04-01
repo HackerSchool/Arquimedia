@@ -18,7 +18,7 @@ const themeDark = createTheme({
 			primary: '#ffffff'
 		},
 		grey: { // for some reason theme.palette.grey.main doesn't work
-			primary: "#F1F1F1"
+			primary: "#d8d8d8"
 		}
 	},
 });

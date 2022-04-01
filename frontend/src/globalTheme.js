@@ -18,7 +18,7 @@ const globalTheme = createTheme({
 		},
 		grey: { // for some reason theme.palette.grey.main doesn't work
 			primary: "#F1F1F1"
-		}
+		},
 	},
 });
 

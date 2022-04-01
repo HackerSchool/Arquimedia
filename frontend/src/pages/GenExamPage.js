@@ -4,9 +4,8 @@ import {
 	Grid,
 	Divider,
 	Select,
-	Switch,
 	FormControl,
-	FormLabel,
+	InputLabel,
 	FormGroup,
 	FormControlLabel,
 	Checkbox,
@@ -51,12 +50,20 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: '10px',
 		color: "#fff",
 		minHeight:'70px',
-		minWidth: '150px',
+		minWidth: 'calc(70%)',
+		maxWidth: 150,
 		padding:'5px',
     },
     "& .MuiSvgIcon-root": {
         color: "white",
     },
+	paper: {
+		background: themeDark.palette.background.default,
+		color: themeDark.palette.text.primary,
+	},
+	subheader:{
+		color:'grey',
+	},
 	list: {
 		backgroundColor: theme.palette.background.default,
 		overflow: 'auto',
@@ -274,22 +281,21 @@ const GenExamPage = () => {
 						</Grid>
 						<Grid container>
 							<Select
-							 autoWidth
 							 IconComponent={() => <ArrowDropDownRoundedIcon/>}
 							 onChange={handleChangeSubject}
 							 id="grouped-select"
 							 defaultValue="none"
 							 className={classes.select} 
-							 disableUnderline> {/*Change how the exam is generated in accordance with what select gives back*/}
-								<MenuItem  value="none"> Nenhuma</MenuItem>
-								<ListSubheader>Ciências e Tecnologias</ListSubheader>
-									<MenuItem value={"math"}>Matemática A</MenuItem>
-									<MenuItem value={"physics"}>Física e Química</MenuItem>
+							 MenuProps = {{classes:{paper:classes.paper}}}
+							 disableUnderline>
+								<MenuItem  value="none"> <Typography>Nenhuma</Typography></MenuItem>
+								<ListSubheader className={classes.subheader}> <Typography>Ciências e Tecnologias</Typography></ListSubheader>
+									<MenuItem value={"math"}> <Typography>Matemática A</Typography></MenuItem>
+									<MenuItem value={"physics"}> <Typography>Física e Química</Typography></MenuItem>
 								
-								<ListSubheader>Línguas e Humanidades</ListSubheader>
-									<MenuItem>História A</MenuItem>
+								<ListSubheader className={classes.subheader}> <Typography>Línguas e Humanidades</Typography></ListSubheader>
+									<MenuItem> <Typography>História A</Typography></MenuItem>
 							</Select>
-
 						</Grid>
 					</Grid> 
 
@@ -300,10 +306,10 @@ const GenExamPage = () => {
 						<Grid container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
-									<FormControlLabel control={<Checkbox checked={options.randomGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomGrade} name="randomGrade"/>} label="Aleatório"/>
-									<FormControlLabel control={<Checkbox checked={dictYears.tenthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="tenthGrade"/>} label="10º"/>
-									<FormControlLabel control={<Checkbox checked={dictYears.eleventhGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="eleventhGrade"/>} label="11º"/>
-									<FormControlLabel control={<Checkbox checked={dictYears.twelfthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="twelfthGrade"/>} label="12º"/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.tenthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="tenthGrade"/>} label={<Typography variant = "h6">10º</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.eleventhGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="eleventhGrade"/>} label={<Typography variant = "h6">11º</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.twelfthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="twelfthGrade"/>} label={<Typography variant = "h6">12º</Typography>}/>
 								</FormGroup>
 							</FormControl>
 						</Grid>
@@ -316,11 +322,11 @@ const GenExamPage = () => {
 						<Grid container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
-									<FormControlLabel control={<Checkbox checked={options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label="Aleatório"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>}  onChange={handleChangeSubSubjects} name="geometry"/>} label="Geometria"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="imaginary"/>} label="Imaginários"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="statistics"/>} label="Estatística"/>
-									<FormControlLabel control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="probability"/>} label="Probabilidades"/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>}  onChange={handleChangeSubSubjects} name="geometry"/>} label={<Typography variant = "h6">Geometria</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="imaginary"/>} label={<Typography variant = "h6">Imaginários</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="statistics"/>} label={<Typography variant = "h6">Estatística</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="probability"/>} label={<Typography variant = "h6">Probabilidades</Typography>}/>
 								</FormGroup>
 							</FormControl>
 						</Grid>
@@ -354,10 +360,10 @@ const GenExamPage = () => {
 					{courseArray.map((courseDict,index1) => (
 						<li key={`${courseDict.name}`} className={classes.listSection}>
 						<ul className={classes.ul}>
-							<ListSubheader>{`${courseDict.name}`}</ListSubheader>
+							<ListSubheader>{<Typography >{courseDict.name}</Typography>}</ListSubheader>
 							{courseDict.subjects.map((subjectName, index2) => (
 							<ListItem  className = {classes.listItem} key={`${courseDict.name}-${subjectName}`}>
-								<ListItemText primary={`${subjectName}`} />
+								<ListItemText  primary={ <Typography variant="h6"> {subjectName}</Typography>} />
 								<ListItemIcon>
 								<IconButton onClick={() =>handleClickCustom(index1, index2)}  edge="end" aria-label="comments">
 									<RedRoundArrow />
