@@ -8,6 +8,9 @@ import Achievement from './Achievement';
 const useStyles = makeStyles(() => ({
     outterbox: {
         padding: "1rem"
+    },
+    achievement: {
+        marginRight: "3rem" 
     }
 }))
 
@@ -52,9 +55,9 @@ function AchievementTray({achievements, subjectProp}) {
                 </Typography>
             </Grid>
 
-            <Grid item container spacing={12} justifyContent="space-between" xs={3}>
+            <Grid item container xs={3} justifyContent="flex-start">
                     {achievementsToDisplay.map(i => (
-                        <Grid item xs={1}>
+                        <Grid item xs={1} className={classes.achievement}>
                             <Achievement achievement={i} achieved={achievements.some(j => j.id === i.id)}/>
                         </Grid>
                     ))}
