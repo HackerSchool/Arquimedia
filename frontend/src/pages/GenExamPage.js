@@ -21,6 +21,7 @@ import {
 import { createExam } from "../api";
 import { makeStyles } from '@material-ui/core/styles';
 import AlertSnackBar from "../components/alerts/AlertSnackBar";
+import NormalButton from "../components/buttons/NormalButton";
 import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg";
 import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
 import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
@@ -33,6 +34,13 @@ import themeDark from '../themeDark'
 const useStyles = makeStyles(theme => ({
 	body: {
 		textAlign: "center",
+	},
+	lowerPanel:{
+		margin:'25px 0px'
+	},
+	divider:{
+		margin:'0px 10px',
+		height:'calc(85%)'
 	},
 	upperSideText:{
 		color : theme.palette.secondary.main
@@ -53,6 +61,7 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 'calc(70%)',
 		maxWidth: 150,
 		padding:'5px',
+		fontFamily:"Roboto"
     },
     "& .MuiSvgIcon-root": {
         color: "white",
@@ -69,28 +78,31 @@ const useStyles = makeStyles(theme => ({
 		overflow: 'auto',
 		maxHeight: 300,
 	  },
-	  listSection: {
+	listSection: {
 		backgroundColor: 'inherit',
 		color:'inherit',
 		padding:30,
-	  },
-	  ul: {
+	},
+	ul: {
 		padding: 0,
 		backgroundColor: 'inherit',
 		color:'inherit',
-	  },
-	  listItem :{
+	},
+	listItem :{
 		backgroundColor: themeDark.palette.background.default,
 		color: themeDark.palette.text.primary,
 		border:"2px solid grey",
 		borderRadius: '10px',
 		margin: '30px 0px',
 		padding: 7,
-	  },
-	  rightArrow:{
+		},
+	rightArrow:{
 		color:'EB5757',
 
-	  },
+	},
+	button:{
+		margin: '15px',
+	},
 }))
 
 const GenExamPage = () => {
@@ -272,12 +284,12 @@ const GenExamPage = () => {
 			<Grid item xs = {5}>
 				<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
 			</Grid>
-			<Grid container xs = {12}>
+			<Grid className={classes.lowerPanel} container xs = {12}>
 
 				<Grid container xs ={5}> {/*left lower panel*/}
 					<Grid alignContent="flex-start" container xs = {6}> {/*Pick Subject*/}
 						<Grid item>
-							<Typography> 1 - Escolhe a disciplina </Typography>
+							<Typography variant = "h6"> 1 - Disciplina </Typography>
 						</Grid>
 						<Grid container>
 							<Select
@@ -301,7 +313,7 @@ const GenExamPage = () => {
 
 					<Grid container xs = {6}> {/* Pick year*/}
 						<Grid item>
-							<Typography> 2 - Escolhe o ano </Typography>
+							<Typography variant = "h6"> 2 - Ano(s) </Typography>
 						</Grid>	
 						<Grid container>
 							<FormControl className={classes.boxes}>
@@ -317,7 +329,7 @@ const GenExamPage = () => {
 
 					<Grid container xs ={12}> {/*Pick Themes*/}
 						<Grid item>
-							<Typography> 3 - Escolhe os tópicos </Typography>
+							<Typography variant = "h6"> 3 - Tópicos </Typography>
 						</Grid>
 						<Grid container>
 							<FormControl className={classes.boxes}>
@@ -333,8 +345,8 @@ const GenExamPage = () => {
 					</Grid> 
 
 					<Grid justifyContent="center" container > {/*Começar Button*/}
-						<Grid>
-							<Button variant="contained" onClick={handleClick}>Começar</Button>
+						<Grid className={classes.button} item>
+							<NormalButton  fontSize={28} text="Começar" onClick={handleClick}/>
 						</Grid>
 						
 					</Grid>
@@ -345,7 +357,7 @@ const GenExamPage = () => {
 				</Grid>
 
 				<Grid container xs = {2}>
-					<Divider style={{color:"red"}} orientation="vertical" flexItem /> {/*Vertical Divider*/}
+					<Divider className={classes.divider} orientation="vertical" flexItem /> {/*Vertical Divider*/}
 				</Grid>
 				
 				
@@ -353,7 +365,7 @@ const GenExamPage = () => {
 
 				<Grid container xs = {5}> {/*right lower panel*/}
 					<Grid item>
-						<Typography> Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances. </Typography>
+						<Typography variant = "h6"> Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances. </Typography>
 					</Grid>
 					<Grid container justifyContent="center">
 					<List className={classes.list} subheader={<li />}>
