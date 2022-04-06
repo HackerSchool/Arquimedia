@@ -61,10 +61,6 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 'calc(70%)',
 		maxWidth: 150,
 		padding:'5px',
-		fontFamily:"Roboto"
-    },
-    "& .MuiSvgIcon-root": {
-        color: "white",
     },
 	paper: {
 		background: themeDark.palette.background.default,
@@ -72,6 +68,10 @@ const useStyles = makeStyles(theme => ({
 	},
 	subheader:{
 		color:'grey',
+	},
+    icon: {
+		fill: themeDark.palette.text.primary,
+		margin: "0px 7px"
 	},
 	list: {
 		backgroundColor: theme.palette.background.default,
@@ -293,20 +293,21 @@ const GenExamPage = () => {
 						</Grid>
 						<Grid container>
 							<Select
-							 IconComponent={() => <ArrowDropDownRoundedIcon/>}
+							 IconComponent={ArrowDropDownRoundedIcon}
 							 onChange={handleChangeSubject}
 							 id="grouped-select"
-							 defaultValue="none"
+							 defaultValue={subject}
 							 className={classes.select} 
 							 MenuProps = {{classes:{paper:classes.paper}}}
+							 inputProps = {{classes:{icon:classes.icon}}}
 							 disableUnderline>
-								<MenuItem  value="none"> <Typography>Nenhuma</Typography></MenuItem>
+								<MenuItem  value="none"> <em>Nenhuma</em></MenuItem>
 								<ListSubheader className={classes.subheader}> <Typography>Ciências e Tecnologias</Typography></ListSubheader>
-									<MenuItem value={"math"}> <Typography>Matemática A</Typography></MenuItem>
-									<MenuItem value={"physics"}> <Typography>Física e Química</Typography></MenuItem>
+									<MenuItem value={"math"}> <Typography variant = "h6">Matemática A</Typography></MenuItem>
+									<MenuItem value={"physics"}> <Typography variant = "h6">Física e Química</Typography></MenuItem>
 								
 								<ListSubheader className={classes.subheader}> <Typography>Línguas e Humanidades</Typography></ListSubheader>
-									<MenuItem> <Typography>História A</Typography></MenuItem>
+									<MenuItem> <Typography variant = "h6">História A</Typography></MenuItem>
 							</Select>
 						</Grid>
 					</Grid> 
