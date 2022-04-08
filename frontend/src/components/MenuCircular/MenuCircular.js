@@ -1,6 +1,6 @@
 import { Planet } from 'react-planet';
 import React from "react";
-import { IconButton, Typography } from '@mui/material'
+import { IconButton } from '@mui/material'
 import AvatarUser from '../avatar/AvatarUser';
 import makeStyles from '@mui/styles/makeStyles';
 import SchoolIcon from '@mui/icons-material/School';
