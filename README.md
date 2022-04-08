@@ -1,4 +1,4 @@
-# Thothe
+# Arquimedia
 
 ![image](frontend/src/assets/logo_blue_white.svg)
 Our goal for this project is to help high school students prepare for national exams done by all students to enter college and finish high school.
