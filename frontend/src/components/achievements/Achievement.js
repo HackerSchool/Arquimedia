@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core'
+import makeStyles from '@mui/styles/makeStyles';
 import {
     Popover,
     Paper,
     Typography,
     Grid
-} from '@material-ui/core'
+} from '@mui/material'
 
 const useStyles = makeStyles(theme => ({
     img: achieved => ({
@@ -18,6 +18,10 @@ const useStyles = makeStyles(theme => ({
     },
     popoverInfo: {
         padding: "1rem"
+    },
+    container: {
+        height: "max-content",
+        width: "max-content",
     }
 }))
 
@@ -40,7 +44,7 @@ const Achievement = ({achievement, achieved}) => {
 
 
     return (
-        <div>
+        <div className={classes.container}>
             <img src={achievement.image} className={classes.img}
                 onMouseEnter={handleOpen}
                 onMouseLeave={handleClose}

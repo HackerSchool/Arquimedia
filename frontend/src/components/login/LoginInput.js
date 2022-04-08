@@ -1,8 +1,5 @@
-import {
-	Grid,
-	makeStyles,
-	InputBase,
-} from "@material-ui/core";
+import { Grid, InputBase } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { logIn } from "../../api";
 import React, { useState } from 'react';
 import NormalButton from "../buttons/NormalButton";
@@ -49,11 +46,11 @@ const LoginInput = () => {
 	}
 
 	return (
-		<Grid className={classes.container} container spacing={4} direction="column" alignContent="center">
+        <Grid className={classes.container} container spacing={4} direction="column" alignContent="center">
 			<Grid item>
 				<Logo className={classes.logo} />
 			</Grid>
-			<Grid className={classes.containerForm} container spacing={4} direction="column" justify='center'>
+			<Grid className={classes.containerForm} container spacing={4} direction="column" justifyContent='center'>
 				<Grid item>
 					<InputBase 
 						className={classes.input} 
@@ -82,7 +79,7 @@ const LoginInput = () => {
 				</Grid>
 			</Grid>
 		</Grid>
-	)
+    );
 }
 
 export default LoginInput;

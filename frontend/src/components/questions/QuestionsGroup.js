@@ -3,7 +3,7 @@ import Question from "./Question";
 import { useRef, forwardRef, useImperativeHandle } from "react";
 import {
 	Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import { submitExam } from "../../api";
 
 const QuestionsGroup = forwardRef((props, ref) => {

@@ -1,20 +1,13 @@
 import React from "react";
-import {
-	Grid,
-	TextField,
-	Select,
-	MenuItem,
-	makeStyles,
-	Tooltip,
-	Typography
-} from "@material-ui/core"
+import { Grid, TextField, Select, MenuItem, Tooltip, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { useState } from "react";
 import {
 	submitQuestion,
 	submitQuestionImage
 } from "../../api";
 import Question from '../questions/Question'
-import InfoIcon from '@material-ui/icons/Info';
+import InfoIcon from '@mui/icons-material/Info';
 import AlertSnackBar from "../alerts/AlertSnackBar";
 import NormalButton from "../buttons/NormalButton"
 import globalTheme from "../../globalTheme";

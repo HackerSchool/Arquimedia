@@ -20,9 +20,7 @@ import {
 	Route,
   } from "react-router-dom";
 import axios from "axios";
-import {
-	ThemeProvider,
-} from "@material-ui/core/styles";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import globalTheme from "./globalTheme"
 import { ModRoute } from "./routes/ModRoute.js"
 import { AuthRoute } from "./routes/AuthRoute.js"
@@ -34,39 +32,41 @@ axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authoriza
 function App() {
 
 	return (
-		<UserContextProvider>
-			<ThemeProvider theme={globalTheme}>
-			<SnackbarProvider maxSnack={5}>
-				<Router>
-							<Switch>
-								<Route  path="/login" component={LoginPage} />
-								<Route  path="/registar" component={RegistrationPage} />
-								<div>
-									<Navbar />
-									<div style={{marginRight: "12em", marginLeft: "12em"}}>
-									<Switch>
-									<Route exact path="/" component={LandingPage}/>
+        <UserContextProvider>
+			<StyledEngineProvider injectFirst>
+                <ThemeProvider theme={globalTheme}>
+                <SnackbarProvider maxSnack={5}>
+                    <Router>
+                                <Switch>
+                                    <Route  path="/login" component={LoginPage} />
+                                    <Route  path="/registar" component={RegistrationPage} />
+                                    <div>
+                                        <Navbar />
+                                        <div style={{marginRight: "12em", marginLeft: "12em"}}>
+                                        <Switch>
+                                        <Route exact path="/" component={LandingPage}/>
 
-									<AuthRoute  path="/question/:id" component={QuestionPage} />
-									<AuthRoute  path="/exames" component={GenExamPage} />
-									<AuthRoute  path="/exame/:id" component={ExamPage} />
-									<AuthRoute  path="/leaderboards" component={LeaderboardPage} />
-									<AuthRoute  path="/resultado/:id" component={ResultsPage} />
-									<AuthRoute  path="/submeter_questao" component={QuestionSubmissionPage} />
-									<ModRoute  path="/questoes_submetidas" component={SubmittedQuestions} />
-									<AuthRoute  path="/perfil" component={ProfilePage} />
-									<AuthRoute  path="/password/reset" component={PasswordResetPage} />
-									<AuthRoute  path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />								
-									<Route path="*" component={PageNotFound} />
-									</Switch>
-									</div>
-								</div>
-							</Switch>
-					</Router>
-				</SnackbarProvider>
-			</ThemeProvider>
+                                        <AuthRoute  path="/question/:id" component={QuestionPage} />
+                                        <AuthRoute  path="/exames" component={GenExamPage} />
+                                        <AuthRoute  path="/exame/:id" component={ExamPage} />
+                                        <AuthRoute  path="/leaderboards" component={LeaderboardPage} />
+                                        <AuthRoute  path="/resultado/:id" component={ResultsPage} />
+                                        <AuthRoute  path="/submeter_questao" component={QuestionSubmissionPage} />
+                                        <ModRoute  path="/questoes_submetidas" component={SubmittedQuestions} />
+                                        <AuthRoute  path="/perfil" component={ProfilePage} />
+                                        <AuthRoute  path="/password/reset" component={PasswordResetPage} />
+                                        <AuthRoute  path="/password/reset/confirm/:uid/:token" component={PasswordResetConfirmPage} />								
+                                        <Route path="*" component={PageNotFound} />
+                                        </Switch>
+                                        </div>
+                                    </div>
+                                </Switch>
+                        </Router>
+                    </SnackbarProvider>
+                </ThemeProvider>
+            </StyledEngineProvider>
 		</UserContextProvider>
-	);
+    );
 }
 
 export default App;

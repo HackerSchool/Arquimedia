@@ -1,19 +1,31 @@
 import React from "react";
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 import {
     Grid,
     Select,
     MenuItem,
     Typography
-} from "@material-ui/core";
+} from "@mui/material";
 
 const useStyles = makeStyles(theme => ({
 	select: {
         fontSize: "2rem",
         "& .MuiSvgIcon-root": {
             color: "#EB5757"
-        }
+        },
+        '&.MuiOutlinedInput-notchedOutline': {
+            borderRadius: 0,
+        },
+        'MuiOutlinedInput-notchedOutline': {
+            border: 0,
+        },
+        '&:active .MuiOutlinedInput-notchedOutline': {
+            border: 0,
+        },
+        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            border: 0,
+        },
     },
     indexCircle: index => ({
         backgroundColor: (index > 80 ? "#00FF47" : (index > 50 ? "#FFED47" : "#EB5757")),

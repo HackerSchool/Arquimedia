@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
-import { Grid, makeStyles, Typography, TextField, Button, Collapse, IconButton } from '@material-ui/core'
+import { Grid, Typography, TextField, Button, Collapse, IconButton } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { confirmPasswordReset } from '../api';
-import Alert from '@material-ui/lab/Alert';
-import CloseIcon from '@material-ui/icons/Close';
+import Alert from '@mui/material/Alert';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const useStyles = makeStyles(theme => ({

@@ -9,9 +9,9 @@ import {
 	FormControlLabel,
 	Checkbox,
 	Button
-} from "@material-ui/core";
+} from "@mui/material";
 import { createExam } from "../api";
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(theme => ({
 	body: {

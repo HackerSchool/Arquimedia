@@ -2,8 +2,8 @@ import React from "react";
 import {
 	Grid,
 	Paper
-} from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { useEffect, useState } from "react";
 import {
 	getUser,
