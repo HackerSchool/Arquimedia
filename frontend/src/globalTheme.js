@@ -18,11 +18,16 @@ const globalTheme = createTheme(adaptV4Theme({
 		}
 	},
 	overrides: {
+		MuiSelect: {
+			'&.MuiOutlinedInput-notchedOutline': {
+				border: 0
+			}
+		},
 		MuiOutlinedInput: {
 			notchedOutline: {
-				border: 0,
+				//border: 0
 			}
-		}
+		},
 	}
 }));
 

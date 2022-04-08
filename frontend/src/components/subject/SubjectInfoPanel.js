@@ -14,7 +14,18 @@ const useStyles = makeStyles(theme => ({
         "& .MuiSvgIcon-root": {
             color: "#EB5757"
         },
-        border: "none"
+        '&.MuiOutlinedInput-notchedOutline': {
+            borderRadius: 0,
+        },
+        'MuiOutlinedInput-notchedOutline': {
+            border: 0,
+        },
+        '&:active .MuiOutlinedInput-notchedOutline': {
+            border: 0,
+        },
+        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            border: 0,
+        },
     },
     indexCircle: index => ({
         backgroundColor: (index > 80 ? "#00FF47" : (index > 50 ? "#FFED47" : "#EB5757")),
