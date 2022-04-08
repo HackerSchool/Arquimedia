@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: "2rem"
 	},
 	logo: {
-		height: 114,
+		height: "5rem",
 	},
 	registerBtn: {
 		borderRadius: "15",
