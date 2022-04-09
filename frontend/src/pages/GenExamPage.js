@@ -5,11 +5,9 @@ import {
 	Divider,
 	Select,
 	FormControl,
-	InputLabel,
 	FormGroup,
 	FormControlLabel,
 	Checkbox,
-	Button,
 	MenuItem,
 	ListSubheader,
 	List,
@@ -17,16 +15,16 @@ import {
 	ListItem,
 	ListItemIcon,
 	IconButton,
+	useMediaQuery
 } from "@material-ui/core";
 import { createExam } from "../api";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,useTheme } from '@material-ui/core/styles';
 import AlertSnackBar from "../components/alerts/AlertSnackBar";
 import NormalButton from "../components/buttons/NormalButton";
 import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg";
 import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
 import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
-import RightArrow from '@material-ui/icons/ArrowForwardRounded';
 import themeDark from '../themeDark'
 
 
@@ -40,10 +38,15 @@ const useStyles = makeStyles(theme => ({
 	},
 	divider:{
 		margin:'0px 10px',
-		height:'calc(85%)'
+		height:'calc(85%)',
+
+
 	},
 	upperSideText:{
-		color : theme.palette.secondary.main
+		color : theme.palette.secondary.main,
+		[theme.breakpoints.down(1100)]: {
+			margin: "30px 0px"
+		}
 	},
 	boxes:{
 		backgroundColor: themeDark.palette.background.default,
@@ -101,13 +104,17 @@ const useStyles = makeStyles(theme => ({
 
 	},
 	button:{
-		margin: '15px',
+		margin: ' 30px 15px',
 	},
 }))
 
 const GenExamPage = () => {
 	const classes = useStyles();
 
+	const theme = useTheme();
+
+	const is1100pxScreen = useMediaQuery(theme.breakpoints.down(1100));
+	
 	const [dictSubSubjects, setDictSubSubjects] = useState({
 		geometry: false,
 		imaginary: false,
@@ -239,13 +246,15 @@ const GenExamPage = () => {
 
 	
 	const handleClickCustom = (index1,index2) => { //Function for the perosnalised Exam experience of the right Panel
-		console.log(courseArray);
+		
 		const key = courseArray[index1].subjectsKey[index2]
 		setSubject(key) 
-		
 		setError(false)
+
 		if (key === "none") {
+
 			setError(true)
+
 		} else {
 	
 			const subSubjects = [];
@@ -260,6 +269,7 @@ const GenExamPage = () => {
 			if (options.twelfthGrade) year = 12;
 
 			createExam({
+
 				subject: subject,
 				randomSubSubject: options.randomSubSubject,
 				subSubjects: subSubjects,
@@ -271,27 +281,38 @@ const GenExamPage = () => {
 		
 	}
 
-
-	// TODO: REVIEW everything above this line for the new page, see if it makes sense
 	return (
-		<Grid container>
-			<Grid item xs = {5}>
-				<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
-			</Grid>
-			<Grid item xs = {2}>
-				<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
-			</Grid>
-			<Grid item xs = {5}>
-				<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
-			</Grid>
-			<Grid className={classes.lowerPanel} container xs = {12}>
+		
+		<Grid container alignItems={is1100pxScreen ? "center" : null} direction={is1100pxScreen ? "column" : "row"}>
+			{is1100pxScreen 
 
-				<Grid container xs ={5}> {/*left lower panel*/}
-					<Grid alignContent="flex-start" container xs = {6}> {/*Pick Subject*/}
+			?
+
+				<Grid item xs = {12}>
+					<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
+				</Grid> 
+			: 
+
+			<>
+				<Grid item xs = {5}>
+					<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
+				</Grid> 
+				<Grid item xs = {2}>
+					<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
+				</Grid>
+				<Grid item xs = {5}>
+					<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
+				</Grid>
+			</>
+			}
+			<Grid direction={is1100pxScreen ? "column" : "row"} className={classes.lowerPanel} container xs = {12}>
+
+				<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs ={is1100pxScreen ? 12 :  5}> {/*left lower panel*/}
+					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} alignContent="flex-start" container xs = {6}> {/*Pick Subject*/}
 						<Grid item>
 							<Typography variant = "h6"> 1 - Disciplina </Typography>
 						</Grid>
-						<Grid container>
+						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
 							<Select
 							 IconComponent={ArrowDropDownRoundedIcon}
 							 onChange={handleChangeSubject}
@@ -312,11 +333,11 @@ const GenExamPage = () => {
 						</Grid>
 					</Grid> 
 
-					<Grid container xs = {6}> {/* Pick year*/}
+					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
 						<Grid item>
 							<Typography variant = "h6"> 2 - Ano(s) </Typography>
 						</Grid>	
-						<Grid container>
+						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
@@ -328,11 +349,11 @@ const GenExamPage = () => {
 						</Grid>
 					</Grid> 
 
-					<Grid container xs ={12}> {/*Pick Themes*/}
+					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs ={12}> {/*Pick Themes*/}
 						<Grid item>
 							<Typography variant = "h6"> 3 - Tópicos </Typography>
 						</Grid>
-						<Grid container>
+						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
@@ -351,20 +372,30 @@ const GenExamPage = () => {
 						</Grid>
 						
 					</Grid>
-					
-						
-						
-					
 				</Grid>
 
-				<Grid container xs = {2}>
-					<Divider className={classes.divider} orientation="vertical" flexItem /> {/*Vertical Divider*/}
-				</Grid>
-				
-				
-					
+				{is1100pxScreen 
 
-				<Grid container xs = {5}> {/*right lower panel*/}
+				? 
+					<Grid container xs={12}  direction="column" justifyContent="center" alignItems="center">
+							<Grid container xs = {12}>
+								<Divider orientation= "horizontal" className={classes.divider} flexItem /> {/*Vertical Divider*/}
+							</Grid>
+							<Grid item xs = {12}>
+								<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
+							</Grid>
+							<Grid item xs = {12}>
+								<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
+							</Grid>
+						</Grid>
+				: 
+
+					<Grid container xs = {2}>
+						<Divider orientation= "vertical" className={classes.divider} flexItem /> {/*Vertical Divider*/}
+					</Grid>
+				}
+	
+				<Grid container xs = {is1100pxScreen ? 12 : 5}> {/*right lower panel*/}
 					<Grid item>
 						<Typography variant = "h6"> Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances. </Typography>
 					</Grid>
@@ -388,11 +419,8 @@ const GenExamPage = () => {
 						</li>
 					))}
 					</List>
-
 					</Grid>
-
 				</Grid>
-
 			</Grid>
 			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={error} text="Por favor selecione uma disciplina antes de começar" type="error"/>
 		</Grid>
