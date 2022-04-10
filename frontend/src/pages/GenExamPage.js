@@ -25,7 +25,6 @@ import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg
 import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
 import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
-import themeDark from '../themeDark'
 
 
 
@@ -49,31 +48,33 @@ const useStyles = makeStyles(theme => ({
 		}
 	},
 	boxes:{
-		backgroundColor: themeDark.palette.background.default,
-		border:"2px solid grey",
+		backgroundColor: theme.palette.background.default,
+		border:"2px solid #D9D9D9",
 		borderRadius: '10px',
 		padding:'10px',
-		color: themeDark.palette.text.primary
+		color: theme.palette.text.primary,
+		boxShadow:'-2px 2px 2px #D9D9D9' ,
 	},
     select: { //change select css, events and whatnot
-		backgroundColor: themeDark.palette.background.default,
-		border:"2px solid grey",
+		backgroundColor: "inherit",
+		border:"2px solid #D9D9D9",
 		borderRadius: '10px',
-		color: "#fff",
+		color: theme.palette.text.primary,
 		minHeight:'70px',
 		minWidth: 'calc(70%)',
 		maxWidth: 150,
 		padding:'5px',
+		boxShadow:'-2px 2px 2px #D9D9D9' ,
     },
 	paper: {
-		background: themeDark.palette.background.default,
-		color: themeDark.palette.text.primary,
+		background: theme.palette.background.default,
+		color: theme.palette.text.primary,
 	},
 	subheader:{
 		color:'grey',
 	},
     icon: {
-		fill: themeDark.palette.text.primary,
+		fill: theme.palette.text.primary,
 		margin: "0px 7px"
 	},
 	list: {
@@ -92,12 +93,13 @@ const useStyles = makeStyles(theme => ({
 		color:'inherit',
 	},
 	listItem :{
-		backgroundColor: themeDark.palette.background.default,
-		color: themeDark.palette.text.primary,
-		border:"2px solid grey",
+		backgroundColor: theme.palette.background.default,
+		color: theme.palette.text.primary,
+		border:"2px solid #D9D9D9",
 		borderRadius: '10px',
 		margin: '30px 0px',
 		padding: 7,
+		boxShadow:'-2px 2px 2px #D9D9D9' ,
 		},
 	rightArrow:{
 		color:'EB5757',
@@ -105,6 +107,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	button:{
 		margin: ' 30px 15px',
+		
 	},
 }))
 
@@ -424,51 +427,6 @@ const GenExamPage = () => {
 			</Grid>
 			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={error} text="Por favor selecione uma disciplina antes de começar" type="error"/>
 		</Grid>
-		
-
-
-
-
-
-
-
-
-/* 		<Grid container className={classes.body}>
-			<Grid item xs={12}>
-				<Typography variant="h2">Gera um exame</Typography>
-			</Grid>
-			<Grid item xs={6}>
-				<FormControl>
-					<FormLabel>Escolhe os temas</FormLabel>
-					<FormGroup>
-						<FormControlLabel control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label="Aleatório"/>
-						<FormControlLabel control={<Switch checked={dictSubSubjects.geometry && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="geometry"/>} label="Geometria"/>
-						<FormControlLabel control={<Switch checked={dictSubSubjects.imaginary && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="imaginary"/>} label="Imaginários"/>
-						<FormControlLabel control={<Switch checked={dictSubSubjects.statistics && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="statistics"/>} label="Estatística"/>
-						<FormControlLabel control={<Switch checked={dictSubSubjects.probability && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="probability"/>} label="Probabilidades"/>
-					</FormGroup>
-				</FormControl>
-			</Grid>
-			<Grid item xs={6}>
-				<FormControl>
-					<FormLabel>Escolhe os anos</FormLabel>
-					<FormGroup>
-						<FormControlLabel control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label="Aleatório"/>
-						<FormControlLabel control={<Switch checked={dictYears.tenthGrade} onChange={handleChangeYear} name="tenthGrade"/>} label="10º"/>
-						<FormControlLabel control={<Switch checked={dictYears.eleventhGrade} onChange={handleChangeYear} name="eleventhGrade"/>} label="11º"/>
-						<FormControlLabel control={<Switch checked={dictYears.twelfthGrade} onChange={handleChangeYear} name="twelfthGrade"/>} label="12º"/>
-					</FormGroup>
-				</FormControl>
-			</Grid>
-			<Grid item xs={12}>
-				<Button variant="contained" onClick={handleClick}>Gerar exame</Button>
-			</Grid>
-			<Grid item>
-				
-			</Grid>
-		</Grid> */
-
-
 	);
 } 
 
