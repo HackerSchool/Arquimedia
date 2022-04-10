@@ -64,8 +64,13 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 'calc(70%)',
 		maxWidth: 150,
 		padding:'5px',
-		boxShadow:'-2px 2px 2px #D9D9D9' ,
+		boxShadow:'-2px 2px 2px #D9D9D9',
     },
+	selectRoot: {
+		"&:focus": {
+			backgroundColor: theme.palette.background.default
+		}
+	},
 	paper: {
 		background: theme.palette.background.default,
 		color: theme.palette.text.primary,
@@ -77,10 +82,32 @@ const useStyles = makeStyles(theme => ({
 		fill: theme.palette.text.primary,
 		margin: "0px 7px"
 	},
+	rootMenuItem: {
+		"&$selected": {
+		  backgroundColor: theme.palette.grey.primary,
+			"&:hover": {
+			  backgroundColor: theme.palette.background.default
+			 }
+		  },
+		'&:hover':{
+		  backgroundColor:"#F6F6F6"
+		}
+	},
 	list: {
 		backgroundColor: theme.palette.background.default,
 		overflow: 'auto',
 		maxHeight: 300,
+		'&::-webkit-scrollbar': {
+			width: '0.7em'
+		},
+		'&::-webkit-scrollbar-track': {
+			boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+			webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+		},
+		'&::-webkit-scrollbar-thumb': {
+			backgroundColor: '#C4C4C4',
+			borderRadius: '50px',
+		}
 	  },
 	listSection: {
 		backgroundColor: 'inherit',
@@ -286,7 +313,7 @@ const GenExamPage = () => {
 
 	return (
 		
-		<Grid container alignItems={is1100pxScreen ? "center" : null} direction={is1100pxScreen ? "column" : "row"}>
+		<Grid className= {classes.scrollBar}  container alignItems={is1100pxScreen ? "center" : null} direction={is1100pxScreen ? "column" : "row"}>
 			{is1100pxScreen 
 
 			?
@@ -321,17 +348,18 @@ const GenExamPage = () => {
 							 onChange={handleChangeSubject}
 							 id="grouped-select"
 							 defaultValue={subject}
+							 classes={{ root: classes.selectRoot }}
 							 className={classes.select} 
 							 MenuProps = {{classes:{paper:classes.paper}}}
 							 inputProps = {{classes:{icon:classes.icon}}}
 							 disableUnderline>
-								<MenuItem  value="none"> <em>Nenhuma</em></MenuItem>
+								<MenuItem  classes={{ selected: classes.selected, root: classes.rootMenuItem }}  value="none"> <em>Nenhuma</em></MenuItem>
 								<ListSubheader className={classes.subheader}> <Typography>Ciências e Tecnologias</Typography></ListSubheader>
-									<MenuItem value={"math"}> <Typography variant = "h6">Matemática A</Typography></MenuItem>
-									<MenuItem value={"physics"}> <Typography variant = "h6">Física e Química</Typography></MenuItem>
+									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={"math"}> <Typography variant = "h6">Matemática A</Typography></MenuItem>
+									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={"physics"}> <Typography variant = "h6">Física e Química</Typography></MenuItem>
 								
 								<ListSubheader className={classes.subheader}> <Typography>Línguas e Humanidades</Typography></ListSubheader>
-									<MenuItem> <Typography variant = "h6">História A</Typography></MenuItem>
+									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }}> <Typography variant = "h6">História A</Typography></MenuItem>
 							</Select>
 						</Grid>
 					</Grid> 
