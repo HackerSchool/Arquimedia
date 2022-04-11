@@ -30,16 +30,15 @@ import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
 
 const useStyles = makeStyles(theme => ({
 	body: {
-		textAlign: "center",
 	},
 	lowerPanel:{
 		margin:'25px 0px'
 	},
 	divider:{
-		margin:'0px 10px',
 		height:'calc(85%)',
-
-
+	},
+	ou:{
+		margin: "0px -13px"
 	},
 	upperSideText:{
 		color : theme.palette.secondary.main,
@@ -184,6 +183,8 @@ const GenExamPage = () => {
 		
 	]
 
+	let redString = 'Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances.'
+	redString = redString.replace('melhor exame para ti,', match => `<Typography style="color: red">${match} </Typography>` )
 
 	const baseSubSubjects = {
 		geometry: false,
@@ -313,7 +314,7 @@ const GenExamPage = () => {
 
 	return (
 		
-		<Grid className= {classes.scrollBar}  container alignItems={is1100pxScreen ? "center" : null} direction={is1100pxScreen ? "column" : "row"}>
+		<Grid justifyContent="center" container alignItems="center" direction={is1100pxScreen ? "column" : "row"}>
 			{is1100pxScreen 
 
 			?
@@ -323,21 +324,21 @@ const GenExamPage = () => {
 				</Grid> 
 			: 
 
-			<>
-				<Grid item xs = {5}>
+			<Grid xs={10} container direction="row" justifyContent="space-evenly" alignItems="center">
+				<Grid item xs = {4}>
 					<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
 				</Grid> 
-				<Grid item xs = {2}>
-					<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
+				<Grid item xs = {1}>
+					<Typography className={classes.ou} variant="h6">ou</Typography> {/*Maybe put this in Bold */}
 				</Grid>
-				<Grid item xs = {5}>
+				<Grid item xs = {4}>
 					<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
 				</Grid>
-			</>
+			</Grid>
 			}
-			<Grid direction={is1100pxScreen ? "column" : "row"} className={classes.lowerPanel} container xs = {12}>
+			<Grid direction={is1100pxScreen ? "column" : "row"} className={classes.lowerPanel} container xs = {11}>
 
-				<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs ={is1100pxScreen ? 12 :  5}> {/*left lower panel*/}
+				<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs ={is1100pxScreen ? 10 :  5}> {/*left lower panel*/}
 					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} alignContent="flex-start" container xs = {6}> {/*Pick Subject*/}
 						<Grid item>
 							<Typography variant = "h6"> 1 - Disciplina </Typography>
@@ -364,11 +365,11 @@ const GenExamPage = () => {
 						</Grid>
 					</Grid> 
 
-					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
+					<Grid justifyContent="center" container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
 						<Grid item>
 							<Typography variant = "h6"> 2 - Ano(s) </Typography>
 						</Grid>	
-						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
+						<Grid justifyContent= {is1100pxScreen ? "center" : "center"} container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
@@ -421,14 +422,14 @@ const GenExamPage = () => {
 						</Grid>
 				: 
 
-					<Grid container xs = {2}>
+					<Grid justifyContent="center" container xs = {1}>
 						<Divider orientation= "vertical" className={classes.divider} flexItem /> {/*Vertical Divider*/}
 					</Grid>
 				}
 	
 				<Grid container xs = {is1100pxScreen ? 12 : 5}> {/*right lower panel*/}
 					<Grid item>
-						<Typography variant = "h6"> Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances. </Typography>
+						<Typography variant = "h6" dangerouslySetInnerHTML={{__html: redString}}></Typography> {/* Best way to change a specific attribute in a string */}
 					</Grid>
 					<Grid container justifyContent="center">
 					<List className={classes.list} subheader={<li />}>
