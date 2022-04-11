@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	AppBar,
 	Toolbar,
@@ -8,19 +8,17 @@ import {
 	ListItem,
 	Grid,
 	Link
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+} from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles';
+import MenuIcon from '@mui/icons-material/Menu';
 import NavbarButton from './NavbarButton';
 import { ReactComponent as Logo } from "../../assets/logo_blue.svg"
 import NormalButton from '../buttons/NormalButton';
 import AvatarUser from '../avatar/AvatarUser';
-
-
-import {
-	getUser
-} from "../../api"
 import MenuCircular from '../MenuCircular/MenuCircular';
+import { userContext } from '../../context/UserContextProvider';
+import Loading from '../loading/Loading'
+
 
 const useStyles = makeStyles(theme => ({
 	menuButton: {
@@ -39,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 		marginBottom: "3rem"
 	},
 	menu: {
-		[theme.breakpoints.down("sm")]: {
+		[theme.breakpoints.down('md')]: {
 			display: "none"
 		},
 	},
@@ -55,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: "2rem"
 	},
 	logo: {
-		height: 114,
+		height: "5rem",
 	},
 	registerBtn: {
 		borderRadius: "15",
@@ -75,39 +73,33 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
 	const classes = useStyles();
 	const [click, setClick] = useState(false);
-	const [user, setUser] = useState({"id": null, "username": ""});
 	const handleClick = () => {setClick(!click); console.log(click)};
-
-	useEffect(() => {
-		getUser((res) => {
-			setUser(res.data);
-		}, () => {
-			console.log("Couldn't fetch user")
-		})
-
-	}, []);
+	const [user, loading] = useContext(userContext);
 
 	return (
-		<AppBar position="static" className={classes.navbar}>
+        <AppBar position="static" className={classes.navbar}>
 			<Toolbar className={classes.toolbar}>
 				<Logo className={classes.logo} />
 				
-				<Grid container className={classes.menu} justify="flex-end">
+				<Grid container className={classes.menu} justifyContent="flex-end">
 			
-				{(user.id != null) ? 
+				{loading ? 
 					(
+						<Loading />
+					) : ( user ? ( 
 						<MenuCircular user={user}/>
-				) : (
-					<div>
-						<Link href="/sobre" variant="h6" style={{marginRight:"3rem", color:"black"}}>Quem somos?</Link>
-						<NormalButton text="Entrar" href="/login" fontSize={22} />
-					</div>
-				)}
+						) : (
+						<div>
+							<Link href="/sobre" variant="h6" style={{marginRight:"3rem", color:"black"}}>Quem somos?</Link>
+							<NormalButton text="Entrar" href="/login" fontSize={22} />
+						</div>
+						)
+					)}
 	
 				</Grid>
 
 				<div className={classes.menuMobile}>
-					<IconButton onClick={handleClick}>
+					<IconButton onClick={handleClick} size="large">
 						<MenuIcon fontSize="large"/>
 					</IconButton>
 					<SwipeableDrawer
@@ -117,7 +109,7 @@ const Navbar = () => {
 						>
 						<List>
 							<ListItem>
-								{(user.id != null) ? (
+								{user ? (
 									<AvatarUser className={classes.avatar} user={user} />
 
 						) : (
@@ -156,7 +148,7 @@ const Navbar = () => {
 				</div>
 			</Toolbar>
 		</AppBar>
-	)
+    );
 };
 
 export default Navbar;

@@ -6,7 +6,7 @@ import {
 	Button,
 	Grid,
 	Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import QuestionAccordionGroup from "../components/questions/QuestionAccordionGroup";
 
 

@@ -1,7 +1,7 @@
 import {
 	Grid,
 	Button
-} from "@material-ui/core";
+} from "@mui/material";
 import { logOut } from "../../api";
 import React, { useState } from 'react';
 

@@ -1,0 +1,9 @@
+Olá!
+
+Estás a receber este email porque o utilizador {{ user.username }} utilizou este endereço de e-mail para registar uma conta em arquimedia.pt.
+
+O codigo de verificação é o seguinte: {{ code }}
+
+Obrigado por estudares connosco!
+
+A equipa da Arquimedia

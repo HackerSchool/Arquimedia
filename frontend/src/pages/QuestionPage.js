@@ -6,13 +6,13 @@ import {
 	Button,
 	Paper,
 	Divider
-} from "@material-ui/core";
+} from "@mui/material";
 import AvatarUser from "../components/avatar/AvatarUser";
 import {
 	Delete,
 	ArrowUpward,
 	ArrowDownward,
-} from "@material-ui/icons"
+} from "@mui/icons-material"
 import {
 	questionInfo,
 	getUser,
@@ -38,16 +38,16 @@ export default class QuestionPage extends Component {
 
 	render() {
 		return (
-			<Grid 
+            <Grid 
 				container
 				direction="row"
-				justify="center"
+				justifyContent="center"
 				alignItems="center">
 					<Grid item xs={12} align="center">
 						<QuestionInfo ID={this.ID} />
 					</Grid>
 			</Grid>
-		)
+        );
 	}
 }
 
@@ -111,11 +111,11 @@ class QuestionInfo extends Component {
 
 	render() {
 		return (
-			<div>
+            <div>
 				<Grid
 					container
 					direction="column"
-					justify="center"
+					justifyContent="center"
 					alignItems="center">
 					<Grid item xs={12} align="center">
 						<Typography variant="h3"><Latex>{this.state.text}</Latex></Typography>
@@ -147,8 +147,7 @@ class QuestionInfo extends Component {
 				</div>
 					<CommentInputBox questionID={this.props.ID} addComment={data => this.addComment(data)}/>
 				</div>
-			
-		)
+        );
 	}
 }
 

@@ -8,10 +8,12 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
 	id = serializers.SlugField()
 	username = serializers.ReadOnlyField()
+	mod = serializers.BooleanField(source="is_staff")
+	admin = serializers.BooleanField(source="is_superuser")
 
 	class Meta:
 		model = User
-		fields = ("id", "username", "email")
+		fields = ("id", "username", "email", "mod", "admin")
 
 
 class XPEventSerializer(serializers.ModelSerializer):
