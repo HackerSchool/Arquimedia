@@ -6,6 +6,7 @@ import { registerUser } from "../../api";
 import { ReactComponent as Logo } from "../../assets/logo_white.svg"
 import NormalButton from "../buttons/NormalButton";
 import CodeInput from "./CodeInput";
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
 	input: {
@@ -25,10 +26,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const RegisterInput = (props) => {
-	const [username, setUsername] = useState();
-	const [email, setEmail] = useState();
-	const [pass1, setPass1] = useState();
-	const [pass2, setPass2] = useState();
+	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
+	const [pass1, setPass1] = useState("");
+	const [pass2, setPass2] = useState("");
 	const [codePhase, setcodePhase] = useState(false);
 
 	const classes = useStyles();
@@ -38,9 +39,19 @@ const RegisterInput = (props) => {
 	const handleChangePass1 = (e) => setPass1(e.target.value);
 	const handleChangePass2 = (e) => setPass2(e.target.value);
 
+	const validUsername = new RegExp('^[a-zA-Z0-9._+-@]$');
+	const validEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+	const { enqueueSnackbar } = useSnackbar();
+
 	const handleClick = () => {
-		if (pass1 !== pass2) alert("Passwords são diferents!");
-		else if (username === "" || email === "" || pass1 === "" || pass2 === "") alert("Digitalize os dados");
+		if (username === "" || email === "" || pass1 === "" || pass2 === "") 
+			enqueueSnackbar("Por favor, preencha todos os campos antes de submeter.", {variant: 'warning'});
+		else if (!validEmail.test(email)) 
+			enqueueSnackbar("Insira um endereço de email válido.", {variant: 'warning'});
+		else if (!validUsername.test(username)) 
+			enqueueSnackbar("Insira um username válido. Este só pode conter letras, números ou os caracteres @ / . / + / - / _", {variant: 'warning'});
+		else if (pass1 !== pass2) 
+			enqueueSnackbar("As passwords inseridas são diferentes.", {variant: 'warning'});
 		else {
 			const body = {
 				username: username,
