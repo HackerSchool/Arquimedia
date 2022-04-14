@@ -16,15 +16,16 @@ import {
 	ListItemIcon,
 	IconButton,
 	useMediaQuery
-} from "@material-ui/core";
+} from '@mui/material';
 import { createExam } from "../api";
-import { makeStyles,useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import AlertSnackBar from "../components/alerts/AlertSnackBar";
 import NormalButton from "../components/buttons/NormalButton";
 import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg";
 import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
 import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
-import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
+import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 
 
 
