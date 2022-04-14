@@ -7,7 +7,7 @@ import {
 import { getSubmittedQuestions } from "../api";
 import {
 	Grid
-} from "@material-ui/core";
+} from "@mui/material";
 import Loading from "../components/loading/Loading";
 
 const SubmittedQuestions = () => {

@@ -1,11 +1,7 @@
-import {
-	Paper,
-	makeStyles,
-	Typography,
-	IconButton
-} from '@material-ui/core';
+import { Paper, Typography, IconButton } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 var Latex = require('react-latex');
 
@@ -42,13 +38,17 @@ const Answer = (props) => {
 	}
 
     return (
-		<IconButton className={classes.buttonWrapper} onClick={changeChosenAnswer} key={props.answer.id}>
+        <IconButton
+            className={classes.buttonWrapper}
+            onClick={changeChosenAnswer}
+            key={props.answer.id}
+            size="large">
 			<Paper className={classes.paperAnswer}><Typography variant="h6"><Latex>{props.answer.text}</Latex></Typography></Paper>
 			{props.selected && (
 				<CheckCircleIcon className={classes.icon}/>
 			)}
 		</IconButton>
-    )
+    );
 }
 
 export default Answer;

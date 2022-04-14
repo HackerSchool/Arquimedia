@@ -2,9 +2,9 @@ import React, {useRef} from "react";
 import {
 	Paper,
 	Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import Countdown from 'react-countdown';
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(theme => ({
 	clock: {

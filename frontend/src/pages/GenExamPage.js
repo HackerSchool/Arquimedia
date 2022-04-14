@@ -27,8 +27,6 @@ import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.s
 import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 
-
-
 const useStyles = makeStyles(theme => ({
 	body: {
 	},

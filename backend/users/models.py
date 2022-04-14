@@ -180,9 +180,9 @@ def create_user_profile(sender, instance, created, **kwargs):
             })
 
         send_mail(
-            "[Thothe] Confirma a Tua Conta Por Favor",
+            "[Arquimedia] Confirma a Tua Conta Por Favor",
             email_template,
-            "noreply@thothe.pt",
+            "noreply@arquimedia.pt",
             (instance.email,),
             fail_silently=False,
         )

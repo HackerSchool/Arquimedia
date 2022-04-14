@@ -1,6 +1,6 @@
-import {Grid, Typography} from '@material-ui/core';
+import {Grid, Typography} from '@mui/material';
 import {React, useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { getAllAchievements } from "../../api"
 import Loading from '../loading/Loading';
 import Achievement from './Achievement';
@@ -8,6 +8,9 @@ import Achievement from './Achievement';
 const useStyles = makeStyles(() => ({
     outterbox: {
         padding: "1rem"
+    },
+    achievement: {
+        marginRight: "3rem" 
     }
 }))
 
@@ -44,23 +47,23 @@ function AchievementTray({achievements, subjectProp}) {
     if (loading) return <Loading />;
 
     return (
-            <Grid className={classes.outterbox} container direction="column">
+        <Grid className={classes.outterbox} container direction="column">
 
-                <Grid item xs={12} >
-                    <Typography  variant='h5'>
-                        Medalhas
-                    </Typography>
-                </Grid>
-
-                <Grid item container spacing={12} justify="space-between" xs={3}>
-                        {achievementsToDisplay.map(i => (
-                            <Grid item xs={1}>
-                                <Achievement achievement={i} achieved={achievements.some(j => j.id === i.id)}/>
-                            </Grid>
-                        ))}
-                </Grid>
+            <Grid item xs={12} >
+                <Typography  variant='h5'>
+                    Medalhas
+                </Typography>
             </Grid>
-    )
+
+            <Grid item container xs={3} justifyContent="flex-start">
+                    {achievementsToDisplay.map(i => (
+                        <Grid item xs={1} className={classes.achievement}>
+                            <Achievement achievement={i} achieved={achievements.some(j => j.id === i.id)}/>
+                        </Grid>
+                    ))}
+            </Grid>
+        </Grid>
+    );
 }
 
 export default AchievementTray;

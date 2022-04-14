@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
 	Grid, Typography,
-} from "@material-ui/core";
-import { makeStyles, InputBase } from "@material-ui/core";
+} from "@mui/material";
+import { InputBase } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { confirmEmail, logIn } from "../../api";
 
 const useStyles = makeStyles(theme => ({
@@ -46,7 +47,6 @@ const CodeInput = (props) => {
 		} else {
 			if (code.length === 6) {
 				// request the data base
-				console.log("Hello");
 				confirmEmail(code, props.username, () => {
 					setTimeout(() => {
 						// code is okay, log user
@@ -63,7 +63,7 @@ const CodeInput = (props) => {
 	}, [code, props.history, props.password, props.username])
 
 	return (
-		<Grid className={classes.container} container spacing={4} direction="column" justify='center'>
+        <Grid className={classes.container} container spacing={4} direction="column" justifyContent='center'>
 			<Grid item>
 				<Typography className={classes.text}  variant="h2">Digita o código que acabamos de enviar para o teu e-mail.</Typography>
 			</Grid>
@@ -84,7 +84,7 @@ const CodeInput = (props) => {
 				)}
 			</Grid>
 		</Grid>
-	)
+    );
 }
 
 export default CodeInput;

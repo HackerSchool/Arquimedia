@@ -2,10 +2,11 @@ import React from 'react'
 import {
     Grid,
     Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import AvatarUser from '../avatar/AvatarUser';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import LinearProgress from '@mui/material/LinearProgress';
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
 
 
 const useStyles = makeStyles(theme => ({
@@ -96,7 +97,6 @@ export const ProfileBasicInfo = ({profile, XPEvents}) => {
     }
 
     const currentDay = new Date();
-    console.log(XPEvents)
     const hasGainedXpToday = (XPEvents.length !== 0
                                 && currentDay.getDate() === (new Date(XPEvents.at(-1).date)).getDate() 
                                 && currentDay.getMonth() === (new Date(XPEvents.at(-1).date)).getMonth()

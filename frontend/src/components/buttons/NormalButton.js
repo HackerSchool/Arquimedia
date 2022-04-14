@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, makeStyles } from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/core'
+import { Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import globalTheme from '../../globalTheme'
 
 const useStyles = makeStyles(theme => ({
@@ -25,18 +26,20 @@ const NormalButton = props => {
 	const classes = useStyles(props);
 
 	return (
-		<ThemeProvider theme={globalTheme}>
-			<Button
-				href={props.href}
-				className={classes.button}
-				onClick={props.onClick}
-				>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={globalTheme}>
+                <Button
+                    href={props.href}
+                    className={classes.button}
+                    onClick={props.onClick}
+                    >
 
-					{props.text}
+                        {props.text}
 
-			</Button>
-		</ThemeProvider>
-	)
+                </Button>
+            </ThemeProvider>
+        </StyledEngineProvider>
+    );
 }
 
 NormalButton.propTypes = {

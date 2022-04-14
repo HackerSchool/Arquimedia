@@ -2,10 +2,10 @@ import React from "react";
 import {
 	Grid,
 	IconButton
-} from "@material-ui/core"
-import { makeStyles } from "@material-ui/core";
-import ClearIcon from '@material-ui/icons/Clear';
-import CheckIcon from '@material-ui/icons/Check';
+} from "@mui/material"
+import makeStyles from '@mui/styles/makeStyles';
+import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from '@mui/icons-material/Check';
 import {
 	deleteQuestion,
 	acceptQuestion
@@ -35,9 +35,9 @@ const QuestionApproval = ({question, callBack}) => {
 	};
 
 	return (
-		<Grid className={classes.question} container direction="row" alignItems="center">
+        <Grid className={classes.question} container direction="row" alignItems="center">
 			<Grid item xs={1}>
-				<IconButton onClick={remove}>
+				<IconButton onClick={remove} size="large">
 					<ClearIcon color="error"/>
 				</IconButton>
 			</Grid>
@@ -47,12 +47,12 @@ const QuestionApproval = ({question, callBack}) => {
 			</Grid>
 
 			<Grid item xs={1}>
-				<IconButton onClick={accept}>
+				<IconButton onClick={accept} size="large">
 					<CheckIcon color="primary"/>
 				</IconButton>
 			</Grid>
 		</Grid>
-	)
+    );
 };
 
 export default QuestionApproval;

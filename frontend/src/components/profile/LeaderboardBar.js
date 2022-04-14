@@ -1,12 +1,12 @@
 import {
     Typography,
     Grid
-} from '@material-ui/core';
+} from '@mui/material';
 import React, {useState, useEffect} from 'react'
 import { getProfile } from '../../api';
 import Loading from '../loading/Loading';
 import AvatarUser from '../avatar/AvatarUser';
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(theme => ({
 	xp: {
@@ -36,7 +36,7 @@ function LeaderboardBar({id, place, page}) {
             setProfile(res.data)
             setLoading(false);
         })
-    }, [])
+    }, [id])
 
     if (loading) return <Loading />
 

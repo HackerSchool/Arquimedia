@@ -1,6 +1,6 @@
-import { createTheme } from "@material-ui/core";
+import { createTheme, adaptV4Theme } from "@mui/material";
 
-const globalTheme = createTheme({
+const globalTheme = createTheme(adaptV4Theme({
 	palette: {
 		background: {
 			default: '#ffffff'
@@ -20,6 +20,18 @@ const globalTheme = createTheme({
 			primary: "#F1F1F1"
 		},
 	},
-});
+	overrides: {
+		MuiSelect: {
+			'&.MuiOutlinedInput-notchedOutline': {
+				border: 0
+			}
+		},
+		MuiOutlinedInput: {
+			notchedOutline: {
+				//border: 0
+			}
+		},
+	}
+}));
 
 export default globalTheme;
