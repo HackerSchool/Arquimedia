@@ -39,8 +39,8 @@ const RegisterInput = (props) => {
 	const handleChangePass1 = (e) => setPass1(e.target.value);
 	const handleChangePass2 = (e) => setPass2(e.target.value);
 
-	const validUsername = new RegExp('^[a-zA-Z0-9._+-@]$');
-	const validEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+	const validUsername = new RegExp('^[a-zA-Z0-9._+-@]+$');
+	const validEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$')
 	const { enqueueSnackbar } = useSnackbar();
 
 	const handleClick = () => {
@@ -64,7 +64,16 @@ const RegisterInput = (props) => {
 				setcodePhase(true);
 			}, (error) => {
 				console.log("Something went wrong!");
-				console.log(error)
+				console.log(error.response.data);
+
+				if (error.response.data.username !== undefined && error.response.data.username[0] === "A user with that username already exists.")
+					enqueueSnackbar("Já existe uma conta com este nome de utilizador. Tente inserir outros dados ou se já tiver conta, faça login.", {variant: 'warning'});
+				else if (error.response.data.email !== undefined  && error.response.data.email[0] === "A user is already registered with this e-mail address.")
+					enqueueSnackbar("Já existe uma conta com este endereço de email. Tente inserir outros dados ou se já tiver conta, faça login.", {variant: 'warning'});
+				else if (error.response.data.password1 !== undefined  && error.response.data.password1[0] === "This password is too short. It must contain at least 8 characters.")
+					enqueueSnackbar("A sua palavra-passe é demasiado curta (pelo menos 8 caracteres).", {variant: 'warning'});
+				else if (error.response.data.password1 !== undefined  && error.response.data.password1[0] === "This password is too common.")
+					enqueueSnackbar("A sua palavra-passe é demasiado comum.", {variant: 'warning'});
 			});
 		}
 	}
