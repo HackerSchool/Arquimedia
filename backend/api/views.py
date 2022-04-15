@@ -400,9 +400,14 @@ class Leaderboard(APIView):
 				if i.id == userID: return i
 
 
-		if time == None:
+		if time == "alltime":
 			users = Profile.objects.order_by("-xp__xp")
-			return Response(ProfileLeaderboardSerializer(users, many=True).data)
+
+			# Creates an XPProfile object for each user 
+			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users]
+
+			return Response(ProfileLeaderboardTimedSerializer(formated_users, many=True).data)
+			
 		elif time == "month":
 			date = datetime.date.today() - datetime.timedelta(days=30)
 		elif time == "day":
