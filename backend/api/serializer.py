@@ -146,7 +146,7 @@ class CreateQuestionSerializer(serializers.Serializer):
 	subject = serializers.CharField()
 	year = serializers.IntegerField()
 	answers = serializers.ListField(child=AnswerSerializer())
-	source = serializers.CharField(required=False)
+	source = serializers.CharField(required=False, allow_blank=True)
 
 
 class ImageSerializer(serializers.Serializer):
