@@ -38,20 +38,24 @@ const initialState = {
 	wrong1: "",
 	wrong2: "",
 	wrong3: "",
+	source: ""
 }
 
 const QuestionForm = () => {
 	const [submitted, setSubmitted] = useState(false);
 	const [
-		{subject,
-		subSubject,
-		text,
-		year,
-		image,
-		correct,
-		wrong1,
-		wrong2,
-		wrong3}, setState
+		{
+			subject,
+			subSubject,
+			text,
+			year,
+			image,
+			correct,
+			wrong1,
+			wrong2,
+			wrong3,
+			source
+		}, setState
 	] = useState(initialState)
 	const classes = useStyles()
 	let question = {
@@ -109,6 +113,7 @@ const QuestionForm = () => {
 			subject: subject,
 			subsubject: subSubject,
 			year: year,
+			source: source
 		}
 
 		submitQuestion(body, (res) => {
@@ -124,7 +129,7 @@ const QuestionForm = () => {
 	}
 
 	return (
-		<Grid container spacing={6} xs={12} align="center">
+		<Grid container spacing={3} xs={12} align="center">
 			{/* Question content */}
 			<Grid item xs={6}>
 				<TextField value={text} name="text" className={classes.contentInput} label="Texto" variant="outlined" multiline rows={5} onChange={handleChange}/>
@@ -184,6 +189,10 @@ const QuestionForm = () => {
 					<MenuItem value={11}>11</MenuItem>
 					<MenuItem value={12}>12</MenuItem>
 				</Select>
+			</Grid>
+
+			<Grid item xs={12}>
+				<TextField value={source} name='source' onChange={handleChange} label="Fonte" variant="outlined" />
 			</Grid>
 
 			{/* Image */}

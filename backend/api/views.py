@@ -68,6 +68,9 @@ class QuestionView(APIView):
 				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
 				newAnswer.save()
 
+			if question.data.get("source"):
+				newQuestion.source = question.data.get("source")
+
 			newQuestion.text = question.data.get("text")
 			newQuestion.subject = question.data.get("subject")
 			newQuestion.subsubject = question.data.get("subsubject")
