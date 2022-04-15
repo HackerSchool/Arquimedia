@@ -17,6 +17,8 @@ from allauth.account.models import EmailAddress
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
+LEADERBOARD_PAGE_SIZE = 10
+
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
@@ -382,13 +384,12 @@ class SubjectAPI(APIView):
 
 
 class Leaderboard(APIView):
-
 	class XPProfile:
 		def __init__(self, id, xp):
 			self.id = id
 			self.xp = xp
 
-	def get(self, request, time=None):
+	def get(self, request, time, page):
 		def checkForUser(list, userID):
 			for i in list:
 				if i.id == userID: return True
@@ -399,15 +400,17 @@ class Leaderboard(APIView):
 			for i in list:
 				if i.id == userID: return i
 
+		start_position = (page - 1) * LEADERBOARD_PAGE_SIZE
+		end_position = page * LEADERBOARD_PAGE_SIZE
 
 		if time == "alltime":
 			users = Profile.objects.order_by("-xp__xp")
 
 			# Creates an XPProfile object for each user 
-			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users]
+			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users[start_position:end_position + 1]]
 
 			return Response(ProfileLeaderboardTimedSerializer(formated_users, many=True).data)
-			
+
 		elif time == "month":
 			date = datetime.date.today() - datetime.timedelta(days=30)
 		elif time == "day":
@@ -428,7 +431,7 @@ class Leaderboard(APIView):
 
 
 		usersXP = []
-		for user in users:
+		for user in users[start_position:end_position + 1]:
 			for event in events:
 				if user == event.user:
 					if not checkForUser(usersXP, user.id): 
