@@ -65,6 +65,8 @@ class Question(models.Model):
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
     difficulty = models.CharField(max_length=10, null=True, choices=DIFFICULTIES)
     image = models.ImageField(null=True, blank=True, upload_to=renameImage)
+    source = models.CharField(max_length=500, null=True)
+    date = models.DateField(auto_now_add=True)
 
     #String representation
     def __str__(self): return "{}-{}-{}".format(self.id,self.subsubject, self.year, self.difficulty)
