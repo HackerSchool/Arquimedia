@@ -401,7 +401,7 @@ class Leaderboard(APIView):
 
 
 		if time == None:
-			users = Profile.objects.order_by("xp__xp")
+			users = Profile.objects.order_by("-xp__xp")
 			return Response(ProfileLeaderboardSerializer(users, many=True).data)
 		elif time == "month":
 			date = datetime.date.today() - datetime.timedelta(days=30)
@@ -430,6 +430,8 @@ class Leaderboard(APIView):
 						usersXP.append(self.XPProfile(user.id, event.amount))
 					else:
 						getXPProfile(usersXP, user.id).xp += event.amount
+
+		usersXP.sort(key=lambda x: x.xp, reverse=True)
 
 		return Response(ProfileLeaderboardTimedSerializer(usersXP, many=True).data)
 
