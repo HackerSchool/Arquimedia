@@ -9,12 +9,14 @@ import Pagination from '@mui/material/Pagination';
 
 const SPANS = [
     "mês",
-    "dia"
+    "dia",
+    "sempre"
 ]
 
 const TO_ENGLISH = {
     "mês": "month",
-    "dia": "day"
+    "dia": "day",
+    "sempre": "alltime"
 }
 
 const USERS_PER_PAGE = 10
@@ -50,11 +52,11 @@ function LeaderboardPage() {
     const classes = useStyles();
 
     useEffect(() => {
-        fetchLeaderboard(TO_ENGLISH[span], (res) => {
+        fetchLeaderboard(TO_ENGLISH[span], page, (res) => {
             setLeaderboard(res.data);
             setLoading(false);
         })
-    }, [span])
+    }, [span, page])
 
     if (loading) return <Loading />
 
@@ -99,7 +101,7 @@ function LeaderboardPage() {
                 {leaderboard
                 .slice(USERS_PER_PAGE * (page - 1), USERS_PER_PAGE * page)
                 .map((user, index) => (
-                    <LeaderboardBar key={user.id} id={user.id} place={index + 1} page={page - 1}/>
+                    <LeaderboardBar key={user.id} id={user.id} xp={user.xp} place={index + 1} page={page - 1}/>
                 ))}
             </Grid> 
 

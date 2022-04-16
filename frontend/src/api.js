@@ -199,8 +199,8 @@ export async function getAllAchievements(successCall) {
 }
 
 
-export async function fetchLeaderboard(span, successCall) {
-	axios.get("api/leaderboard/" + span)
+export async function fetchLeaderboard(span, page, successCall) {
+	axios.get("api/leaderboard/" + span + "/" + page)
 	.then((res) => successCall(res));
 }
 

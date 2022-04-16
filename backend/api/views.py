@@ -407,7 +407,7 @@ class Leaderboard(APIView):
 			users = Profile.objects.order_by("-xp__xp")
 
 			# Creates an XPProfile object for each user 
-			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users[start_position:end_position + 1]]
+			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users[start_position:end_position]]
 
 			return Response(ProfileLeaderboardTimedSerializer(formated_users, many=True).data)
 
