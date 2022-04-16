@@ -23,5 +23,6 @@ urlpatterns = [
 	path("leaderboard/", Leaderboard.as_view()),
 	path("leaderboard/<str:time>/<int:page>", Leaderboard.as_view()),
 	path("follow/<int:id>", Follow.as_view()),
-	path("email-confirm/<str:username>/<int:code>", VerifyEmailView.as_view())
+	path("email-confirm/<str:username>/<int:code>", VerifyEmailView.as_view()),
+	path("users/", Users.as_view()),
 ]

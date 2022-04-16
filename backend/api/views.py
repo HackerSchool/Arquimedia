@@ -487,3 +487,12 @@ class VerifyEmailView(APIView):
 			return Response({'detail': 'ok'}, status=status.HTTP_200_OK)
 		
 		return Response({'detail': 'wrong code'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Users(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request):
+		number_of_users = User.objects.count()
+
+		return Response(number_of_users, status=status.HTTP_200_OK)
