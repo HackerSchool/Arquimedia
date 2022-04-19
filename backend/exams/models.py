@@ -4,6 +4,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.fields.related import ForeignKey
 from datetime import date
 from django.contrib.auth.models import User
+from config import subjects
 
 # Create your models here.
 # TODO: Create Question, Exam models
@@ -14,8 +15,6 @@ por dificuldade, disciplina, ano ou matéria
 """
 
 EASY, MEDIUM, HARD = "Fácil", "Média", "Difícil"
-MATH, PHYSICS = "Matemática", "Física-Química"
-GEOMETRY, IMAGINARY = "Geometria", "Imaginários"
 
 DIFFICULTIES = (
     (EASY, "Fácil"),
@@ -23,16 +22,9 @@ DIFFICULTIES = (
     (HARD, "Difícil")
 )
 
-SUBJECTS = (
-   (MATH, "Matemática"),
-   (PHYSICS, "Física-Química")
-)
+SUBJECTS = [(i['name'], i['name']) for i in subjects]
 
-SUB_SUBJECTS = (
-    (GEOMETRY, "Geometria"),
-    (IMAGINARY, "Imaginários"),
-    ("Etc", "Etc")
-)
+SUB_SUBJECTS = ((j, j) for i in subjects for j in i['themes'])
 
 YEARS = [(0, "0"), (10, "10"), (11, "11"), (12, "12")]
 
