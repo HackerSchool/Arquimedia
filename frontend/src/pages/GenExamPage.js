@@ -7,7 +7,6 @@ import {
 	FormControl,
 	FormGroup,
 	FormControlLabel,
-	Checkbox,
 	MenuItem,
 	ListSubheader,
 	List,
@@ -20,13 +19,11 @@ import {
 import { createExam } from "../api";
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import AlertSnackBar from "../components/alerts/AlertSnackBar";
 import NormalButton from "../components/buttons/NormalButton";
-import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg";
-import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
 import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import { useSnackbar } from 'notistack';
+import { Checkbox } from "../components/checkbox/Checkbox";
 
 const useStyles = makeStyles(theme => ({
 	body: {
@@ -367,10 +364,10 @@ const GenExamPage = () => {
 						<Grid justifyContent= {is1100pxScreen ? "center" : "center"} container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.tenthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="tenthGrade"/>} label={<Typography variant = "h6">10º</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.eleventhGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="eleventhGrade"/>} label={<Typography variant = "h6">11º</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.twelfthGrade} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeYear} name="twelfthGrade"/>} label={<Typography variant = "h6">12º</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.tenthGrade} onChange={handleChangeYear} name="tenthGrade"/>} label={<Typography variant = "h6">10º</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.eleventhGrade} onChange={handleChangeYear} name="eleventhGrade"/>} label={<Typography variant = "h6">11º</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.twelfthGrade} onChange={handleChangeYear} name="twelfthGrade"/>} label={<Typography variant = "h6">12º</Typography>}/>
 								</FormGroup>
 							</FormControl>
 						</Grid>
@@ -383,11 +380,11 @@ const GenExamPage = () => {
 						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>}  onChange={handleChangeSubSubjects} name="geometry"/>} label={<Typography variant = "h6">Geometria</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="imaginary"/>} label={<Typography variant = "h6">Imaginários</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="statistics"/>} label={<Typography variant = "h6">Estatística</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} icon = {<GreyRoundCheckbox/>} checkedIcon = {<RedRoundCheckmark/>} onChange={handleChangeSubSubjects} name="probability"/>} label={<Typography variant = "h6">Probabilidades</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject}  onChange={handleChangeSubSubjects} name="geometry"/>} label={<Typography variant = "h6">Geometria</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="imaginary"/>} label={<Typography variant = "h6">Imaginários</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="statistics"/>} label={<Typography variant = "h6">Estatística</Typography>}/>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="probability"/>} label={<Typography variant = "h6">Probabilidades</Typography>}/>
 								</FormGroup>
 							</FormControl>
 						</Grid>
