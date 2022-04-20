@@ -8,18 +8,14 @@ from datetime import datetime
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 import random
+from config import subjects
 
 
 # Create your models here.
 # Create Profile model.
 
-MATH, PHYSICS, GERAL = "Matemática", "Física-Química", "Geral"
-
-SUBJECTS = (
-   (MATH, "Matemática"),
-   (PHYSICS, "Física-Química"),
-    (GERAL, "Geral")
-)
+SUBJECTS = [(i['name'], i['name']) for i in subjects]
+GERAL = 'Geral'
 
 
 class Profile(models.Model):

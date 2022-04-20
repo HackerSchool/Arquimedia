@@ -11,6 +11,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import AlertSnackBar from "../alerts/AlertSnackBar";
 import NormalButton from "../buttons/NormalButton"
 import globalTheme from "../../globalTheme";
+import config from "../../config";
 
 var Latex = require('react-latex');
 
@@ -29,8 +30,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const initialState = {
-	subject: "Matematica",
-	subSubject: "Geometria",
+	subject: config.subjects[0].name,
+	subSubject: config.subjects[0].themes[0],
 	text: "",
 	year: 10,
 	image: null,
@@ -38,20 +39,24 @@ const initialState = {
 	wrong1: "",
 	wrong2: "",
 	wrong3: "",
+	source: ""
 }
 
 const QuestionForm = () => {
 	const [submitted, setSubmitted] = useState(false);
 	const [
-		{subject,
-		subSubject,
-		text,
-		year,
-		image,
-		correct,
-		wrong1,
-		wrong2,
-		wrong3}, setState
+		{
+			subject,
+			subSubject,
+			text,
+			year,
+			image,
+			correct,
+			wrong1,
+			wrong2,
+			wrong3,
+			source
+		}, setState
 	] = useState(initialState)
 	const classes = useStyles()
 	let question = {
@@ -109,6 +114,7 @@ const QuestionForm = () => {
 			subject: subject,
 			subsubject: subSubject,
 			year: year,
+			source: source
 		}
 
 		submitQuestion(body, (res) => {
@@ -124,7 +130,7 @@ const QuestionForm = () => {
 	}
 
 	return (
-		<Grid container spacing={6} xs={12} align="center">
+		<Grid container spacing={3} xs={12} align="center">
 			{/* Question content */}
 			<Grid item xs={6}>
 				<TextField value={text} name="text" className={classes.contentInput} label="Texto" variant="outlined" multiline rows={5} onChange={handleChange}/>
@@ -164,26 +170,32 @@ const QuestionForm = () => {
 			{/* Subject */}
 			<Grid item xs={4}>
 				<Select name='subject' value={subject} onChange={handleChange} label="Disciplina">
-					<MenuItem value="Matematica">Matemática</MenuItem>
-					<MenuItem value="Fisica">Fisica</MenuItem>
+					{config.subjects.map(subject => (
+						<MenuItem value={subject.name} id={subject.name}>{subject.name}</MenuItem>
+					))}
 				</Select>
 			</Grid>
 
 			{/* Subsubject */}
 			<Grid item xs={4}>
 				<Select name='subSubject' value={subSubject} onChange={handleChange}>
-					<MenuItem value="Imaginarios">Imaginários</MenuItem>
-					<MenuItem value="Geometria">Geometria</MenuItem>
+					{config.subjects.filter((e) => e.name === subject)[0].themes.map((theme) => (
+						<MenuItem value={theme}>{theme}</MenuItem>
+					))}
 				</Select>
 			</Grid>
 
 			{/* Year */}
 			<Grid item xs={4}>
 				<Select name='year' value={year} onChange={handleChange}>
-					<MenuItem value={10}>10</MenuItem>
-					<MenuItem value={11}>11</MenuItem>
-					<MenuItem value={12}>12</MenuItem>
+					{config.subjects.filter((e) => e.name === subject)[0].years.map((year) => (
+						<MenuItem value={year}>{year}</MenuItem>
+					))}
 				</Select>
+			</Grid>
+
+			<Grid item xs={12}>
+				<TextField value={source} name='source' onChange={handleChange} label="Fonte" variant="outlined" />
 			</Grid>
 
 			{/* Image */}
