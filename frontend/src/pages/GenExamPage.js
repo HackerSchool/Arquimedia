@@ -26,6 +26,7 @@ import { ReactComponent as RedRoundCheckmark } from "../assets/redroundcheck.svg
 import { ReactComponent as GreyRoundCheckbox } from "../assets/redroundcheckbg.svg";
 import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
 	body: {
@@ -161,8 +162,9 @@ const GenExamPage = () => {
 		randomGrade: true
 	})
 
+	const { enqueueSnackbar } = useSnackbar();
+
 	const [subject, setSubject] = useState("none")
-	const [error, setError] = useState(false);
 
 	const courseArray = [
 		{
@@ -247,9 +249,8 @@ const GenExamPage = () => {
 
 
 	const handleClick = () => {
-		setError(false)
 		if (subject === "none") {
-			setError(true)
+			enqueueSnackbar("Por favor selecione uma disciplina antes de começar", {variant: "warning"})
 		} else {
 	
 			const subSubjects = [];
@@ -279,12 +280,9 @@ const GenExamPage = () => {
 		
 		const key = courseArray[index1].subjectsKey[index2]
 		setSubject(key) 
-		setError(false)
 
 		if (key === "none") {
-
-			setError(true)
-
+			enqueueSnackbar("Disciplina indisponível", {variant: "warning"})
 		} else {
 	
 			const subSubjects = [];
@@ -453,7 +451,6 @@ const GenExamPage = () => {
 					</Grid>
 				</Grid>
 			</Grid>
-			<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={error} text="Por favor selecione uma disciplina antes de começar" type="error"/>
 		</Grid>
 	);
 } 
