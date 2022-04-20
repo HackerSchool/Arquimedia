@@ -184,8 +184,6 @@ const GenExamPage = () => {
 		
 	]
 
-	let redString = 'Aqui ficamos responsáveis por gerar o melhor exame para ti, tendo em conta as tuas últimas performances.'
-	redString = redString.replace('melhor exame para ti,', match => `<Typography style="color: red">${match} </Typography>` )
 
 	const baseSubSubjects = {
 		geometry: false,
@@ -426,7 +424,7 @@ const GenExamPage = () => {
 	
 				<Grid container xs = {is1100pxScreen ? 12 : 5}> {/*right lower panel*/}
 					<Grid item>
-						<Typography variant = "h6" dangerouslySetInnerHTML={{__html: redString}}></Typography> {/* Best way to change a specific attribute in a string */}
+						<Typography variant = "h6">Aqui ficamos responsáveis por gerar o <span style={{color: theme.palette.secondary.main}}>melhor exame para ti</span>, tendo em conta as tuas últimas performances.</Typography> {/* Best way to change a specific attribute in a string */}
 					</Grid>
 					<Grid container justifyContent="center">
 					<List className={classes.list} subheader={<li />}>
