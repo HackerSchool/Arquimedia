@@ -43,7 +43,7 @@ export async function logIn(username, password, errorCall) {
 		window.location.replace("/");
 	}).catch((error) => {
 		localStorage.removeItem("Authorization");
-		errorCall();
+		errorCall(error);
 	})
 }
 

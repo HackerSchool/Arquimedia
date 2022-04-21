@@ -4,7 +4,7 @@ import { logIn } from "../../api";
 import React, { useState } from 'react';
 import NormalButton from "../buttons/NormalButton";
 import { ReactComponent as Logo } from "../../assets/logo_white.svg"
-import AlertSnackBar from "../alerts/AlertSnackBar";
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
 	input: {
@@ -28,14 +28,17 @@ const LoginInput = () => {
 
 	const [username, setUsername] = useState(null);
 	const [password, setPassword] = useState(null);
-	const [error, setError] = useState(false);
 
 	const handleChangeUsername = (e) => setUsername(e.target.value);
 	const handleChangePassword = (e) => setPassword(e.target.value);
+
+	const { enqueueSnackbar } = useSnackbar();
 	
 	const handleClick = () => {
 		logIn(username, password, (error) => {
-			setError(true);
+
+		if (error.response.data.non_field_errors !== undefined && error.response.data.non_field_errors[0] === "Unable to log in with provided credentials.")
+			enqueueSnackbar("Nome de utilizador e/ou password incorretos", {variant: 'error'});
 		});
 	}
 
@@ -73,7 +76,6 @@ const LoginInput = () => {
 						onKeyUp={handleKeyPress}
 					/>
 				</Grid>
-					<AlertSnackBar anchorOrigin={{ vertical:"bottom", horizontal:"right" }} open={error} text="Nome de utilizador e/ou password incorretos" type="error"/>
 				<Grid item style={{marginTop: "4rem"}}>
 					<NormalButton fontSize={45} text="Entrar" onClick={handleClick}/>
 				</Grid>
