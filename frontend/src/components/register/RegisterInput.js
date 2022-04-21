@@ -63,9 +63,6 @@ const RegisterInput = (props) => {
 			registerUser(body, () => {
 				setcodePhase(true);
 			}, (error) => {
-				console.log("Something went wrong!");
-				console.log(error.response.data);
-
 				if (error.response.data.username !== undefined && error.response.data.username[0] === "A user with that username already exists.")
 					enqueueSnackbar("Já existe uma conta com este nome de utilizador. Tente inserir outros dados ou se já tiver conta, faça login.", {variant: 'warning'});
 				else if (error.response.data.email !== undefined  && error.response.data.email[0] === "A user is already registered with this e-mail address.")

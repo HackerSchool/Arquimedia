@@ -36,10 +36,9 @@ const LoginInput = () => {
 	
 	const handleClick = () => {
 		logIn(username, password, (error) => {
-			console.log(error.response.data);
 
-			if (error.response.data.non_field_errors !== undefined && error.response.data.non_field_errors[0] === "Unable to log in with provided credentials.")
-				enqueueSnackbar("Nome de utilizador e/ou password incorretos", {variant: 'error'});
+		if (error.response.data.non_field_errors !== undefined && error.response.data.non_field_errors[0] === "Unable to log in with provided credentials.")
+			enqueueSnackbar("Nome de utilizador e/ou password incorretos", {variant: 'error'});
 		});
 	}
 
