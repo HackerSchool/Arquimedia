@@ -14,7 +14,8 @@ import {
 	ListItem,
 	ListItemIcon,
 	IconButton,
-	useMediaQuery
+	useMediaQuery,
+	Box
 } from '@mui/material';
 import { createExam } from "../api";
 import { useTheme } from '@mui/material/styles';
@@ -24,6 +25,7 @@ import { ReactComponent as RedRoundArrow } from "../assets/redroundarrow.svg";
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import { useSnackbar } from 'notistack';
 import { Checkbox } from "../components/checkbox/Checkbox";
+import  config  from "../config";
 
 const useStyles = makeStyles(theme => ({
 	body: {
@@ -140,19 +142,14 @@ const GenExamPage = () => {
 	const theme = useTheme();
 
 	const is1100pxScreen = useMediaQuery(theme.breakpoints.down(1100));
-	
-	const [dictSubSubjects, setDictSubSubjects] = useState({
-		geometry: false,
-		imaginary: false,
-		statistics: false,
-		probability: false
-	})
 
-	const [dictYears, setDictYear] = useState({
-		tenthGrade: false,
-		eleventhGrade: false,
-		twelfthGrade: false
-	})
+	const [dictSubSubjects, setDictSubSubjects] = useState({})
+
+	const baseSubSubjects = {}
+
+	const [dictYears, setDictYear] = useState({})
+	
+	const baseYears = {}
 
 	const [options, setOptions] = useState({
 		randomSubSubject: true,
@@ -161,7 +158,7 @@ const GenExamPage = () => {
 
 	const { enqueueSnackbar } = useSnackbar();
 
-	const [subject, setSubject] = useState("none")
+	const [subject, setSubject] = useState(-1)
 
 	const courseArray = [
 		{
@@ -181,24 +178,8 @@ const GenExamPage = () => {
 		
 	]
 
-
-	const baseSubSubjects = {
-		geometry: false,
-		imaginary: false,
-		statistics: false,
-		probability: false
-	}
-
-
-	const baseYear = {
-		tenthGrade: false,
-		eleventhGrade: false,
-		twelfthGrade: false
-	}
-
-
 	const resetDictYear = () => {
-		setDictYear(baseYear)
+		setDictYear(baseYears);
 	}
 
 
@@ -223,7 +204,7 @@ const GenExamPage = () => {
 		setOptions({...options, [event.target.name]: event.target.checked});
 
 		if (!options.randomSubSubject) {
-			resetDictSubSubjects();
+		 	resetDictSubSubjects();
 		}
 	}
 
@@ -237,30 +218,46 @@ const GenExamPage = () => {
 	}
 
 	const handleChangeSubject = (event) => {
-		
+	
 		setSubject(event.target.value)
+		
+		if (event.target.value != -1){
+			config.subjects[event.target.value].years.map((year) => {
+				baseYears[year] = false
+			});
+			config.subjects[event.target.value].themes.forEach((theme) => {
+				baseSubSubjects[theme] = false
+			});
+			
+			setDictYear(baseYears)
+			setDictSubSubjects(baseSubSubjects)
+		}
+		
 	}
 
 
 
 	const handleClick = () => {
-		if (subject === "none") {
+		if (subject === -1) {
 			enqueueSnackbar("Por favor selecione uma disciplina antes de começar", {variant: "warning"})
 		} else {
 	
-			const subSubjects = [];
+			let subSubjects = [];
 
-			if (dictSubSubjects.geometry) subSubjects.push("Geometria");
+			for (const [key, value] of Object.entries(dictSubSubjects)) {
+				if (value) subSubjects.push(key);
+				
+			}
 
-			if (dictSubSubjects.geometry) subSubjects.push("Imaginários");
+			let year = [];
 
-			let year = 0;
-			if (options.tenthGrade) year = 10;
-			if (options.eleventhGrade) year = 11;
-			if (options.twelfthGrade) year = 12;
+			for (const [key, value] of Object.entries(dictYears)) {
+				if (value) year.push(key);
+				console.log(key, value);
+			}
 
 			createExam({
-				subject: subject,
+				subject: config.subjects[subject].name,
 				randomSubSubject: options.randomSubSubject,
 				subSubjects: subSubjects,
 				year: year
@@ -271,12 +268,11 @@ const GenExamPage = () => {
 	}
 
 	
-	const handleClickCustom = (index1,index2) => { //Function for the perosnalised Exam experience of the right Panel
+	const handleClickCustom = (subject) => { //Function for the perosnalised Exam experience of the right Panel
 		
-		const key = courseArray[index1].subjectsKey[index2]
-		setSubject(key) 
 
-		if (key === "none") {
+
+		if (!subject.active) {
 			enqueueSnackbar("Disciplina indisponível", {variant: "warning"})
 		} else {
 	
@@ -293,7 +289,7 @@ const GenExamPage = () => {
 
 			createExam({
 
-				subject: subject,
+				subject: subject.name,
 				randomSubSubject: options.randomSubSubject,
 				subSubjects: subSubjects,
 				year: year
@@ -346,10 +342,10 @@ const GenExamPage = () => {
 							 MenuProps = {{classes:{paper:classes.paper}}}
 							 inputProps = {{classes:{icon:classes.icon}}}
 							 disableUnderline>
-								<MenuItem  classes={{ selected: classes.selected, root: classes.rootMenuItem }}  value="none"> <em>Nenhuma</em></MenuItem>
+								<MenuItem  classes={{ selected: classes.selected, root: classes.rootMenuItem }}  value={-1}> <em>Nenhuma</em></MenuItem>
 								<ListSubheader className={classes.subheader}> <Typography>Ciências e Tecnologias</Typography></ListSubheader>
-									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={"math"}> <Typography variant = "h6">Matemática A</Typography></MenuItem>
-									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={"physics"}> <Typography variant = "h6">Física e Química</Typography></MenuItem>
+									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={0}> <Typography variant = "h6">Matemática A</Typography></MenuItem>
+									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={1}> <Typography variant = "h6">Física e Química</Typography></MenuItem>
 								
 								<ListSubheader className={classes.subheader}> <Typography>Línguas e Humanidades</Typography></ListSubheader>
 									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }}> <Typography variant = "h6">História A</Typography></MenuItem>
@@ -357,37 +353,54 @@ const GenExamPage = () => {
 						</Grid>
 					</Grid> 
 
-					<Grid justifyContent="center" container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
+					<Grid container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
 						<Grid item>
 							<Typography variant = "h6"> 2 - Ano(s) </Typography>
 						</Grid>	
+						{subject === -1
+						?
+						<Grid alignItems = "flex-start" container xs = {12}>
+							<Grid item xs = {12}>
+								<Box style={{ backgroundColor : '#D8D8D8', height : '120px'}} className={classes.boxes}></Box>
+							</Grid>
+						</Grid>
+						:
 						<Grid justifyContent= {is1100pxScreen ? "center" : "center"} container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.tenthGrade} onChange={handleChangeYear} name="tenthGrade"/>} label={<Typography variant = "h6">10º</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.eleventhGrade} onChange={handleChangeYear} name="eleventhGrade"/>} label={<Typography variant = "h6">11º</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears.twelfthGrade} onChange={handleChangeYear} name="twelfthGrade"/>} label={<Typography variant = "h6">12º</Typography>}/>
+									{config.subjects[subject].years.map((year) =>
+									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears[year]} onChange={handleChangeYear} name={`${year}`}/>} label={<Typography variant = "h6">{String(year) + "º"}</Typography>}/>
+									)}
 								</FormGroup>
 							</FormControl>
 						</Grid>
+						}
 					</Grid> 
 
 					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs ={12}> {/*Pick Themes*/}
 						<Grid item>
 							<Typography variant = "h6"> 3 - Tópicos </Typography>
 						</Grid>
+						{subject === -1
+						?
+						<Grid alignItems = "flex-start" container xs = {12}>
+							<Grid item xs = {12}>
+								<Box style={{ backgroundColor : '#D8D8D8', height : '120px'}} className={classes.boxes}></Box>
+							</Grid>
+						</Grid>
+						: 
 						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.geometry && !options.randomSubSubject}  onChange={handleChangeSubSubjects} name="geometry"/>} label={<Typography variant = "h6">Geometria</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.imaginary && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="imaginary"/>} label={<Typography variant = "h6">Imaginários</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.statistics && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="statistics"/>} label={<Typography variant = "h6">Estatística</Typography>}/>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects.probability && !options.randomSubSubject} onChange={handleChangeSubSubjects} name="probability"/>} label={<Typography variant = "h6">Probabilidades</Typography>}/>
+									{config.subjects[subject].themes.map((theme) => 
+										<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects[theme]}  onChange={handleChangeSubSubjects} name={`${theme}`}/>} label={<Typography variant = "h6">{theme}</Typography>}/>
+									)}
 								</FormGroup>
 							</FormControl>
 						</Grid>
+						}
 					</Grid> 
 
 					<Grid justifyContent="center" container > {/*Começar Button*/}
@@ -425,23 +438,16 @@ const GenExamPage = () => {
 					</Grid>
 					<Grid container justifyContent="center">
 					<List className={classes.list} subheader={<li />}>
-					{courseArray.map((courseDict,index1) => (
-						<li key={`${courseDict.name}`} className={classes.listSection}>
-						<ul className={classes.ul}>
-							<ListSubheader>{<Typography >{courseDict.name}</Typography>}</ListSubheader>
-							{courseDict.subjects.map((subjectName, index2) => (
-							<ListItem  className = {classes.listItem} key={`${courseDict.name}-${subjectName}`}>
-								<ListItemText  primary={ <Typography variant="h6"> {subjectName}</Typography>} />
-								<ListItemIcon>
-								<IconButton onClick={() =>handleClickCustom(index1, index2)}  edge="end" aria-label="comments">
-									<RedRoundArrow />
-								</IconButton>
-								</ListItemIcon>
-							</ListItem>
-							))}
-						</ul>
-						</li>
-					))}
+						{config.subjects.map((subject) => (
+						<ListItem  className = {classes.listItem}>
+							<ListItemText  primary={ <Typography variant="h6"> {subject.name}</Typography>} />
+							<ListItemIcon>
+							<IconButton onClick={() =>handleClickCustom(subject)}  edge="end" aria-label="comments">
+								<RedRoundArrow />
+							</IconButton>
+							</ListItemIcon>
+						</ListItem>
+						))}
 					</List>
 					</Grid>
 				</Grid>
