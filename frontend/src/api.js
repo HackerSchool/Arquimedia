@@ -238,3 +238,8 @@ export async function confirmEmail(code, username, successCall, errorCall) {
 	.then((res) => successCall(res))
 	.catch((error) => errorCall(error));
 }
+
+export async function getNumberOfUsers(successCall) {
+	axios.get("api/users/")
+	.then((res) => successCall(res));
+}
