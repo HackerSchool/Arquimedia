@@ -8,9 +8,9 @@ import globalTheme from '../globalTheme';
 import Pagination from '@mui/material/Pagination';
 
 const SPANS = [
+    "sempre",
     "mês",
-    "dia",
-    "sempre"
+    "dia"
 ]
 
 const TO_ENGLISH = {
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 function LeaderboardPage() {
     const [leaderboard, setLeaderboard] = useState([]);
-    const [span, setSpan] = useState("mês");
+    const [span, setSpan] = useState("sempre");
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -86,7 +86,7 @@ function LeaderboardPage() {
     return (
         <Paper className={classes.panel}>
             <Typography variant='h4' className={classes.title}>
-                Leaderboard do <span/>
+                Leaderboard {span === "sempre" ? "de" : "do"} <span/>
                 <Select
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
