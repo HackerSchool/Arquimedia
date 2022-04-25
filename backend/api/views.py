@@ -403,14 +403,21 @@ class Leaderboard(APIView):
 		start_position = (page - 1) * LEADERBOARD_PAGE_SIZE
 		end_position = page * LEADERBOARD_PAGE_SIZE
 
+		# Alltime leaderboard
 		if time == "alltime":
 			users = Profile.objects.order_by("-xp__xp")
 
 			# Creates an XPProfile object for each user 
 			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users[start_position:end_position]]
 
-			return Response(ProfileLeaderboardTimedSerializer(formated_users, many=True).data)
+			leaderboard = {
+				"users": formated_users,
+				"length": Profile.objects.count()
+			}
 
+			return Response(LeaderboardSerializer(leaderboard).data)
+
+		# Leaderboards with time span
 		elif time == "month":
 			date = datetime.date.today() - datetime.timedelta(days=30)
 		elif time == "day":
@@ -441,7 +448,12 @@ class Leaderboard(APIView):
 
 		usersXP.sort(key=lambda x: x.xp, reverse=True)
 
-		return Response(ProfileLeaderboardTimedSerializer(usersXP, many=True).data)
+		leaderboard = {
+			"users": usersXP,
+			"length": len(users)
+		}
+
+		return Response(LeaderboardSerializer(leaderboard).data)
 
 
 class Follow(APIView):
