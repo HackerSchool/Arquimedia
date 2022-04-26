@@ -13,10 +13,11 @@ var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
 	questionBox: {
-		width: "70%",
+		width: "100%",
 		borderRadius: 20,
 		boxShadow: "0px 4px 4px #9A9A9A",
 		backgroundColor: "#F9F9F9",
+		minHeight: "400px",
 	},
 
 	answers: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: "center",
 		display: "flex",
 		flexDirection: 'column',
+		minHeight: "400px",
 	},
 
 	number: {
@@ -45,7 +47,6 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	options: {
-		padding: 10,
 		fontWeight: 1,
 	},
 
@@ -68,7 +69,7 @@ const Question = (props) => {
 	return (
 		<Paper className={classes.questionBox}>	
 		
-			<Grid container alignItems="stretch" direction="row" justifyContent="flex-start" style={{margin: 0}} spacing={0}>
+			<Grid container alignItems="stretch" direction="row" justifyContent="flex-start">
 
 				<Grid item xs={8} justifyContent="center">
 					{/* Question's number */}
@@ -90,15 +91,17 @@ const Question = (props) => {
 				</Grid>
 
 				{/* Answers */}
-				<Grid container item xs={4}> 
-					<Paper className={classes.answers} alignItems="center" direction="column">
+				<Grid container xs={4}> 
+					<Paper className={classes.answers}>
+					<Grid container direction="column" justifyContent="space-around" spacing={4} alignItems="stretch"> 
 						{props.question.answer.map(answer => {
 								return (
-									<Grid item className={classes.options}>
+									<Grid  item className={classes.options}>
 										<Answer preview={props.preview} selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
 									</Grid>
 								)
 							})}
+					</Grid>
 					</Paper>
 				</Grid>
 			</Grid>

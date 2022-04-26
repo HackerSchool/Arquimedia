@@ -3,17 +3,21 @@ import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
+
 var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
 	paperAnswer:{
-		width: "100%",
+		width: "95%",
 		borderRadius: 38,
-		backgroundColor: "#F9F9F9"
+		backgroundColor: "#F9F9F9",
+		padding: 3,
+		margin: 4,
+
 	},
 	buttonWrapper: selected => ({
 		padding: 0,
-		width: "80%",
+		width: "100%",
 		borderRadius: 38,
 		boxShadow: (selected === true && "3px 6px 0px rgba(0, 0, 0, 0.25)"),
 		transition: "transform 0.15s ease-in-out",

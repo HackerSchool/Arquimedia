@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 		 },
 	},
 	container: {
-		width: "100%"
+		width: "100%",
 	},
 	finishBttnWrapper: {
 		marginTop: "4rem"
@@ -111,7 +111,7 @@ const ExamPage = (props) => {
 					<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete}/>
 				</div>
 			</Grid>
-			<Grid item container align="center" spacing={4} xs={12} direction="row" alignItems="center">
+			<Grid item container justifyContent="space-around" align="center" spacing={4} xs={12} direction="row" alignItems="center">
 				<Grid item xs={1}>
 					<IconButton className={classes.beforeBttn} onClick={decreaseCurrent} size="large"><ArrowBackIcon fontSize="large" /></IconButton>
 				</Grid>
