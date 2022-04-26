@@ -17,6 +17,7 @@ from allauth.account.models import EmailAddress
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
+QUESTION_PER_EXAM = 10
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
@@ -262,27 +263,18 @@ class ExamView(APIView):
 			questionsQuery = []
 
 			if (subSubjects): # If there are any subsubjects specified
-				for subSubject in subSubjects:
-					if year:
-						temp = list(Question.objects.filter(year=year, subsubject=subSubject))
-						for i in temp: questionsQuery.append(i)
-					else:
-						temp = list(Question.objects.filter(subsubject=subSubject))
-						for i in temp: questionsQuery.append(i)
+				if year:
+					questionsQuery += list(Question.objects.filter(year__in=year, subsubject__in=subSubjects))
+				else:
+					questionsQuery += list(Question.objects.filter(subsubject=subSubject))
 			else: # User wants a random subsubjects exam
 				if year:
-					temp = list(Question.objects.filter(year=year))
-					for i in temp: questionsQuery.append(i)
+					questionQuery += list(Question.objects.filter(year__in=year))
 				else:
-					temp = list(Question.objects.all())
-					for i in temp: questionsQuery.append(i)
-
-
-			questions = []
-			nrOfQuestions = 10
+					questionQuery += list(Question.objects.all())
 
 			# Selects randomly a set of final questions for the exam
-			questions = random.sample(list(questionsQuery), nrOfQuestions)
+			questions = random.sample(list(questionsQuery), QUESTION_PER_EXAM)
 			
 			exam = Exam.objects.create()
 
@@ -293,7 +285,7 @@ class ExamView(APIView):
 			return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
 
 
-		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 	def put(self, request, id):

@@ -204,9 +204,9 @@ const GenExamPage = () => {
 		setSubject(event.target.value)
 		
 		if (event.target.value !== -1){
-			config.subjects[event.target.value].years.map((year) => {
+			config.subjects[event.target.value].years.map((year) => 
 				baseYears[year] = false
-			});
+			);
 			config.subjects[event.target.value].themes.forEach((theme) => {
 				baseSubSubjects[theme] = false
 			});
@@ -242,7 +242,7 @@ const GenExamPage = () => {
 				subject: config.subjects[subject].name,
 				randomSubSubject: options.randomSubSubject,
 				subSubjects: subSubjects,
-				year: year
+				year: year.map((year) => parseInt(year))
 			}, (res) => {
 				window.location.href = "/exame/" + res.data.id;
 			})
