@@ -199,8 +199,8 @@ export async function getAllAchievements(successCall) {
 }
 
 
-export async function fetchLeaderboard(span, successCall) {
-	axios.get("api/leaderboard/" + span)
+export async function fetchLeaderboard(span, page, successCall) {
+	axios.get("api/leaderboard/" + span + "/" + page)
 	.then((res) => successCall(res));
 }
 
@@ -237,4 +237,9 @@ export async function confirmEmail(code, username, successCall, errorCall) {
 	axios.get("api/email-confirm/" + username + "/" + code)
 	.then((res) => successCall(res))
 	.catch((error) => errorCall(error));
+}
+
+export async function getNumberOfUsers(successCall) {
+	axios.get("api/users/")
+	.then((res) => successCall(res));
 }
