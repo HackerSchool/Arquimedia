@@ -158,25 +158,7 @@ const GenExamPage = () => {
 
 	const { enqueueSnackbar } = useSnackbar();
 
-	const [subject, setSubject] = useState(-1)
-
-	const courseArray = [
-		{
-			name: "Ciências e Tecnologias",
-			subjects:[
-			"Matemática A",
-			"Física e Química"],
-			subjectsKey:['math', 'physics'],
-		},
-		{
-			name: "Línguas e Humanidades",
-			subjects:[
-				"História A"
-			],
-			subjectsKey:['none'],
-		},
-		
-	]
+	const [subject, setSubject] = useState(-1);
 
 	const resetDictYear = () => {
 		setDictYear(baseYears);
@@ -221,7 +203,7 @@ const GenExamPage = () => {
 	
 		setSubject(event.target.value)
 		
-		if (event.target.value != -1){
+		if (event.target.value !== -1){
 			config.subjects[event.target.value].years.map((year) => {
 				baseYears[year] = false
 			});
@@ -353,7 +335,7 @@ const GenExamPage = () => {
 						</Grid>
 					</Grid> 
 
-					<Grid container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
+					<Grid justifyContent={subject === -1 ? "flex-start" : "center"} container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
 						<Grid item>
 							<Typography variant = "h6"> 2 - Ano(s) </Typography>
 						</Grid>	
@@ -365,7 +347,7 @@ const GenExamPage = () => {
 							</Grid>
 						</Grid>
 						:
-						<Grid justifyContent= {is1100pxScreen ? "center" : "center"} container>
+						<Grid justifyContent= "center" container>
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
