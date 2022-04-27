@@ -268,8 +268,7 @@ const GenExamPage = () => {
 	}
 
 	return (
-		
-		<Grid justifyContent="center" container alignItems="center" direction={is1100pxScreen ? "column" : "row"}>
+		<Grid container  direction={is1100pxScreen ? "column" : "row"}>
 			{is1100pxScreen 
 
 			?
@@ -279,21 +278,21 @@ const GenExamPage = () => {
 				</Grid> 
 			: 
 
-			<Grid xs={10} container direction="row" justifyContent="space-evenly" alignItems="center">
-				<Grid item xs = {4}>
+			<Grid xs={12} item container direction="row" justifyContent="space-around">
+				<Grid xs={5} item textAlign="center">
 					<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
 				</Grid> 
-				<Grid item xs = {1}>
-					<Typography className={classes.ou} variant="h6">ou</Typography> {/*Maybe put this in Bold */}
+				<Grid xs={2} item  textAlign="center">
+					<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
 				</Grid>
-				<Grid item xs = {4}>
+				<Grid xs={5} item  textAlign="center">
 					<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
 				</Grid>
 			</Grid>
 			}
-			<Grid direction={is1100pxScreen ? "column" : "row"} className={classes.lowerPanel} container xs = {11}>
+			<Grid item direction={is1100pxScreen ? "column" : "row"} className={classes.lowerPanel} container xs={12}>
 
-				<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs ={is1100pxScreen ? 10 :  5}> {/*left lower panel*/}
+				<Grid item xs={5} justifyContent= {is1100pxScreen ? "center" : "flex-start"} container> {/*left lower panel*/}
 					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} alignContent="flex-start" container xs = {6}> {/*Pick Subject*/}
 						<Grid item>
 							<Typography variant = "h6"> 1 - Disciplina </Typography>
@@ -395,12 +394,12 @@ const GenExamPage = () => {
 						</Grid>
 				: 
 
-					<Grid justifyContent="center" container xs = {1}>
+					<Grid xs={2} justifyContent="center" container>
 						<Divider orientation= "vertical" className={classes.divider} flexItem /> {/*Vertical Divider*/}
 					</Grid>
 				}
 	
-				<Grid container xs = {is1100pxScreen ? 12 : 5}> {/*right lower panel*/}
+				<Grid item container xs={5}> {/*right lower panel*/}
 					<Grid item>
 						<Typography variant = "h6">Aqui ficamos responsáveis por gerar o <span style={{color: theme.palette.secondary.main}}>melhor exame para ti</span>, tendo em conta as tuas últimas performances.</Typography> {/* Best way to change a specific attribute in a string */}
 					</Grid>
