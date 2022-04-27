@@ -15,11 +15,11 @@ const useStyles = makeStyles(theme => ({
 		margin: 4,
 		boxShadow: (selected === true && "0px 5px rgba(0, 0, 0, 0.25)"),
 		transition: "transform 0.15s ease-in-out",
-		'&:hover': {
+		'&:hover': selected => ({
 			transform: "scale3d(1.05, 1.05, 1)",
 			width: "90%",
-			boxShadow: (selected !== true && "0px 5px rgba(0, 0, 0, 0.07)"),
-		 },
+			boxShadow: (selected === false && "0px 5px rgba(0, 0, 0, 0.07)"),
+		 }),
 
 	}),
 	buttonWrapper: selected => ({
@@ -29,9 +29,11 @@ const useStyles = makeStyles(theme => ({
 	}),
 	icon: {
 		position: 'absolute',
-		top: -10,
-		right: -10,
-		color: "#000"
+		top: -4,
+		right: -4,
+		color: "#000",
+		backgroundColor: theme.palette.primary.main,
+		borderRadius: 9000,
 	}
 }))
 

@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	container: {
 		width: "100%",
+		margin: "0px 0px 6rem"
 	},
 	finishBttnWrapper: {
 		marginTop: "4rem"
@@ -96,7 +97,7 @@ const ExamPage = (props) => {
 	if (loading) return (<Loading />)
 
 	return (
-        <Grid className={classes.container}>
+        <Grid container className={classes.container}>
 			<Grid item xs={12}>
 				<CustomizedSteppers 
 					className={classes.steppers}
@@ -111,7 +112,7 @@ const ExamPage = (props) => {
 					<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete}/>
 				</div>
 			</Grid>
-			<Grid item container justifyContent="space-around" align="center" spacing={4} xs={12} direction="row" alignItems="center">
+			<Grid container justifyContent="space-between" alignItems="center" align="center" spacing={4} xs={12}>
 				<Grid item xs={1}>
 					<IconButton className={classes.beforeBttn} onClick={decreaseCurrent} size="large"><ArrowBackIcon fontSize="large" /></IconButton>
 				</Grid>
