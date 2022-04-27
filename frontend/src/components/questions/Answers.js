@@ -7,23 +7,25 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 var Latex = require('react-latex');
 
 const useStyles = makeStyles(theme => ({
-	paperAnswer:{
+	paperAnswer: selected => ({
 		width: "95%",
 		borderRadius: 38,
 		backgroundColor: "#F9F9F9",
 		padding: 3,
 		margin: 4,
+		boxShadow: (selected === true && "0px 5px rgba(0, 0, 0, 0.25)"),
+		transition: "transform 0.15s ease-in-out",
+		'&:hover': {
+			transform: "scale3d(1.05, 1.05, 1)",
+			width: "90%",
+			boxShadow: (selected !== true && "0px 5px rgba(0, 0, 0, 0.07)"),
+		 },
 
-	},
+	}),
 	buttonWrapper: selected => ({
 		padding: 0,
 		width: "100%",
 		borderRadius: 38,
-		boxShadow: (selected === true && "3px 6px 0px rgba(0, 0, 0, 0.25)"),
-		transition: "transform 0.15s ease-in-out",
-		'&:hover': {
-			transform: "scale3d(1.05, 1.05, 1)"
-		 },
 	}),
 	icon: {
 		position: 'absolute',
