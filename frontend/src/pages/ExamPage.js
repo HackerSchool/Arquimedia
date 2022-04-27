@@ -97,7 +97,7 @@ const ExamPage = (props) => {
 	if (loading) return (<Loading />)
 
 	return (
-        <Grid container className={classes.container}>
+        <Grid className={classes.container}>
 			<Grid item xs={12}>
 				<CustomizedSteppers 
 					className={classes.steppers}

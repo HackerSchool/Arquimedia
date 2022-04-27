@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 		transition: "transform 0.15s ease-in-out",
 		'&:hover': selected => ({
 			transform: "scale3d(1.05, 1.05, 1)",
-			width: "90%",
+			width: "92%",
 			boxShadow: (selected === false && "0px 5px rgba(0, 0, 0, 0.07)"),
 		 }),
 
@@ -29,10 +29,10 @@ const useStyles = makeStyles(theme => ({
 	}),
 	icon: {
 		position: 'absolute',
-		top: -4,
-		right: -4,
+		top: -1,
+		right: -2,
 		color: "#000",
-		backgroundColor: theme.palette.primary.main,
+		backgroundColor: theme.palette.primary.main, //Delete this line and the next to make icon transparent again
 		borderRadius: 9000,
 	}
 }))
