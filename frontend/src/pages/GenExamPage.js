@@ -158,7 +158,7 @@ const GenExamPage = () => {
 
 	const { enqueueSnackbar } = useSnackbar();
 
-	const [subject, setSubject] = useState(-1);
+	const [subject, setSubject] = useState(config.subjects[0].name);
 
 	const resetDictYear = () => {
 		setDictYear(baseYears);
@@ -200,21 +200,7 @@ const GenExamPage = () => {
 	}
 
 	const handleChangeSubject = (event) => {
-	
 		setSubject(event.target.value)
-		
-		if (event.target.value !== -1){
-			config.subjects[event.target.value].years.map((year) => 
-				baseYears[year] = false
-			);
-			config.subjects[event.target.value].themes.forEach((theme) => {
-				baseSubSubjects[theme] = false
-			});
-			
-			setDictYear(baseYears)
-			setDictSubSubjects(baseSubSubjects)
-		}
-		
 	}
 
 
@@ -235,11 +221,10 @@ const GenExamPage = () => {
 
 			for (const [key, value] of Object.entries(dictYears)) {
 				if (value) year.push(key);
-				console.log(key, value);
 			}
 
 			createExam({
-				subject: config.subjects[subject].name,
+				subject: subject,
 				randomSubSubject: options.randomSubSubject,
 				subSubjects: subSubjects,
 				year: year.map((year) => parseInt(year))
@@ -315,23 +300,24 @@ const GenExamPage = () => {
 						</Grid>
 						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
 							<Select
-							 IconComponent={ArrowDropDownRoundedIcon}
-							 onChange={handleChangeSubject}
-							 id="grouped-select"
-							 defaultValue={subject}
-							 classes={{ root: classes.selectRoot }}
-							 className={classes.select} 
-							 MenuProps = {{classes:{paper:classes.paper}}}
-							 inputProps = {{classes:{icon:classes.icon}}}
-							 disableUnderline>
-								<MenuItem  classes={{ selected: classes.selected, root: classes.rootMenuItem }}  value={-1}> <em>Nenhuma</em></MenuItem>
-								<ListSubheader className={classes.subheader}> <Typography>Ciências e Tecnologias</Typography></ListSubheader>
-									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={0}> <Typography variant = "h6">Matemática A</Typography></MenuItem>
-									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={1}> <Typography variant = "h6">Física e Química</Typography></MenuItem>
-								
-								<ListSubheader className={classes.subheader}> <Typography>Línguas e Humanidades</Typography></ListSubheader>
-									<MenuItem classes={{ selected: classes.selected, root: classes.rootMenuItem }}> <Typography variant = "h6">História A</Typography></MenuItem>
-							</Select>
+								IconComponent={ArrowDropDownRoundedIcon}
+								onChange={handleChangeSubject}
+								id="grouped-select"
+								value={subject}
+								classes={{ root: classes.selectRoot }}
+								className={classes.select} 
+								MenuProps = {{classes:{paper:classes.paper}}}
+								inputProps = {{classes:{icon:classes.icon}}}
+							>
+								{config.areas.map(area => (
+									[
+										<ListSubheader key={area} className={classes.subheader}> <Typography>{area}</Typography></ListSubheader>,
+										config.subjects.filter((el) => el.area === area).map(el => (
+											<MenuItem key={el.name} disabled={!el.active} classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={el.name}> <Typography variant = "h6">{el.name}</Typography></MenuItem>
+										))
+									]
+								))}
+								</Select>
 						</Grid>
 					</Grid> 
 
@@ -351,8 +337,8 @@ const GenExamPage = () => {
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									{config.subjects[subject].years.map((year) =>
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictYears[year]} onChange={handleChangeYear} name={`${year}`}/>} label={<Typography variant = "h6">{String(year) + "º"}</Typography>}/>
+									{config.subjects.find(el => el.name === subject).years.map((year) =>
+									<FormControlLabel key={year} labelPlacement="start" control={<Checkbox checked={dictYears[year]} onChange={handleChangeYear} name={`${year}`}/>} label={<Typography variant = "h6">{String(year) + "º"}</Typography>}/>
 									)}
 								</FormGroup>
 							</FormControl>
@@ -376,8 +362,8 @@ const GenExamPage = () => {
 							<FormControl className={classes.boxes}>
 								<FormGroup >
 									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									{config.subjects[subject].themes.map((theme) => 
-										<FormControlLabel labelPlacement="start" control={<Checkbox checked={dictSubSubjects[theme]}  onChange={handleChangeSubSubjects} name={`${theme}`}/>} label={<Typography variant = "h6">{theme}</Typography>}/>
+									{config.subjects.find(el => el.name === subject).themes.map((theme) => 
+										<FormControlLabel key={theme} labelPlacement="start" control={<Checkbox checked={dictSubSubjects[theme]}  onChange={handleChangeSubSubjects} name={`${theme}`}/>} label={<Typography variant = "h6">{theme}</Typography>}/>
 									)}
 								</FormGroup>
 							</FormControl>
@@ -420,8 +406,8 @@ const GenExamPage = () => {
 					</Grid>
 					<Grid container justifyContent="center">
 					<List className={classes.list} subheader={<li />}>
-						{config.subjects.map((subject) => (
-						<ListItem  className = {classes.listItem}>
+						{config.subjects.filter(subject => subject.active).map((subject) => (
+						<ListItem key={subject.name} className = {classes.listItem}>
 							<ListItemText  primary={ <Typography variant="h6"> {subject.name}</Typography>} />
 							<ListItemIcon>
 							<IconButton onClick={() =>handleClickCustom(subject)}  edge="end" aria-label="comments">
