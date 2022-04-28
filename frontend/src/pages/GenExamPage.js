@@ -268,156 +268,113 @@ const GenExamPage = () => {
 	}
 
 	return (
-		<Grid container  direction={is1100pxScreen ? "column" : "row"}>
-			{is1100pxScreen 
-
-			?
-
-				<Grid item xs = {12}>
+		<Grid container direction="row">
+			<Grid item container xs md direction="row">
+				<Grid item textAlign="center" xs={12}>
 					<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
-				</Grid> 
-			: 
-
-			<Grid xs={12} item container direction="row" justifyContent="space-around">
-				<Grid xs={5} item textAlign="center">
-					<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
-				</Grid> 
-				<Grid xs={2} item  textAlign="center">
-					<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
 				</Grid>
-				<Grid xs={5} item  textAlign="center">
+
+				<Grid container direction="column" xs={6}> {/*Pick Subject*/}
+					<Grid item>
+						<Typography variant = "h6"> 1 - Disciplina </Typography>
+					</Grid>
+					<Grid container>
+						<Select
+							IconComponent={ArrowDropDownRoundedIcon}
+							onChange={handleChangeSubject}
+							id="grouped-select"
+							value={subject}
+							classes={{ root: classes.selectRoot }}
+							className={classes.select} 
+							MenuProps = {{classes:{paper:classes.paper}}}
+							inputProps = {{classes:{icon:classes.icon}}}
+						>
+							{config.areas.map(area => (
+								[
+									<ListSubheader key={area} className={classes.subheader}> <Typography>{area}</Typography></ListSubheader>,
+									config.subjects.filter((el) => el.area === area).map(el => (
+										<MenuItem key={el.name} disabled={!el.active} classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={el.name}> <Typography variant = "h6">{el.name}</Typography></MenuItem>
+									))
+								]
+							))}
+							</Select>
+					</Grid>
+				</Grid> 
+
+				<Grid container direction="column" xs={6}> {/* Pick year*/}
+					<Grid item>
+						<Typography variant = "h6"> 2 - Ano(s) </Typography>
+					</Grid>	
+					
+					<Grid container>
+						<FormControl className={classes.boxes}>
+							<FormGroup >
+								<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
+								{config.subjects.find(el => el.name === subject).years.map((year) =>
+								<FormControlLabel key={year} labelPlacement="start" control={<Checkbox checked={dictYears[year]} onChange={handleChangeYear} name={`${year}`}/>} label={<Typography variant = "h6">{String(year) + "º"}</Typography>}/>
+								)}
+							</FormGroup>
+						</FormControl>
+					</Grid>
+					
+				</Grid> 
+
+				<Grid container> {/*Pick Themes*/}
+					<Grid item>
+						<Typography variant = "h6"> 3 - Tópicos </Typography>
+					</Grid>
+					{subject === -1
+					?
+					<Grid alignItems = "flex-start" container xs = {12}>
+						<Grid item xs = {12}>
+							<Box style={{ backgroundColor : '#D8D8D8', height : '120px'}} className={classes.boxes}></Box>
+						</Grid>
+					</Grid>
+					: 
+					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
+						<FormControl className={classes.boxes}>
+							<FormGroup >
+								<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
+								{config.subjects.find(el => el.name === subject).themes.map((theme) => 
+									<FormControlLabel key={theme} labelPlacement="start" control={<Checkbox checked={dictSubSubjects[theme]}  onChange={handleChangeSubSubjects} name={`${theme}`}/>} label={<Typography variant = "h6">{theme}</Typography>}/>
+								)}
+							</FormGroup>
+						</FormControl>
+					</Grid>
+					}
+				</Grid> 
+
+				<Grid justifyContent="center" container xs={12}> {/*Começar Button*/}
+					<Grid className={classes.button} item>
+						<NormalButton  fontSize={28} text="Começar" onClick={handleClick}/>
+					</Grid>
+					
+				</Grid>					
+			</Grid>
+
+			<Divider orientation={is1100pxScreen ? "horizontal" : "vertical"} flexItem><Typography textAlign="center" variant="h6">ou</Typography></Divider>
+
+			<Grid item container direction="column" xs md spacing={4}>
+				<Grid item textAlign="center">
 					<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
 				</Grid>
-			</Grid>
-			}
-			<Grid item direction={is1100pxScreen ? "column" : "row"} className={classes.lowerPanel} container xs={12}>
-
-				<Grid item xs={5} justifyContent= {is1100pxScreen ? "center" : "flex-start"} container> {/*left lower panel*/}
-					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} alignContent="flex-start" container xs = {6}> {/*Pick Subject*/}
-						<Grid item>
-							<Typography variant = "h6"> 1 - Disciplina </Typography>
-						</Grid>
-						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
-							<Select
-								IconComponent={ArrowDropDownRoundedIcon}
-								onChange={handleChangeSubject}
-								id="grouped-select"
-								value={subject}
-								classes={{ root: classes.selectRoot }}
-								className={classes.select} 
-								MenuProps = {{classes:{paper:classes.paper}}}
-								inputProps = {{classes:{icon:classes.icon}}}
-							>
-								{config.areas.map(area => (
-									[
-										<ListSubheader key={area} className={classes.subheader}> <Typography>{area}</Typography></ListSubheader>,
-										config.subjects.filter((el) => el.area === area).map(el => (
-											<MenuItem key={el.name} disabled={!el.active} classes={{ selected: classes.selected, root: classes.rootMenuItem }} value={el.name}> <Typography variant = "h6">{el.name}</Typography></MenuItem>
-										))
-									]
-								))}
-								</Select>
-						</Grid>
-					</Grid> 
-
-					<Grid justifyContent={subject === -1 ? "flex-start" : "center"} container xs = {is1100pxScreen ? 12 : 6}> {/* Pick year*/}
-						<Grid item>
-							<Typography variant = "h6"> 2 - Ano(s) </Typography>
-						</Grid>	
-						{subject === -1
-						?
-						<Grid alignItems = "flex-start" container xs = {12}>
-							<Grid item xs = {12}>
-								<Box style={{ backgroundColor : '#D8D8D8', height : '120px'}} className={classes.boxes}></Box>
-							</Grid>
-						</Grid>
-						:
-						<Grid justifyContent= "center" container>
-							<FormControl className={classes.boxes}>
-								<FormGroup >
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									{config.subjects.find(el => el.name === subject).years.map((year) =>
-									<FormControlLabel key={year} labelPlacement="start" control={<Checkbox checked={dictYears[year]} onChange={handleChangeYear} name={`${year}`}/>} label={<Typography variant = "h6">{String(year) + "º"}</Typography>}/>
-									)}
-								</FormGroup>
-							</FormControl>
-						</Grid>
-						}
-					</Grid> 
-
-					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container xs ={12}> {/*Pick Themes*/}
-						<Grid item>
-							<Typography variant = "h6"> 3 - Tópicos </Typography>
-						</Grid>
-						{subject === -1
-						?
-						<Grid alignItems = "flex-start" container xs = {12}>
-							<Grid item xs = {12}>
-								<Box style={{ backgroundColor : '#D8D8D8', height : '120px'}} className={classes.boxes}></Box>
-							</Grid>
-						</Grid>
-						: 
-						<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
-							<FormControl className={classes.boxes}>
-								<FormGroup >
-									<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
-									{config.subjects.find(el => el.name === subject).themes.map((theme) => 
-										<FormControlLabel key={theme} labelPlacement="start" control={<Checkbox checked={dictSubSubjects[theme]}  onChange={handleChangeSubSubjects} name={`${theme}`}/>} label={<Typography variant = "h6">{theme}</Typography>}/>
-									)}
-								</FormGroup>
-							</FormControl>
-						</Grid>
-						}
-					</Grid> 
-
-					<Grid justifyContent="center" container > {/*Começar Button*/}
-						<Grid className={classes.button} item>
-							<NormalButton  fontSize={28} text="Começar" onClick={handleClick}/>
-						</Grid>
-						
-					</Grid>
+				<Grid item>
+					<Typography style={{marginLeft: "4rem"}} variant="h6">Aqui ficamos responsáveis por gerar o <span style={{color: theme.palette.secondary.main}}>melhor exame para ti</span>, tendo em conta as tuas últimas performances.</Typography> {/* Best way to change a specific attribute in a string */}
 				</Grid>
-
-				{is1100pxScreen 
-
-				? 
-					<Grid container xs={12}  direction="column" justifyContent="center" alignItems="center">
-							<Grid container xs = {12}>
-								<Divider orientation= "horizontal" className={classes.divider} flexItem /> {/*Vertical Divider*/}
-							</Grid>
-							<Grid item xs = {12}>
-								<Typography variant="h6">ou</Typography> {/*Maybe put this in Bold */}
-							</Grid>
-							<Grid item xs = {12}>
-								<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
-							</Grid>
-						</Grid>
-				: 
-
-					<Grid xs={2} justifyContent="center" container>
-						<Divider orientation= "vertical" className={classes.divider} flexItem /> {/*Vertical Divider*/}
-					</Grid>
-				}
-	
-				<Grid item container xs={5}> {/*right lower panel*/}
-					<Grid item>
-						<Typography variant = "h6">Aqui ficamos responsáveis por gerar o <span style={{color: theme.palette.secondary.main}}>melhor exame para ti</span>, tendo em conta as tuas últimas performances.</Typography> {/* Best way to change a specific attribute in a string */}
-					</Grid>
-					<Grid container justifyContent="center">
-					<List className={classes.list} subheader={<li />}>
-						{config.subjects.filter(subject => subject.active).map((subject) => (
-						<ListItem key={subject.name} className = {classes.listItem}>
-							<ListItemText  primary={ <Typography variant="h6"> {subject.name}</Typography>} />
-							<ListItemIcon>
-							<IconButton onClick={() =>handleClickCustom(subject)}  edge="end" aria-label="comments">
-								<RedRoundArrow />
-							</IconButton>
-							</ListItemIcon>
-						</ListItem>
-						))}
-					</List>
-					</Grid>
-				</Grid>
+				<Grid container justifyContent="center">
+				<List className={classes.list} subheader={<li />}>
+					{config.subjects.filter(subject => subject.active).map((subject) => (
+					<ListItem key={subject.name} className = {classes.listItem}>
+						<ListItemText  primary={ <Typography variant="h6"> {subject.name}</Typography>} />
+						<ListItemIcon>
+						<IconButton onClick={() =>handleClickCustom(subject)}  edge="end" aria-label="comments">
+							<RedRoundArrow />
+						</IconButton>
+						</ListItemIcon>
+					</ListItem>
+					))}
+				</List>
+				</Grid>			
 			</Grid>
 		</Grid>
 	);
