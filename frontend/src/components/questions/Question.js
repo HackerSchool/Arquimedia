@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: 20,
 		boxShadow: "0px 8px 8px #9A9A9A",
 		backgroundColor: "#F9F9F9",
-		minHeight: "400px",
 		border: "0.05rem solid #D9D9D9",
 	},
 
@@ -28,7 +27,6 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: "center",
 		display: "flex",
 		flexDirection: 'column',
-		minHeight: "400px",
 	},
 
 	number: {
@@ -49,13 +47,15 @@ const useStyles = makeStyles(theme => ({
 
 	options: {
 		fontWeight: 1,
+		width: "100%",
 	},
 
-	questionText: {
+	questionText: {		
 		whiteSpace: "pre-line",
 		textAlign: "justify",
 		textJustify: "inter-word",
-		padding:8,
+		padding:10,
+		wordWrap: "break-word",
 	}
 }))
 
@@ -82,7 +82,7 @@ const Question = (props) => {
 
 				{/* Question's text */}
 				<Grid item xs={12} spacing={3}>
-						<Typography variant="h5" className={classes.questionText}><Latex>{props.question.text}</Latex></Typography>
+						<Typography display="block" variant="h5" className={classes.questionText}><Latex>{props.question.text}</Latex></Typography>
 				</Grid>
 
 				{/* Question's image */}

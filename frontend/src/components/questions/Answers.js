@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 	answerText: selected => ({
 		fontSize: (selected === true ? 18 : 12),
 		padding: 8,
+		wordWrap: "break-word",
 	}),
 }))
 
