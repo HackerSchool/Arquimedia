@@ -206,32 +206,27 @@ const GenExamPage = () => {
 
 
 	const handleClick = () => {
-		if (subject === -1) {
-			enqueueSnackbar("Por favor selecione uma disciplina antes de começar", {variant: "warning"})
-		} else {
-	
-			let subSubjects = [];
+		let subSubjects = [];
 
-			for (const [key, value] of Object.entries(dictSubSubjects)) {
-				if (value) subSubjects.push(key);
-				
-			}
-
-			let year = [];
-
-			for (const [key, value] of Object.entries(dictYears)) {
-				if (value) year.push(key);
-			}
-
-			createExam({
-				subject: subject,
-				randomSubSubject: options.randomSubSubject,
-				subSubjects: subSubjects,
-				year: year.map((year) => parseInt(year))
-			}, (res) => {
-				window.location.href = "/exame/" + res.data.id;
-			})
+		for (const [key, value] of Object.entries(dictSubSubjects)) {
+			if (value) subSubjects.push(key);
+			
 		}
+
+		let year = [];
+
+		for (const [key, value] of Object.entries(dictYears)) {
+			if (value) year.push(key);
+		}
+
+		createExam({
+			subject: subject,
+			randomSubSubject: options.randomSubSubject,
+			subSubjects: subSubjects,
+			year: year.map((year) => parseInt(year))
+		}, (res) => {
+			window.location.href = "/exame/" + res.data.id;
+		}, () => enqueueSnackbar("Algo correu mal...", {variant: "error"}))
 	}
 
 	
@@ -246,7 +241,7 @@ const GenExamPage = () => {
 			randomSubSubject: false
 		}, (res) => {
 			window.location.href = "/exame/" + res.data.id;
-		})		
+		}, () => enqueueSnackbar("Algo correu mal...", {variant: "error"}))		
 	}
 
 	return (
