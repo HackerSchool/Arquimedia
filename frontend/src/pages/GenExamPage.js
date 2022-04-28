@@ -13,7 +13,7 @@ import {
 	ListItemText,
 	ListItem,
 	ListItemIcon,
-	IconButton,
+	ListItemButton,
 	useMediaQuery,
 	Box
 } from '@mui/material';
@@ -236,42 +236,24 @@ const GenExamPage = () => {
 
 	
 	const handleClickCustom = (subject) => { //Function for the perosnalised Exam experience of the right Panel
-		
+		// TODO: should create the best exam for the user
+		// for now it just creates a general exam
 
-
-		if (!subject.active) {
-			enqueueSnackbar("Disciplina indisponível", {variant: "warning"})
-		} else {
-	
-			const subSubjects = [];
-
-			if (dictSubSubjects.geometry) subSubjects.push("Geometria");
-
-			if (dictSubSubjects.geometry) subSubjects.push("Imaginários");
-
-			let year = 0;
-			if (options.tenthGrade) year = 10;
-			if (options.eleventhGrade) year = 11;
-			if (options.twelfthGrade) year = 12;
-
-			createExam({
-
-				subject: subject.name,
-				randomSubSubject: options.randomSubSubject,
-				subSubjects: subSubjects,
-				year: year
-			}, (res) => {
-				window.location.href = "/exame/" + res.data.id;
-			})
-		}
-		
+		createExam({
+			subject: subject.name,
+			subSubjects: subject.themes,
+			year: subject.years,
+			randomSubSubject: false
+		}, (res) => {
+			window.location.href = "/exame/" + res.data.id;
+		})		
 	}
 
 	return (
 		<Grid container direction="row">
 			<Grid item container xs md direction="row">
 				<Grid item textAlign="center" xs={12}>
-					<Typography className={classes.upperSideText} variant="h5" >Personaliza o teu exame</Typography>
+					<Typography style={{marginBottom: "2rem"}} className={classes.upperSideText} variant="h4" >Personaliza o teu exame</Typography>
 				</Grid>
 
 				<Grid container direction="column" xs={6}> {/*Pick Subject*/}
@@ -356,7 +338,7 @@ const GenExamPage = () => {
 
 			<Grid item container direction="column" xs md spacing={4}>
 				<Grid item textAlign="center">
-					<Typography className={classes.upperSideText} variant="h5">Deixa isso connosco</Typography>
+					<Typography className={classes.upperSideText} variant="h4">Deixa isso connosco</Typography>
 				</Grid>
 				<Grid item>
 					<Typography style={{marginLeft: "4rem"}} variant="h6">Aqui ficamos responsáveis por gerar o <span style={{color: theme.palette.secondary.main}}>melhor exame para ti</span>, tendo em conta as tuas últimas performances.</Typography> {/* Best way to change a specific attribute in a string */}
@@ -365,12 +347,12 @@ const GenExamPage = () => {
 				<List className={classes.list} subheader={<li />}>
 					{config.subjects.filter(subject => subject.active).map((subject) => (
 					<ListItem key={subject.name} className = {classes.listItem}>
-						<ListItemText  primary={ <Typography variant="h6"> {subject.name}</Typography>} />
-						<ListItemIcon>
-						<IconButton onClick={() =>handleClickCustom(subject)}  edge="end" aria-label="comments">
-							<RedRoundArrow />
-						</IconButton>
-						</ListItemIcon>
+						<ListItemButton onClick={() => handleClickCustom(subject)}>
+							<ListItemText primary={<Typography variant="h6">{subject.name}</Typography>} />
+							<ListItemIcon style={{marginLeft: "2rem"}}>
+								<RedRoundArrow />
+							</ListItemIcon>
+						</ListItemButton>
 					</ListItem>
 					))}
 				</List>
