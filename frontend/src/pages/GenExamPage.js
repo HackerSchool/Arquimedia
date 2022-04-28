@@ -147,7 +147,11 @@ const GenExamPage = () => {
 
 	const baseSubSubjects = {}
 
-	const [dictYears, setDictYear] = useState({})
+	const [dictYears, setDictYear] = useState({
+		10: false,
+		11: false,
+		12: false
+	})
 	
 	const baseYears = {}
 
@@ -201,6 +205,23 @@ const GenExamPage = () => {
 
 	const handleChangeSubject = (event) => {
 		setSubject(event.target.value)
+
+		const subject = config.subjects.find(el => el.name === event.target.value);
+
+		subject.years.forEach((year) => 
+			baseYears[year] = false
+		);
+		subject.themes.forEach((theme) => {
+			baseSubSubjects[theme] = false
+		});
+
+		setOptions({
+			randomSubSubject: true,
+			randomGrade: true
+		});
+
+		setDictYear(baseYears)
+		setDictSubSubjects(baseSubSubjects)
 	}
 
 
@@ -218,7 +239,7 @@ const GenExamPage = () => {
 		for (const [key, value] of Object.entries(dictYears)) {
 			if (value) year.push(key);
 		}
-
+		
 		createExam({
 			subject: subject,
 			randomSubSubject: options.randomSubSubject,
