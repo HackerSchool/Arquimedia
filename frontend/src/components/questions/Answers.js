@@ -1,7 +1,7 @@
 import { Paper, Typography, IconButton } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {ReactComponent as BlueWhiteCheckmark} from '../../assets/newCheckMark.svg';
 
 
 var Latex = require('react-latex');
@@ -13,28 +13,29 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#F9F9F9",
 		padding: 3,
 		margin: 4,
-		boxShadow: (selected === true && "0px 5px rgba(0, 0, 0, 0.25)"),
+		boxShadow: (selected === true && "3px 5px rgba(0, 0, 0, 0.25)"),
 		transition: "transform 0.15s ease-in-out",
 		'&:hover': selected => ({
 			transform: "scale3d(1.05, 1.05, 1)",
-			width: "92%",
-			boxShadow: (selected === false && "0px 5px rgba(0, 0, 0, 0.07)"),
+			boxShadow: (selected === false && "0px 5px rgba(0, 0, 0, 0.1)"),
+			border: "0.05rem solid #919191",
 		 }),
 
 	}),
-	buttonWrapper: selected => ({
+	buttonWrapper: {
 		padding: 0,
 		width: "100%",
 		borderRadius: 38,
-	}),
+	},
 	icon: {
 		position: 'absolute',
-		top: -1,
-		right: -2,
-		color: "#000",
-		backgroundColor: theme.palette.primary.main, //Delete this line and the next to make icon transparent again
-		borderRadius: 9000,
-	}
+		top: -5,
+		right: -5,
+	},
+	answerText: selected => ({
+		fontSize: (selected === true ? 18 : 12),
+		padding: 8,
+	}),
 }))
 
 const Answer = (props) => {
@@ -51,9 +52,9 @@ const Answer = (props) => {
             onClick={changeChosenAnswer}
             key={props.answer.id}
             size="large">
-			<Paper className={classes.paperAnswer}><Typography variant="h6"><Latex>{props.answer.text}</Latex></Typography></Paper>
+			<Paper className={classes.paperAnswer}><Typography className={classes.answerText} variant="h6"><Latex>{props.answer.text}</Latex></Typography></Paper>
 			{props.selected && (
-				<CheckCircleIcon className={classes.icon}/>
+				<BlueWhiteCheckmark className={classes.icon}/>
 			)}
 		</IconButton>
     );

@@ -15,9 +15,10 @@ const useStyles = makeStyles(theme => ({
 	questionBox: {
 		width: "100%",
 		borderRadius: 20,
-		boxShadow: "0px 4px 4px #9A9A9A",
+		boxShadow: "0px 8px 8px #9A9A9A",
 		backgroundColor: "#F9F9F9",
 		minHeight: "400px",
+		border: "0.05rem solid #D9D9D9",
 	},
 
 	answers: {
@@ -51,7 +52,10 @@ const useStyles = makeStyles(theme => ({
 	},
 
 	questionText: {
-		whiteSpace: "pre-line"
+		whiteSpace: "pre-line",
+		textAlign: "justify",
+		textJustify: "inter-word",
+		padding:8,
 	}
 }))
 
@@ -67,46 +71,45 @@ const Question = (props) => {
 	}
 
 	return (
-		<Paper className={classes.questionBox}>	
 		
-			<Grid container alignItems="stretch" direction="row" justifyContent="flex-start">
+		<Grid className={classes.questionBox} container alignItems="stretch" direction="row" justifyContent="flex-start">
 
-				<Grid item xs={8} justifyContent="center">
-					{/* Question's number */}
-					<Grid item xs={5}>
-						<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> {props.preview ? "Preview" : "Questão " + (props.answer + 1)} </Typography></Paper>
-					</Grid>
+			<Grid item xs={8} justifyContent="center">
+				{/* Question's number */}
+				<Grid item xs={5}>
+					<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> {props.preview ? "Preview" : "Questão " + (props.answer + 1)} </Typography></Paper>
+				</Grid>
 
-					{/* Question's text */}
+				{/* Question's text */}
+				<Grid item xs={12} spacing={3}>
+						<Typography variant="h5" className={classes.questionText}><Latex>{props.question.text}</Latex></Typography>
+				</Grid>
+
+				{/* Question's image */}
+				{props.question.image && (
 					<Grid item xs={12} spacing={3}>
-							<Typography variant="h5" className={classes.questionText}><Latex>{props.question.text}</Latex></Typography>
+						<QuestionImage preview={props.preview} question={props.question} />
 					</Grid>
-
-					{/* Question's image */}
-					{props.question.image && (
-						<Grid item xs={12} spacing={3}>
-							<QuestionImage preview={props.preview} question={props.question} />
-						</Grid>
-					)}
-				</Grid>
-
-				{/* Answers */}
-				<Grid container xs={4}> 
-					<Paper className={classes.answers}>
-					<Grid container direction="column" justifyContent="space-around" spacing={4} alignItems="stretch"> 
-						{props.question.answer.map(answer => {
-								return (
-									<Grid  item className={classes.options}>
-										<Answer preview={props.preview} selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
-									</Grid>
-								)
-							})}
-					</Grid>
-					</Paper>
-				</Grid>
+				)}
 			</Grid>
+
+			{/* Answers */}
+			<Grid container xs={4}> 
+				<Paper className={classes.answers}>
+				<Grid container direction="column" justifyContent="space-around" spacing={3} alignItems="stretch"> 
+					{props.question.answer.map(answer => {
+							return (
+								<Grid item className={classes.options}>
+									<Answer preview={props.preview} selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>
+								</Grid>
+							)
+						})}
+				</Grid>
+				</Paper>
+			</Grid>
+		</Grid>
       	
-	</Paper>
+
 	)
 }
 
