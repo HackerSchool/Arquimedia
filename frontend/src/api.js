@@ -33,13 +33,18 @@ export function isAuthenticated() {
 
 // Log in User
 export async function logIn(username, password, errorCall) {
-	// TODO: add successCall and errorCall
+	// Remove token in case somehow user logged off and the token wasn't removed
+	// Otherwise backend won't accept log in as there's a token on the request
+	// Usefull while developing and switching environments (databases for example)
+	localStorage.removeItem("Authorization")
+	delete axios.defaults.headers.common["Authorization"];
+
 	axios.post("/rest-auth/login/", {
 		username: username, 
 		password: password
 	}).then(res => {
-		console.log(res.data);
 		localStorage.setItem("Authorization", "Token " + res.data.key);
+		axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
 		window.location.replace("/");
 	}).catch((error) => {
 		localStorage.removeItem("Authorization");
@@ -50,7 +55,10 @@ export async function logIn(username, password, errorCall) {
 
 // Log out User
 export async function logOut() {
-	axios.post("/rest-auth/logout/").then(localStorage.removeItem("Authorization"));
+	axios.post("/rest-auth/logout/").then(() => {
+		localStorage.removeItem("Authorization")
+		delete axios.defaults.headers.common["Authorization"];
+	});
 }
 
 
