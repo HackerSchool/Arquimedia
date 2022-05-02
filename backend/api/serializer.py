@@ -165,3 +165,7 @@ class ProfileLeaderboardSerializer(serializers.ModelSerializer):
 class ProfileLeaderboardTimedSerializer(serializers.Serializer):
 	id = serializers.IntegerField()
 	xp = serializers.IntegerField() 
+
+class LeaderboardSerializer(serializers.Serializer):
+	users = ProfileLeaderboardTimedSerializer(many=True)
+	length = serializers.IntegerField()

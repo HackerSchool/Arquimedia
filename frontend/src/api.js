@@ -33,24 +33,32 @@ export function isAuthenticated() {
 
 // Log in User
 export async function logIn(username, password, errorCall) {
-	// TODO: add successCall and errorCall
+	// Remove token in case somehow user logged off and the token wasn't removed
+	// Otherwise backend won't accept log in as there's a token on the request
+	// Usefull while developing and switching environments (databases for example)
+	localStorage.removeItem("Authorization")
+	delete axios.defaults.headers.common["Authorization"];
+
 	axios.post("/rest-auth/login/", {
 		username: username, 
 		password: password
 	}).then(res => {
-		console.log(res.data);
 		localStorage.setItem("Authorization", "Token " + res.data.key);
+		axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
 		window.location.replace("/");
 	}).catch((error) => {
 		localStorage.removeItem("Authorization");
-		errorCall();
+		errorCall(error);
 	})
 }
 
 
 // Log out User
 export async function logOut() {
-	axios.post("/rest-auth/logout/").then(localStorage.removeItem("Authorization"));
+	axios.post("/rest-auth/logout/").then(() => {
+		localStorage.removeItem("Authorization")
+		delete axios.defaults.headers.common["Authorization"];
+	});
 }
 
 
@@ -200,8 +208,8 @@ export async function getAllAchievements(successCall) {
 }
 
 
-export async function fetchLeaderboard(span, successCall) {
-	axios.get("api/leaderboard/" + span)
+export async function fetchLeaderboard(span, page, successCall) {
+	axios.get("api/leaderboard/" + span + "/" + page)
 	.then((res) => successCall(res));
 }
 
@@ -238,4 +246,9 @@ export async function confirmEmail(code, username, successCall, errorCall) {
 	axios.get("api/email-confirm/" + username + "/" + code)
 	.then((res) => successCall(res))
 	.catch((error) => errorCall(error));
+}
+
+export async function getNumberOfUsers(successCall) {
+	axios.get("api/users/")
+	.then((res) => successCall(res));
 }

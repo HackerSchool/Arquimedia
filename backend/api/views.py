@@ -18,6 +18,7 @@ from allauth.account.models import EmailAddress
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
 QUESTION_PER_EXAM = 10
+LEADERBOARD_PAGE_SIZE = 10
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
@@ -374,13 +375,12 @@ class SubjectAPI(APIView):
 
 
 class Leaderboard(APIView):
-
 	class XPProfile:
 		def __init__(self, id, xp):
 			self.id = id
 			self.xp = xp
 
-	def get(self, request, time=None):
+	def get(self, request, time, page):
 		def checkForUser(list, userID):
 			for i in list:
 				if i.id == userID: return True
@@ -391,10 +391,24 @@ class Leaderboard(APIView):
 			for i in list:
 				if i.id == userID: return i
 
+		start_position = (page - 1) * LEADERBOARD_PAGE_SIZE
+		end_position = page * LEADERBOARD_PAGE_SIZE
 
-		if time == None:
-			users = Profile.objects.order_by("xp__xp")
-			return Response(ProfileLeaderboardSerializer(users, many=True).data)
+		# Alltime leaderboard
+		if time == "alltime":
+			users = Profile.objects.order_by("-xp__xp")
+
+			# Creates an XPProfile object for each user 
+			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users[start_position:end_position]]
+
+			leaderboard = {
+				"users": formated_users,
+				"length": Profile.objects.count()
+			}
+
+			return Response(LeaderboardSerializer(leaderboard).data)
+
+		# Leaderboards with time span
 		elif time == "month":
 			date = datetime.date.today() - datetime.timedelta(days=30)
 		elif time == "day":
@@ -415,7 +429,7 @@ class Leaderboard(APIView):
 
 
 		usersXP = []
-		for user in users:
+		for user in users[start_position:end_position + 1]:
 			for event in events:
 				if user == event.user:
 					if not checkForUser(usersXP, user.id): 
@@ -423,7 +437,14 @@ class Leaderboard(APIView):
 					else:
 						getXPProfile(usersXP, user.id).xp += event.amount
 
-		return Response(ProfileLeaderboardTimedSerializer(usersXP, many=True).data)
+		usersXP.sort(key=lambda x: x.xp, reverse=True)
+
+		leaderboard = {
+			"users": usersXP,
+			"length": len(users)
+		}
+
+		return Response(LeaderboardSerializer(leaderboard).data)
 
 
 class Follow(APIView):
@@ -469,3 +490,12 @@ class VerifyEmailView(APIView):
 			return Response({'detail': 'ok'}, status=status.HTTP_200_OK)
 		
 		return Response({'detail': 'wrong code'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Users(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request):
+		number_of_users = User.objects.count()
+
+		return Response(number_of_users, status=status.HTTP_200_OK)

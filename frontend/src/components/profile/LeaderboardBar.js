@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // TODO: Include user's streak
-function LeaderboardBar({id, place, page}) {
+function LeaderboardBar({id, xp, place, page}) {
     const [profile, setProfile] = useState();
     const [loading, setLoading] = useState(true);
     const position = page * 10 + place
@@ -52,7 +52,7 @@ function LeaderboardBar({id, place, page}) {
                 <Typography>{profile.user.username}</Typography>
             </Grid>     
             <Grid className={classes.xp}>
-                <Typography>{profile.xp.xp} XP</Typography>
+                <Typography>{xp} XP</Typography>
             </Grid>
         </Grid>
     )
