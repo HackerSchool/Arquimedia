@@ -45,13 +45,14 @@ const useStyles = makeStyles(theme => ({
 			margin: "30px 0px"
 		}
 	},
-	boxes:{
+	boxes: {
 		backgroundColor: theme.palette.background.default,
 		border:"2px solid #D9D9D9",
 		borderRadius: '10px',
 		padding:'10px',
 		color: theme.palette.text.primary,
 		boxShadow:'-2px 2px 2px #D9D9D9' ,
+		
 	},
     select: { //change select css, events and whatnot
 		backgroundColor: "inherit",
@@ -266,18 +267,19 @@ const GenExamPage = () => {
 	}
 
 	return (
-		<Grid container direction="row">
+		<Grid container direction={ is1100pxScreen ? "column" : "row"}>
 			<Grid item container xs md direction="row">
 				<Grid item textAlign="center" xs={12}>
 					<Typography style={{marginBottom: "2rem"}} className={classes.upperSideText} variant="h4" >Personaliza o teu exame</Typography>
 				</Grid>
 
-				<Grid container direction="column" xs={6}> {/*Pick Subject*/}
-					<Grid item>
+				<Grid container direction="column" xs={is1100pxScreen ? 12 : 6}> {/*Pick Subject*/}
+					<Grid textAlign={is1100pxScreen && "center"} item>
 						<Typography variant = "h6"> 1 - Disciplina </Typography>
 					</Grid>
-					<Grid container>
+					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
 						<Select
+							style={{margin : is1100pxScreen && "20px 0px"}}
 							IconComponent={ArrowDropDownRoundedIcon}
 							onChange={handleChangeSubject}
 							id="grouped-select"
@@ -299,13 +301,13 @@ const GenExamPage = () => {
 					</Grid>
 				</Grid> 
 
-				<Grid container direction="column" xs={6}> {/* Pick year*/}
-					<Grid item>
+				<Grid container direction="column" xs={is1100pxScreen ? 12 : 6}> {/* Pick year*/}
+					<Grid textAlign={is1100pxScreen && "center"} item>
 						<Typography variant = "h6"> 2 - Ano(s) </Typography>
 					</Grid>	
 					
-					<Grid container>
-						<FormControl className={classes.boxes}>
+					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
+						<FormControl style={{margin : is1100pxScreen && "20px 0px"}} className={classes.boxes}>
 							<FormGroup >
 								<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomGrade} onChange={handleChangeRandomGrade} name="randomGrade"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
 								{config.subjects.find(el => el.name === subject).years.map((year) =>
@@ -317,20 +319,12 @@ const GenExamPage = () => {
 					
 				</Grid> 
 
-				<Grid container> {/*Pick Themes*/}
-					<Grid item>
+				<Grid direction="column" xs={is1100pxScreen ? 12 : true} container> {/*Pick Themes*/}
+					<Grid textAlign={is1100pxScreen && "center"} item>
 						<Typography variant = "h6"> 3 - Tópicos </Typography>
 					</Grid>
-					{subject === -1
-					?
-					<Grid alignItems = "flex-start" container xs = {12}>
-						<Grid item xs = {12}>
-							<Box style={{ backgroundColor : '#D8D8D8', height : '120px'}} className={classes.boxes}></Box>
-						</Grid>
-					</Grid>
-					: 
 					<Grid justifyContent= {is1100pxScreen ? "center" : "flex-start"} container>
-						<FormControl className={classes.boxes}>
+						<FormControl style={{margin : is1100pxScreen && "20px 0px"}} className={classes.boxes}>
 							<FormGroup >
 								<FormControlLabel labelPlacement="start" control={<Checkbox checked={options.randomSubSubject} onChange={handleChangeRandomSubSubject} name="randomSubSubject"/>} label={<Typography variant = "h6">Aleatório</Typography>}/>
 								{config.subjects.find(el => el.name === subject).themes.map((theme) => 
@@ -339,7 +333,7 @@ const GenExamPage = () => {
 							</FormGroup>
 						</FormControl>
 					</Grid>
-					}
+
 				</Grid> 
 
 				<Grid justifyContent="center" container xs={12}> {/*Começar Button*/}
