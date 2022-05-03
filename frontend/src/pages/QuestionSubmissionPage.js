@@ -1,11 +1,8 @@
-import React from "react";
-import QuestionForm from "../components/questions/QuestionForm";
+import React from 'react';
+import QuestionForm from '../components/questions/QuestionForm';
 
 const QuestionSubmissionPage = () => {
-
-	return (
-		<QuestionForm />
-	)
-}
+	return <QuestionForm />;
+};
 
 export default QuestionSubmissionPage;

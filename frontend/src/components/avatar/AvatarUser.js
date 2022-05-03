@@ -7,18 +7,19 @@ import md5 from 'md5';
 // FIXME
 // Maybe add size prop and request gravatar image size depending on that size prop
 function AvatarUser(user) {
+	const base = 'https://www.gravatar.com/avatar/';
 
-    const base = "https://www.gravatar.com/avatar/";
+	const hash = md5(user.user.email.trim().toLowerCase(), { encoding: 'binary' });
 
-    const hash = md5(user.user.email.trim().toLowerCase(), {encoding: "binary"});
+	// d=retro -> default image that gravatar returns in case the email has no gravatar image
+	// s=400   -> image size
+	const src = base + hash + '.png?d=retro&s=400';
 
-    // d=retro -> default image that gravatar returns in case the email has no gravatar image
-    // s=400   -> image size
-    const src = base + hash + ".png?d=retro&s=400";
-
-    return (
-        <Avatar className={user.className} src={src}>{user.user.username[0]}</Avatar>
-    )
+	return (
+		<Avatar className={user.className} src={src}>
+			{user.user.username[0]}
+		</Avatar>
+	);
 }
 
 export default AvatarUser;
