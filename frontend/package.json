@@ -38,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier \"**/*.{js}\" --write",
+    "format": "prettier \"**/*.js\" --write",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },

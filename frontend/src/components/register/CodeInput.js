@@ -1,90 +1,106 @@
-import React, { useEffect, useState, useRef } from "react";
-import {
-	Grid, Typography,
-} from "@mui/material";
-import { InputBase } from "@mui/material";
+import React, { useEffect, useState, useRef } from 'react';
+import { Grid, Typography } from '@mui/material';
+import { InputBase } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { confirmEmail, logIn } from "../../api";
+import { confirmEmail, logIn } from '../../api';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	container: {
-		width: "100%",
-		height: "100%"
+		width: '100%',
+		height: '100%',
 	},
 	form: {
-		backgroundColor: "#56CCF2",
+		backgroundColor: '#56CCF2',
 	},
 	input: {
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		borderRadius: 50,
 		disableUnderline: true,
 		height: 120,
-		width: "20rem",
+		width: '20rem',
 	},
 	text: {
-		color: "#fff",
+		color: '#fff',
 		fontWeight: 'medium',
-		paddingBottom: "7rem"
+		paddingBottom: '7rem',
 	},
 	error: {
-		color: "#EB5757",
+		color: '#EB5757',
 		fontWeight: 'bold',
 		backgroundColor: '#fff',
-		width: "10rem",
-		borderRadius: 20
-	}
-}))
+		width: '10rem',
+		borderRadius: 20,
+	},
+}));
 
 const CodeInput = (props) => {
 	const classes = useStyles();
-	const [code, setCode] = useState("");
+	const [code, setCode] = useState('');
 	const [wrongCode, setWrongCode] = useState(false);
-	const mountedRef = useRef()
+	const mountedRef = useRef();
 
 	useEffect(() => {
 		if (mountedRef.current) {
-			mountedRef.current = false
+			mountedRef.current = false;
 		} else {
 			if (code.length === 6) {
 				// request the data base
-				confirmEmail(code, props.username, () => {
-					setTimeout(() => {
-						// code is okay, log user
-						logIn(props.username, props.password)
-					}, 50)
-				}, () => {
-					// wrong code?
-					setTimeout(() => {
-						setWrongCode(true)
-					}, 50)
-				})
+				confirmEmail(
+					code,
+					props.username,
+					() => {
+						setTimeout(() => {
+							// code is okay, log user
+							logIn(props.username, props.password);
+						}, 50);
+					},
+					() => {
+						// wrong code?
+						setTimeout(() => {
+							setWrongCode(true);
+						}, 50);
+					}
+				);
 			}
 		}
-	}, [code, props.history, props.password, props.username])
+	}, [code, props.history, props.password, props.username]);
 
 	return (
-        <Grid className={classes.container} container spacing={4} direction="column" justifyContent='center'>
+		<Grid
+			className={classes.container}
+			container
+			spacing={4}
+			direction='column'
+			justifyContent='center'
+		>
 			<Grid item>
-				<Typography className={classes.text}  variant="h2">Digita o código que acabamos de enviar para o teu e-mail.</Typography>
+				<Typography className={classes.text} variant='h2'>
+					Digita o código que acabamos de enviar para o teu e-mail.
+				</Typography>
 			</Grid>
-			
+
 			<Grid item>
-				<InputBase 
-					className={classes.input} 
-					inputProps={{ style: { margin: "0 1rem 0 1rem", fontSize: 60, letterSpacing: 14 }, maxLength: 6 }} 
-					margin="dense" 
-					variant="outlined" 
-					placeholder="Código" 
+				<InputBase
+					className={classes.input}
+					inputProps={{
+						style: { margin: '0 1rem 0 1rem', fontSize: 60, letterSpacing: 14 },
+						maxLength: 6,
+					}}
+					margin='dense'
+					variant='outlined'
+					placeholder='Código'
 					onChange={(e) => setCode(e.target.value)}
 				/>
 			</Grid>
 			<Grid item>
-			{wrongCode && (
-					<Typography className={classes.error} variant="h6">Código errado!</Typography>
+				{wrongCode && (
+					<Typography className={classes.error} variant='h6'>
+						Código errado!
+					</Typography>
 				)}
 			</Grid>
 		</Grid>
-    );
-}
+	);
+};
 
 export default CodeInput;

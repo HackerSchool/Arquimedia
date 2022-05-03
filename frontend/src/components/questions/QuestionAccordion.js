@@ -1,42 +1,43 @@
-import React from "react";
-import {
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-	Typography,
-	Button
-} from "@mui/material";
+import React from 'react';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import makeStyles from '@mui/styles/makeStyles';
 import LaunchIcon from '@mui/icons-material/Launch';
 var Latex = require('react-latex');
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	rootAccordion: {
-		width: "60%"
-	}
-}))
+		width: '60%',
+	},
+}));
 
-
-const QuestionAccordion = ({question, failed}) => {
+const QuestionAccordion = ({ question, failed }) => {
 	const classes = useStyles();
 
-	let correctAnswer = question.answer.find(e => e.correct);
+	let correctAnswer = question.answer.find((e) => e.correct);
 
 	return (
 		<Accordion className={classes.rootAccordion}>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />} style={{
-				backgroundColor: (failed ? "#ff8c8c" : "#b4ff8c"),
-			}}>
-				<Typography><Latex>{question.text}</Latex></Typography>
+			<AccordionSummary
+				expandIcon={<ExpandMoreIcon />}
+				style={{
+					backgroundColor: failed ? '#ff8c8c' : '#b4ff8c',
+				}}
+			>
+				<Typography>
+					<Latex>{question.text}</Latex>
+				</Typography>
 			</AccordionSummary>
 			<AccordionDetails>
-				<Typography><Latex>{correctAnswer.text}</Latex></Typography>
-				<Button href={"/question/" + question.id}><LaunchIcon /></Button>
+				<Typography>
+					<Latex>{correctAnswer.text}</Latex>
+				</Typography>
+				<Button href={'/question/' + question.id}>
+					<LaunchIcon />
+				</Button>
 			</AccordionDetails>
 		</Accordion>
-	)
-}
+	);
+};
 
 export default QuestionAccordion;
-
