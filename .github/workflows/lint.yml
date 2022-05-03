@@ -34,5 +34,6 @@ jobs:
 		- name: Run linters
 		  uses: wearerequired/lint-action@v2
 		  with:
-		  eslint: true
-		  prettier: true
+		  	eslint: true
+		  	prettier: true
+			auto_fix: true
