@@ -1,0 +1,25 @@
+{
+	"extends": ["prettier"],
+	"plugins": ["prettier"],
+	"rules": {
+	  "prettier/prettier": ["error"]
+	},
+	"env": {
+	  "node": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module",
+		"allowImportExportEverywhere": true
+	},
+	"overrides": [
+	  {
+		"extends": [
+		  "plugin:react/recommended",
+		  "eslint:recommended",
+		  "plugin:prettier/recommended",
+		  "prettier"
+		]
+	  }
+	]
+  } 
