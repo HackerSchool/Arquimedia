@@ -40,55 +40,15 @@ const BorderLinearProgress = withStyles({
 	},
 })(LinearProgress);
 
-export const ProfileBasicInfo = ({profile}) => {
-    const classes = useStyles();
-
-    const currentDay = new Date();
-    const last_activity = new Date(profile.last_activity)
-    const hasGainedXpToday = (currentDay.getDate() === last_activity.getDate() 
-                                && currentDay.getMonth() === last_activity.getMonth()
-                                && currentDay.getFullYear() === last_activity.getFullYear());
-
-    return (
-        <Grid container >
-            <Grid item xs={12} style={{ padding: '10px' }}>
-                <AvatarUser className={classes.avatar} user={profile.user}/>
-            </Grid>
-            <Grid item xs={12}>
-                <Typography variant="h4">@{profile.user.username}</Typography>
-            </Grid>
-            <Grid item xs={12} className={classes.esquerda}>
-                <Typography variant="h6">Nível: {profile.xp.currentLevel}</Typography>
-            </Grid>
-            <Grid item xs={12} className={classes.esquerda}>
-                <div className={classes.linear}>
-                    <BorderLinearProgress 
-                        variant="determinate"
-                        value={profile.xp.xp/profile.xp.levelXP * 100}
-                    />
-                </div>
-            </Grid>
-            <Grid item xs={12} className={classes.esquerda}>
-                <Typography variant="h6">
-                    Streak: {profile.streak} {hasGainedXpToday ? "🔥" : "🕯️"}
-                </Typography>
-            </Grid>
-            <Grid item xs={12} className={classes.esquerda}>
-                <Typography variant="h6">
-                    A seguir: {profile.follows.length}
-                </Typography>
-            </Grid>
-        </Grid>
-    )
-}
+export const ProfileBasicInfo = ({ profile }) => {
+	const classes = useStyles();
 
 	const currentDay = new Date();
+	const last_activity = new Date(profile.last_activity);
 	const hasGainedXpToday =
-		XPEvents.length !== 0 &&
-		currentDay.getDate() === new Date(XPEvents.at(-1).date).getDate() &&
-		currentDay.getMonth() === new Date(XPEvents.at(-1).date).getMonth() &&
-		currentDay.getFullYear() === new Date(XPEvents.at(-1).date).getFullYear();
-	const streak = computeStreak(XPEvents, hasGainedXpToday);
+		currentDay.getDate() === last_activity.getDate() &&
+		currentDay.getMonth() === last_activity.getMonth() &&
+		currentDay.getFullYear() === last_activity.getFullYear();
 
 	return (
 		<Grid container>
@@ -111,7 +71,7 @@ export const ProfileBasicInfo = ({profile}) => {
 			</Grid>
 			<Grid item xs={12} className={classes.esquerda}>
 				<Typography variant='h6'>
-					Streak: {streak} {hasGainedXpToday ? '🔥' : '🕯️'}
+					Streak: {profile.streak} {hasGainedXpToday ? '🔥' : '🕯️'}
 				</Typography>
 			</Grid>
 			<Grid item xs={12} className={classes.esquerda}>
