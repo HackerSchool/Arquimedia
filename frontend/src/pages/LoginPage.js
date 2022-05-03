@@ -4,7 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import LoginInput from '../components/login/LoginInput';
 import { ReactComponent as Girl } from '../assets/girl_laid.svg';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	container: {
 		height: '100vh',
 		border: 3,

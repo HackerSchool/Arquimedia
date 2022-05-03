@@ -1,8 +1,21 @@
 {
-	"extends": ["prettier"],
+	"settings": {
+		"react": {
+			"version": "^17.0.2"
+		}
+	},
+	"extends": [
+		"plugin:react/recommended",
+		"eslint:recommended",
+		"plugin:prettier/recommended",
+		"prettier"
+	  ],
 	"plugins": ["prettier"],
 	"rules": {
-	  "prettier/prettier": ["error"]
+	  "prettier/prettier": ["error"],
+	  "react/prop-types": 0,
+	  "no-undef": 0,
+	  "react/display-name": 0
 	},
 	"env": {
 	  "node": true
@@ -10,16 +23,9 @@
 	"parserOptions": {
 		"ecmaVersion": 2020,
 		"sourceType": "module",
-		"allowImportExportEverywhere": true
-	},
-	"overrides": [
-	  {
-		"extends": [
-		  "plugin:react/recommended",
-		  "eslint:recommended",
-		  "plugin:prettier/recommended",
-		  "prettier"
-		]
-	  }
-	]
+		"allowImportExportEverywhere": true,
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	}
   } 

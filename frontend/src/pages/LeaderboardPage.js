@@ -17,7 +17,7 @@ const TO_ENGLISH = {
 
 const USERS_PER_PAGE = 10;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	panel: {
 		width: '70%',
 		marginRight: 'auto',

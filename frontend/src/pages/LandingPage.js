@@ -5,7 +5,7 @@ import { ReactComponent as Girl } from '../assets/girl_studying.svg';
 import { ReactComponent as Emoji } from '../assets/winking_emoji.svg';
 import NormalButton from '../components/buttons/NormalButton';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	mainBox: {
 		marginTop: '5rem',
 	},

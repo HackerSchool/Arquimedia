@@ -7,7 +7,7 @@ import Answer from './Answers';
 
 var Latex = require('react-latex');
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	questionBox: {
 		width: '70%',
 		borderRadius: 20,
@@ -101,7 +101,7 @@ const Question = (props) => {
 					<Paper className={classes.answers} alignItems='center' direction='column'>
 						{props.question.answer.map((answer) => {
 							return (
-								<Grid item className={classes.options}>
+								<Grid item className={classes.options} key={answer.id}>
 									<Answer
 										preview={props.preview}
 										selected={answer.id === selectedAnswer}

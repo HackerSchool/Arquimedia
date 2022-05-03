@@ -6,7 +6,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { deleteQuestion, acceptQuestion } from '../../api';
 import Question from '../questions/Question';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	question: {
 		width: '100%',
 	},

@@ -207,7 +207,7 @@ const QuestionForm = () => {
 			<Grid item xs={4}>
 				<Select name='subject' value={subject} onChange={handleChange} label='Disciplina'>
 					{config.subjects.map((subject) => (
-						<MenuItem value={subject.name} id={subject.name}>
+						<MenuItem value={subject.name} id={subject.name} key={subject.name}>
 							{subject.name}
 						</MenuItem>
 					))}
@@ -220,7 +220,9 @@ const QuestionForm = () => {
 					{config.subjects
 						.filter((e) => e.name === subject)[0]
 						.themes.map((theme) => (
-							<MenuItem value={theme}>{theme}</MenuItem>
+							<MenuItem value={theme} key={theme}>
+								{theme}
+							</MenuItem>
 						))}
 				</Select>
 			</Grid>
@@ -231,7 +233,9 @@ const QuestionForm = () => {
 					{config.subjects
 						.filter((e) => e.name === subject)[0]
 						.years.map((year) => (
-							<MenuItem value={year}>{year}</MenuItem>
+							<MenuItem value={year} key={year}>
+								{year}
+							</MenuItem>
 						))}
 				</Select>
 			</Grid>

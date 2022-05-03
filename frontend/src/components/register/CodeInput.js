@@ -4,7 +4,7 @@ import { InputBase } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { confirmEmail, logIn } from '../../api';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	container: {
 		width: '100%',
 		height: '100%',

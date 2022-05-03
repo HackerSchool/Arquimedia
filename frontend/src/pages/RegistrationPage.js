@@ -4,7 +4,7 @@ import RegisterInput from '../components/register/RegisterInput';
 import RegisterInfo from '../components/register/RegisterInfo';
 import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	container: {
 		height: '100vh',
 		border: 3,

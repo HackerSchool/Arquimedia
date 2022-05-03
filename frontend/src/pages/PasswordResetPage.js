@@ -5,7 +5,7 @@ import { requestPasswordReset } from '../api';
 import Alert from '@mui/material/Alert';
 import CloseIcon from '@mui/icons-material/Close';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	mainBox: {
 		marginTop: '5rem',
 		textAlign: 'center',

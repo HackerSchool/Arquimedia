@@ -6,7 +6,7 @@ import { ReactComponent as Svg1 } from '../assets/404(1).svg';
 import { ReactComponent as Svg2 } from '../assets/404(2).svg';
 import { ReactComponent as Svg3 } from '../assets/404(3).svg';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	svg: {
 		width: 650,
 		marginBottom: '3rem',

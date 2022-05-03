@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { ReactComponent as Rising } from '../../assets/growth-curve-cuate.svg';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	svg: {
 		position: 'absolute',
 		bottom: 0,

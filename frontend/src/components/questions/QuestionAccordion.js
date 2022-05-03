@@ -5,7 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import LaunchIcon from '@mui/icons-material/Launch';
 var Latex = require('react-latex');
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	rootAccordion: {
 		width: '60%',
 	},

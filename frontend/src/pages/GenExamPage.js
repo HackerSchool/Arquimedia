@@ -15,7 +15,6 @@ import {
 	ListItemIcon,
 	ListItemButton,
 	useMediaQuery,
-	Box,
 } from '@mui/material';
 import { createExam } from '../api';
 import { useTheme } from '@mui/material/styles';

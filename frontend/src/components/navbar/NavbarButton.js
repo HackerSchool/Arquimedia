@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	menuItems: {
 		fontSize: 18,
 	},

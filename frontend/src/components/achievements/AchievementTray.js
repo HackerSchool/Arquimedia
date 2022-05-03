@@ -54,7 +54,7 @@ function AchievementTray({ achievements, subjectProp }) {
 
 			<Grid item container xs={3} justifyContent='flex-start'>
 				{achievementsToDisplay.map((i) => (
-					<Grid item xs={1} className={classes.achievement}>
+					<Grid item xs={1} key={i} className={classes.achievement}>
 						<Achievement
 							achievement={i}
 							achieved={achievements.some((j) => j.id === i.id)}

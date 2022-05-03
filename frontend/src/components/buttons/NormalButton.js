@@ -5,7 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import globalTheme from '../../globalTheme';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	button: (props) => ({
 		borderRadius: 25,
 		fontSize: props.fontSize,

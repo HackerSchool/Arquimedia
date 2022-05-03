@@ -9,14 +9,14 @@ const useStyles = makeStyles((theme) => ({
 		padding: '0.5rem',
 		backgroundColor: '#F9F9F9',
 	},
-	counter: (props) => ({
+	counter: () => ({
 		color: theme.palette.secondary.main,
 		padding: '10px',
 	}),
 }));
 
 // renderer changes the format on the CountdownClock
-const renderer = (props) => {
+const renderer = () => {
 	return (
 		<span style={{ color: props.minutes === 0 && props.seconds < 30 ? '#EB5757' : 'black' }}>
 			{props.minutes}:{props.seconds < 10 && 0}

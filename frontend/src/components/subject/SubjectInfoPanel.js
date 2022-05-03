@@ -3,7 +3,7 @@ import { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Grid, Select, MenuItem, Typography } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	select: {
 		fontSize: '2rem',
 		'& .MuiSvgIcon-root': {
@@ -88,7 +88,9 @@ const SubjectInfoPanel = ({ profile, changeSubject }) => {
 					className={classes.select}
 				>
 					{profile.subjects.map((subj) => (
-						<MenuItem value={subj.subject}>{subj.subject}</MenuItem>
+						<MenuItem value={subj.subject} key={subj.subject}>
+							{subj.subject}
+						</MenuItem>
 					))}
 					<MenuItem value={'Geral'}>Geral</MenuItem>
 				</Select>

@@ -8,7 +8,7 @@ import NormalButton from '../buttons/NormalButton';
 import CodeInput from './CodeInput';
 import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const RegisterInput = (props) => {
+const RegisterInput = () => {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [pass1, setPass1] = useState('');

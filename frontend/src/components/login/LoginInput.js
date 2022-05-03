@@ -6,7 +6,7 @@ import NormalButton from '../buttons/NormalButton';
 import { ReactComponent as Logo } from '../../assets/logo_white.svg';
 import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,

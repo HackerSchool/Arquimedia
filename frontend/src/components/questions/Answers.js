@@ -5,7 +5,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 var Latex = require('react-latex');
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	paperAnswer: {
 		width: '100%',
 		borderRadius: 38,

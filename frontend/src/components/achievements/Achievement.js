@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Popover, Paper, Typography, Grid } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	img: (achieved) => ({
 		opacity: achieved ? 1 : 0.3,
 		height: '7rem',

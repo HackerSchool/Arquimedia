@@ -1,6 +1,6 @@
 import { Grid, Button } from '@mui/material';
 import { logOut } from '../../api';
-import React, { useState } from 'react';
+import React from 'react';
 
 const LogoutInput = () => {
 	const handleClick = () => {

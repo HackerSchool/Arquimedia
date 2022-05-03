@@ -9,7 +9,7 @@ import SubjectInfoPanel from '../components/subject/SubjectInfoPanel';
 import { ProfileBasicInfo } from '../components/profile/ProfileBasicInfo';
 import AchievementTray from '../components/achievements/AchievementTray';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	body: {
 		marginTop: '80px',
 	},

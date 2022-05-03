@@ -5,7 +5,7 @@ import Loading from '../loading/Loading';
 import AvatarUser from '../avatar/AvatarUser';
 import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	xp: {
 		marginLeft: 'auto',
 	},
