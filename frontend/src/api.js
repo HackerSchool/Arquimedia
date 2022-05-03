@@ -117,9 +117,10 @@ export async function createCommentAPI(body, successCall) {
 }
 
 
-export async function createExam(body, successCall) {
+export async function createExam(body, successCall, errorCall) {
 	axios.post("api/exam/", body)
 	.then((res) => successCall(res))
+	.catch((error) => errorCall(error))
 }
 
 

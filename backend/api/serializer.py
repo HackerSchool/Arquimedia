@@ -4,7 +4,9 @@ from rest_framework.fields import ReadOnlyField
 from exams.models import Question, Comment, Exam, Answer
 from django.contrib.auth.models import User 
 from rest_framework import serializers
+from config import subjects
 
+SUBJECT_CHOICES = [(i['name'], i['name']) for i in subjects if i['active']]
 class UserSerializer(serializers.ModelSerializer):
 	id = serializers.SlugField()
 	username = serializers.ReadOnlyField()
@@ -84,15 +86,11 @@ class ExamSerializer(serializers.ModelSerializer):
 		model = Exam
 		fields = ("id", "questions", "failed", "correct", "score", "subject", "year", "difficulty")
 
-
-class StringListField(serializers.ListField):
-	child = serializers.CharField()
-
-
 class CreateExamSerializer(serializers.Serializer):
-	subject = serializers.CharField()
-	subSubjects = StringListField()
-	year = serializers.IntegerField()
+	subject = serializers.ChoiceField(choices=SUBJECT_CHOICES)
+	subSubjects = serializers.ListField(child = serializers.CharField())
+	year = serializers.ListField(child = serializers.IntegerField())
+	randomSubSubject = serializers.BooleanField()
 
 
 class AchievementSerializer(serializers.ModelSerializer):
