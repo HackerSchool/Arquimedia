@@ -1,14 +1,9 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { examInfo } from "../api";
-import Loading from "../components/loading/Loading";
-import {
-	Button,
-	Grid,
-	Typography,
-} from "@mui/material";
-import QuestionAccordionGroup from "../components/questions/QuestionAccordionGroup";
-
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { examInfo } from '../api';
+import Loading from '../components/loading/Loading';
+import { Button, Grid, Typography } from '@mui/material';
+import QuestionAccordionGroup from '../components/questions/QuestionAccordionGroup';
 
 const ResultsPage = (props) => {
 	const [loading, setLoading] = useState(true);
@@ -18,34 +13,38 @@ const ResultsPage = (props) => {
 		examInfo(props.match.params.id, (res) => {
 			setExam(res.data);
 			setLoading(false);
-		})
-	}, [props.match.params.id])
+		});
+	}, [props.match.params.id]);
 
-	if (loading) return (<Loading />)
+	if (loading) return <Loading />;
 
 	return (
-		<Grid container align="center" spacing={4} xs={12}>
+		<Grid container align='center' spacing={4} xs={12}>
 			<Grid item xs={12}>
-				<Typography variant="h2">Resultados</Typography>
+				<Typography variant='h2'>Resultados</Typography>
 			</Grid>
 			<Grid item xs={6}>
-				<Typography variant="h6">Erradas: {exam.failed.length}</Typography>
+				<Typography variant='h6'>Erradas: {exam.failed.length}</Typography>
 			</Grid>
 			<Grid item xs={6}>
-				<Typography variant="h6">Corretas: {exam.correct.length}</Typography>
+				<Typography variant='h6'>Corretas: {exam.correct.length}</Typography>
 			</Grid>
 			<Grid item xs={6}>
-				<Typography variant="h6">Nota: {exam.score}</Typography>
+				<Typography variant='h6'>Nota: {exam.score}</Typography>
 			</Grid>
 			<Grid item xs={12}>
-				<Typography variant="h6">Perguntas:</Typography>
+				<Typography variant='h6'>Perguntas:</Typography>
 				<QuestionAccordionGroup exam={exam} />
 			</Grid>
 			<Grid item xs={6}>
-				<Button variant="contained" href="/exames">Gerar outro exame</Button>
+				<Button variant='contained' href='/exames'>
+					Gerar outro exame
+				</Button>
 			</Grid>
 			<Grid item xs={6}>
-				<Button variant="contained" href="/">Sair</Button>
+				<Button variant='contained' href='/'>
+					Sair
+				</Button>
 			</Grid>
 		</Grid>
 	);
