@@ -130,7 +130,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 	class Meta: 
 		model = Profile
-		fields = ("__all__")
+		fields = ("user", "subjects", "xp", "achievements", "follows", "streak", "last_activity")
 
 
 class AnswerSubmitionSerializer(serializers.Serializer):

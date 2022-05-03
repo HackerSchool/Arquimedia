@@ -40,60 +40,47 @@ const BorderLinearProgress = withStyles({
 	},
 })(LinearProgress);
 
-export const ProfileBasicInfo = ({ profile, XPEvents }) => {
-	const classes = useStyles();
+export const ProfileBasicInfo = ({profile}) => {
+    const classes = useStyles();
 
-	const sumSimilar = (arr) => {
-		const res = [];
-		for (let i = 0; i < arr.length; i++) {
-			const ind = res.findIndex((el) => el.date === arr[i].date);
-			if (ind === -1) {
-				res.push(arr[i]);
-			} else {
-				res[ind].amount += arr[i].amount;
-			}
-		}
-		return res;
-	};
+    const currentDay = new Date();
+    const last_activity = new Date(profile.last_activity)
+    const hasGainedXpToday = (currentDay.getDate() === last_activity.getDate() 
+                                && currentDay.getMonth() === last_activity.getMonth()
+                                && currentDay.getFullYear() === last_activity.getFullYear());
 
-	const computeStreak = (events, hasGainedXpToday) => {
-		events = sumSimilar(events);
-		events.splice(6, 0, {
-			date: '2021-11-30',
-			amount: 160,
-		});
-		events.splice(6, 0, {
-			date: '2021-11-29',
-			amount: 150,
-		});
-		events.splice(6, 0, {
-			date: '2021-11-28',
-			amount: 200,
-		});
-		events.splice(6, 0, {
-			date: '2021-11-27',
-			amount: 400,
-		});
-		let currentDay = new Date();
-		if (!hasGainedXpToday) currentDay.setDate(currentDay.getDate() - 1);
-
-		return streakNumber(currentDay, events);
-	};
-
-	const streakNumber = (currentDay, events) => {
-		if (
-			!events.some(
-				(event) =>
-					currentDay.getDate() === new Date(event.date).getDate() &&
-					currentDay.getMonth() === new Date(event.date).getMonth() &&
-					currentDay.getFullYear() === new Date(event.date).getFullYear()
-			)
-		)
-			return 0;
-
-		currentDay.setDate(currentDay.getDate() - 1);
-		return streakNumber(currentDay, events) + 1;
-	};
+    return (
+        <Grid container >
+            <Grid item xs={12} style={{ padding: '10px' }}>
+                <AvatarUser className={classes.avatar} user={profile.user}/>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography variant="h4">@{profile.user.username}</Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.esquerda}>
+                <Typography variant="h6">Nível: {profile.xp.currentLevel}</Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.esquerda}>
+                <div className={classes.linear}>
+                    <BorderLinearProgress 
+                        variant="determinate"
+                        value={profile.xp.xp/profile.xp.levelXP * 100}
+                    />
+                </div>
+            </Grid>
+            <Grid item xs={12} className={classes.esquerda}>
+                <Typography variant="h6">
+                    Streak: {profile.streak} {hasGainedXpToday ? "🔥" : "🕯️"}
+                </Typography>
+            </Grid>
+            <Grid item xs={12} className={classes.esquerda}>
+                <Typography variant="h6">
+                    A seguir: {profile.follows.length}
+                </Typography>
+            </Grid>
+        </Grid>
+    )
+}
 
 	const currentDay = new Date();
 	const hasGainedXpToday =
