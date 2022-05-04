@@ -29,6 +29,7 @@ const config = {
 		},
 	],
 	areas: ['Ciências e Tecnologias', 'Línguas e Humanidades'],
+	settingsMenu: ['Conta', 'Privacidade'],
 };
 
 export default config;
