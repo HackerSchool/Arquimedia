@@ -207,6 +207,23 @@ export async function confirmPasswordReset(uid, token, body, successCall, errorC
 		.catch((error) => errorCall(error));
 }
 
+export async function changePassword(
+	currentPassword,
+	newPassword,
+	newPasswordRep,
+	successCall,
+	errorCall
+) {
+	axios
+		.post('rest-auth/password/change/', {
+			old_password: currentPassword,
+			new_password1: newPassword,
+			new_password2: newPasswordRep,
+		})
+		.then((res) => successCall(res))
+		.catch((error) => errorCall(error));
+}
+
 export async function confirmEmail(code, username, successCall, errorCall) {
 	axios
 		.get('api/email-confirm/' + username + '/' + code)

@@ -18,6 +18,7 @@ import theme from '../globalTheme';
 import config from '../config';
 import { TextInput } from '../components/inputs/TextInput';
 import { useSnackbar } from 'notistack';
+import { changePassword } from '../api';
 
 const useStyles = makeStyles(() => ({
 	paper: {
@@ -96,6 +97,42 @@ export const SettingsPage = () => {
 			});
 		else {
 			// fazer request ao backend
+			changePassword(
+				currentPassword,
+				newPassword,
+				newPasswordRep,
+				() => {
+					enqueueSnackbar('Password mudada com sucesso!', {
+						variant: 'success',
+					});
+				},
+				(error) => {
+					if (error.response.data.new_password2) {
+						error.response.data.new_password2.forEach((msg) => {
+							if (
+								msg ===
+								'This password is too short. It must contain at least 8 characters.'
+							)
+								enqueueSnackbar(
+									'A sua palavra-passe é demasiado curta (pelo menos 8 caracteres).',
+									{ variant: 'error' }
+								);
+							if (msg === 'This password is too common.')
+								enqueueSnackbar('A sua palavra-passe é demasiado comum.', {
+									variant: 'error',
+								});
+						});
+					} else if (error.response.data.old_password)
+						enqueueSnackbar('Password atual errada!', {
+							variant: 'error',
+						});
+					else {
+						enqueueSnackbar('Erro na mudança de password!', {
+							variant: 'error',
+						});
+					}
+				}
+			);
 		}
 	};
 
