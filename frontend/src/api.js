@@ -233,3 +233,12 @@ export async function confirmEmail(code, username, successCall, errorCall) {
 export async function getNumberOfUsers(successCall) {
 	axios.get('api/users/').then((res) => successCall(res));
 }
+
+export async function deleteAccount(password, successCall, errorCall) {
+	axios
+		.delete('api/user/', {
+			data: { password: password },
+		})
+		.then((res) => successCall(res))
+		.catch((error) => errorCall(error));
+}

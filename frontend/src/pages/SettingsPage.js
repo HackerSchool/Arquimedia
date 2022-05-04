@@ -18,7 +18,7 @@ import theme from '../globalTheme';
 import config from '../config';
 import { TextInput } from '../components/inputs/TextInput';
 import { useSnackbar } from 'notistack';
-import { changePassword } from '../api';
+import { changePassword, deleteAccount } from '../api';
 
 const useStyles = makeStyles(() => ({
 	paper: {
@@ -82,8 +82,23 @@ export const SettingsPage = () => {
 	const [dialogOpen, setDialogOpen] = useState(false);
 
 	const handleDelete = () => {
-		// delete the account
-		console.log('delete');
+		deleteAccount(
+			currentPassword,
+			() => {
+				enqueueSnackbar('Conta apagada com sucesso!', { variant: 'success' });
+				window.location.replace('/');
+			},
+			(error) => {
+				console.log(error.response);
+				if (
+					error.response.data.non_field_errors &&
+					error.response.data.non_field_errors[0] ===
+						'Your old password was entered incorrectly. Please enter it again.'
+				)
+					enqueueSnackbar('Password incorreta!', { variant: 'error' });
+				else enqueueSnackbar('Não foi possível apagar conta!', { variant: 'error' });
+			}
+		);
 	};
 
 	const handleChangePassword = () => {
