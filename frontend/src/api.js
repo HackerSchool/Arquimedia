@@ -60,10 +60,9 @@ export async function logIn(username, password, errorCall) {
 
 // Log out User
 export async function logOut() {
-	axios.post('/rest-auth/logout/').then(() => {
-		localStorage.removeItem('Authorization');
-		delete axios.defaults.headers.common['Authorization'];
-	});
+	axios.post('/rest-auth/logout/');
+	localStorage.removeItem('Authorization');
+	delete axios.defaults.headers.common['Authorization'];
 }
 
 export async function questionInfo(id, successCall) {
