@@ -60,10 +60,9 @@ export async function logIn(username, password, errorCall) {
 
 // Log out User
 export async function logOut() {
-	axios.post('/rest-auth/logout/').then(() => {
-		localStorage.removeItem('Authorization');
-		delete axios.defaults.headers.common['Authorization'];
-	});
+	axios.post('/rest-auth/logout/');
+	localStorage.removeItem('Authorization');
+	delete axios.defaults.headers.common['Authorization'];
 }
 
 export async function questionInfo(id, successCall) {
@@ -207,6 +206,23 @@ export async function confirmPasswordReset(uid, token, body, successCall, errorC
 		.catch((error) => errorCall(error));
 }
 
+export async function changePassword(
+	currentPassword,
+	newPassword,
+	newPasswordRep,
+	successCall,
+	errorCall
+) {
+	axios
+		.post('rest-auth/password/change/', {
+			old_password: currentPassword,
+			new_password1: newPassword,
+			new_password2: newPasswordRep,
+		})
+		.then((res) => successCall(res))
+		.catch((error) => errorCall(error));
+}
+
 export async function confirmEmail(code, username, successCall, errorCall) {
 	axios
 		.get('api/email-confirm/' + username + '/' + code)
@@ -216,4 +232,13 @@ export async function confirmEmail(code, username, successCall, errorCall) {
 
 export async function getNumberOfUsers(successCall) {
 	axios.get('api/users/').then((res) => successCall(res));
+}
+
+export async function deleteAccount(password, successCall, errorCall) {
+	axios
+		.delete('api/user/', {
+			data: { password: password },
+		})
+		.then((res) => successCall(res))
+		.catch((error) => errorCall(error));
 }

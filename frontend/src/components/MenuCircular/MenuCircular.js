@@ -7,6 +7,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import PersonIcon from '@mui/icons-material/Person';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { logOut } from '../../api';
 
 const handleLogout = () => {
@@ -69,6 +70,17 @@ const MenuCircular = (props) => {
 				<div />
 
 				<IconButton
+					href='/configuracoes'
+					title='Configurações'
+					size='large'
+					className={classes.iconButton}
+				>
+					<SettingsIcon />
+				</IconButton>
+
+				<div />
+
+				<IconButton
 					href='/leaderboards'
 					title='Leaderboards'
 					size='large'
@@ -99,6 +111,8 @@ const MenuCircular = (props) => {
 					<PersonIcon />
 				</IconButton>
 
+				<div />
+				<div />
 				<div />
 				<div />
 				<div />

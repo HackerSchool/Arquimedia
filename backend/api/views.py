@@ -499,3 +499,17 @@ class Users(APIView):
 		number_of_users = User.objects.count()
 
 		return Response(number_of_users, status=status.HTTP_200_OK)
+
+class DeleteAccount(APIView):
+	permission_classes = [IsAuthenticated]
+	serializer_class = DeleteAccountSerializer
+
+	def delete(self, request, *args, **kwargs):
+		serializer = self.serializer_class(data=request.data, context={'request': request})
+		serializer.is_valid(raise_exception=True)
+
+		return Response(
+			{"detail": ("Account has been deleted")},
+			status=status.HTTP_200_OK
+		)
+

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'rest_auth.registration',
     'django_celery_beat',
     'django.contrib.admin',
@@ -162,6 +163,8 @@ LOGIN_URL = '^login/$'
 
 # Disables the verification email sent by allauth
 ACCOUNT_EMAIL_VERIFICATION = "none"
+LOGOUT_ON_PASSWORD_CHANGE = False
+OLD_PASSWORD_FIELD_ENABLED = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
