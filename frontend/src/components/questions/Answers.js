@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 		'&:hover': selected => ({
 			transform: "scale3d(1.05, 1.05, 1)",
 			boxShadow: (selected === false && "0px 5px rgba(0, 0, 0, 0.1)"),
-			border: "0.05rem solid #919191",
 		 }),
 
 	}),
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 		right: -5,
 	},
 	answerText: selected => ({
-		fontSize: (selected === true ? 18 : 12),
+		fontSize: 18,
 		padding: 8,
 		wordWrap: "break-word",
 	}),
