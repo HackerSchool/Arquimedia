@@ -29,6 +29,7 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: "center",
 		display: "flex",
 		flexDirection: 'column',
+		padding: 5,
 	},
 
 	number: {

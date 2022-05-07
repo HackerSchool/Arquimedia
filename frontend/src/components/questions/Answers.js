@@ -33,11 +33,11 @@ const useStyles = makeStyles(theme => ({
 		top: -5,
 		right: -5,
 	},
-	answerText: selected => ({
+	answerText: {
 		fontSize: 18,
 		padding: 8,
 		wordWrap: "break-word",
-	}),
+	},
 }))
 
 const Answer = (props) => {
