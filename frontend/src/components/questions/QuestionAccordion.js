@@ -9,7 +9,10 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import makeStyles from '@mui/styles/makeStyles';
 import LaunchIcon from '@mui/icons-material/Launch';
-var Latex = require('react-latex');
+import ReactMarkdown from 'react-markdown'
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(theme => ({
 	rootAccordion: {
@@ -28,10 +31,10 @@ const QuestionAccordion = ({question, failed}) => {
 			<AccordionSummary expandIcon={<ExpandMoreIcon />} style={{
 				backgroundColor: (failed ? "#ff8c8c" : "#b4ff8c"),
 			}}>
-				<Typography><Latex>{question.text}</Latex></Typography>
+				<Typography><ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>{question.text}</ReactMarkdown></Typography>
 			</AccordionSummary>
 			<AccordionDetails>
-				<Typography><Latex>{correctAnswer.text}</Latex></Typography>
+				<Typography><ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>{correctAnswer.text}</ReactMarkdown></Typography>
 				<Button href={"/question/" + question.id}><LaunchIcon /></Button>
 			</AccordionDetails>
 		</Accordion>

@@ -8,8 +8,10 @@ import { useState } from "react";
 import makeStyles from '@mui/styles/makeStyles';
 import QuestionImage from "./QuestionImage";
 import Answer from "./Answers";
-
-var Latex = require('react-latex');
+import ReactMarkdown from 'react-markdown'
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(theme => ({
 	questionBox: {
@@ -82,7 +84,7 @@ const Question = (props) => {
 
 				{/* Question's text */}
 				<Grid item xs={12} spacing={3}>
-						<Typography display="block" variant="h5" className={classes.questionText}><Latex>{props.question.text}</Latex></Typography>
+						<Typography display="block" variant="h5" className={classes.questionText}><ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>{props.question.text}</ReactMarkdown></Typography>
 				</Grid>
 
 				{/* Question's image */}

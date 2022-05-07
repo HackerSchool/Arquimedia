@@ -2,9 +2,10 @@ import { Paper, Typography, IconButton } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import {ReactComponent as BlueWhiteCheckmark} from '../../assets/newCheckMark.svg';
-
-
-var Latex = require('react-latex');
+import ReactMarkdown from 'react-markdown'
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(theme => ({
 	paperAnswer: selected => ({
@@ -53,7 +54,7 @@ const Answer = (props) => {
             onClick={changeChosenAnswer}
             key={props.answer.id}
             size="large">
-			<Paper className={classes.paperAnswer}><Typography className={classes.answerText} variant="h6"><Latex>{props.answer.text}</Latex></Typography></Paper>
+			<Paper className={classes.paperAnswer}><Typography className={classes.answerText} variant="h6"><ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>{props.answer.text}</ReactMarkdown></Typography></Paper>
 			{props.selected && (
 				<BlueWhiteCheckmark className={classes.icon}/>
 			)}
