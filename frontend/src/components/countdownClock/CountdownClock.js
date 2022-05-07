@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // renderer changes the format on the CountdownClock
-const renderer = () => {
+const renderer = (props) => {
 	return (
 		<span style={{ color: props.minutes === 0 && props.seconds < 30 ? '#EB5757' : 'black' }}>
 			{props.minutes}:{props.seconds < 10 && 0}
