@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 		'&:hover': selected => ({
 			transform: "scale3d(1.05, 1.05, 1)",
 			boxShadow: (selected === false && "0px 5px rgba(0, 0, 0, 0.1)"),
+			backgroundColor: "#E4E4E4",
 		 }),
 
 	}),
