@@ -28,12 +28,16 @@ const QuestionAccordion = ({ question, failed }) => {
 				}}
 			>
 				<Typography>
-					<Latex>{question.text}</Latex>
+					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+						{question.text}
+					</ReactMarkdown>
 				</Typography>
 			</AccordionSummary>
 			<AccordionDetails>
 				<Typography>
-					<Latex>{correctAnswer.text}</Latex>
+					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+						{correctAnswer.text}
+					</ReactMarkdown>
 				</Typography>
 				<Button href={'/question/' + question.id}>
 					<LaunchIcon />

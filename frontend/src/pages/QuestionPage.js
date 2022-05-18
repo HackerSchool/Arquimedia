@@ -121,7 +121,7 @@ class QuestionInfo extends Component {
 				<div style={{ width: '80%' }}>
 					<Paper style={{ padding: '40px 20px' }} variant='fullWidth'>
 						{this.state.comment.map((comment) => (
-							<div>
+							<div key={comment}>
 								<Comment
 									key={comment}
 									data={comment}
