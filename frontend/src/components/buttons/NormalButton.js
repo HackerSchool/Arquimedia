@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
 		transition: "transform 0.15s ease-in-out",
 		'&:hover': {
 			backgroundColor: "#E3E3E3",
-			transform: `scale3d(${props.scale}, ${props.scale}, 1)`
+			transform: `scale3d(${props.scale}, ${props.scale}, 1)`,
+			boxShadow: "0px 6px 4px #Bbb9b9",
 		},
 	})
 }))

@@ -33,7 +33,8 @@ const useStyles = makeStyles(theme => ({
 		transition: "transform 0.15s ease-in-out",
 		'&:hover': {
 			backgroundColor: "#E3E3E3",
-			transform: "scale3d(1.1, 1.1, 1)"
+			transform: "scale3d(1.1, 1.1, 1)",
+			boxShadow: "0px 6px 4px #Bbb9b9",
 		 },
 	},
 	container: {
@@ -52,7 +53,8 @@ const useStyles = makeStyles(theme => ({
 		transition: "transform 0.15s ease-in-out",
 		'&:hover': {
 			backgroundColor: "#E3E3E3",
-			transform: "scale3d(1.05, 1.05, 1)"
+			transform: "scale3d(1.05, 1.05, 1)",
+			boxShadow: "0px 6px 4px #Bbb9b9",
 		},
 	},
 	steppers: {
