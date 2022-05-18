@@ -3,7 +3,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography, Button } fro
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import makeStyles from '@mui/styles/makeStyles';
 import LaunchIcon from '@mui/icons-material/Launch';
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';

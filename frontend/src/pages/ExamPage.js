@@ -28,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.primary.main,
 		transition: 'transform 0.15s ease-in-out',
 		'&:hover': {
-			backgroundColor: "#E3E3E3",
-			transform: "scale3d(1.1, 1.1, 1)",
-			boxShadow: "0px 6px 4px #Bbb9b9",
-		 },
+			backgroundColor: '#E3E3E3',
+			transform: 'scale3d(1.1, 1.1, 1)',
+			boxShadow: '0px 6px 4px #Bbb9b9',
+		},
 	},
 	container: {
-		width: "100%",
-		margin: "0px 0px 6rem"
+		width: '100%',
+		margin: '0px 0px 6rem',
 	},
 	finishBttnWrapper: {
 		marginTop: '4rem',
@@ -48,9 +48,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: '1rem',
 		transition: 'transform 0.15s ease-in-out',
 		'&:hover': {
-			backgroundColor: "#E3E3E3",
-			transform: "scale3d(1.05, 1.05, 1)",
-			boxShadow: "0px 6px 4px #Bbb9b9",
+			backgroundColor: '#E3E3E3',
+			transform: 'scale3d(1.05, 1.05, 1)',
+			boxShadow: '0px 6px 4px #Bbb9b9',
 		},
 	},
 	steppers: {
@@ -109,7 +109,14 @@ const ExamPage = (props) => {
 					<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete} />
 				</div>
 			</Grid>
-			<Grid container justifyContent="space-between" alignItems="center" align="center" spacing={4} xs={12}>
+			<Grid
+				container
+				justifyContent='space-between'
+				alignItems='center'
+				align='center'
+				spacing={4}
+				xs={12}
+			>
 				<Grid item xs={1}>
 					<IconButton
 						className={classes.beforeBttn}
@@ -119,8 +126,8 @@ const ExamPage = (props) => {
 						<ArrowBackIcon fontSize='large' />
 					</IconButton>
 				</Grid>
-				<Grid item xs="auto">
-					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion}/>
+				<Grid item xs='auto'>
+					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion} />
 				</Grid>
 				<Grid item xs={1}>
 					<IconButton className={classes.nextBttn} onClick={increaseCurrent} size='large'>
