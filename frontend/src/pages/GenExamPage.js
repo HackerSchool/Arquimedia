@@ -140,9 +140,11 @@ const GenExamPage = () => {
 
 	const is1100pxScreen = useMediaQuery(theme.breakpoints.down(1100));
 
-	const [dictSubSubjects, setDictSubSubjects] = useState({});
+	const [dictSubSubjects, setDictSubSubjects] = useState(
+		config.subjects[0].themes.reduce((o, key) => ({ ...o, [key]: false }), {})
+	);
 
-	const baseSubSubjects = {};
+	const baseSubSubjects = dictSubSubjects;
 
 	const [dictYears, setDictYear] = useState({
 		10: false,
@@ -166,7 +168,14 @@ const GenExamPage = () => {
 	};
 
 	const resetDictSubSubjects = () => {
-		setDictSubSubjects(baseSubSubjects);
+		const newThemes = Object.fromEntries(
+			Object.entries(dictSubSubjects).map(([k, v], i) => {
+				console.log(v);
+				console.log(i);
+				return [k, false];
+			})
+		);
+		setDictSubSubjects(newThemes);
 	};
 
 	const handleChangeYear = (event) => {
@@ -180,11 +189,10 @@ const GenExamPage = () => {
 	};
 
 	const handleChangeRandomSubSubject = (event) => {
-		setOptions({ ...options, [event.target.name]: event.target.checked });
-
 		if (!options.randomSubSubject) {
 			resetDictSubSubjects();
 		}
+		setOptions({ ...options, [event.target.name]: event.target.checked });
 	};
 
 	const handleChangeRandomGrade = (event) => {
