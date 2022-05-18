@@ -49,10 +49,12 @@ const useStyles = makeStyles((theme) => ({
 	toolbar: {
 		height: 300,
 		marginRight: '20rem',
-		marginLeft: '2rem',
+		marginLeft: '20rem',
 	},
 	logo: {
 		height: '5rem',
+		width: 'auto',
+		margin: 0,
 	},
 	registerBtn: {
 		borderRadius: '15',
@@ -79,7 +81,9 @@ const Navbar = () => {
 	return (
 		<AppBar position='static' className={classes.navbar}>
 			<Toolbar className={classes.toolbar}>
-				<Logo className={classes.logo} />
+				<a href='/'>
+					<Logo className={classes.logo} />
+				</a>
 
 				<Grid container className={classes.menu} justifyContent='flex-end'>
 					{loading ? (
