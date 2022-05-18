@@ -267,7 +267,7 @@ class ExamView(APIView):
 				if year:
 					questionsQuery += list(Question.objects.filter(year__in=year, subsubject__in=subSubjects))
 				else:
-					questionsQuery += list(Question.objects.filter(subsubject=subSubject))
+					questionsQuery += list(Question.objects.filter(subsubject__in=subSubjects))
 			else: # User wants a random subsubjects exam
 				if year:
 					questionsQuery += list(Question.objects.filter(year__in=year))
