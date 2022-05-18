@@ -270,9 +270,9 @@ class ExamView(APIView):
 					questionsQuery += list(Question.objects.filter(subsubject=subSubject))
 			else: # User wants a random subsubjects exam
 				if year:
-					questionQuery += list(Question.objects.filter(year__in=year))
+					questionsQuery += list(Question.objects.filter(year__in=year))
 				else:
-					questionQuery += list(Question.objects.all())
+					questionsQuery += list(Question.objects.all())
 
 			# Selects randomly a set of final questions for the exam
 			questions = random.sample(list(questionsQuery), QUESTION_PER_EXAM)
@@ -499,3 +499,17 @@ class Users(APIView):
 		number_of_users = User.objects.count()
 
 		return Response(number_of_users, status=status.HTTP_200_OK)
+
+class DeleteAccount(APIView):
+	permission_classes = [IsAuthenticated]
+	serializer_class = DeleteAccountSerializer
+
+	def delete(self, request, *args, **kwargs):
+		serializer = self.serializer_class(data=request.data, context={'request': request})
+		serializer.is_valid(raise_exception=True)
+
+		return Response(
+			{"detail": ("Account has been deleted")},
+			status=status.HTTP_200_OK
+		)
+

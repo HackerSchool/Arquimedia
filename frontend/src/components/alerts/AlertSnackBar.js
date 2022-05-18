@@ -10,16 +10,21 @@ function AlertSnackBar(props) {
 			return;
 		}
 
-		setInternalOpen(false)
+		setInternalOpen(false);
 	};
 
-    return (
-		<Snackbar anchorOrigin={props.anchorOrigin} open={props.open && internalOpen} autoHideDuration={6000} onClose={handleClose}>
-			<MuiAlert onClose={handleClose} severity={props.type} >
+	return (
+		<Snackbar
+			anchorOrigin={props.anchorOrigin}
+			open={props.open && internalOpen}
+			autoHideDuration={6000}
+			onClose={handleClose}
+		>
+			<MuiAlert onClose={handleClose} severity={props.type}>
 				{props.text}
 			</MuiAlert>
 		</Snackbar>
-    )
+	);
 }
 
 export default AlertSnackBar;
