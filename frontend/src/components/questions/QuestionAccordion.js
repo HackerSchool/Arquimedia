@@ -3,7 +3,10 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography, Button } fro
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import makeStyles from '@mui/styles/makeStyles';
 import LaunchIcon from '@mui/icons-material/Launch';
-var Latex = require('react-latex');
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(() => ({
 	rootAccordion: {

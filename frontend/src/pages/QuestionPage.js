@@ -15,8 +15,10 @@ import {
 	createCommentAPI,
 } from '../api';
 import $ from 'jquery';
-
-var Latex = require('react-latex');
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 // Renders a page about a specific Question and allows for comments on it
 export default class QuestionPage extends Component {
@@ -97,7 +99,9 @@ class QuestionInfo extends Component {
 				<Grid container direction='column' justifyContent='center' alignItems='center'>
 					<Grid item xs={12} align='center'>
 						<Typography variant='h3'>
-							<Latex>{this.state.text}</Latex>
+							<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+								{this.state.text}
+							</ReactMarkdown>
 						</Typography>
 					</Grid>
 					<Grid item xs={12} align='center'>
@@ -117,7 +121,7 @@ class QuestionInfo extends Component {
 				<div style={{ width: '80%' }}>
 					<Paper style={{ padding: '40px 20px' }} variant='fullWidth'>
 						{this.state.comment.map((comment) => (
-							<div key={comment}>
+							<div>
 								<Comment
 									key={comment}
 									data={comment}
@@ -230,7 +234,9 @@ class Comment extends Component {
 						</Typography>
 
 						<Typography variant={'body1'} style={{ margin: 0, textAlign: 'left' }}>
-							<Latex>{this.props.data.content}</Latex>
+							<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+								{this.props.data.content}
+							</ReactMarkdown>
 						</Typography>
 
 						<Typography variant={'caption'}>{this.props.data.date}</Typography>

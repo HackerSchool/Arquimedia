@@ -1,31 +1,41 @@
 import { Paper, Typography, IconButton } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-var Latex = require('react-latex');
+import { ReactComponent as BlueWhiteCheckmark } from '../../assets/newCheckMark.svg';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(() => ({
-	paperAnswer: {
-		width: '100%',
+	paperAnswer: (selected) => ({
+		width: '95%',
 		borderRadius: 38,
 		backgroundColor: '#F9F9F9',
-	},
-	buttonWrapper: (selected) => ({
-		padding: 0,
-		width: '80%',
-		borderRadius: 38,
-		boxShadow: selected === true && '3px 6px 0px rgba(0, 0, 0, 0.25)',
+		padding: 3,
+		margin: 4,
+		boxShadow: selected === true && '3px 5px rgba(0, 0, 0, 0.25)',
 		transition: 'transform 0.15s ease-in-out',
-		'&:hover': {
+		'&:hover': (selected) => ({
 			transform: 'scale3d(1.05, 1.05, 1)',
-		},
+			boxShadow: selected === false && '0px 5px rgba(0, 0, 0, 0.1)',
+			backgroundColor: '#E4E4E4',
+		}),
 	}),
+	buttonWrapper: {
+		padding: 0,
+		width: '100%',
+		borderRadius: 38,
+	},
 	icon: {
 		position: 'absolute',
-		top: -10,
-		right: -10,
-		color: '#000',
+		top: -5,
+		right: -5,
+	},
+	answerText: {
+		fontSize: 18,
+		padding: 8,
+		wordWrap: 'break-word',
 	},
 }));
 
@@ -45,11 +55,13 @@ const Answer = (props) => {
 			size='large'
 		>
 			<Paper className={classes.paperAnswer}>
-				<Typography variant='h6'>
-					<Latex>{props.answer.text}</Latex>
+				<Typography className={classes.answerText} variant='h6'>
+					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+						{props.answer.text}
+					</ReactMarkdown>
 				</Typography>
 			</Paper>
-			{props.selected && <CheckCircleIcon className={classes.icon} />}
+			{props.selected && <BlueWhiteCheckmark className={classes.icon} />}
 		</IconButton>
 	);
 };

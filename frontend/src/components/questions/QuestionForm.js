@@ -9,8 +9,10 @@ import AlertSnackBar from '../alerts/AlertSnackBar';
 import NormalButton from '../buttons/NormalButton';
 import globalTheme from '../../globalTheme';
 import config from '../../config';
-
-var Latex = require('react-latex');
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles((theme) => ({
 	contentInput: {
@@ -141,7 +143,12 @@ const QuestionForm = () => {
 								Começa por escrever a equação dentro de dois <b>$equação$</b>
 							</Typography>
 							<Typography>
-								<b>Exemplo</b>: $x^2=4$ fica <Latex>$x^2=4$</Latex>
+								<b>Exemplo</b>: $x^2=4$ fica:{' '}
+								<ReactMarkdown
+									remarkPlugins={[remarkMath, remarRehype, remarkKatex]}
+								>
+									$x^2=4$
+								</ReactMarkdown>
 							</Typography>
 							<Typography>
 								Descobre mais lendo a{' '}
