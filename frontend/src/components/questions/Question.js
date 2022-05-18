@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
 	Typography,
 	Grid,
@@ -13,7 +13,7 @@ import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(_theme => ({
 	questionBox: {
 		width: "100%",
 		borderRadius: 20,
@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		flexDirection: 'column',
 		padding: 5,
+		minWidth : 150,
 	},
 
 	number: {
@@ -57,11 +58,13 @@ const useStyles = makeStyles(theme => ({
 		whiteSpace: "pre-line",
 		textAlign: "justify",
 		textJustify: "inter-word",
-		padding:10,
+		padding: 10,
 		wordWrap: "break-word",
 	}
 }))
 
+
+	
 const Question = (props) => {
 	const classes = useStyles();
 	const [selectedAnswer, setSelectedAnswer] = useState(props.selected)
@@ -75,9 +78,8 @@ const Question = (props) => {
 
 	return (
 		
-		<Grid className={classes.questionBox} container alignItems="stretch" direction="row" justifyContent="flex-start">
-
-			<Grid item xs={8} justifyContent="center">
+		<Grid className={classes.questionBox} container direction="row" justifyContent="flex-start" xs="auto">
+			<Grid  style = {{minWidth : '400px'}} item xs="auto" justifyContent="center">
 				{/* Question's number */}
 				<Grid item xs={5}>
 					<Paper className={classes.number}><Typography className={classes.bold} variant="h5"> {props.preview ? "Preview" : "Questão " + (props.answer + 1)} </Typography></Paper>
@@ -97,10 +99,10 @@ const Question = (props) => {
 			</Grid>
 
 			{/* Answers */}
-			<Grid container xs={4}> 
+			<Grid container xs='auto'> 
 				<Paper className={classes.answers}>
-				<Grid container direction="column" justifyContent="space-around" spacing={3} alignItems="stretch"> 
-					{props.question.answer.map(answer => {
+				<Grid container direction="column" justifyContent="space-around" spacing={3}> 
+					{props.question.answer.map((answer, answerIndex) => {
 							return (
 								<Grid item className={classes.options}>
 									<Answer preview={props.preview} selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>

@@ -35,7 +35,7 @@ const QuestionsGroup = forwardRef((props, ref) => {
 
 	return (
 		<Grid container spacing={4}>
-			<Grid item xs={12} key={props.exam.questions[props.questionIndex].id}>
+			<Grid item xs="auto" key={props.exam.questions[props.questionIndex].id}>
 				<Question selected={answers.current[props.questionIndex]} answer={props.questionIndex} key={props.exam.questions[props.questionIndex].id} question={props.exam.questions[props.questionIndex]} callBack={callBack}/>
 			</Grid>
 		</Grid>

@@ -116,7 +116,7 @@ const ExamPage = (props) => {
 				<Grid item xs={1}>
 					<IconButton className={classes.beforeBttn} onClick={decreaseCurrent} size="large"><ArrowBackIcon fontSize="large" /></IconButton>
 				</Grid>
-				<Grid item xs={10}>
+				<Grid item xs="auto">
 					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion}/>
 				</Grid>
 				<Grid item xs={1}>
