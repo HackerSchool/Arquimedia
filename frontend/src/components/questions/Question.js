@@ -1,10 +1,6 @@
-import React from "react";
-import {
-	Typography,
-	Grid,
-	Paper,
-} from "@mui/material";
-import { useState } from "react";
+import React from 'react';
+import { Typography, Grid, Paper } from '@mui/material';
+import { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import QuestionImage from './QuestionImage';
 import Answer from './Answers';
@@ -112,8 +108,8 @@ const Question = (props) => {
 			{/* Answers */}
 			<Grid container xs='auto'>
 				<Paper className={classes.answers}>
-				<Grid container direction="column" justifyContent="space-around" spacing={3}> 
-					{props.question.answer.map((answer) => {
+					<Grid container direction='column' justifyContent='space-around' spacing={3}>
+						{props.question.answer.map((answer) => {
 							return (
 								<Grid item className={classes.options}>
 									<Answer
