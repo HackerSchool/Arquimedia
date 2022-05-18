@@ -111,7 +111,7 @@ const Question = (props) => {
 					<Grid container direction='column' justifyContent='space-around' spacing={3}>
 						{props.question.answer.map((answer) => {
 							return (
-								<Grid item className={classes.options}>
+								<Grid item className={classes.options} key={answer}>
 									<Answer
 										preview={props.preview}
 										selected={answer.id === selectedAnswer}
