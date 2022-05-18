@@ -45,8 +45,8 @@ const Answer = (props) => {
 
 	const changeChosenAnswer = () => {
 		// do something to change the answer
-		props.changeAnswer(props.answer.id)
-	}
+		props.changeAnswer(props.answer.id);
+	};
 
     return (
         <IconButton
@@ -59,7 +59,7 @@ const Answer = (props) => {
 				<BlueWhiteCheckmark className={classes.icon}/>
 			)}
 		</IconButton>
-    );
-}
+	);
+};
 
 export default Answer;

@@ -24,10 +24,10 @@ const useStyles = makeStyles(_theme => ({
 
 	answers: {
 		backgroundColor: '#EB5757',
-		width: "100%",
+		width: '100%',
 		borderRadius: 20,
-		justifyContent: "center",
-		display: "flex",
+		justifyContent: 'center',
+		display: 'flex',
 		flexDirection: 'column',
 		padding: 5,
 		minWidth : 150,
@@ -41,8 +41,8 @@ const useStyles = makeStyles(_theme => ({
 		padding: 5,
 		borderColor: '#EB5757',
 		position: 'relative',
-		height: "2rem",
-		top: "-1rem",
+		height: '2rem',
+		top: '-1rem',
 	},
 
 	bold: {
@@ -67,14 +67,13 @@ const useStyles = makeStyles(_theme => ({
 	
 const Question = (props) => {
 	const classes = useStyles();
-	const [selectedAnswer, setSelectedAnswer] = useState(props.selected)
+	const [selectedAnswer, setSelectedAnswer] = useState(props.selected);
 
 	const handleAnswer = (newAnswer) => {
-		setSelectedAnswer(newAnswer)
-		if (props.preview)
-			return;
+		setSelectedAnswer(newAnswer);
+		if (props.preview) return;
 		props.callBack(newAnswer, props.answer);
-	}
+	};
 
 	return (
 		

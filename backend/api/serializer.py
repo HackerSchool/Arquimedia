@@ -4,7 +4,10 @@ from rest_framework.fields import ReadOnlyField
 from exams.models import Question, Comment, Exam, Answer
 from django.contrib.auth.models import User 
 from rest_framework import serializers
+from config import subjects
+from rest_framework.fields import CurrentUserDefault
 
+SUBJECT_CHOICES = [(i['name'], i['name']) for i in subjects if i['active']]
 class UserSerializer(serializers.ModelSerializer):
 	id = serializers.SlugField()
 	username = serializers.ReadOnlyField()
@@ -84,15 +87,11 @@ class ExamSerializer(serializers.ModelSerializer):
 		model = Exam
 		fields = ("id", "questions", "failed", "correct", "score", "subject", "year", "difficulty")
 
-
-class StringListField(serializers.ListField):
-	child = serializers.CharField()
-
-
 class CreateExamSerializer(serializers.Serializer):
-	subject = serializers.CharField()
-	subSubjects = StringListField()
-	year = serializers.IntegerField()
+	subject = serializers.ChoiceField(choices=SUBJECT_CHOICES)
+	subSubjects = serializers.ListField(child = serializers.CharField())
+	year = serializers.ListField(child = serializers.IntegerField())
+	randomSubSubject = serializers.BooleanField()
 
 
 class AchievementSerializer(serializers.ModelSerializer):
@@ -132,7 +131,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 	class Meta: 
 		model = Profile
-		fields = ("__all__")
+		fields = ("user", "subjects", "xp", "achievements", "follows", "streak", "last_activity")
 
 
 class AnswerSubmitionSerializer(serializers.Serializer):
@@ -167,3 +166,22 @@ class ProfileLeaderboardSerializer(serializers.ModelSerializer):
 class ProfileLeaderboardTimedSerializer(serializers.Serializer):
 	id = serializers.IntegerField()
 	xp = serializers.IntegerField() 
+
+class LeaderboardSerializer(serializers.Serializer):
+	users = ProfileLeaderboardTimedSerializer(many=True)
+	length = serializers.IntegerField()
+
+class DeleteAccountSerializer(serializers.Serializer):
+	password = serializers.CharField(style={'input_type': 'password'})
+
+	def validate(self, attrs):
+		password = attrs.get('password')
+		user = self.context.get("request").user
+
+		if not user.check_password(password):
+			err_msg = ("Your old password was entered incorrectly. Please enter it again.")
+			raise serializers.ValidationError(err_msg)
+
+		user.delete()
+
+		return password

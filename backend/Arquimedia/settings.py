@@ -9,10 +9,10 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from celery.schedules import crontab
 load_dotenv()
 
 SITE_ID = 1
@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'rest_auth.registration',
+    'django_celery_beat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -161,6 +163,8 @@ LOGIN_URL = '^login/$'
 
 # Disables the verification email sent by allauth
 ACCOUNT_EMAIL_VERIFICATION = "none"
+LOGOUT_ON_PASSWORD_CHANGE = False
+OLD_PASSWORD_FIELD_ENABLED = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -169,3 +173,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 MEDIA_URL = "/images/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# Celery settings
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Lisbon'

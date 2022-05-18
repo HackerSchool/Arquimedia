@@ -8,6 +8,7 @@ from datetime import datetime
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 import random
+from datetime import datetime
 from config import subjects
 
 
@@ -25,6 +26,8 @@ class Profile(models.Model):
     achievements = models.ManyToManyField("Achievement", related_name="achievements")
     follows = models.ManyToManyField(User, "follows")
     email_confirmation_code = models.IntegerField(default=0)
+    streak = models.IntegerField(default=0)
+    last_activity = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.user.username
@@ -50,8 +53,15 @@ class XPSystem(models.Model):
 
     def save(self, *args, **kwargs):
         if self.previousXP < self.xp:
-            user = self.profile_set.all()[0].user
+            profile = self.profile_set.all()[0]
+            user = profile.user
             amountXPChanged = self.xp-self.previousXP
+
+            # Only increments streak if user hasn't gained XP today
+            today = datetime.now()
+            if not(profile.last_activity.year == today.year and profile.last_activity.month == today.month and profile.last_activity.day == today.day):
+                profile.streak += 1
+                profile.save()
 
             XPEvent.objects.create(user=user, amount=amountXPChanged)
 
