@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { submitQuestion, submitQuestionImage } from '../../api';
 import Question from '../questions/Question';
 import InfoIcon from '@mui/icons-material/Info';
-import AlertSnackBar from "../alerts/AlertSnackBar";
-import NormalButton from "../buttons/NormalButton"
-import globalTheme from "../../globalTheme";
-import config from "../../config";
-import ReactMarkdown from 'react-markdown'
+import AlertSnackBar from '../alerts/AlertSnackBar';
+import NormalButton from '../buttons/NormalButton';
+import globalTheme from '../../globalTheme';
+import config from '../../config';
+import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
@@ -132,17 +132,39 @@ const QuestionForm = () => {
 					onChange={handleChange}
 				/>
 				<Tooltip
-				className={classes.tooltipKatex}
-				interactive
-				title={
-					<React.Fragment>
-						<Typography variant="h6">Escreve equações matemáticas usando KaTeX!</Typography>
-						<Typography>Começa por escrever a equação dentro de dois <b>$equação$</b></Typography>
-						<Typography><b>Exemplo</b>: $x^2=4$ fica: <ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>$x^2=4$</ReactMarkdown></Typography>
-						<Typography>Descobre mais lendo a <b><a target="_blank" rel="noreferrer" className={classes.tooltipText} href="https://katex.org/docs/supported.html">documentação</a></b></Typography>
-					</React.Fragment>
-				}
-				
+					className={classes.tooltipKatex}
+					interactive
+					title={
+						<React.Fragment>
+							<Typography variant='h6'>
+								Escreve equações matemáticas usando KaTeX!
+							</Typography>
+							<Typography>
+								Começa por escrever a equação dentro de dois <b>$equação$</b>
+							</Typography>
+							<Typography>
+								<b>Exemplo</b>: $x^2=4$ fica:{' '}
+								<ReactMarkdown
+									remarkPlugins={[remarkMath, remarRehype, remarkKatex]}
+								>
+									$x^2=4$
+								</ReactMarkdown>
+							</Typography>
+							<Typography>
+								Descobre mais lendo a{' '}
+								<b>
+									<a
+										target='_blank'
+										rel='noreferrer'
+										className={classes.tooltipText}
+										href='https://katex.org/docs/supported.html'
+									>
+										documentação
+									</a>
+								</b>
+							</Typography>
+						</React.Fragment>
+					}
 				>
 					<InfoIcon />
 				</Tooltip>
