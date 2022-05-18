@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import {
 	Typography,
 	Grid,
@@ -13,7 +13,7 @@ import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
 
-const useStyles = makeStyles(_theme => ({
+const useStyles = makeStyles(() => ({
 	questionBox: {
 		width: "100%",
 		borderRadius: 20,
@@ -101,7 +101,7 @@ const Question = (props) => {
 			<Grid container xs='auto'> 
 				<Paper className={classes.answers}>
 				<Grid container direction="column" justifyContent="space-around" spacing={3}> 
-					{props.question.answer.map((answer, answerIndex) => {
+					{props.question.answer.map((answer) => {
 							return (
 								<Grid item className={classes.options}>
 									<Answer preview={props.preview} selected={answer.id === selectedAnswer} answer={answer} changeAnswer={handleAnswer}/>

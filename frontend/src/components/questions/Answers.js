@@ -7,7 +7,7 @@ import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	paperAnswer: selected => ({
 		width: "95%",
 		borderRadius: 38,
