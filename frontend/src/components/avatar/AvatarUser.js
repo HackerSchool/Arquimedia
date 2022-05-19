@@ -8,8 +8,6 @@ import md5 from 'md5';
 // Maybe add size prop and request gravatar image size depending on that size prop
 function AvatarUser({ user, ...rest }) {
 	const base = 'https://www.gravatar.com/avatar/';
-	console.log(user);
-	console.log(user.email);
 
 	const hash = md5(user.email.trim().toLowerCase(), { encoding: 'binary' });
 
