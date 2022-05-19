@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { VictoryLine, VictoryChart, VictoryTheme, VictoryScatter } from 'victory';
 
-const XPGraph = (xpEvents) => {
+const XPGraph = (props) => {
 	const addEmptyDays = (arr) => {
 		const res = [];
 		if (arr.length < 7) {
@@ -61,53 +61,45 @@ const XPGraph = (xpEvents) => {
 		return res;
 	};
 
-	const cleanData = (data) => {
+	const cleanData = (el) => {
 		let limit = Date.now() - 7; // limit is one week
-		data = sumSimilar(data);
-		data.splice(6, 0, {
-			date: '2021-11-30',
-			amount: 160,
-		});
-		data.splice(6, 0, {
-			date: '2021-11-29',
-			amount: 150,
-		});
-		data.splice(6, 0, {
-			date: '2021-11-28',
-			amount: 200,
-		});
-		data.splice(6, 0, {
-			date: '2021-11-27',
-			amount: 400,
-		});
-		data = addEmptyDays(data);
-		data = data.filter((item) => new Date(item.date) < limit);
-		return data;
+		el = sumSimilar(el);
+		el = addEmptyDays(el);
+		el = el.filter((item) => new Date(item.date) < limit);
+		return el;
 	};
 
-	const convertToWeekDays = (data) => {
+	const convertToWeekDays = (e) => {
 		let weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-		for (let i = 0; i < data.length - 2; i++) {
-			data[i].date = weekdays[new Date(data[i].date).getDay()];
+		for (let i = 0; i < e.length - 2; i++) {
+			e[i].date = weekdays[new Date(e[i].date).getDay()];
 		}
-		data[data.length - 2].date = 'Ontem';
-		data[data.length - 1].date = 'Hoje';
+		e[e.length - 2].date = 'Ontem';
+		e[e.length - 1].date = 'Hoje';
 	};
 
-	const getMaxXP = (data) => {
+	const getMaxXP = (e) => {
 		let max = 100;
-		for (let i = 0; i < data.length; i++) {
-			if (data[i].amount > max) max = data[i].amount + 10;
+		for (let i = 0; i < e.length; i++) {
+			if (e[i].amount > max) max = e[i].amount + 10;
 		}
 
 		return max;
 	};
 
-	let data = cleanData(xpEvents.xpEvents);
-	data = data.slice(Math.max(data.length - 7, 0));
-	convertToWeekDays(data);
+	const [data, setData] = useState();
+	const [maxAmount, setMaxAmount] = useState();
 
-	let maxAmount = getMaxXP(data);
+	useEffect(() => {
+		let new_data = cleanData(props.xpEvents);
+		new_data = new_data.slice(Math.max(new_data.length - 7, 0));
+		convertToWeekDays(new_data);
+		setData(new_data);
+
+		setMaxAmount(getMaxXP(new_data));
+	}, []);
+
+	if (data === undefined) return <></>;
 
 	return (
 		<VictoryChart
