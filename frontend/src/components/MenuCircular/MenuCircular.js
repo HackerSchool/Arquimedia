@@ -1,136 +1,73 @@
-import { Planet } from 'react-planet';
 import React from 'react';
-import { IconButton } from '@mui/material';
+import { IconButton, Menu, MenuItem, ListItemIcon, Typography, Divider } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AvatarUser from '../avatar/AvatarUser';
 import makeStyles from '@mui/styles/makeStyles';
-import SchoolIcon from '@mui/icons-material/School';
-import PersonIcon from '@mui/icons-material/Person';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import SettingsIcon from '@mui/icons-material/Settings';
+import theme from '../../globalTheme';
+import { Link } from 'react-router-dom';
 import { logOut } from '../../api';
 
-const handleLogout = () => {
-	//handleClose();
-	logOut();
-	window.location.replace('/');
-};
-
 const useStyles = makeStyles((theme) => ({
-	avatar: {
-		width: 80,
-		height: 80,
+	item: {
+		textDecoration: 'none',
+		fontWeight: 'bold',
+		color: 'black',
+		fontSize: '22px',
 	},
-	iconButton: {
-		height: 40,
-		width: 40,
-		borderRadius: '50%',
-		backgroundColor: theme.palette.secondary.main,
-		color: '#FFFFFF',
-		display: 'flex',
-		alignItems: 'center',
-		'&:hover': {
-			color: theme.palette.primary.main,
-		},
+	logout: {
+		textDecoration: 'none',
+		fontWeight: 'bold',
+		color: theme.palette.secondary.main,
+		fontSize: '22px',
 	},
 }));
 
 const MenuCircular = (props) => {
-	const classes = useStyles();
+	const classes = useStyles(theme);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+	const handleLogout = () => {
+		setAnchorEl(null);
+		logOut();
+		window.location.replace('/');
+	};
 
 	return (
-		<div style={{ marginTop: '-2.5rem' }}>
-			<Planet
-				centerContent={
-					<div
-						style={{
-							borderRadius: '50%',
-							backgroundColor: '#1da8a4',
-						}}
-					>
-						<AvatarUser className={classes.avatar} user={props.user} />
-					</div>
-				}
-				autoClose
-				hideOrbit
-				orbitRadius={90}
-				tension={600}
-				friction={25}
-			>
-				<IconButton
-					href=''
-					title='Logout'
-					onClick={handleLogout}
-					size='large'
-					className={classes.iconButton}
-				>
-					<ExitToAppIcon />
-				</IconButton>
-
-				<div />
-
-				<IconButton
-					href='/configuracoes'
-					title='Configurações'
-					size='large'
-					className={classes.iconButton}
-				>
-					<SettingsIcon />
-				</IconButton>
-
-				<div />
-
-				<IconButton
-					href='/leaderboards'
-					title='Leaderboards'
-					size='large'
-					className={classes.iconButton}
-				>
-					<AssessmentIcon />
-				</IconButton>
-
-				<div />
-
-				<IconButton
-					href='/exames'
-					title='Realizar Exames'
-					size='large'
-					className={classes.iconButton}
-				>
-					<SchoolIcon />
-				</IconButton>
-
-				<div />
-
-				<IconButton
-					href='/perfil'
-					title='Perfil'
-					size='large'
-					className={classes.iconButton}
-				>
-					<PersonIcon />
-				</IconButton>
-
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-			</Planet>
-		</div>
+		<>
+			<IconButton size='large' onClick={handleClick}>
+				<AvatarUser user={props.user} sx={{ width: 90, height: 90 }} />
+			</IconButton>
+			<Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+				<MenuItem onClick={handleClose} component={Link} to='/perfil'>
+					<ListItemIcon>
+						<AccountCircleIcon />
+					</ListItemIcon>
+					<Typography className={classes.item}>Perfil</Typography>
+				</MenuItem>
+				<MenuItem onClick={handleClose} component={Link} to='/configuracoes'>
+					<ListItemIcon>
+						<SettingsIcon />
+					</ListItemIcon>
+					<Typography className={classes.item}>Configurações</Typography>
+				</MenuItem>
+				<Divider />
+				<MenuItem onClick={handleLogout}>
+					<ListItemIcon>
+						<LogoutIcon />
+					</ListItemIcon>
+					<Typography className={classes.logout}>Sair</Typography>
+				</MenuItem>
+			</Menu>
+		</>
 	);
 };
 

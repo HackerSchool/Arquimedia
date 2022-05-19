@@ -103,7 +103,6 @@ export const SettingsPage = () => {
 
 	const handleChangePassword = () => {
 		// change the password
-		console.log(currentPassword + newPassword + newPasswordRep);
 		if (newPassword !== newPasswordRep)
 			enqueueSnackbar('Novas passwords têm de ser iguais', { variant: 'error' });
 		else if (newPassword === currentPassword)
