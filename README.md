@@ -6,17 +6,18 @@ As our first goal we would like to have available a preparation for the Mathemat
 
 ## Docker Setup
 
-Run:
+For development, run:
 ```
 docker-compose build
 ```
-
-For development, run:
 ```
 docker-compose up
 ```
 
 For production, run:
+```
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+```
 ```
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
 ```
