@@ -6,8 +6,9 @@ import {
 	SwipeableDrawer,
 	List,
 	ListItem,
-	Grid,
 	Link,
+	Box,
+	Typography,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,9 +16,11 @@ import NavbarButton from './NavbarButton';
 import { ReactComponent as Logo } from '../../assets/logo_blue.svg';
 import NormalButton from '../buttons/NormalButton';
 import AvatarUser from '../avatar/AvatarUser';
-import MenuCircular from '../MenuCircular/MenuCircular';
 import { userContext } from '../../context/UserContextProvider';
 import Loading from '../loading/Loading';
+import MenuCircular from '../MenuCircular/MenuCircular';
+import { Link as LinkRouter } from 'react-router-dom';
+import theme from '../../globalTheme';
 
 const useStyles = makeStyles((theme) => ({
 	menuButton: {
@@ -67,10 +70,20 @@ const useStyles = makeStyles((theme) => ({
 		width: 80,
 		height: 80,
 	},
+	link: {
+		textDecoration: 'none',
+		color: 'black',
+		fontSize: '22px',
+		marginLeft: theme.spacing(2),
+		transition: 'all 0.15s ease-in-out',
+		'&:hover': { color: theme.palette.secondary.main },
+		paddingRight: '2rem',
+		fontWeight: 'bold',
+	},
 }));
 
 const Navbar = () => {
-	const classes = useStyles();
+	const classes = useStyles(theme);
 	const [click, setClick] = useState(false);
 	const handleClick = () => {
 		setClick(!click);
@@ -79,17 +92,33 @@ const Navbar = () => {
 	const [user, loading] = useContext(userContext);
 
 	return (
-		<AppBar position='static' className={classes.navbar}>
-			<Toolbar className={classes.toolbar}>
-				<a href='/'>
-					<Logo className={classes.logo} />
-				</a>
+		<Box sx={{ flexGrow: 1, alignItems: 'center', display: 'flex' }}>
+			<AppBar position='static' className={classes.navbar}>
+				<Toolbar className={classes.toolbar}>
+					<a href='/' style={{ flexGrow: 1 }}>
+						<Logo className={classes.logo} />
+					</a>
 
-				<Grid container className={classes.menu} justifyContent='flex-end'>
 					{loading ? (
 						<Loading />
 					) : user ? (
-						<MenuCircular user={user} />
+						<div style={{ right: 0, display: 'flex', alignItems: 'center' }}>
+							<Typography
+								className={classes.link}
+								component={LinkRouter}
+								to='/exames'
+							>
+								Gerar Exame
+							</Typography>
+							<Typography
+								className={classes.link}
+								component={LinkRouter}
+								to='/leaderboards'
+							>
+								Leaderboards
+							</Typography>
+							<MenuCircular user={user} />
+						</div>
 					) : (
 						<div>
 							<Link
@@ -102,47 +131,47 @@ const Navbar = () => {
 							<NormalButton text='Entrar' href='/login' fontSize={22} />
 						</div>
 					)}
-				</Grid>
 
-				<div className={classes.menuMobile}>
-					<IconButton onClick={handleClick} size='large'>
-						<MenuIcon fontSize='large' />
-					</IconButton>
-					<SwipeableDrawer open={click} onClose={handleClick} onOpen={handleClick}>
-						<List>
-							<ListItem>
-								{user ? (
-									<AvatarUser className={classes.avatar} user={user} />
-								) : (
-									<NavbarButton href='/login' text='login' /> || (
-										<NavbarButton href='/register' text='registar' />
-									)
-								)}
-							</ListItem>
+					<div className={classes.menuMobile}>
+						<IconButton onClick={handleClick} size='large'>
+							<MenuIcon fontSize='large' />
+						</IconButton>
+						<SwipeableDrawer open={click} onClose={handleClick} onOpen={handleClick}>
+							<List>
+								<ListItem>
+									{user ? (
+										<AvatarUser className={classes.avatar} user={user} />
+									) : (
+										<NavbarButton href='/login' text='login' /> || (
+											<NavbarButton href='/register' text='registar' />
+										)
+									)}
+								</ListItem>
 
-							<ListItem>
-								<NavbarButton href='/' text='Home' />
-							</ListItem>
-							<ListItem>
-								<NavbarButton href='/perfil' text='Perfil' />
-							</ListItem>
-							<ListItem>
-								<NavbarButton href='/exames' text='Realizar Exames' />
-							</ListItem>
-							<ListItem>
-								<NavbarButton href='/leaderboards' text='Leaderboards' />
-							</ListItem>
-							<ListItem>
-								<NavbarButton href='/contact' text='Contactos' />
-							</ListItem>
-							<ListItem>
-								<NavbarButton href='' text='Logout' />
-							</ListItem>
-						</List>
-					</SwipeableDrawer>
-				</div>
-			</Toolbar>
-		</AppBar>
+								<ListItem>
+									<NavbarButton href='/' text='Home' />
+								</ListItem>
+								<ListItem>
+									<NavbarButton href='/perfil' text='Perfil' />
+								</ListItem>
+								<ListItem>
+									<NavbarButton href='/exames' text='Realizar Exames' />
+								</ListItem>
+								<ListItem>
+									<NavbarButton href='/leaderboards' text='Leaderboards' />
+								</ListItem>
+								<ListItem>
+									<NavbarButton href='/contact' text='Contactos' />
+								</ListItem>
+								<ListItem>
+									<NavbarButton href='' text='Logout' />
+								</ListItem>
+							</List>
+						</SwipeableDrawer>
+					</div>
+				</Toolbar>
+			</AppBar>
+		</Box>
 	);
 };
 

@@ -6,18 +6,20 @@ import md5 from 'md5';
 // for some reason this component breaks when I change the name of the prop
 // FIXME
 // Maybe add size prop and request gravatar image size depending on that size prop
-function AvatarUser(user) {
+function AvatarUser({ user, ...rest }) {
 	const base = 'https://www.gravatar.com/avatar/';
+	console.log(user);
+	console.log(user.email);
 
-	const hash = md5(user.user.email.trim().toLowerCase(), { encoding: 'binary' });
+	const hash = md5(user.email.trim().toLowerCase(), { encoding: 'binary' });
 
 	// d=retro -> default image that gravatar returns in case the email has no gravatar image
 	// s=400   -> image size
 	const src = base + hash + '.png?d=retro&s=400';
 
 	return (
-		<Avatar className={user.className} src={src}>
-			{user.user.username[0]}
+		<Avatar className={user.className} src={src} {...rest}>
+			{user.username[0]}
 		</Avatar>
 	);
 }
