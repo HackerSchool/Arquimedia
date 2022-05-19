@@ -1,5 +1,6 @@
 services:
   backend:
+    container_name: backend-prod
     extends:
       file: docker-compose.yml
       service: backend
@@ -8,7 +9,11 @@ services:
       - DJANGO_DEBUG=False
     
   frontend: 
+    container_name: frontend-prod
     extends:
       file: docker-compose.yml
       service: frontend
-    command: npm run build
+    build:
+      target: production
+    command: "nginx -g 'daemon off;'"
+    

@@ -25,7 +25,6 @@ const LandingPage = () => {
 		<Grid
 			container
 			className={classes.mainBox}
-			xs={12}
 			justifyContent='center'
 			alignItems='center'
 			spacing={8}
