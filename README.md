@@ -4,7 +4,26 @@
 Our goal for this project is to help high school students prepare for national exams done by all students to enter college and finish high school.
 As our first goal we would like to have available a preparation for the Mathematics A and as we progress create more questions for other subjects.
 
-## Setup Backend
+## Docker Setup
+
+For development, run:
+```
+docker-compose build
+```
+```
+docker-compose up
+```
+
+For production, run:
+```
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+```
+```
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+```
+
+## Manual Setup
+### Setup Backend
 
 Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https://www.pgadmin.org/download/) (Database GUI).
 
@@ -18,10 +37,10 @@ Install [PostgreSQL](https://www.postgresql.org/download/) and [pgAdmin](https:/
 6. And install all the required modules:
    `pip install -r requirements.txt`
 
-## Setup Frontend
+### Setup Frontend
 1. Run `npm i`.
 
-## Run
+### Run
 
 1. In `backend` run `py manage.py runserver`.
 

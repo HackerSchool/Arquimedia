@@ -1,0 +1,19 @@
+services:
+  backend:
+    container_name: backend-prod
+    extends:
+      file: docker-compose.yml
+      service: backend
+    command: python ./manage.py runserver 0.0.0.0:8000
+    environment:
+      - DJANGO_DEBUG=False
+    
+  frontend: 
+    container_name: frontend-prod
+    extends:
+      file: docker-compose.yml
+      service: frontend
+    build:
+      target: production
+    command: "nginx -g 'daemon off;'"
+    

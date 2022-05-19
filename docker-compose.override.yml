@@ -1,0 +1,22 @@
+services:
+  backend:
+    extends:
+      file: docker-compose.yml
+      service: backend
+    container_name: backend-dev
+    command: python ./manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/:/code/
+    environment:
+      - DJANGO_DEBUG=True
+    
+  frontend: 
+    extends:
+      file: docker-compose.yml
+      service: frontend
+    container_name: frontend-dev
+    volumes:
+      - ./frontend/:/app/
+    build:
+      target: development
+    command: npm start
