@@ -10,13 +10,10 @@ import { ProfileBasicInfo } from '../components/profile/ProfileBasicInfo';
 import AchievementTray from '../components/achievements/AchievementTray';
 
 const useStyles = makeStyles(() => ({
-	body: {
-		marginTop: '80px',
-	},
 	panel: {
-		backgroundColor: '#F4F4F4',
 		borderRadius: 20,
-		boxShadow: '-3px 3px 4px #Bbb9b9',
+		border: '2px solid #D9D9D9',
+		boxShadow: '-3px 3px 10px #D9D9D9',
 		height: '100%',
 	},
 }));

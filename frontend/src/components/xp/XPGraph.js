@@ -5,7 +5,7 @@ const XPGraph = (props) => {
 	const addEmptyDays = (arr) => {
 		const res = [];
 		if (arr.length < 7) {
-			let currentDate = new Date(arr[0].date);
+			let currentDate = new Date();
 			currentDate.setDate(currentDate.getDate() - 1);
 			for (let i = 0; i < 7 - arr.length; i++) {
 				res.unshift({
@@ -71,6 +71,7 @@ const XPGraph = (props) => {
 
 	const convertToWeekDays = (e) => {
 		let weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+		console.log(e);
 		for (let i = 0; i < e.length - 2; i++) {
 			e[i].date = weekdays[new Date(e[i].date).getDay()];
 		}
