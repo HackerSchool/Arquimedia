@@ -66,11 +66,11 @@ export const HomePage = () => {
 								direction='column'
 								fontSize={25}
 								text='Resolver exames'
-								onClick={null}
 								iconFirst={false}
 								alignItems='flex-start'
 								height='23vh'
 								width='12vw'
+								href='/exames'
 							>
 								<ExamIcon className={classes.icon} />
 							</IconButton>
@@ -80,11 +80,11 @@ export const HomePage = () => {
 								direction='column'
 								fontSize={25}
 								text='Ver o teu perfil'
-								onClick={null}
 								iconFirst={false}
 								alignItems='flex-start'
 								height='23vh'
 								width='12vw'
+								href='/perfil'
 							>
 								<ProfileIcon className={classes.icon} />
 							</IconButton>
@@ -94,11 +94,11 @@ export const HomePage = () => {
 								direction='column'
 								fontSize={25}
 								text='Ver a Leaderboard'
-								onClick={null}
 								iconFirst={false}
 								alignItems='flex-start'
 								height='23vh'
 								width='12vw'
+								href='/leaderboards'
 							>
 								<LeaderboardIcon className={classes.icon} />
 							</IconButton>
