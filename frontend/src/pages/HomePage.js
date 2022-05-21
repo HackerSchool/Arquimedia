@@ -69,6 +69,8 @@ export const HomePage = () => {
 								onClick={null}
 								iconFirst={false}
 								alignItems='flex-start'
+								height='23vh'
+								width='12vw'
 							>
 								<ExamIcon className={classes.icon} />
 							</IconButton>
@@ -81,6 +83,8 @@ export const HomePage = () => {
 								onClick={null}
 								iconFirst={false}
 								alignItems='flex-start'
+								height='23vh'
+								width='12vw'
 							>
 								<ProfileIcon className={classes.icon} />
 							</IconButton>
@@ -93,6 +97,8 @@ export const HomePage = () => {
 								onClick={null}
 								iconFirst={false}
 								alignItems='flex-start'
+								height='23vh'
+								width='12vw'
 							>
 								<LeaderboardIcon className={classes.icon} />
 							</IconButton>

@@ -15,8 +15,8 @@ const useStyles = makeStyles(() => ({
 		backgroundColor: props.backgroundColor,
 		color: props.color,
 		transition: 'transform 0.15s ease-in-out',
-		height: '23vh',
-		width: '12vw',
+		height: props.height,
+		width: props.width,
 		'&:hover': {
 			backgroundColor: '#E3E3E3',
 			transform: `scale3d(${props.scale}, ${props.scale}, 1)`,
@@ -38,6 +38,7 @@ const IconButton = (props) => {
 							justifyContent='space-between'
 							alignItems={props.alignItems}
 							container
+							spacing={props.spacing}
 						>
 							<Grid item>{props.children}</Grid>
 
@@ -49,6 +50,7 @@ const IconButton = (props) => {
 							justifyContent='space-between'
 							alignItems={props.alignItems}
 							container
+							spacing={props.spacing}
 						>
 							<Grid item>{props.text}</Grid>
 
@@ -70,6 +72,9 @@ IconButton.propTypes = {
 	direction: PropTypes.string,
 	alignItems: PropTypes.string,
 	iconFirst: PropTypes.bool,
+	spacing: PropTypes.number,
+	width: PropTypes.string,
+	height: PropTypes.string,
 };
 
 IconButton.defaultProps = {
@@ -80,6 +85,9 @@ IconButton.defaultProps = {
 	direction: 'row',
 	alignItems: 'center',
 	iconFirst: true,
+	spacing: 6,
+	height: '23vh',
+	width: '12vw',
 };
 
 export default IconButton;
