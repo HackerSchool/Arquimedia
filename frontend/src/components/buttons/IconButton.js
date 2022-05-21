@@ -15,9 +15,12 @@ const useStyles = makeStyles(() => ({
 		backgroundColor: props.backgroundColor,
 		color: props.color,
 		transition: 'transform 0.15s ease-in-out',
+		height: '23vh',
+		width: '12vw',
 		'&:hover': {
 			backgroundColor: '#E3E3E3',
 			transform: `scale3d(${props.scale}, ${props.scale}, 1)`,
+			boxShadow: '-3px 3px 4px #Bbb9b9',
 		},
 	}),
 }));
