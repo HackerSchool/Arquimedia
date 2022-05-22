@@ -81,7 +81,7 @@ IconButton.defaultProps = {
 	color: 'white',
 	backgroundColor: globalTheme.palette.secondary.main,
 	fontSize: 100,
-	scale: 1.1,
+	scale: 1.05,
 	direction: 'row',
 	alignItems: 'center',
 	iconFirst: true,
