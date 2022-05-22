@@ -6,6 +6,7 @@ import IconButton from '../components/buttons/IconButton';
 import { ReactComponent as ExamIcon } from '../assets/examIcon.svg';
 import { ReactComponent as ProfileIcon } from '../assets/profileIcon.svg';
 import { ReactComponent as LeaderboardIcon } from '../assets/leaderboardIcon.svg';
+import { ReactComponent as AnswersIcon } from '../assets/answersIcon.svg';
 
 const useStyles = makeStyles(() => ({
 	paper: {
@@ -61,7 +62,7 @@ export const HomePage = () => {
 						justifyContent='flex-start'
 						alignItems='center'
 					>
-						<Grid item xs={4}>
+						<Grid item xs={3}>
 							<IconButton
 								direction='column'
 								fontSize={25}
@@ -75,7 +76,7 @@ export const HomePage = () => {
 								<ExamIcon className={classes.icon} />
 							</IconButton>
 						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={3}>
 							<IconButton
 								direction='column'
 								fontSize={25}
@@ -89,7 +90,7 @@ export const HomePage = () => {
 								<ProfileIcon className={classes.icon} />
 							</IconButton>
 						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={3}>
 							<IconButton
 								direction='column'
 								fontSize={25}
@@ -101,6 +102,20 @@ export const HomePage = () => {
 								href='/leaderboards'
 							>
 								<LeaderboardIcon className={classes.icon} />
+							</IconButton>
+						</Grid>
+						<Grid item xs={3}>
+							<IconButton
+								direction='column'
+								fontSize={25}
+								text='Contribui com perguntas'
+								iconFirst={false}
+								alignItems='flex-start'
+								height='23vh'
+								width='12vw'
+								href='/leaderboards'
+							>
+								<AnswersIcon className={classes.icon} />
 							</IconButton>
 						</Grid>
 					</Grid>
