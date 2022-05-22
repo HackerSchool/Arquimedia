@@ -4,15 +4,18 @@ import { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import QuestionImage from './QuestionImage';
 import Answer from './Answers';
-
-var Latex = require('react-latex');
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(() => ({
 	questionBox: {
-		width: '70%',
+		width: '100%',
 		borderRadius: 20,
-		boxShadow: '0px 4px 4px #9A9A9A',
+		boxShadow: '0px 8px 8px #9A9A9A',
 		backgroundColor: '#F9F9F9',
+		border: '0.05rem solid #D9D9D9',
 	},
 
 	answers: {
@@ -22,6 +25,8 @@ const useStyles = makeStyles(() => ({
 		justifyContent: 'center',
 		display: 'flex',
 		flexDirection: 'column',
+		padding: 5,
+		minWidth: 150,
 	},
 
 	number: {
@@ -41,12 +46,16 @@ const useStyles = makeStyles(() => ({
 	},
 
 	options: {
-		padding: 10,
 		fontWeight: 1,
+		width: '100%',
 	},
 
 	questionText: {
 		whiteSpace: 'pre-line',
+		textAlign: 'justify',
+		textJustify: 'inter-word',
+		padding: 10,
+		wordWrap: 'break-word',
 	},
 }));
 
@@ -61,47 +70,48 @@ const Question = (props) => {
 	};
 
 	return (
-		<Paper className={classes.questionBox}>
-			<Grid
-				container
-				alignItems='stretch'
-				direction='row'
-				justifyContent='flex-start'
-				style={{ margin: 0 }}
-				spacing={0}
-			>
-				<Grid item xs={8} justifyContent='center'>
-					{/* Question's number */}
-					<Grid item xs={5}>
-						<Paper className={classes.number}>
-							<Typography className={classes.bold} variant='h5'>
-								{' '}
-								{props.preview ? 'Preview' : 'Questão ' + (props.answer + 1)}{' '}
-							</Typography>
-						</Paper>
-					</Grid>
-
-					{/* Question's text */}
-					<Grid item xs={12} spacing={3}>
-						<Typography variant='h5' className={classes.questionText}>
-							<Latex>{props.question.text}</Latex>
+		<Grid
+			className={classes.questionBox}
+			container
+			direction='row'
+			justifyContent='flex-start'
+			xs='auto'
+		>
+			<Grid style={{ minWidth: '400px' }} item xs='auto' justifyContent='center'>
+				{/* Question's number */}
+				<Grid item xs={5}>
+					<Paper className={classes.number}>
+						<Typography className={classes.bold} variant='h5'>
+							{' '}
+							{props.preview ? 'Preview' : 'Questão ' + (props.answer + 1)}{' '}
 						</Typography>
-					</Grid>
-
-					{/* Question's image */}
-					{props.question.image && (
-						<Grid item xs={12} spacing={3}>
-							<QuestionImage preview={props.preview} question={props.question} />
-						</Grid>
-					)}
+					</Paper>
 				</Grid>
 
-				{/* Answers */}
-				<Grid container item xs={4}>
-					<Paper className={classes.answers} alignItems='center' direction='column'>
+				{/* Question's text */}
+				<Grid item xs={12} spacing={3}>
+					<Typography display='block' variant='h5' className={classes.questionText}>
+						<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+							{props.question.text}
+						</ReactMarkdown>
+					</Typography>
+				</Grid>
+
+				{/* Question's image */}
+				{props.question.image && (
+					<Grid item xs={12} spacing={3}>
+						<QuestionImage preview={props.preview} question={props.question} />
+					</Grid>
+				)}
+			</Grid>
+
+			{/* Answers */}
+			<Grid container xs='auto'>
+				<Paper className={classes.answers}>
+					<Grid container direction='column' justifyContent='space-around' spacing={3}>
 						{props.question.answer.map((answer) => {
 							return (
-								<Grid item className={classes.options} key={answer.id}>
+								<Grid item className={classes.options} key={answer}>
 									<Answer
 										preview={props.preview}
 										selected={answer.id === selectedAnswer}
@@ -111,10 +121,10 @@ const Question = (props) => {
 								</Grid>
 							);
 						})}
-					</Paper>
-				</Grid>
+					</Grid>
+				</Paper>
 			</Grid>
-		</Paper>
+		</Grid>
 	);
 };
 

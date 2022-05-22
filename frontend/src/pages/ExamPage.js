@@ -30,10 +30,12 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			backgroundColor: '#E3E3E3',
 			transform: 'scale3d(1.1, 1.1, 1)',
+			boxShadow: '0px 6px 4px #Bbb9b9',
 		},
 	},
 	container: {
 		width: '100%',
+		margin: '0px 0px 6rem',
 	},
 	finishBttnWrapper: {
 		marginTop: '4rem',
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			backgroundColor: '#E3E3E3',
 			transform: 'scale3d(1.05, 1.05, 1)',
+			boxShadow: '0px 6px 4px #Bbb9b9',
 		},
 	},
 	steppers: {
@@ -107,13 +110,12 @@ const ExamPage = (props) => {
 				</div>
 			</Grid>
 			<Grid
-				item
 				container
+				justifyContent='space-between'
+				alignItems='center'
 				align='center'
 				spacing={4}
 				xs={12}
-				direction='row'
-				alignItems='center'
 			>
 				<Grid item xs={1}>
 					<IconButton
@@ -124,7 +126,7 @@ const ExamPage = (props) => {
 						<ArrowBackIcon fontSize='large' />
 					</IconButton>
 				</Grid>
-				<Grid item xs={10}>
+				<Grid item xs='auto'>
 					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion} />
 				</Grid>
 				<Grid item xs={1}>
