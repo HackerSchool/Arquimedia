@@ -113,7 +113,7 @@ export const HomePage = () => {
 								alignItems='flex-start'
 								height='23vh'
 								width='12vw'
-								href='/leaderboards'
+								href='/submeter_questao'
 							>
 								<AnswersIcon className={classes.icon} />
 							</IconButton>
