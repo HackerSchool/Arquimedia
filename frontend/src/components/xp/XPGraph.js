@@ -2,102 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { VictoryLine, VictoryChart, VictoryTheme, VictoryScatter } from 'victory';
 
 const XPGraph = (props) => {
-	const addEmptyDays = (arr) => {
-		const res = [];
-		if (arr.length < 7) {
-			let currentDate = new Date();
-			currentDate.setDate(currentDate.getDate() - 1);
-			for (let i = 0; i < 7 - arr.length; i++) {
-				res.unshift({
-					date: currentDate.toDateString(),
-					amount: 0,
-				});
-				currentDate.setDate(currentDate.getDate() - 1);
-			}
-		}
-
-		for (let i = 0; i < arr.length; i++) {
-			let clone = {};
-			Object.assign(clone, arr[i]);
-			res.push(clone);
-			if (i === arr.length - 1 && new Date(arr[i].date).getDate() !== new Date().getDate()) {
-				let currentDate = new Date(arr[i].date);
-				while (currentDate.getDate() !== new Date().getDate()) {
-					currentDate.setDate(currentDate.getDate() + 1);
-					res.push({
-						date: currentDate.toDateString(),
-						amount: 0,
-					});
-				}
-			} else if (i < arr.length - 1) {
-				let currentDate = new Date(arr[i].date);
-				let nextDate = new Date(arr[i + 1].date);
-				if (currentDate.getDate() !== new Date(nextDate.getDate() - 1).getTime()) {
-					currentDate.setDate(currentDate.getDate() + 1);
-
-					while (currentDate.getDate() !== nextDate.getDate()) {
-						res.push({
-							date: currentDate.toDateString(),
-							amount: 0,
-						});
-						currentDate.setDate(currentDate.getDate() + 1);
-					}
-				}
-			}
-		}
-		return res;
-	};
-
-	const sumSimilar = (arr) => {
-		const res = [];
-		for (let i = 0; i < arr.length; i++) {
-			const ind = res.findIndex((el) => el.date === arr[i].date);
-			if (ind === -1) {
-				res.push(arr[i]);
-			} else {
-				res[ind].amount += arr[i].amount;
-			}
-		}
-		return res;
-	};
-
-	const cleanData = (el) => {
-		let limit = Date.now() - 7; // limit is one week
-		el = sumSimilar(el);
-		el = addEmptyDays(el);
-		el = el.filter((item) => new Date(item.date) < limit);
-		return el;
-	};
-
-	const convertToWeekDays = (e) => {
-		let weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-		console.log(e);
-		for (let i = 0; i < e.length - 2; i++) {
-			e[i].date = weekdays[new Date(e[i].date).getDay()];
-		}
-		e[e.length - 2].date = 'Ontem';
-		e[e.length - 1].date = 'Hoje';
-	};
-
-	const getMaxXP = (e) => {
-		let max = 100;
-		for (let i = 0; i < e.length; i++) {
-			if (e[i].amount > max) max = e[i].amount + 10;
-		}
-
-		return max;
-	};
-
 	const [data, setData] = useState();
 	const [maxAmount, setMaxAmount] = useState();
 
 	useEffect(() => {
 		let new_data = cleanData(props.xpEvents);
-		new_data = new_data.slice(Math.max(new_data.length - 7, 0));
-		convertToWeekDays(new_data);
+		console.log(props.xpEvents);
 		setData(new_data);
 
-		setMaxAmount(getMaxXP(new_data));
+		setMaxAmount(getMaxXP(new_data) + 50);
 	}, []);
 
 	if (data === undefined) return <></>;
@@ -170,3 +83,65 @@ const XPGraph = (props) => {
 };
 
 export default XPGraph;
+
+const sumSimilar = (arr) => {
+	let res = [];
+	// Checks if a given datapoint is in the res array, if not it pushs the data point,
+	// if it is, then the amount in summed
+	arr.forEach((el) => {
+		// Checks if element is in res
+		const ind = res.findIndex((el2) => el2.date === el.date);
+
+		// Push the element if not
+		if (ind === -1) res.push(el);
+		// Add the amount if it already is present
+		else {
+			res[ind].amount += el.amount;
+		}
+	});
+	return res;
+};
+
+const convertToWeekDays = (e) => {
+	let weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+	for (let i = 0; i < e.length - 2; i++) {
+		e[i].date = weekdays[new Date(e[i].date).getDay()];
+	}
+	e[e.length - 2].date = 'Ontem';
+	e[e.length - 1].date = 'Hoje';
+};
+
+const addEmptyDays = (arr) => {
+	let res = [];
+	let date = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000);
+	// Reset time on comparing date so that time is ignored in comparison
+	date.setHours(1, 0, 0, 0);
+	for (let i = 0; i < 7; i++) {
+		// check if we got data point for that day
+		let index = arr.findIndex((el) => new Date(el.date).valueOf() === date.valueOf());
+
+		if (index !== -1) res.push(arr[index]);
+		else res.push({ date: date.toISOString(), amount: 0 });
+
+		date.setDate(date.getDate() + 1);
+	}
+	return res;
+};
+
+const cleanData = (el) => {
+	let limit = Date.now() - 7; // limit is one week
+	el = sumSimilar(el);
+	el = el.filter((item) => new Date(item.date) < limit);
+	el = addEmptyDays(el);
+	convertToWeekDays(el);
+	return el;
+};
+
+const getMaxXP = (e) => {
+	let max = 100;
+	for (let i = 0; i < e.length; i++) {
+		if (e[i].amount > max) max = e[i].amount + 10;
+	}
+
+	return max;
+};
