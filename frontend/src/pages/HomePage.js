@@ -134,7 +134,7 @@ export const HomePage = () => {
 						<ListItem>
 							<Typography className={classes.futureText} variant='h5'>
 								{' '}
-								• Fornadas de Perguntas 🍞
+								• Fornadas de Perguntas 🍞 e mais disciplinas 📚
 							</Typography>
 						</ListItem>
 						<ListItem>
