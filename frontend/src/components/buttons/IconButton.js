@@ -17,6 +17,8 @@ const useStyles = makeStyles(() => ({
 		transition: 'transform 0.15s ease-in-out',
 		height: props.height,
 		width: props.width,
+		minWidth: props.minWidth,
+		minHeight: props.minHeight,
 		flexDirection: props.direction,
 		justifyContent: props.justifyContent,
 		alignItems: props.alignItems,
@@ -78,6 +80,8 @@ IconButton.propTypes = {
 	variant: PropTypes.string,
 	justifyContent: PropTypes.string,
 	alignItems: PropTypes.string,
+	minWidth: PropTypes.string,
+	minHeight: PropTypes.string,
 };
 
 IconButton.defaultProps = {

@@ -71,6 +71,8 @@ export const HomePage = () => {
 								alignItems='flex-start'
 								height='21vh'
 								width='10vw'
+								minWidth='200px'
+								minHeigth='200px'
 								href='/exames'
 							>
 								<ExamIcon className={classes.icon} />
@@ -85,6 +87,8 @@ export const HomePage = () => {
 								alignItems='flex-start'
 								height='21vh'
 								width='10vw'
+								minWidth='200px'
+								minHeigth='200px'
 								href='/perfil'
 							>
 								<ProfileIcon className={classes.icon} />
@@ -99,6 +103,8 @@ export const HomePage = () => {
 								alignItems='flex-start'
 								height='21vh'
 								width='10vw'
+								minWidth='200px'
+								minHeigth='200px'
 								href='/leaderboards'
 							>
 								<LeaderboardIcon className={classes.icon} />
@@ -113,6 +119,8 @@ export const HomePage = () => {
 								alignItems='flex-start'
 								height='21vh'
 								width='10vw'
+								minWidth='200px'
+								minHeigth='200px'
 								href='/submeter_questao'
 							>
 								<AnswersIcon className={classes.icon} />
