@@ -69,8 +69,8 @@ export const HomePage = () => {
 								text='Resolver exames'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='23vh'
-								width='12vw'
+								height='21vh'
+								width='10vw'
 								href='/exames'
 							>
 								<ExamIcon className={classes.icon} />
@@ -83,8 +83,8 @@ export const HomePage = () => {
 								text='Ver o teu perfil'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='23vh'
-								width='12vw'
+								height='21vh'
+								width='10vw'
 								href='/perfil'
 							>
 								<ProfileIcon className={classes.icon} />
@@ -97,8 +97,8 @@ export const HomePage = () => {
 								text='Ver a Leaderboard'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='23vh'
-								width='12vw'
+								height='21vh'
+								width='10vw'
 								href='/leaderboards'
 							>
 								<LeaderboardIcon className={classes.icon} />
@@ -111,8 +111,8 @@ export const HomePage = () => {
 								text='Contribui com perguntas'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='23vh'
-								width='12vw'
+								height='21vh'
+								width='10vw'
 								href='/submeter_questao'
 							>
 								<AnswersIcon className={classes.icon} />
