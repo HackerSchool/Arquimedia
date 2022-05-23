@@ -23,6 +23,7 @@ import { AuthRoute } from './routes/AuthRoute.js';
 import { UserContextProvider } from './context/UserContextProvider.js';
 import { SnackbarProvider } from 'notistack';
 import { SettingsPage } from './pages/SettingsPage.js';
+import { AboutUsPage } from './pages/AboutUsPage.js';
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('Authorization');
 
@@ -76,6 +77,10 @@ function App() {
 											<AuthRoute
 												path='/configuracoes'
 												component={SettingsPage}
+											/>
+											<AuthRoute
+												path='/sobre'
+												component={AboutUsPage}
 											/>
 											<Route path='*' component={PageNotFound} />
 										</Switch>
