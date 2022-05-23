@@ -23,6 +23,7 @@ import { AuthRoute } from './routes/AuthRoute.js';
 import { UserContextProvider } from './context/UserContextProvider.js';
 import { SnackbarProvider } from 'notistack';
 import { SettingsPage } from './pages/SettingsPage.js';
+import { HomePage } from './pages/HomePage.js';
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('Authorization');
 
@@ -41,6 +42,8 @@ function App() {
 									<div style={{ marginRight: '12em', marginLeft: '12em' }}>
 										<Switch>
 											<Route exact path='/' component={LandingPage} />
+
+											<AuthRoute exact path='/home' component={HomePage} />
 
 											<AuthRoute
 												path='/question/:id'
