@@ -70,7 +70,7 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   context: frontend
-                  file: Dockerfile.prod
+                  file: frontend/Dockerfile.prod
                   build-args: |
                       API_URL=https://arquimedia.pt/api/
                   push: true
