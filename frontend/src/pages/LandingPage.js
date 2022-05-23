@@ -49,9 +49,9 @@ const LandingPage = () => {
 					<Grid item>
 						<NormalButton xs={6} text='Inscreve-te' href='/registar' fontSize={41} />
 					</Grid>
-					<Grid item>
-						<Girl className={classes.girl} />
-					</Grid>
+				</Grid>
+				<Grid item>
+					<Girl className={classes.girl} />
 				</Grid>
 			</Grid>
 		)
