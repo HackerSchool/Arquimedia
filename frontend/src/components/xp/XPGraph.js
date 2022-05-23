@@ -7,7 +7,6 @@ const XPGraph = (props) => {
 
 	useEffect(() => {
 		let new_data = cleanData(props.xpEvents);
-		console.log(props.xpEvents);
 		setData(new_data);
 
 		setMaxAmount(getMaxXP(new_data) + 50);
