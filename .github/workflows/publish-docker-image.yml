@@ -72,7 +72,7 @@ jobs:
                   context: frontend
                   file: Dockerfile.prod
                   build-args:
-                    API_URL: https://arquimedia.pt/api/
+                    - API_URL=https://arquimedia.pt/api/
                   push: true
                   tags: ${{ steps.meta-frontend.outputs.tags }}
                   labels: ${{ steps.meta-frontend.outputs.labels }}
