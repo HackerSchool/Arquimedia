@@ -47,7 +47,6 @@ function App() {
 									<div style={{ marginRight: '12em', marginLeft: '12em' }}>
 										<Switch>
 											<Route exact path='/' component={LandingPage} />
-
 											<AuthRoute
 												path='/question/:id'
 												component={QuestionPage}
