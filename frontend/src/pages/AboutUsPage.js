@@ -111,99 +111,125 @@ export const AboutUsPage = () => {
 								Este projeto foi desenvolvido ao abrigo do núcleo Hackerschool
 								<a> do Instituto Superior Técnico.</a>
 							</Typography>
-							<Typography variant='h6' style={{ minHeight: '4vh' }} >
-							Até à data, contribuiram:
+							<Typography variant='h6' style={{ minHeight: '4vh' }}>
+								Até à data, contribuiram:
 							</Typography>
-							<Grid container spacing={2} >
+							<Grid container spacing={2}>
 								<Grid item xs={4}>
-									<Grid container spacing={0.9} direction ='column'>
+									<Grid container spacing={0.9} direction='column'>
 										<Grid item>
-											<Typography variant='h6' style={{ wordWrap: 'break-word', paddingLeft: '2rem' }}>
-												<li>
-													Jerónimo Mendes 
-												</li> 
+											<Typography
+												variant='h6'
+												style={{
+													wordWrap: 'break-word',
+													paddingLeft: '2rem',
+												}}
+											>
+												<li>Jerónimo Mendes</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography variant='h6' style={{ wordWrap: 'break-word', paddingLeft: '2rem' }}>
-												<li>
-													Miguel Dinis 
-												</li> 
+											<Typography
+												variant='h6'
+												style={{
+													wordWrap: 'break-word',
+													paddingLeft: '2rem',
+												}}
+											>
+												<li>Miguel Dinis</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography variant='h6' style={{ wordWrap: 'break-word', paddingLeft: '2rem' }}>
-												<li>
-													Nuno Marques 
-												</li> 
+											<Typography
+												variant='h6'
+												style={{
+													wordWrap: 'break-word',
+													paddingLeft: '2rem',
+												}}
+											>
+												<li>Nuno Marques</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography variant='h6' style={{ wordWrap: 'break-word', paddingLeft: '2rem' }}>
-												<li>
-													Afonso Domingues
-												</li> 
+											<Typography
+												variant='h6'
+												style={{
+													wordWrap: 'break-word',
+													paddingLeft: '2rem',
+												}}
+											>
+												<li>Afonso Domingues</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography variant='h6' style={{ wordWrap: 'break-word', paddingLeft: '2rem' }}>
-												<li>
-													Ana Mourão  
-												</li> 
+											<Typography
+												variant='h6'
+												style={{
+													wordWrap: 'break-word',
+													paddingLeft: '2rem',
+												}}
+											>
+												<li>Ana Mourão</li>
+												<p>&nbsp;</p>
 											</Typography>
 										</Grid>
 									</Grid>
 								</Grid>
 								<Grid item>
-									<Grid container  direction='column'>
+									<Grid container direction='column'>
 										<Grid item>
 											<IconButton>
-												<LinkedIn 
+												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href = 'https://discord.gg/3Fgxs8pJMh';
+														window.location.href =
+															'https://discord.gg/3Fgxs8pJMh';
 													}}
-												/> 
+												/>
 											</IconButton>
 										</Grid>
 										<Grid item>
 											<IconButton>
-												<LinkedIn 
+												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href = 'https://discord.gg/3Fgxs8pJMh';
+														window.location.href =
+															'https://discord.gg/3Fgxs8pJMh';
 													}}
-													/> 
+												/>
 											</IconButton>
 										</Grid>
 										<Grid item>
 											<IconButton>
-												<LinkedIn 
+												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href = 'https://discord.gg/3Fgxs8pJMh';
+														window.location.href =
+															'https://discord.gg/3Fgxs8pJMh';
 													}}
-												/> 
+												/>
 											</IconButton>
 										</Grid>
 										<Grid item>
 											<IconButton>
-												<LinkedIn 
-												className={classes.hover}
-												onClick={() => {
-													window.location.href = 'https://discord.gg/3Fgxs8pJMh';
-												}}
-												/> 
+												<LinkedIn
+													className={classes.hover}
+													onClick={() => {
+														window.location.href =
+															'https://discord.gg/3Fgxs8pJMh';
+													}}
+												/>
 											</IconButton>
 										</Grid>
 										<Grid item>
 											<IconButton>
-												<LinkedIn 
-												className={classes.hover}
-												onClick={() => {
-													window.location.href = 'https://discord.gg/3Fgxs8pJMh';
-												}}
-												/> 
+												<LinkedIn
+													className={classes.hover}
+													onClick={() => {
+														window.location.href =
+															'https://discord.gg/3Fgxs8pJMh';
+													}}
+												/>
 											</IconButton>
 										</Grid>
 									</Grid>
