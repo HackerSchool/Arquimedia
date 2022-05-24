@@ -80,11 +80,9 @@ const Question = (props) => {
 		props.callBack(newAnswer, props.answer);
 	};
 	const computeQuestionTextSize = () => {
-		const allWidth = questionBox.current.clientWidth;
-		const answerWidth = answerBox.current.clientWidth;
-		let questionTextWidth = allWidth - answerWidth;
+		const heightAnswers = questionBox.current.clientHeight;
 
-		setBoxWidth(String(questionTextWidth) + 'px');
+		setBoxHeight(String(heightAnswers) + 'px');
 	};
 	useEffect(() => {
 		computeQuestionTextSize();
@@ -100,12 +98,11 @@ const Question = (props) => {
 			container
 			direction='row'
 			justifyContent='space-between'
-			alignItems='flex-start'
 			ref={questionBox}
 		>
-			<Grid className={classes.question} container justifyContent='center'>
+			<Grid className={classes.question} item justifyContent='center'>
 				{/* Question's number */}
-				<Grid item xs={5}>
+				<Grid item xs={12}>
 					<Paper className={classes.number}>
 						<Typography className={classes.bold} variant='h5'>
 							{' '}
@@ -132,7 +129,13 @@ const Question = (props) => {
 			</Grid>
 
 			{/* Answers */}
-			<Grid className={classes.answers} ref={answerBox} container xs='auto'>
+			<Grid
+				className={classes.answers}
+				styles={{ height: boxHeight }}
+				ref={answerBox}
+				container
+				xs='auto'
+			>
 				<Grid container direction='column' justifyContent='space-around' spacing={3}>
 					{props.question.answer.map((answer) => {
 						return (
