@@ -110,6 +110,12 @@ const RegisterInput = () => {
 		}
 	};
 
+	const handleKeyPress = (e) => {
+		if (e.keyCode === 13) {
+			handleClick();
+		}
+	};
+
 	if (codePhase) return <CodeInput username={username} password={pass1} />;
 
 	return (
@@ -132,8 +138,9 @@ const RegisterInput = () => {
 							margin='dense'
 							variant='outlined'
 							placeholder='Nome de utilizador'
-							autoComplete='true'
+							autoComplete='username'
 							onChange={handleChangeUsername}
+							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
 					<br />
@@ -143,8 +150,9 @@ const RegisterInput = () => {
 							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
 							variant='outlined'
 							placeholder='E-mail'
-							autoComplete='true'
+							autoComplete='email'
 							onChange={handleChangeEmail}
+							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
 					<br />
@@ -155,8 +163,9 @@ const RegisterInput = () => {
 							variant='outlined'
 							placeholder='Password'
 							type='password'
-							autoComplete='true'
+							autoComplete='password'
 							onChange={handleChangePass1}
+							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
 					<br />
@@ -167,8 +176,9 @@ const RegisterInput = () => {
 							variant='outlined'
 							placeholder='Repete a password'
 							type='password'
-							autoComplete='true'
+							autoComplete='password'
 							onChange={handleChangePass2}
+							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
 				</form>

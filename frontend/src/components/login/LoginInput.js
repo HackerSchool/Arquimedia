@@ -79,7 +79,7 @@ const LoginInput = () => {
 							margin='dense'
 							variant='outlined'
 							placeholder='Nome de utilizador'
-							autoComplete='true'
+							autoComplete='username'
 							onChange={handleChangeUsername}
 							onKeyUp={handleKeyPress}
 						/>
@@ -92,7 +92,7 @@ const LoginInput = () => {
 							variant='outlined'
 							placeholder='Password'
 							type='password'
-							autoComplete='true'
+							autoComplete='password'
 							onChange={handleChangePassword}
 							onKeyUp={handleKeyPress}
 						/>
