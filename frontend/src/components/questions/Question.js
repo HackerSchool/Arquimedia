@@ -9,7 +9,7 @@ import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((boxWidth) => ({
 	questionBox: {
 		borderRadius: 20,
 		boxShadow: '0px 8px 8px #9A9A9A',
@@ -26,12 +26,12 @@ const useStyles = makeStyles(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		padding: 5,
-		minWidth: '20%',
+		minWidth: '10%',
 		maxWidth: '30%',
 	},
 	question: {
 		minWidth: '20%',
-		maxWidth: '69%',
+		maxWidth: '90%',
 	},
 	number: {
 		backgroundColor: '#EB5757',
@@ -80,9 +80,11 @@ const Question = (props) => {
 		props.callBack(newAnswer, props.answer);
 	};
 	const computeQuestionTextSize = () => {
-		const heightAnswers = questionBox.current.clientHeight;
-
-		setBoxHeight(String(heightAnswers) + 'px');
+		const widthAnswers = answerBox.current.clientWidth;
+		const widthAll = questionBox.current.clientWidth;
+		const difference = widthAll - widthAnswers - 100;
+		console.log(difference);
+		setBoxWidth(difference);
 	};
 	useEffect(() => {
 		computeQuestionTextSize();
@@ -100,7 +102,12 @@ const Question = (props) => {
 			justifyContent='space-between'
 			ref={questionBox}
 		>
-			<Grid className={classes.question} item justifyContent='center'>
+			<Grid
+				className={classes.question}
+				style={{ width: boxWidth }}
+				item
+				justifyContent='center'
+			>
 				{/* Question's number */}
 				<Grid item xs={12}>
 					<Paper className={classes.number}>
@@ -129,13 +136,7 @@ const Question = (props) => {
 			</Grid>
 
 			{/* Answers */}
-			<Grid
-				className={classes.answers}
-				styles={{ height: boxHeight }}
-				ref={answerBox}
-				container
-				xs='auto'
-			>
+			<Grid className={classes.answers} ref={answerBox} container xs='auto'>
 				<Grid container direction='column' justifyContent='space-around' spacing={3}>
 					{props.question.answer.map((answer) => {
 						return (
