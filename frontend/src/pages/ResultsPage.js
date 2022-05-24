@@ -17,6 +17,13 @@ const useStyles = makeStyles(() => ({
 		margin: '0rem 0rem 1rem 0rem',
 		padding: '2rem 0rem',
 	},
+	resultInfo: {
+		width: '100%',
+		backgroundColor: '#D6D6D6',
+		margin: '4rem 1rem',
+		padding: '1rem',
+		borderRadius: 40,
+	},
 }));
 
 const ResultsPage = (props) => {
@@ -35,21 +42,35 @@ const ResultsPage = (props) => {
 
 	return (
 		<Paper theme={theme} className={classes.paper}>
-			<Grid container align='center' spacing={4} xs={12}>
+			<Grid container align='center' xs={12}>
 				<Grid item xs={12}>
 					<Typography variant='h2'>Resultados</Typography>
 				</Grid>
-				<Grid item xs={6}>
-					<Typography variant='h6'>Erradas: {exam.failed.length}</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant='h6'>Corretas: {exam.correct.length}</Typography>
-				</Grid>
-				<Grid item xs={6}>
-					<Typography variant='h6'>Nota: {exam.score}</Typography>
-				</Grid>
+				<Paper theme={theme} className={classes.resultInfo}>
+					<Grid container align='center' spacing={4} xs={12}>
+						<Grid item xs={6}>
+							<Typography variant='h6'> ❌ Erradas: {exam.failed.length}</Typography>
+						</Grid>
+						<Grid item xs={6}>
+							<Typography variant='h6'>
+								{' '}
+								✅ Corretas: {exam.correct.length}
+							</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<Typography variant='h6'>🏆 Nota: {exam.score}</Typography>
+						</Grid>
+					</Grid>
+				</Paper>
 			</Grid>
-			<Grid container direction='row' align='center' spacing={4} xs={12}>
+			<Grid
+				container
+				direction='row'
+				justifyContent='center'
+				align='center'
+				spacing={4}
+				xs={12}
+			>
 				<Grid item xs={12}>
 					<Typography variant='h6'>Perguntas:</Typography>
 					<QuestionAccordionGroup exam={exam} />
