@@ -179,7 +179,7 @@ const QuestionForm = () => {
 			</Grid>
 
 			{/* Answers */}
-			<Grid item xs={6} container>
+			<Grid item xs={6} container spacing={3}>
 				<Grid item xs={6}>
 					<TextField
 						value={correct}
