@@ -35,7 +35,7 @@ const QuestionApproval = ({ question, callBack }) => {
 				</IconButton>
 			</Grid>
 
-			<Grid item xs={10}>
+			<Grid item xs='auto'>
 				<Question question={question} preview={true} />
 			</Grid>
 
