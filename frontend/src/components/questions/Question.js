@@ -100,14 +100,10 @@ const Question = (props) => {
 			container
 			direction='row'
 			justifyContent='space-between'
+			alignItems='flex-start'
 			ref={questionBox}
 		>
-			<Grid
-				className={classes.question}
-				styles={{ width: boxWidth }}
-				item
-				justifyContent='center'
-			>
+			<Grid className={classes.question} container justifyContent='center'>
 				{/* Question's number */}
 				<Grid item xs={5}>
 					<Paper className={classes.number}>
