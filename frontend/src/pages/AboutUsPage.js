@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Paper, Typography, IconButton } from '@mui/material';
-import { Link } from "react-router-dom";
 import makeStyles from '@mui/styles/makeStyles';
 import theme from '../globalTheme.js';
 import { ReactComponent as Discord } from '../assets/icon_disc.svg';
@@ -28,10 +27,12 @@ const useStyles = makeStyles(() => ({
 		fontsize: 100,
 	},
 
-	image: {
-		widht: '70px',
-		height: '70px',
-		borderRadius: 11,
+	hover: {
+		transition: 'transform 0.15s ease-in-out',
+		'&:hover': {
+			transform: 'scale(1.2,1.2)',
+			boxShadow: '0px 6px 4px #Bbb9b9',
+		},
 	},
 }));
 
@@ -64,7 +65,6 @@ export const AboutUsPage = () => {
 			</Grid>
 			<Grid
 				container
-				spacing={0}
 				direction='column'
 				alignItems='center'
 				justifyContent='center'
@@ -90,7 +90,15 @@ export const AboutUsPage = () => {
 						</Grid>
 						<Grid item style={{ minHeight: '10vh', maxWidth: '100vh' }}>
 							<Typography fontSize={20} fontFamily='Roboto' color='black'>
-								Texto
+								Esta plataforma foi desenvolvida com o objetivo de facilitar o
+								estudo a estudantes de ensino secundário, disponibilizando
+								ferramentas de análise automática (index de performance) e geração
+								personalizada de exames.
+								<p>&nbsp;</p>
+							</Typography>
+							<Typography fontSize={20} fontFamily='Roboto' color='black'>
+								Arquimedia será sempre disponibilizada de forma gratuita a todos os
+								estudantes.
 							</Typography>
 						</Grid>
 					</Grid>
@@ -138,42 +146,40 @@ export const AboutUsPage = () => {
 					<Grid
 						container
 						spacing={3}
-						direction='row'
-						alignItems='center'
-						justifyContent='center'
-						style={{ maxWidth: '35vh', minHeight: '15vh', marginLeft: '18.5%' }}
+						style={{ maxWidth: '35vh', minHeight: '15vh', marginLeft: '22rem' }}
 					>
 						<Grid item xs={4}>
 							<IconButton>
 								<Discord
-									style={{ borderRadius: 1 }}
-									className={classes.image}
-									onClick={() => {                    
-									window.location.href = 'https://discord.gg/3Fgxs8pJMh';}}
+									className={classes.hover}
+									onClick={() => {
+										window.location.href = 'https://discord.gg/3Fgxs8pJMh';
+									}}
 								/>
 							</IconButton>
 						</Grid>
-						<Grid item xs={4}>	
+						<Grid item xs={4}>
 							<IconButton>
 								<Instagram
-									style={{ borderRadius: 1 }}
-									className={classes.image}
-									onClick={() => {                    
-									window.location.href = 'https://discord.gg/3Fgxs8pJMh';}}
+									className={classes.hover}
+									onClick={() => {
+										window.location.href =
+											'https://www.instagram.com/arquimedia.pt/';
+									}}
 								/>
 							</IconButton>
 						</Grid>
 						<Grid item xs={4}>
 							<IconButton>
 								<HackerSchool
-									style={{ borderRadius: 1 }}
-									className={classes.image}
-									onClick={() => {                    
-									window.location.href = 'https://discord.gg/3Fgxs8pJMh';}}
+									className={classes.hover}
+									onClick={() => {
+										window.location.href =
+											'http://hackerschool.tecnico.ulisboa.pt/';
+									}}
 								/>
 							</IconButton>
 						</Grid>
-
 					</Grid>
 				</Paper>
 			</Grid>
