@@ -26,12 +26,12 @@ const useStyles = makeStyles((boxWidth) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		padding: 5,
-		minWidth: '10%',
+		minWidth: '15%',
 		maxWidth: '30%',
 	},
 	question: {
 		minWidth: '20%',
-		maxWidth: '90%',
+		maxWidth: '85%',
 	},
 	number: {
 		backgroundColor: '#EB5757',
