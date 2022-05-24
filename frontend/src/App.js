@@ -78,10 +78,7 @@ function App() {
 												path='/configuracoes'
 												component={SettingsPage}
 											/>
-											<AuthRoute
-												path='/sobre'
-												component={AboutUsPage}
-											/>
+											<AuthRoute path='/sobre' component={AboutUsPage} />
 											<Route path='*' component={PageNotFound} />
 										</Switch>
 									</div>
