@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 	hover: {
 		transition: 'transform 0.15s ease-in-out',
 		'&:hover': {
-			transform: 'scale(1.2,1.2)',
+			transform: 'scale(1.05,1.05)',
 			boxShadow: '0px 6px 4px #Bbb9b9',
 		},
 	},
@@ -49,15 +49,16 @@ export const AboutUsPage = () => {
 				direction='column'
 				align='center'
 				justifyContent='center'
-				style={{ minHeight: '25vh' }}
+				style={{ minHeight: '20vh' }}
 				spacing={1}
 			>
 				<Grid item>
 					<Typography
-						fontSize={70}
-						fontFamily='Nexa-Trial'
+						variant='h2'
+						fontFamily='Roboto'
 						fontWeight={'bold'}
 						color='white'
+						style={{ marginTop: '-5vh' }}
 					>
 						Quem somos...
 					</Typography>
@@ -182,8 +183,9 @@ export const AboutUsPage = () => {
 												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href =
-															'https://www.linkedin.com/in/jer%C3%B3nimo-mendes/';
+														window.open(
+															'https://www.linkedin.com/in/jer%C3%B3nimo-mendes/'
+														);
 													}}
 												/>
 											</IconButton>
@@ -193,8 +195,9 @@ export const AboutUsPage = () => {
 												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href =
-															'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/';
+														window.open(
+															'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/'
+														);
 													}}
 												/>
 											</IconButton>
@@ -204,8 +207,9 @@ export const AboutUsPage = () => {
 												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href =
-															'https://discord.gg/3Fgxs8pJMh';
+														window.open(
+															'https://discord.gg/3Fgxs8pJMh'
+														);
 													}}
 												/>
 											</IconButton>
@@ -215,8 +219,9 @@ export const AboutUsPage = () => {
 												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href =
-															'https://discord.gg/3Fgxs8pJMh';
+														window.open(
+															'https://discord.gg/3Fgxs8pJMh'
+														);
 													}}
 												/>
 											</IconButton>
@@ -226,8 +231,9 @@ export const AboutUsPage = () => {
 												<LinkedIn
 													className={classes.hover}
 													onClick={() => {
-														window.location.href =
-															'https://discord.gg/3Fgxs8pJMh';
+														window.open(
+															'https://discord.gg/3Fgxs8pJMh'
+														);
 													}}
 												/>
 											</IconButton>
@@ -263,7 +269,7 @@ export const AboutUsPage = () => {
 								<Discord
 									className={classes.hover}
 									onClick={() => {
-										window.location.href = 'https://discord.gg/3Fgxs8pJMh';
+										window.open('https://discord.gg/3Fgxs8pJMh');
 									}}
 								/>
 							</IconButton>
@@ -273,8 +279,7 @@ export const AboutUsPage = () => {
 								<Instagram
 									className={classes.hover}
 									onClick={() => {
-										window.location.href =
-											'https://www.instagram.com/arquimedia.pt/';
+										window.open('https://www.instagram.com/arquimedia.pt/');
 									}}
 								/>
 							</IconButton>
@@ -284,8 +289,7 @@ export const AboutUsPage = () => {
 								<HackerSchool
 									className={classes.hover}
 									onClick={() => {
-										window.location.href =
-											'http://hackerschool.tecnico.ulisboa.pt/';
+										window.open('http://hackerschool.tecnico.ulisboa.pt/');
 									}}
 								/>
 							</IconButton>
