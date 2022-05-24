@@ -11,7 +11,13 @@ import remarRehype from 'remark-rehype';
 const useStyles = makeStyles(() => ({
 	rootAccordion: {
 		width: '60%',
+		borderRadius: 40,
+		margin: '0rem 0rem 1rem 0rem',
 	},
+	summaryAccordion: {
+		borderRadius: 20,
+	},
+	detailAccordion: {},
 }));
 
 const QuestionAccordion = ({ question, failed }) => {
@@ -20,8 +26,16 @@ const QuestionAccordion = ({ question, failed }) => {
 	let correctAnswer = question.answer.find((e) => e.correct);
 
 	return (
-		<Accordion className={classes.rootAccordion}>
+		<Accordion
+			sx={{
+				'&:before': {
+					display: 'none',
+				},
+			}}
+			className={classes.rootAccordion}
+		>
 			<AccordionSummary
+				className={classes.summaryAccordion}
 				expandIcon={<ExpandMoreIcon />}
 				style={{
 					backgroundColor: failed ? '#ff8c8c' : '#b4ff8c',
@@ -33,7 +47,7 @@ const QuestionAccordion = ({ question, failed }) => {
 					</ReactMarkdown>
 				</Typography>
 			</AccordionSummary>
-			<AccordionDetails>
+			<AccordionDetails className={classes.detailAccordion}>
 				<Typography>
 					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 						{correctAnswer.text}
