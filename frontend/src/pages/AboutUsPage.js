@@ -8,10 +8,11 @@ import { ReactComponent as Instagram } from '../assets/icon_insta.svg';
 
 const useStyles = makeStyles(() => ({
 	rectangle: {
-		width: '100%',
+		width: '142%',
 		height: '289px',
 		flexWrap: 'nowrap',
 		background: theme.palette.primary.main,
+		marginLeft: '-20%',
 	},
 
 	paper: {
@@ -41,103 +42,83 @@ export const AboutUsPage = () => {
 
 	return (
 		<div>
-			<Grid className={classes.rectangle}>
-				<Grid
-					item
-					container
-					direction='column'
-					align='center'
-					justifyContent='center'
-					style={{ minHeight: '25vh' }}
-					spacing={1}
-				>
-					<Grid item>
-						<Typography
-							fontSize={70}
-							fontFamily='Nexa-Trial'
-							fontWeight={'bold'}
-							color='white'
-						>
-							Quem somos...
-						</Typography>
-					</Grid>
-				</Grid>
-			</Grid>
 			<Grid
+				className={classes.rectangle}
 				container
 				direction='column'
-				alignItems='center'
+				align='center'
 				justifyContent='center'
-				style={{ minHeight: '0vh' }}
+				style={{ minHeight: '25vh' }}
+				spacing={1}
 			>
-				<Paper className={classes.paper}>
-					<Grid
-						item
-						container
-						direction='column'
-						style={{ marginLeft: '5vh', marginTop: '5vh' }}
+				<Grid item>
+					<Typography
+						fontSize={70}
+						fontFamily='Nexa-Trial'
+						fontWeight={'bold'}
+						color='white'
 					>
-						<Grid item>
+						Quem somos...
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid container direction='column' alignItems='center' justifyContent='center'>
+				<Paper className={classes.paper}>
+					<Grid item container style={{ marginTop: '5vh' }}>
+						<Grid item style={{ wordWrap: 'break-word', padding: '2rem' }}>
 							<Typography
-								fontSize={40}
+								variant='h3'
 								fontFamily='Roboto'
 								fontWeight={'bold'}
-								color='black'
 								style={{ minHeight: '7vh' }}
+								color='black'
 							>
 								O Projeto
 							</Typography>
-						</Grid>
-						<Grid item style={{ minHeight: '10vh', maxWidth: '100vh' }}>
-							<Typography fontSize={20} fontFamily='Roboto' color='black'>
+							<Typography
+								variant='h6'
+								fontFamily='Roboto'
+								color='black'
+								style={{ minHeight: '13vh' }}
+							>
 								Esta plataforma foi desenvolvida com o objetivo de facilitar o
 								estudo a estudantes de ensino secundário, disponibilizando
 								ferramentas de análise automática (index de performance) e geração
 								personalizada de exames.
-								<p>&nbsp;</p>
 							</Typography>
-							<Typography fontSize={20} fontFamily='Roboto' color='black'>
+							<Typography variant='h6' fontFamily='Roboto' color='black'>
 								Arquimedia será sempre disponibilizada de forma gratuita a todos os
 								estudantes.
 							</Typography>
 						</Grid>
-					</Grid>
-					<Grid
-						item
-						container
-						direction='column'
-						style={{ marginLeft: '5vh', marginTop: '5vh' }}
-					>
-						<Grid item>
+						<Grid item style={{ wordWrap: 'break-word', padding: '2rem' }}>
 							<Typography
-								fontSize={40}
+								variant='h3'
 								fontFamily='Roboto'
 								fontWeight={'bold'}
 								color='black'
 								style={{ minHeight: '7vh' }}
 							>
-								Os estudantes
+								De estudantes para estudantes
 							</Typography>
-						</Grid>
-						<Grid item style={{ minHeight: '20vh', maxWidth: '100vh' }}>
-							<Typography fontSize={20} fontFamily='Roboto' color='black'>
-								Butão texto
+							<Typography
+								variant='h6'
+								fontFamily='Roboto'
+								color='black'
+								style={{ minHeight: '7vh' }}
+							>
+								LOL
 							</Typography>
 						</Grid>
 					</Grid>
-					<Grid
-						item
-						container
-						direction='column'
-						alignItems='center'
-						justifyContent='center'
-					>
+					<Grid container direction='column' alignItems='center' justifyContent='center'>
 						<Grid item>
 							<Typography
-								fontSize={40}
+								variant='h3'
 								fontFamily='Roboto'
 								fontWeight={'bold'}
 								color='black'
+								style={{ minHeight: '7vh' }}
 							>
 								Acompanha!
 							</Typography>
@@ -145,10 +126,13 @@ export const AboutUsPage = () => {
 					</Grid>
 					<Grid
 						container
-						spacing={3}
-						style={{ maxWidth: '35vh', minHeight: '15vh', marginLeft: '22rem' }}
+						align='center'
+						alignItems='center'
+						justifyContent='center'
+						style={{ minHeight: '10vh' }}
+						spacing={0}
 					>
-						<Grid item xs={4}>
+						<Grid item xs={1.3}>
 							<IconButton>
 								<Discord
 									className={classes.hover}
@@ -158,7 +142,7 @@ export const AboutUsPage = () => {
 								/>
 							</IconButton>
 						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={1.3}>
 							<IconButton>
 								<Instagram
 									className={classes.hover}
@@ -169,7 +153,7 @@ export const AboutUsPage = () => {
 								/>
 							</IconButton>
 						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={1.3}>
 							<IconButton>
 								<HackerSchool
 									className={classes.hover}
