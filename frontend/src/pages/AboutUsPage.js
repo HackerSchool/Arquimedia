@@ -183,7 +183,7 @@ export const AboutUsPage = () => {
 													className={classes.hover}
 													onClick={() => {
 														window.location.href =
-															'https://discord.gg/3Fgxs8pJMh';
+															'https://www.linkedin.com/in/jer%C3%B3nimo-mendes/';
 													}}
 												/>
 											</IconButton>
@@ -194,7 +194,7 @@ export const AboutUsPage = () => {
 													className={classes.hover}
 													onClick={() => {
 														window.location.href =
-															'https://discord.gg/3Fgxs8pJMh';
+															'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/';
 													}}
 												/>
 											</IconButton>
