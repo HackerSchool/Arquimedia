@@ -166,7 +166,13 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGOUT_ON_PASSWORD_CHANGE = False
 OLD_PASSWORD_FIELD_ENABLED = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# SMTP Settings
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv("SMTP_HOST")
+EMAIL_PORT = os.getenv("SMTP_PORT")
+EMAIL_HOST_USER = os.getenv("SMTP_USER")
+EMAIL_HOST_PASSWORD = os.getenv("SMTP_PASSWORD")
 
 # Path where images uploaded will be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
