@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
 		width: '60%',
 		borderRadius: 40,
 		margin: '0rem 0rem 1rem 0rem',
+		boxShadow: '3px 4px 6px rgba(0, 0, 0, 0.25)',
 	},
 	summaryAccordion: {
 		borderRadius: 40,
