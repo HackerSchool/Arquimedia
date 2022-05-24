@@ -275,7 +275,7 @@ const QuestionForm = () => {
 				type='success'
 			/>
 
-			<Grid item xs={12}>
+			<Grid item xs='auto' justifyContent='center' alignItems='center'>
 				<Question question={question} preview={true} />
 			</Grid>
 
