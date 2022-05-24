@@ -15,9 +15,8 @@ const useStyles = makeStyles(() => ({
 		margin: '0rem 0rem 1rem 0rem',
 	},
 	summaryAccordion: {
-		borderRadius: 20,
+		borderRadius: 40,
 	},
-	detailAccordion: {},
 }));
 
 const QuestionAccordion = ({ question, failed }) => {
@@ -33,12 +32,16 @@ const QuestionAccordion = ({ question, failed }) => {
 				},
 			}}
 			className={classes.rootAccordion}
+			square
 		>
 			<AccordionSummary
 				className={classes.summaryAccordion}
 				expandIcon={<ExpandMoreIcon />}
-				style={{
+				sx={{
 					backgroundColor: failed ? '#ff8c8c' : '#b4ff8c',
+					'&:hover': {
+						backgroundColor: failed ? '#FFBABA' : '#DCFFC9',
+					},
 				}}
 			>
 				<Typography>

@@ -48,6 +48,8 @@ const ResultsPage = (props) => {
 				<Grid item xs={6}>
 					<Typography variant='h6'>Nota: {exam.score}</Typography>
 				</Grid>
+			</Grid>
+			<Grid container direction='row' align='center' spacing={4} xs={12}>
 				<Grid item xs={12}>
 					<Typography variant='h6'>Perguntas:</Typography>
 					<QuestionAccordionGroup exam={exam} />
