@@ -18,6 +18,12 @@ const useStyles = makeStyles(() => ({
 	summaryAccordion: {
 		borderRadius: 40,
 	},
+	questionText: {
+		whiteSpace: 'pre-line',
+		textAlign: 'justify',
+		textJustify: 'inter-word',
+		wordWrap: 'break-word',
+	},
 }));
 
 const QuestionAccordion = ({ question, failed }) => {
@@ -45,7 +51,7 @@ const QuestionAccordion = ({ question, failed }) => {
 					},
 				}}
 			>
-				<Typography>
+				<Typography className={classes.questionText}>
 					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 						{question.text}
 					</ReactMarkdown>
