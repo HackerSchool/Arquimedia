@@ -55,7 +55,7 @@ const ResultsPage = (props) => {
 						flexItem
 					></Divider>
 				</Grid>
-				<Grid className={classes.resultInfo} container align='center' xs={12}>
+				<Grid className={classes.resultInfo} container xs={12}>
 					<Grid item xs={4}>
 						<Typography style={{ color: 'RGB(22, 198, 12)' }} variant='h4'>
 							{' '}
@@ -78,7 +78,7 @@ const ResultsPage = (props) => {
 				direction='row'
 				justifyContent='center'
 				align='center'
-				spacing={4}
+				spacing={2}
 				xs={12}
 			>
 				<Grid item xs={12}>
