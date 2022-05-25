@@ -91,6 +91,25 @@ const RegisterInput = () => {
 						);
 					else if (
 						error.response.data.password1 !== undefined &&
+						(error.response.data.password1[0] ===
+							'The password is too similar to the usernames.' ||
+							error.response.data.password1[0] ===
+								'The password is too similar to the emails.')
+					)
+						enqueueSnackbar(
+							'A sua palavra passe é demasiado parecida com o resto da sua informação pessoal.',
+							{ variant: 'warning' }
+						);
+					else if (
+						error.response.data.password1 !== undefined &&
+						error.response.data.password1[0] === 'This password is entirely numeric.'
+					)
+						enqueueSnackbar(
+							'A sua palavra passe não pode ser composta unicamente por carateres numéricos.',
+							{ variant: 'warning' }
+						);
+					else if (
+						error.response.data.password1 !== undefined &&
 						error.response.data.password1[0] ===
 							'This password is too short. It must contain at least 8 characters.'
 					)
