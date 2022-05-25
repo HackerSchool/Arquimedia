@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { examInfo } from '../api';
 import Loading from '../components/loading/Loading';
-import { Grid, Typography, Paper } from '@mui/material';
+import { Grid, Typography, Paper, Divider } from '@mui/material';
 import QuestionAccordionGroup from '../components/questions/QuestionAccordionGroup';
 import theme from '../globalTheme';
 import makeStyles from '@mui/styles/makeStyles/';
@@ -19,10 +19,12 @@ const useStyles = makeStyles(() => ({
 	},
 	resultInfo: {
 		width: '100%',
-		backgroundColor: '#D6D6D6',
 		margin: '4rem 1rem',
 		padding: '1rem',
 		borderRadius: 40,
+	},
+	divider: {
+		width: '85%',
 	},
 }));
 
@@ -42,33 +44,41 @@ const ResultsPage = (props) => {
 
 	return (
 		<Paper theme={theme} className={classes.paper}>
-			<Grid container align='center' xs={12}>
+			<Grid container align='center' spacing={2} xs={12}>
 				<Grid item xs={12}>
 					<Typography variant='h2'>Resultados</Typography>
 				</Grid>
-				<Paper theme={theme} className={classes.resultInfo}>
-					<Grid container align='center' spacing={4} xs={12}>
-						<Grid item xs={6}>
-							<Typography variant='h6'> ❌ Erradas: {exam.failed.length}</Typography>
-						</Grid>
-						<Grid item xs={6}>
-							<Typography variant='h6'>
-								{' '}
-								✅ Corretas: {exam.correct.length}
-							</Typography>
-						</Grid>
-						<Grid item xs={12}>
-							<Typography variant='h6'>🏆 Nota: {exam.score}</Typography>
-						</Grid>
+				<Grid item xs={12}>
+					<Divider
+						className={classes.divider}
+						orientation='horizontal'
+						flexItem
+					></Divider>
+				</Grid>
+				<Grid className={classes.resultInfo} container xs={12}>
+					<Grid item xs={4}>
+						<Typography style={{ color: 'RGB(22, 198, 12)' }} variant='h4'>
+							{' '}
+							✅ Corretas: {exam.correct.length}
+						</Typography>
 					</Grid>
-				</Paper>
+					<Grid item xs={4}>
+						<Typography variant='h4'> 🏆 Nota: {exam.score}</Typography>
+					</Grid>
+					<Grid item xs={4}>
+						<Typography style={{ color: 'RGB(237, 57, 22)' }} variant='h4'>
+							{' '}
+							❌ Erradas: {exam.failed.length}
+						</Typography>
+					</Grid>
+				</Grid>
 			</Grid>
 			<Grid
 				container
 				direction='row'
 				justifyContent='center'
 				align='center'
-				spacing={4}
+				spacing={2}
 				xs={12}
 			>
 				<Grid item xs={12}>
