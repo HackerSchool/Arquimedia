@@ -5,3 +5,4 @@ __pycache__
 .vscode
 node_modules
 backend/static/images
+/data
