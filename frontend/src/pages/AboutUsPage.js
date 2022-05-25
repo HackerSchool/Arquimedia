@@ -25,8 +25,9 @@ const useStyles = makeStyles(() => ({
 		marginTop: '-75px',
 	},
 
-	font: {
-		fontsize: 100,
+	name: {
+		wordWrap: 'break-word',
+		paddingLeft: '2rem',
 	},
 
 	hover: {
@@ -55,7 +56,6 @@ export const AboutUsPage = () => {
 				<Grid item>
 					<Typography
 						variant='h2'
-						fontFamily='Roboto'
 						fontWeight={'bold'}
 						color='white'
 						style={{ marginTop: '-5vh' }}
@@ -70,25 +70,18 @@ export const AboutUsPage = () => {
 						<Grid item style={{ wordWrap: 'break-word', padding: '2rem' }}>
 							<Typography
 								variant='h3'
-								fontFamily='Roboto'
 								fontWeight={'bold'}
 								style={{ minHeight: '7vh' }}
-								color='black'
 							>
 								O Projeto
 							</Typography>
-							<Typography
-								variant='h6'
-								fontFamily='Roboto'
-								color='black'
-								style={{ minHeight: '13vh' }}
-							>
+							<Typography variant='h6' style={{ minHeight: '13vh' }}>
 								Esta plataforma foi desenvolvida com o objetivo de facilitar o
 								estudo a estudantes de ensino secundário, disponibilizando
 								ferramentas de análise automática (index de performance) e geração
 								personalizada de exames.
 							</Typography>
-							<Typography variant='h6' fontFamily='Roboto' color='black'>
+							<Typography variant='h6'>
 								Arquimedia será sempre disponibilizada de forma gratuita a todos os
 								estudantes.
 							</Typography>
@@ -96,19 +89,12 @@ export const AboutUsPage = () => {
 						<Grid item style={{ wordWrap: 'break-word', padding: '2rem' }}>
 							<Typography
 								variant='h3'
-								fontFamily='Roboto'
 								fontWeight={'bold'}
-								color='black'
 								style={{ minHeight: '7vh' }}
 							>
 								De estudantes para estudantes
 							</Typography>
-							<Typography
-								variant='h6'
-								fontFamily='Roboto'
-								color='black'
-								style={{ minHeight: '5vh' }}
-							>
+							<Typography variant='h6' style={{ minHeight: '5vh' }}>
 								Este projeto foi desenvolvido ao abrigo do núcleo Hackerschool
 								<a> do Instituto Superior Técnico.</a>
 							</Typography>
@@ -119,57 +105,27 @@ export const AboutUsPage = () => {
 								<Grid item xs={4}>
 									<Grid container spacing={0.9} direction='column'>
 										<Grid item>
-											<Typography
-												variant='h6'
-												style={{
-													wordWrap: 'break-word',
-													paddingLeft: '2rem',
-												}}
-											>
+											<Typography variant='h6' className={classes.name}>
 												<li>Jerónimo Mendes</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography
-												variant='h6'
-												style={{
-													wordWrap: 'break-word',
-													paddingLeft: '2rem',
-												}}
-											>
+											<Typography variant='h6' className={classes.name}>
 												<li>Miguel Dinis</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography
-												variant='h6'
-												style={{
-													wordWrap: 'break-word',
-													paddingLeft: '2rem',
-												}}
-											>
+											<Typography variant='h6' className={classes.name}>
 												<li>Nuno Marques</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography
-												variant='h6'
-												style={{
-													wordWrap: 'break-word',
-													paddingLeft: '2rem',
-												}}
-											>
+											<Typography variant='h6' className={classes.name}>
 												<li>Afonso Domingues</li>
 											</Typography>
 										</Grid>
 										<Grid item>
-											<Typography
-												variant='h6'
-												style={{
-													wordWrap: 'break-word',
-													paddingLeft: '2rem',
-												}}
-											>
+											<Typography variant='h6' className={classes.name}>
 												<li>Ana Mourão</li>
 												<p>&nbsp;</p>
 											</Typography>
@@ -202,42 +158,6 @@ export const AboutUsPage = () => {
 												/>
 											</IconButton>
 										</Grid>
-										<Grid item>
-											<IconButton>
-												<LinkedIn
-													className={classes.hover}
-													onClick={() => {
-														window.open(
-															'https://discord.gg/3Fgxs8pJMh'
-														);
-													}}
-												/>
-											</IconButton>
-										</Grid>
-										<Grid item>
-											<IconButton>
-												<LinkedIn
-													className={classes.hover}
-													onClick={() => {
-														window.open(
-															'https://discord.gg/3Fgxs8pJMh'
-														);
-													}}
-												/>
-											</IconButton>
-										</Grid>
-										<Grid item>
-											<IconButton>
-												<LinkedIn
-													className={classes.hover}
-													onClick={() => {
-														window.open(
-															'https://discord.gg/3Fgxs8pJMh'
-														);
-													}}
-												/>
-											</IconButton>
-										</Grid>
 									</Grid>
 								</Grid>
 							</Grid>
@@ -247,9 +167,7 @@ export const AboutUsPage = () => {
 						<Grid item>
 							<Typography
 								variant='h3'
-								fontFamily='Roboto'
 								fontWeight={'bold'}
-								color='black'
 								style={{ minHeight: '7vh' }}
 							>
 								Acompanha!

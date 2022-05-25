@@ -29,6 +29,35 @@ const config = {
 		},
 	],
 	areas: ['Ciências e Tecnologias', 'Línguas e Humanidades'],
+	devs: [
+		{
+			name: 'Jerónimo Mendes',
+			socials: [
+				{
+					name: 'LinkedIn',
+					url: 'https://www.linkedin.com/in/jer%C3%B3nimo-mendes/',
+				},
+			],
+		},
+		{
+			name: 'Miguel Dinis',
+			social: [
+				{
+					name: 'LinkedIn',
+					url: 'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/',
+				},
+			],
+		},
+		{
+			name: 'Nuno Marques',
+		},
+		{
+			name: 'Afonso Domingues',
+		},
+		{
+			name: 'Ana Mourão',
+		},
+	],
 	settingsMenu: ['Conta', 'Privacidade'],
 };
 
