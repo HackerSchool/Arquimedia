@@ -41,7 +41,7 @@ const config = {
 		},
 		{
 			name: 'Miguel Dinis',
-			social: [
+			socials: [
 				{
 					name: 'LinkedIn',
 					url: 'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/',
@@ -50,12 +50,15 @@ const config = {
 		},
 		{
 			name: 'Nuno Marques',
+			socials: [],
 		},
 		{
 			name: 'Afonso Domingues',
+			socials: [],
 		},
 		{
 			name: 'Ana Mourão',
+			socials: [],
 		},
 	],
 	settingsMenu: ['Conta', 'Privacidade'],

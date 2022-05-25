@@ -6,6 +6,7 @@ import { ReactComponent as Discord } from '../assets/icon_disc_3.svg';
 import { ReactComponent as HackerSchool } from '../assets/icon_hs_3.svg';
 import { ReactComponent as Instagram } from '../assets/icon_insta_1.svg';
 import { ReactComponent as LinkedIn } from '../assets/icon_linked.svg';
+import config from '../config';
 
 const useStyles = makeStyles(() => ({
 	rectangle: {
@@ -106,28 +107,20 @@ export const AboutUsPage = () => {
 									<Grid container spacing={0.9} direction='column'>
 										<Grid item>
 											<Typography variant='h6' className={classes.name}>
-												<li>Jerónimo Mendes</li>
-											</Typography>
-										</Grid>
-										<Grid item>
-											<Typography variant='h6' className={classes.name}>
-												<li>Miguel Dinis</li>
-											</Typography>
-										</Grid>
-										<Grid item>
-											<Typography variant='h6' className={classes.name}>
-												<li>Nuno Marques</li>
-											</Typography>
-										</Grid>
-										<Grid item>
-											<Typography variant='h6' className={classes.name}>
-												<li>Afonso Domingues</li>
-											</Typography>
-										</Grid>
-										<Grid item>
-											<Typography variant='h6' className={classes.name}>
-												<li>Ana Mourão</li>
-												<p>&nbsp;</p>
+												{config.devs.map((dev) => {
+													return <li key={dev.name}>{dev.name}</li>;
+												})}
+												{config.devs.map((social) => {
+													return <IconButton key={social.url}> <LinkedIn
+														className={classes.hover}
+														onClick={() => {
+														window.open(
+															 p
+														);
+														}}
+														/>
+													</IconButton>
+												})}
 											</Typography>
 										</Grid>
 									</Grid>
