@@ -20,8 +20,6 @@ services:
 
   backend:
     build: ./backend
-    ports:
-      - "8000:8000"
     depends_on:
       - db
       - redis
@@ -38,7 +36,5 @@ services:
     restart: always
     depends_on:
       - backend
-    ports:
-      - '3000:3000'
     links:
       - "backend:localhost"
