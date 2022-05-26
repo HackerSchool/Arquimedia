@@ -1,4 +1,4 @@
-import { Grid, InputBase } from '@mui/material';
+import { Grid, InputBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { logIn } from '../../api';
 import React, { useState } from 'react';
@@ -6,7 +6,7 @@ import NormalButton from '../buttons/NormalButton';
 import { ReactComponent as Logo } from '../../assets/logo_white.svg';
 import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,
@@ -20,6 +20,10 @@ const useStyles = makeStyles(() => ({
 	containerForm: {
 		width: '100%',
 		marginTop: '7rem',
+	},
+	resetPasswordText: {
+		color: theme.palette.background.default,
+		fontSize: 18,
 	},
 }));
 
@@ -93,7 +97,12 @@ const LoginInput = () => {
 						onKeyUp={handleKeyPress}
 					/>
 				</Grid>
-				<Grid item style={{ marginTop: '4rem' }}>
+				<Grid item>
+					<Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
+						Não sabes a tua Password ?
+					</Link>
+				</Grid>
+				<Grid item style={{ marginTop: '2rem' }}>
 					<NormalButton fontSize={45} text='Entrar' onClick={handleClick} />
 				</Grid>
 			</Grid>
