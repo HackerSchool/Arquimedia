@@ -10,21 +10,18 @@ import config from '../config';
 
 const useStyles = makeStyles(() => ({
 	rectangle: {
-		width: '226vh',
+		width: '100vw',
 		height: '30vh',
 		flexWrap: 'nowrap',
 		background: theme.palette.primary.main,
-		minHeight: '20vh',
-		marginLeft: '-20%',
 	},
-
 	paper: {
 		width: '105vh',
-		height: '105vh',
 		borderRadius: 20,
 		border: '3px solid #D9D9D9',
 		boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
 		marginTop: '-75px',
+		padding: '2rem',
 	},
 
 	text: {
@@ -58,7 +55,14 @@ export const AboutUsPage = () => {
 	const classes = useStyles();
 
 	return (
-		<div>
+		<div
+			style={{
+				overflowX: 'hidden',
+				marginLeft: '-12em',
+				marginRight: '-12em',
+				paddingBottom: '4rem',
+			}}
+		>
 			<Grid
 				className={classes.rectangle}
 				container
@@ -72,7 +76,7 @@ export const AboutUsPage = () => {
 						variant='h2'
 						fontWeight={'bold'}
 						color='white'
-						style={{ marginTop: '-5vh' }}
+						style={{ marginTop: '-7vh' }}
 					>
 						Quem somos...
 					</Typography>
@@ -80,7 +84,7 @@ export const AboutUsPage = () => {
 			</Grid>
 			<Grid container direction='column' alignItems='center' justifyContent='center'>
 				<Paper className={classes.paper}>
-					<Grid container style={{ marginTop: '5vh' }}>
+					<Grid container>
 						<Grid item className={classes.text}>
 							<Typography variant='h3' fontWeight={'bold'} className={classes.title}>
 								O Projeto
