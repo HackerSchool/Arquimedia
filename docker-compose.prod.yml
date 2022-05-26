@@ -18,7 +18,7 @@ services:
       service: backend
     command: python ./manage.py runserver 0.0.0.0:8000
     environment:
-      - DJANGO_DEBUG=True
+      - DJANGO_DEBUG=False
       - ALLOWED_HOST=localhost
     ports:
       - 127.0.0.1:8001:8000
