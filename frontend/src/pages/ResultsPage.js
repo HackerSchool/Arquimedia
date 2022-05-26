@@ -63,7 +63,7 @@ const ResultsPage = (props) => {
 						</Typography>
 					</Grid>
 					<Grid item xs={4}>
-						<Typography variant='h4'> 🏆 Nota: {exam.score}</Typography>
+						<Typography variant='h4'> 🏆 Nota: {exam.score} / 200</Typography>
 					</Grid>
 					<Grid item xs={4}>
 						<Typography style={{ color: 'RGB(237, 57, 22)' }} variant='h4'>
