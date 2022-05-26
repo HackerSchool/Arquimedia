@@ -10,20 +10,34 @@ import config from '../config';
 
 const useStyles = makeStyles(() => ({
 	rectangle: {
-		width: '142%',
-		height: '289px',
+		width: '226vh',
+		height: '30vh',
 		flexWrap: 'nowrap',
 		background: theme.palette.primary.main,
+		minHeight: '20vh',
 		marginLeft: '-20%',
 	},
 
 	paper: {
-		width: '70%',
-		height: '70%',
+		width: '105vh',
+		height: '105vh',
 		borderRadius: 20,
 		border: '3px solid #D9D9D9',
 		boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
 		marginTop: '-75px',
+	},
+
+	text: {
+		wordWrap: 'break-word',
+		padding: '2rem',
+	},
+
+	body: {
+		minHeight: '12vh',
+	},
+
+	title: {
+		minHeight: '7vh',
 	},
 
 	name: {
@@ -52,7 +66,6 @@ export const AboutUsPage = () => {
 				align='center'
 				justifyContent='center'
 				style={{ minHeight: '20vh' }}
-				spacing={1}
 			>
 				<Grid item>
 					<Typography
@@ -67,16 +80,12 @@ export const AboutUsPage = () => {
 			</Grid>
 			<Grid container direction='column' alignItems='center' justifyContent='center'>
 				<Paper className={classes.paper}>
-					<Grid item container style={{ marginTop: '5vh' }}>
-						<Grid item style={{ wordWrap: 'break-word', padding: '2rem' }}>
-							<Typography
-								variant='h3'
-								fontWeight={'bold'}
-								style={{ minHeight: '7vh' }}
-							>
+					<Grid container style={{ marginTop: '5vh' }}>
+						<Grid item className={classes.text}>
+							<Typography variant='h3' fontWeight={'bold'} className={classes.title}>
 								O Projeto
 							</Typography>
-							<Typography variant='h6' style={{ minHeight: '13vh' }}>
+							<Typography variant='h6' className={classes.body}>
 								Esta plataforma foi desenvolvida com o objetivo de facilitar o
 								estudo a estudantes de ensino secundário, disponibilizando
 								ferramentas de análise automática (index de performance) e geração
@@ -87,82 +96,60 @@ export const AboutUsPage = () => {
 								estudantes.
 							</Typography>
 						</Grid>
-						<Grid item style={{ wordWrap: 'break-word', padding: '2rem' }}>
-							<Typography
-								variant='h3'
-								fontWeight={'bold'}
-								style={{ minHeight: '7vh' }}
-							>
+						<Grid item className={classes.text}>
+							<Typography variant='h3' fontWeight={'bold'} className={classes.title}>
 								De estudantes para estudantes
 							</Typography>
-							<Typography variant='h6' style={{ minHeight: '5vh' }}>
-								Este projeto foi desenvolvido ao abrigo do núcleo Hackerschool
-								<a> do Instituto Superior Técnico.</a>
+							<Typography variant='h6' className={classes.title}>
+								Este projeto foi desenvolvido ao abrigo do núcleo Hackerschool do
+								Instituto Superior Técnico.
 							</Typography>
-							<Typography variant='h6' style={{ minHeight: '4vh' }}>
+							<Typography variant='h6' className={classes.title}>
 								Até à data, contribuiram:
 							</Typography>
-							<Grid container spacing={2}>
-								<Grid item xs={4}>
-									<Grid container spacing={0.9} direction='column'>
-										<Grid item>
-											<Typography variant='h6' className={classes.name}>
-												{config.devs.map((dev) => {
-													return <li key={dev.name}>{dev.name}</li>;
-												})}
-												{config.devs.map((social) => {
-													return <IconButton key={social.url}> <LinkedIn
-														className={classes.hover}
-														onClick={() => {
-														window.open(
-															 p
-														);
-														}}
-														/>
-													</IconButton>
-												})}
-											</Typography>
-										</Grid>
-									</Grid>
-								</Grid>
-								<Grid item>
-									<Grid container direction='column'>
-										<Grid item>
-											<IconButton>
-												<LinkedIn
-													className={classes.hover}
-													onClick={() => {
-														window.open(
-															'https://www.linkedin.com/in/jer%C3%B3nimo-mendes/'
-														);
+							<Grid container>
+								<Typography variant='h6' className={classes.name}>
+									{config.devs.map((dev) => {
+										return (
+											<li key={dev.name}>
+												<Typography
+													variant='h6'
+													style={{
+														display: 'inline-block',
+														minWidth: '20vh',
 													}}
-												/>
-											</IconButton>
-										</Grid>
-										<Grid item>
-											<IconButton>
-												<LinkedIn
-													className={classes.hover}
-													onClick={() => {
-														window.open(
-															'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/'
-														);
+												>
+													{dev.name}
+												</Typography>{' '}
+												<Typography
+													style={{
+														display: 'inline-block',
 													}}
-												/>
-											</IconButton>
-										</Grid>
-									</Grid>
-								</Grid>
+												>
+													{dev.socials.map((social) => {
+														return (
+															<IconButton key={social.url}>
+																{' '}
+																<LinkedIn
+																	className={classes.hover}
+																	onClick={() => {
+																		window.open(social.url);
+																	}}
+																/>
+															</IconButton>
+														);
+													})}
+												</Typography>
+											</li>
+										);
+									})}
+								</Typography>
 							</Grid>
 						</Grid>
 					</Grid>
 					<Grid container direction='column' alignItems='center' justifyContent='center'>
 						<Grid item>
-							<Typography
-								variant='h3'
-								fontWeight={'bold'}
-								style={{ minHeight: '7vh' }}
-							>
+							<Typography variant='h3' fontWeight={'bold'} className={classes.text}>
 								Acompanha!
 							</Typography>
 						</Grid>
