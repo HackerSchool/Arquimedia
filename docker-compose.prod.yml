@@ -1,4 +1,16 @@
 services:
+  web:
+    image: nginx:latest
+    ports: 
+      - 8080:80
+    volumes: 
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+    command: [nginx-debug, '-g', 'daemon off;']
+    environment:
+    - NGINX_HOST=localhost
+    - NGINX_PORT=80
+    network_mode: host
+
   backend:
     container_name: backend-prod
     extends:
@@ -6,7 +18,10 @@ services:
       service: backend
     command: python ./manage.py runserver 0.0.0.0:8000
     environment:
-      - DJANGO_DEBUG=False
+      - DJANGO_DEBUG=True
+      - ALLOWED_HOST=localhost
+    ports:
+      - 127.0.0.1:8001:8000
     
   frontend: 
     container_name: frontend-prod
@@ -14,6 +29,11 @@ services:
       file: docker-compose.yml
       service: frontend
     build:
-      target: production
+      context: frontend
+      dockerfile: Dockerfile.prod
+      args:
+        - API_URL=http://localhost/api/
+    ports:
+      - 127.0.0.1:8002:3000
     command: "nginx -g 'daemon off;'"
     
