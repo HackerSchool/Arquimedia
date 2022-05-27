@@ -9,26 +9,32 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    
+  redis:
+    restart: always
+    volumes:
+      - ./data/redis:/data
+    ports: 
+      - "6379:6379"
+    image: redis
 
   backend:
     build: ./backend
-    ports:
-      - "8000:8000"
     depends_on:
       - db
+      - redis
     environment:
       - DATABASE_NAME=postgres
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
+      - REDIS_URL=redis://redis:6379
 
   frontend:
     build: ./frontend
     restart: always
     depends_on:
       - backend
-    ports:
-      - '3000:3000'
     links:
       - "backend:localhost"

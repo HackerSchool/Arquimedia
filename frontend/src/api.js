@@ -1,7 +1,7 @@
 // API Calls should be made here
 const axios = require('axios').default;
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('Authorization');
 
 // Fetch current User

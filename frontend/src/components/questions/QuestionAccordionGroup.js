@@ -3,7 +3,7 @@ import QuestionAccordion from './QuestionAccordion';
 
 const QuestionAccordionGroup = ({ exam }) => {
 	return (
-		<div>
+		<div style={{ padding: '1rem' }}>
 			{exam.questions.map((question) => {
 				return (
 					<QuestionAccordion

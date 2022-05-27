@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from config import subjects
 from rest_framework.fields import CurrentUserDefault
+import os
 
 SUBJECT_CHOICES = [(i['name'], i['name']) for i in subjects if i['active']]
 class UserSerializer(serializers.ModelSerializer):
@@ -69,7 +70,8 @@ class AnswerSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
 	comment = CommentSerializer(many=True, read_only=True)
 	answer = AnswerSerializer(many=True)
-
+	image = serializers.SerializerMethodField()
+	
 	class Meta:
 		model = Question
 		fields = ("id", "text", "subject", "subsubject", "year", "difficulty", "comment", "answer", "image", "source", "date")
@@ -77,6 +79,17 @@ class QuestionSerializer(serializers.ModelSerializer):
 	def getAnswers(self, question):
 		return [answer for answer in question.answer.all]
 
+	def get_image(self, obj):
+		address = os.getenv("ALLOWED_HOST", "localhost:" + str(os.getenv("DJANGO_PORT", 8000)))
+
+		# cursed
+		if os.getenv("DJANGO_DEBUG") == "False":
+			address += "/api"
+
+		if str(obj.image):	
+			return "http://" + address + "/images/" + str(obj.image)
+
+		return None
 
 class ExamSerializer(serializers.ModelSerializer):
 	questions = QuestionSerializer(many=True)
