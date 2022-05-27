@@ -5,6 +5,7 @@ services:
       - 8080:80
     volumes: 
       - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./backend/static/images:/code/static/images/
     command: [nginx-debug, '-g', 'daemon off;']
     environment:
     - NGINX_HOST=localhost
@@ -17,6 +18,8 @@ services:
       file: docker-compose.yml
       service: backend
     command: python ./manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/static/images:/code/static/images/
     environment:
       - DJANGO_DEBUG=False
       - ALLOWED_HOST=localhost
