@@ -71,28 +71,34 @@ const LoginInput = () => {
 				direction='column'
 				justifyContent='center'
 			>
-				<Grid item>
-					<InputBase
-						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-						margin='dense'
-						variant='outlined'
-						placeholder='Nome de utilizador'
-						onChange={handleChangeUsername}
-						onKeyUp={handleKeyPress}
-					/>
-				</Grid>
-				<Grid item>
-					<InputBase
-						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-						variant='outlined'
-						placeholder='Password'
-						type='password'
-						onChange={handleChangePassword}
-						onKeyUp={handleKeyPress}
-					/>
-				</Grid>
+				<form>
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							margin='dense'
+							variant='outlined'
+							placeholder='Nome de utilizador'
+							autoComplete='username'
+							onChange={handleChangeUsername}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+					<br />
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							variant='outlined'
+							placeholder='Password'
+							type='password'
+							autoComplete='password'
+							onChange={handleChangePassword}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+					<br />
+				</form>
 				<Grid item style={{ marginTop: '4rem' }}>
 					<NormalButton fontSize={45} text='Entrar' onClick={handleClick} />
 				</Grid>
