@@ -23,6 +23,7 @@ import { AuthRoute } from './routes/AuthRoute.js';
 import { UserContextProvider } from './context/UserContextProvider.js';
 import { SnackbarProvider } from 'notistack';
 import { SettingsPage } from './pages/SettingsPage.js';
+import { AboutUsPage } from './pages/AboutUsPage.js';
 import { MobileWarningPage } from './pages/MobileWarningPage.js';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -82,6 +83,7 @@ function App() {
 												path='/configuracoes'
 												component={SettingsPage}
 											/>
+											<Route path='/sobre' component={AboutUsPage} />
 											<Route path='*' component={PageNotFound} />
 										</Switch>
 									</div>
