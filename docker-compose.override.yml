@@ -9,6 +9,8 @@ services:
       - ./backend/:/code/
     environment:
       - DJANGO_DEBUG=True
+    ports:
+      - 8000:8000
     
   frontend: 
     extends:
@@ -20,3 +22,5 @@ services:
     build:
       target: development
     command: npm start
+    ports:
+      - 3000:3000

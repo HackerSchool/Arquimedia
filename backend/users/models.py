@@ -188,7 +188,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         send_mail(
             "[Arquimedia] Confirma a Tua Conta Por Favor",
             email_template,
-            "noreply@arquimedia.pt",
+            "geral@arquimedia.pt",
             (instance.email,),
             fail_silently=False,
         )

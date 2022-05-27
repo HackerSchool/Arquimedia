@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from pathlib import Path
+import logging.config
 import os
 from dotenv import load_dotenv
 from celery.schedules import crontab
@@ -25,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'za$$&1sb*djl#621p2y06z#9djrhmk_da5vdlit7oa7r80o!hq'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG")
+DEBUG = (os.getenv("DJANGO_DEBUG", True) == "True")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS")]
 
 
 # Application definition
@@ -57,7 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles'
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://arquimedia.pt", "http://localhost" ]
+
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -166,7 +168,13 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGOUT_ON_PASSWORD_CHANGE = False
 OLD_PASSWORD_FIELD_ENABLED = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# SMTP Settings
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv("SMTP_HOST")
+EMAIL_PORT = os.getenv("SMTP_PORT")
+EMAIL_HOST_USER = os.getenv("SMTP_USER")
+EMAIL_HOST_PASSWORD = os.getenv("SMTP_PASSWORD")
 
 # Path where images uploaded will be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
@@ -175,9 +183,39 @@ MEDIA_URL = "/images/"
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Celery settings
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+BROKER_URL = os.getenv("REDIS_URL")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Lisbon'
+
+# Logging Configuration
+
+# Clear prev config
+LOGGING_CONFIG = None
+
+# Get loglevel from env
+LOGLEVEL = os.getenv('DJANGO_LOGLEVEL', 'info').upper()
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': LOGLEVEL,
+            'handlers': ['console',],
+        },
+    },
+})

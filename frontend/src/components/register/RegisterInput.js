@@ -91,6 +91,25 @@ const RegisterInput = () => {
 						);
 					else if (
 						error.response.data.password1 !== undefined &&
+						(error.response.data.password1[0] ===
+							'The password is too similar to the usernames.' ||
+							error.response.data.password1[0] ===
+								'The password is too similar to the emails.')
+					)
+						enqueueSnackbar(
+							'A sua palavra passe é demasiado parecida com o resto da sua informação pessoal.',
+							{ variant: 'warning' }
+						);
+					else if (
+						error.response.data.password1 !== undefined &&
+						error.response.data.password1[0] === 'This password is entirely numeric.'
+					)
+						enqueueSnackbar(
+							'A sua palavra passe não pode ser composta unicamente por carateres numéricos.',
+							{ variant: 'warning' }
+						);
+					else if (
+						error.response.data.password1 !== undefined &&
 						error.response.data.password1[0] ===
 							'This password is too short. It must contain at least 8 characters.'
 					)
@@ -110,6 +129,12 @@ const RegisterInput = () => {
 		}
 	};
 
+	const handleKeyPress = (e) => {
+		if (e.keyCode === 13) {
+			handleClick();
+		}
+	};
+
 	if (codePhase) return <CodeInput username={username} password={pass1} />;
 
 	return (
@@ -124,45 +149,58 @@ const RegisterInput = () => {
 				<Logo className={classes.logo} />
 			</Grid>
 			<Grid className={classes.containerForm} container spacing={4} direction='column'>
-				<Grid item>
-					<InputBase
-						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-						margin='dense'
-						variant='outlined'
-						placeholder='Nome de utilizador'
-						onChange={handleChangeUsername}
-					/>
-				</Grid>
-				<Grid item>
-					<InputBase
-						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-						variant='outlined'
-						placeholder='E-mail'
-						onChange={handleChangeEmail}
-					/>
-				</Grid>
-				<Grid item>
-					<InputBase
-						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-						variant='outlined'
-						placeholder='Password'
-						type='password'
-						onChange={handleChangePass1}
-					/>
-				</Grid>
-				<Grid item>
-					<InputBase
-						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-						variant='outlined'
-						placeholder='Repete a password'
-						type='password'
-						onChange={handleChangePass2}
-					/>
-				</Grid>
+				<form>
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							margin='dense'
+							variant='outlined'
+							placeholder='Nome de utilizador'
+							autoComplete='username'
+							onChange={handleChangeUsername}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+					<br />
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							variant='outlined'
+							placeholder='E-mail'
+							autoComplete='email'
+							onChange={handleChangeEmail}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+					<br />
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							variant='outlined'
+							placeholder='Password'
+							type='password'
+							autoComplete='password'
+							onChange={handleChangePass1}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+					<br />
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							variant='outlined'
+							placeholder='Repete a password'
+							type='password'
+							autoComplete='password'
+							onChange={handleChangePass2}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+				</form>
 				<Grid item style={{ marginTop: '4rem' }}>
 					<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
 				</Grid>

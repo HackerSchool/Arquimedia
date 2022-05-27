@@ -118,7 +118,15 @@ const QuestionForm = () => {
 	};
 
 	return (
-		<Grid container spacing={3} xs={12} align='center'>
+		<Grid
+			container
+			spacing={3}
+			xs={12}
+			direction='row'
+			justifyContent='center'
+			alignItems='center'
+			align='center'
+		>
 			{/* Question content */}
 			<Grid item xs={6}>
 				<TextField
@@ -171,7 +179,7 @@ const QuestionForm = () => {
 			</Grid>
 
 			{/* Answers */}
-			<Grid item xs={6} container>
+			<Grid item xs={6} container spacing={3}>
 				<Grid item xs={6}>
 					<TextField
 						value={correct}
@@ -275,7 +283,7 @@ const QuestionForm = () => {
 				type='success'
 			/>
 
-			<Grid item xs={12}>
+			<Grid item xs='auto' justifyContent='center' alignItems='center'>
 				<Question question={question} preview={true} />
 			</Grid>
 
