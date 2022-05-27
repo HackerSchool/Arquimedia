@@ -5,7 +5,6 @@ import theme from '../globalTheme.js';
 import { ReactComponent as Discord } from '../assets/icon_disc_3.svg';
 import { ReactComponent as HackerSchool } from '../assets/icon_hs_3.svg';
 import { ReactComponent as Instagram } from '../assets/icon_insta_1.svg';
-import { ReactComponent as LinkedIn } from '../assets/icon_linked.svg';
 import config from '../config';
 
 const useStyles = makeStyles(() => ({
@@ -132,14 +131,13 @@ export const AboutUsPage = () => {
 												>
 													{dev.socials.map((social) => {
 														return (
-															<IconButton key={social.url}>
-																{' '}
-																<LinkedIn
-																	className={classes.hover}
-																	onClick={() => {
-																		window.open(social.url);
-																	}}
-																/>
+															<IconButton
+																key={social}
+																href={social.url}
+																target='_blank'
+																rel='noreferrer'
+															>
+																{social.component}
 															</IconButton>
 														);
 													})}
@@ -167,33 +165,30 @@ export const AboutUsPage = () => {
 						spacing={2}
 					>
 						<Grid item xs={1.3}>
-							<IconButton>
-								<Discord
-									className={classes.hover}
-									onClick={() => {
-										window.open('https://discord.gg/3Fgxs8pJMh');
-									}}
-								/>
+							<IconButton
+								href='https://discord.gg/3Fgxs8pJMh'
+								target='_blank'
+								rel='noreferrer'
+							>
+								<Discord className={classes.hover} />
 							</IconButton>
 						</Grid>
 						<Grid item xs={1.3}>
-							<IconButton>
-								<Instagram
-									className={classes.hover}
-									onClick={() => {
-										window.open('https://www.instagram.com/arquimedia.pt/');
-									}}
-								/>
+							<IconButton
+								href='https://www.instagram.com/arquimedia.pt/'
+								target='_blank'
+								rel='noreferrer'
+							>
+								<Instagram className={classes.hover} />
 							</IconButton>
 						</Grid>
 						<Grid item xs={1.3}>
-							<IconButton>
-								<HackerSchool
-									className={classes.hover}
-									onClick={() => {
-										window.open('http://hackerschool.tecnico.ulisboa.pt/');
-									}}
-								/>
+							<IconButton
+								href='http://hackerschool.tecnico.ulisboa.pt/'
+								target='_blank'
+								rel='noreferrer'
+							>
+								<HackerSchool className={classes.hover} />
 							</IconButton>
 						</Grid>
 					</Grid>

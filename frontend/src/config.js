@@ -1,3 +1,6 @@
+import React from 'react';
+import { ReactComponent as LinkedIn } from './assets/icon_linked.svg';
+
 const config = {
 	subjects: [
 		{
@@ -36,6 +39,7 @@ const config = {
 				{
 					name: 'LinkedIn',
 					url: 'https://www.linkedin.com/in/jer%C3%B3nimo-mendes/',
+					component: <LinkedIn />,
 				},
 			],
 		},
@@ -45,6 +49,7 @@ const config = {
 				{
 					name: 'LinkedIn',
 					url: 'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/',
+					component: <LinkedIn />,
 				},
 			],
 		},
