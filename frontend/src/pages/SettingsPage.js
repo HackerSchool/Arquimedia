@@ -105,11 +105,11 @@ export const SettingsPage = () => {
 		// change the password
 		if (newPassword !== newPasswordRep)
 			enqueueSnackbar('Novas passwords têm de ser iguais', { variant: 'error' });
-		else if (newPassword === currentPassword)
+		else if (newPassword === currentPassword) {
 			enqueueSnackbar('Nova password não pode ser igual à password atual', {
 				variant: 'error',
 			});
-		else {
+		} else {
 			// fazer request ao backend
 			changePassword(
 				currentPassword,
@@ -119,6 +119,9 @@ export const SettingsPage = () => {
 					enqueueSnackbar('Password mudada com sucesso!', {
 						variant: 'success',
 					});
+					setCurrentPassword('');
+					setNewPassword('');
+					setNewPasswordRep('');
 				},
 				(error) => {
 					if (error.response.data.new_password2) {
@@ -198,6 +201,7 @@ export const SettingsPage = () => {
 							fontSize={24}
 							style={{ marginBottom: '1rem' }}
 							onChange={(e) => setCurrentPassword(e.target.value)}
+							value={currentPassword}
 						/>
 					</Grid>
 					<Grid item>
@@ -208,6 +212,7 @@ export const SettingsPage = () => {
 							fontSize={24}
 							style={{ marginBottom: '1rem' }}
 							onChange={(e) => setNewPassword(e.target.value)}
+							value={newPassword}
 						/>
 					</Grid>
 					<Grid item>
@@ -218,6 +223,7 @@ export const SettingsPage = () => {
 							fontSize={24}
 							style={{ marginBottom: '1rem' }}
 							onChange={(e) => setNewPasswordRep(e.target.value)}
+							value={newPasswordRep}
 						/>
 					</Grid>
 					<Grid item>
