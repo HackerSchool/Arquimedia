@@ -5,8 +5,8 @@ import { ReactComponent as Rising } from '../../assets/growth-curve-cuate.svg';
 
 const useStyles = makeStyles(() => ({
 	svg: {
-		position: 'absolute',
-		bottom: 0,
+		position: 'relative',
+		bottom: -5,
 	},
 	text: {
 		fontWeight: 'bold',
@@ -21,14 +21,19 @@ const RegisterInfo = () => {
 	const classes = useStyles();
 
 	return (
-		<Grid container spacing={4} xs={12}>
-			<Typography variant='h1' className={classes.text}>
-				Preparado para
-				<br />
-				<span style={{ textDecoration: 'underline' }}>subir notas?</span>
-			</Typography>
-			<Rising className={classes.svg} />
-		</Grid>
+		<>
+			<Grid>
+				<Typography variant='h1' className={classes.text}>
+					Preparado para
+					<br />
+					<span style={{ textDecoration: 'underline' }}>subir notas?</span>
+				</Typography>
+			</Grid>
+			<Grid>
+				{' '}
+				<Rising className={classes.svg} />
+			</Grid>
+		</>
 	);
 };
 

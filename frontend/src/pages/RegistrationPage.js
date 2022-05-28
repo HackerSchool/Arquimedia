@@ -19,8 +19,20 @@ const RegistrationPage = () => {
 	const classes = useStyles();
 
 	return (
-		<Grid className={classes.container} container direction='row' align='center'>
-			<Grid item xs={7}>
+		<Grid
+			className={classes.container}
+			container
+			direction='row'
+			align='center'
+			alignItems='stretch'
+		>
+			<Grid
+				container
+				xs={7}
+				direction='column'
+				justifyContent='space-between'
+				alignItems='flex-start'
+			>
 				<RegisterInfo />
 			</Grid>
 			<Grid className={classes.form} item xs={5}>
