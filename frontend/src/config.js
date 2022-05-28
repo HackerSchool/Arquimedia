@@ -1,3 +1,6 @@
+import React from 'react';
+import { ReactComponent as LinkedIn } from './assets/icon_linked.svg';
+
 const config = {
 	subjects: [
 		{
@@ -29,6 +32,40 @@ const config = {
 		},
 	],
 	areas: ['Ciências e Tecnologias', 'Línguas e Humanidades'],
+	devs: [
+		{
+			name: 'Jerónimo Mendes',
+			socials: [
+				{
+					name: 'LinkedIn',
+					url: 'https://www.linkedin.com/in/jer%C3%B3nimo-mendes/',
+					component: <LinkedIn />,
+				},
+			],
+		},
+		{
+			name: 'Miguel Dinis',
+			socials: [
+				{
+					name: 'LinkedIn',
+					url: 'https://www.linkedin.com/in/miguel-dinis-de-sousa-a009851ba/',
+					component: <LinkedIn />,
+				},
+			],
+		},
+		{
+			name: 'Nuno Marques',
+			socials: [],
+		},
+		{
+			name: 'Afonso Domingues',
+			socials: [],
+		},
+		{
+			name: 'Ana Mourão',
+			socials: [],
+		},
+	],
 	settingsMenu: ['Conta', 'Privacidade'],
 };
 

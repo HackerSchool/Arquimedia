@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles'
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://arquimedia.pt", "http://localhost" ]
+
 CORS_ALLOW_CREDENTIALS = True
 
 

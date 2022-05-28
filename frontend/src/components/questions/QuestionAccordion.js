@@ -11,6 +11,18 @@ import remarRehype from 'remark-rehype';
 const useStyles = makeStyles(() => ({
 	rootAccordion: {
 		width: '60%',
+		borderRadius: 40,
+		margin: '0rem 0rem 1rem 0rem',
+		boxShadow: '3px 4px 6px rgba(0, 0, 0, 0.25)',
+	},
+	summaryAccordion: {
+		borderRadius: 40,
+	},
+	questionText: {
+		whiteSpace: 'pre-line',
+		textAlign: 'justify',
+		textJustify: 'inter-word',
+		wordWrap: 'break-word',
 	},
 }));
 
@@ -20,20 +32,32 @@ const QuestionAccordion = ({ question, failed }) => {
 	let correctAnswer = question.answer.find((e) => e.correct);
 
 	return (
-		<Accordion className={classes.rootAccordion}>
+		<Accordion
+			sx={{
+				'&:before': {
+					display: 'none',
+				},
+			}}
+			className={classes.rootAccordion}
+			square
+		>
 			<AccordionSummary
+				className={classes.summaryAccordion}
 				expandIcon={<ExpandMoreIcon />}
-				style={{
+				sx={{
 					backgroundColor: failed ? '#ff8c8c' : '#b4ff8c',
+					'&:hover': {
+						backgroundColor: failed ? '#FFBABA' : '#DCFFC9',
+					},
 				}}
 			>
-				<Typography>
+				<Typography className={classes.questionText}>
 					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 						{question.text}
 					</ReactMarkdown>
 				</Typography>
 			</AccordionSummary>
-			<AccordionDetails>
+			<AccordionDetails className={classes.detailAccordion}>
 				<Typography>
 					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 						{correctAnswer.text}

@@ -41,6 +41,7 @@ class Profile(models.Model):
 
 class XPSystem(models.Model):
     xp = models.IntegerField(default=0)
+    total_xp = models.IntegerField()
     currentLevel = models.IntegerField(default=0)
     levelXP = models.IntegerField(default=1000)
 
@@ -56,6 +57,8 @@ class XPSystem(models.Model):
             profile = self.profile_set.all()[0]
             user = profile.user
             amountXPChanged = self.xp-self.previousXP
+
+            self.total_xp += amountXPChanged
 
             # Only increments streak if user hasn't gained XP today
             today = datetime.now()
