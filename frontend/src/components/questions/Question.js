@@ -13,7 +13,7 @@ const useStyles = makeStyles((boxWidth) => ({
 	questionBox: {
 		borderRadius: 20,
 		boxShadow: '0px 8px 8px #9A9A9A',
-		backgroundColor: '#F9F9F9',
+		backgroundColor: 'white',
 		border: '0.05rem solid #D9D9D9',
 		minWidth: '25vw',
 		maxWidth: '60vw',

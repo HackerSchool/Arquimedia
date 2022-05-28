@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
 	paperAnswer: () => ({
 		width: '95%',
 		borderRadius: 38,
-		backgroundColor: '#F9F9F9',
+		backgroundColor: 'white',
 		padding: 3,
 		margin: 4,
 		transition: 'transform 0.15s ease-in-out',
