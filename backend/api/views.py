@@ -296,6 +296,7 @@ class ExamView(APIView):
 			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
 
 		profileSubject = request.user.profile.subjects.get(subject="Matemática")
+		profileSubject.examCounter += 1
 		for question, answer in request.data.items():
 
 			questionQuery = Question.objects.get(id=int(question))
@@ -396,10 +397,10 @@ class Leaderboard(APIView):
 
 		# Alltime leaderboard
 		if time == "alltime":
-			users = Profile.objects.order_by("-xp__xp")
+			users = Profile.objects.order_by("-xp__total_xp")
 
 			# Creates an XPProfile object for each user 
-			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users[start_position:end_position]]
+			formated_users = [self.XPProfile(i.id, i.xp.total_xp) for i in users[start_position:end_position]]
 
 			leaderboard = {
 				"users": formated_users,
