@@ -29,7 +29,7 @@ const SubmittedQuestions = () => {
 	return (
 		<Grid container spacing={4} align='center' xs={12}>
 			{questions.map((question) => (
-				<Grid item xs={12} key={question}>
+				<Grid item xs={12} key={question.id}>
 					<QuestionApproval question={question} callBack={updateQuestion} />
 				</Grid>
 			))}
