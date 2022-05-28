@@ -396,10 +396,10 @@ class Leaderboard(APIView):
 
 		# Alltime leaderboard
 		if time == "alltime":
-			users = Profile.objects.order_by("-xp__xp")
+			users = Profile.objects.order_by("-xp__total_xp")
 
 			# Creates an XPProfile object for each user 
-			formated_users = [self.XPProfile(i.id, i.xp.xp) for i in users[start_position:end_position]]
+			formated_users = [self.XPProfile(i.id, i.xp.total_xp) for i in users[start_position:end_position]]
 
 			leaderboard = {
 				"users": formated_users,
