@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
 	resetPasswordText: {
 		color: theme.palette.background.default,
 		fontSize: 18,
+		'&:hover': {
+			color: theme.palette.secondary.main,
+		},
 	},
 }));
 
@@ -104,6 +107,11 @@ const LoginInput = () => {
 				</Grid>
 				<Grid item style={{ marginTop: '2rem' }}>
 					<NormalButton fontSize={45} text='Entrar' onClick={handleClick} />
+				</Grid>
+				<Grid item>
+					<Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
+						Ainda não tens conta? Regista-te
+					</Link>
 				</Grid>
 			</Grid>
 		</Grid>
