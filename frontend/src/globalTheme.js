@@ -19,7 +19,7 @@ const globalTheme = createTheme(
 			},
 			grey: {
 				// for some reason theme.palette.grey.main doesn't work
-				primary: '#F1F1F1',
+				primary: '#D9D9D9',
 			},
 		},
 		overrides: {

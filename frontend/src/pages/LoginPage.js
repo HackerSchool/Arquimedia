@@ -30,6 +30,7 @@ const LoginPage = () => {
 	const classes = useStyles();
 
 	return (
+
 		<Grid
 			className={classes.container}
 			container
@@ -46,7 +47,7 @@ const LoginPage = () => {
 			>
 				<Grid>
 					<Typography variant='h1' className={classes.text}>
-						Um exame por dia
+						Um exame por dia,
 						<br />
 						não sabes o <span style={{ textDecoration: 'underline' }}>bem</span> que te
 						fazia!
