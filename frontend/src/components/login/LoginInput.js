@@ -78,35 +78,39 @@ const LoginInput = () => {
 				direction='column'
 				justifyContent='center'
 			>
-        <form>
-          <Grid item>
-            <InputBase
-              className={classes.input}
-              inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-              margin='dense'
-              variant='outlined'
-              placeholder='Nome de utilizador'
-              onChange={handleChangeUsername}
-              onKeyUp={handleKeyPress}
-            />
-          </Grid>
-          <Grid item>
-            <InputBase
-              className={classes.input}
-              inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
-              variant='outlined'
-              placeholder='Password'
-              type='password'
-              onChange={handleChangePassword}
-              onKeyUp={handleKeyPress}
-            />
-          </Grid>
-          <Grid item>
-            <Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
-              Não sabes a tua Password ?
-            </Link>
-          </Grid>
-        </form>
+				<form>
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							margin='dense'
+							variant='outlined'
+							placeholder='Nome de utilizador'
+							onChange={handleChangeUsername}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+					<Grid item>
+						<InputBase
+							className={classes.input}
+							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							variant='outlined'
+							placeholder='Password'
+							type='password'
+							onChange={handleChangePassword}
+							onKeyUp={handleKeyPress}
+						/>
+					</Grid>
+					<Grid item>
+						<Link
+							className={classes.resetPasswordText}
+							variant='h5'
+							href='/password/reset'
+						>
+							Não sabes a tua Password ?
+						</Link>
+					</Grid>
+				</form>
 				<Grid item style={{ marginTop: '2rem' }}>
 					<NormalButton fontSize={45} text='Entrar' onClick={handleClick} />
 				</Grid>
