@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
 		backgroundColor: '#56CCF2',
 	},
 	svg: {
-		position: 'absolute',
+		position: 'relative',
 		bottom: 0,
 		marginBottom: '2rem',
 		left: 0,
@@ -34,14 +34,19 @@ const LoginPage = () => {
 
 	return (
 		<Grid className={classes.container} container direction='row' align='center'>
-			<Grid item xs={7}>
-				<Typography variant='h1' className={classes.text}>
-					Um exame por dia
-					<br />
-					não sabes o <span style={{ textDecoration: 'underline' }}>bem</span> que te
-					fazia!
-				</Typography>
-				<Girl className={classes.svg} />
+			<Grid container xs={7}>
+				<Grid>
+					<Typography variant='h1' className={classes.text}>
+						Um exame por dia
+						<br />
+						não sabes o <span style={{ textDecoration: 'underline' }}>bem</span> que te
+						fazia!
+					</Typography>
+				</Grid>
+				<Grid>
+					{' '}
+					<Girl className={classes.svg} />
+				</Grid>
 			</Grid>
 			<Grid className={classes.form} item xs={5}>
 				<LoginInput />
