@@ -19,6 +19,7 @@ XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
 QUESTION_PER_EXAM = 10
 LEADERBOARD_PAGE_SIZE = 10
+MAX_UNANSWERED_QUESTIONS_RECOMMENDED = 7
 # Create your views here.
 
 class QuestionsListView(generics.ListAPIView):
@@ -327,6 +328,55 @@ class ExamView(APIView):
 
 		return 	Response(serializer.data, status=status.HTTP_200_OK)
 
+class RecommendedExamView(APIView):
+	def post(self, request):
+		serializer = CreateRecommendedExamSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		subject = serializer.data.get("subject")
+		print(subject)
+
+		user_subject = request.user.profile.subjects.get(subject=subject)
+
+		# Fetch questions the user hasn't answered
+		questions_wrong = [i.answer for i in user_subject.wrongAnswers.all()]
+		questions_correct = [i.answer for i in user_subject.correctAnswers.all()]
+		questions_wrong_id = [i.id for i in questions_wrong]
+		questions_correct_id = [i.id for i in questions_correct]
+		questions_unanswered = list(Question.objects.exclude(id__in=questions_correct_id).exclude(id__in=questions_wrong_id))
+		
+		# Only insert a certain amount of unasnwered questions in the exam
+		if len(questions_unanswered) > MAX_UNANSWERED_QUESTIONS_RECOMMENDED:
+			questions_unanswered = random.sample(questions_unanswered, QUESTION_PER_EXAM)
+
+		questions = []
+
+		# Check if there are enough wrong answers to fill the exam, if not insert correct answers
+		space_left = QUESTION_PER_EXAM - len(questions_unanswered)
+		if len(questions_wrong) >= space_left:
+			questions_wrong_selected = random.sample(questions_wrong, space_left)
+
+			questions += questions_wrong_selected
+			# Return a "perfect" exam
+		
+		else:
+			# There are not enough wrong and unanswered questions so when need to get some right answers
+			space_left = QUESTION_PER_EXAM - len(questions_unanswered) - user_subject.wrongAnswers.count
+
+			questions_right_selected = random.sample(questions_correct, space_left)
+			questions += questions_right_selected
+
+		questions += questions_unanswered
+
+		if len(questions) < 10: 
+			return Response({"error": "Could not create a recommended exam" }, status=status.HTTP_400_BAD_REQUEST)
+
+		exam = Exam.objects.create()
+
+		for question in questions: exam.questions.add(question)
+
+		# Return a "perfect" exam
+		return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
 
 class AchievementsListView(generics.ListAPIView):
 	permission_classes = [IsAuthenticated]
