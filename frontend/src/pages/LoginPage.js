@@ -36,7 +36,7 @@ const LoginPage = () => {
 		<Grid className={classes.container} container direction='row' align='center'>
 			<Grid item xs={7}>
 				<Typography variant='h1' className={classes.text}>
-					Um exame por dia
+					Um exame por dia,
 					<br />
 					não sabes o <span style={{ textDecoration: 'underline' }}>bem</span> que te
 					fazia!

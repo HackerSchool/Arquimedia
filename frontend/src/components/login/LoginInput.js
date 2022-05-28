@@ -1,4 +1,4 @@
-import { Grid, InputBase } from '@mui/material';
+import { Grid, InputBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { logIn } from '../../api';
 import React, { useState } from 'react';
@@ -6,7 +6,7 @@ import NormalButton from '../buttons/NormalButton';
 import { ReactComponent as Logo } from '../../assets/logo_white.svg';
 import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,
@@ -20,6 +20,13 @@ const useStyles = makeStyles(() => ({
 	containerForm: {
 		width: '100%',
 		marginTop: '7rem',
+	},
+	resetPasswordText: {
+		color: theme.palette.background.default,
+		fontSize: 18,
+		'&:hover': {
+			color: theme.palette.secondary.main,
+		},
 	},
 }));
 
@@ -79,12 +86,10 @@ const LoginInput = () => {
 							margin='dense'
 							variant='outlined'
 							placeholder='Nome de utilizador'
-							autoComplete='username'
 							onChange={handleChangeUsername}
 							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
-					<br />
 					<Grid item>
 						<InputBase
 							className={classes.input}
@@ -92,15 +97,27 @@ const LoginInput = () => {
 							variant='outlined'
 							placeholder='Password'
 							type='password'
-							autoComplete='password'
 							onChange={handleChangePassword}
 							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
-					<br />
+					<Grid item>
+						<Link
+							className={classes.resetPasswordText}
+							variant='h5'
+							href='/password/reset'
+						>
+							Não sabes a tua Password ?
+						</Link>
+					</Grid>
 				</form>
-				<Grid item style={{ marginTop: '4rem' }}>
+				<Grid item style={{ marginTop: '2rem' }}>
 					<NormalButton fontSize={45} text='Entrar' onClick={handleClick} />
+				</Grid>
+				<Grid item>
+					<Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
+						Ainda não tens conta? Regista-te
+					</Link>
 				</Grid>
 			</Grid>
 		</Grid>
