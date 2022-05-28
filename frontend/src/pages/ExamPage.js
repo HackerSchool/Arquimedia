@@ -10,6 +10,8 @@ import CustomizedSteppers from '../components/questions/Stepper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
+const COUNTDOWN_TIME = 60 * 45;
+
 const useStyles = makeStyles((theme) => ({
 	timer: {
 		margin: '2rem 0 6rem 0',
@@ -106,7 +108,7 @@ const ExamPage = (props) => {
 			</Grid>
 			<Grid item xs={12}>
 				<div className={classes.timer} align='center'>
-					<CountdownClock duration={exam.questions.length * 60} onComplete={onComplete} />
+					<CountdownClock duration={COUNTDOWN_TIME} onComplete={onComplete} />
 				</div>
 			</Grid>
 			<Grid
