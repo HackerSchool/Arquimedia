@@ -296,6 +296,7 @@ class ExamView(APIView):
 			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
 
 		profileSubject = request.user.profile.subjects.get(subject="Matemática")
+		profileSubject.examCounter += 1
 		for question, answer in request.data.items():
 
 			questionQuery = Question.objects.get(id=int(question))
