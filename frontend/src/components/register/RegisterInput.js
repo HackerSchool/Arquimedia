@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, InputBase } from '@mui/material';
+import { Grid, InputBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useState } from 'react';
 import { registerUser } from '../../api';
@@ -8,7 +8,7 @@ import NormalButton from '../buttons/NormalButton';
 import CodeInput from './CodeInput';
 import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,
@@ -22,6 +22,13 @@ const useStyles = makeStyles(() => ({
 	containerForm: {
 		width: '100%',
 		marginTop: '5rem',
+	},
+	resetPasswordText: {
+		color: theme.palette.background.default,
+		fontSize: 18,
+		'&:hover': {
+			color: theme.palette.secondary.main,
+		},
 	},
 }));
 
@@ -184,6 +191,11 @@ const RegisterInput = () => {
 				</Grid>
 				<Grid item style={{ marginTop: '4rem' }}>
 					<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
+				</Grid>
+				<Grid item>
+					<Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
+						Já tens conta? Faz Login
+					</Link>
 				</Grid>
 			</Grid>
 		</Grid>
