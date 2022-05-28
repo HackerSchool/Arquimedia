@@ -147,7 +147,9 @@ const RegisterInput = () => {
 			alignContent='center'
 		>
 			<Grid item>
-				<Logo className={classes.logo} />
+				<a href='/' style={{ flexGrow: 1 }}>
+					<Logo className={classes.logo} />
+				</a>
 			</Grid>
 			<Grid className={classes.containerForm} container spacing={4} direction='column'>
 				<Grid item>

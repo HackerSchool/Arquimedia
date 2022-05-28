@@ -69,7 +69,9 @@ const LoginInput = () => {
 			alignContent='center'
 		>
 			<Grid item>
-				<Logo className={classes.logo} />
+				<a href='/'>
+					<Logo className={classes.logo} />
+				</a>
 			</Grid>
 			<Grid
 				className={classes.containerForm}
