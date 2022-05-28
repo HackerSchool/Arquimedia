@@ -41,7 +41,7 @@ class Profile(models.Model):
 
 class XPSystem(models.Model):
     xp = models.IntegerField(default=0)
-    total_xp = models.IntegerField()
+    total_xp = models.IntegerField(default=0)
     currentLevel = models.IntegerField(default=0)
     levelXP = models.IntegerField(default=1000)
 
