@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, InputBase } from '@mui/material';
+import { Grid, InputBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useState } from 'react';
 import { registerUser } from '../../api';
@@ -8,7 +8,7 @@ import NormalButton from '../buttons/NormalButton';
 import CodeInput from './CodeInput';
 import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,
@@ -22,6 +22,13 @@ const useStyles = makeStyles(() => ({
 	containerForm: {
 		width: '100%',
 		marginTop: '5rem',
+	},
+	resetPasswordText: {
+		color: theme.palette.background.default,
+		fontSize: 18,
+		'&:hover': {
+			color: theme.palette.secondary.main,
+		},
 	},
 }));
 
@@ -143,12 +150,20 @@ const RegisterInput = () => {
 			container
 			spacing={4}
 			direction='column'
-			alignContent='center'
+			alignItems='center'
 		>
 			<Grid item>
-				<Logo className={classes.logo} />
+				<a href='/' style={{ flexGrow: 1 }}>
+					<Logo className={classes.logo} />
+				</a>
 			</Grid>
-			<Grid className={classes.containerForm} container spacing={4} direction='column'>
+			<Grid
+				className={classes.containerForm}
+				container
+				spacing={4}
+				direction='column'
+				alignItems='center'
+			>
 				<form>
 					<Grid item>
 						<InputBase
@@ -200,10 +215,16 @@ const RegisterInput = () => {
 							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
+					<Grid item style={{ marginTop: '4rem' }}>
+						<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
+					</Grid>
+					<br />
+					<Grid item>
+						<Link className={classes.resetPasswordText} variant='h5' href='/login'>
+							Já tens conta? Faz Login
+						</Link>
+					</Grid>
 				</form>
-				<Grid item style={{ marginTop: '4rem' }}>
-					<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
-				</Grid>
 			</Grid>
 		</Grid>
 	);
