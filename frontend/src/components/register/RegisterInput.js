@@ -195,7 +195,7 @@ const RegisterInput = () => {
 					<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
 				</Grid>
 				<Grid item>
-					<Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
+					<Link className={classes.resetPasswordText} variant='h5' href='/login'>
 						Já tens conta? Faz Login
 					</Link>
 				</Grid>
