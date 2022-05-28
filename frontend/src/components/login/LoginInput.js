@@ -107,11 +107,11 @@ const LoginInput = () => {
 						Não sabes a tua Password ?
 					</Link>
 				</Grid>
-				<Grid item style={{ marginTop: '2rem' }}>
+				<Grid item style={{ marginTop: '4rem' }}>
 					<NormalButton fontSize={45} text='Entrar' onClick={handleClick} />
 				</Grid>
 				<Grid item>
-					<Link className={classes.resetPasswordText} variant='h5' href='/register'>
+					<Link className={classes.resetPasswordText} variant='h5' href='/registar'>
 						Ainda não tens conta? Regista-te
 					</Link>
 				</Grid>
