@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
 	paperAnswer: (selected) => ({
 		width: '95%',
 		borderRadius: 38,
-		backgroundColor: '#F9F9F9',
+		backgroundColor: 'white',
 		padding: 3,
 		margin: 4,
 		boxShadow: selected === true && '3px 5px rgba(0, 0, 0, 0.25)',
