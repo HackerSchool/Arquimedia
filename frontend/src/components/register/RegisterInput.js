@@ -150,14 +150,20 @@ const RegisterInput = () => {
 			container
 			spacing={4}
 			direction='column'
-			alignContent='center'
+			alignItems='center'
 		>
 			<Grid item>
 				<a href='/' style={{ flexGrow: 1 }}>
 					<Logo className={classes.logo} />
 				</a>
 			</Grid>
-			<Grid className={classes.containerForm} container spacing={4} direction='column'>
+			<Grid
+				className={classes.containerForm}
+				container
+				spacing={4}
+				direction='column'
+				alignItems='center'
+			>
 				<form>
 					<Grid item>
 						<InputBase
@@ -209,15 +215,16 @@ const RegisterInput = () => {
 							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
+					<Grid item style={{ marginTop: '4rem' }}>
+						<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
+					</Grid>
+					<br />
+					<Grid item>
+						<Link className={classes.resetPasswordText} variant='h5' href='/login'>
+							Já tens conta? Faz Login
+						</Link>
+					</Grid>
 				</form>
-				<Grid item style={{ marginTop: '4rem' }}>
-					<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
-				</Grid>
-				<Grid item>
-					<Link className={classes.resetPasswordText} variant='h5' href='/login'>
-						Já tens conta? Faz Login
-					</Link>
-				</Grid>
 			</Grid>
 		</Grid>
 	);
