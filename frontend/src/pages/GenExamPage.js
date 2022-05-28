@@ -245,7 +245,14 @@ const GenExamPage = () => {
 			(res) => {
 				window.location.href = '/exame/' + res.data.id;
 			},
-			() => enqueueSnackbar('Algo correu mal...', { variant: 'error' })
+			(error) => {
+				if (error.response.data.error === 'Not enough questions')
+					enqueueSnackbar(
+						'Desculpa, não temos perguntas suficientes para essa combinação.',
+						{ variant: 'warning' }
+					);
+				else enqueueSnackbar('Algo correu mal...', { variant: 'error' });
+			}
 		);
 	};
 

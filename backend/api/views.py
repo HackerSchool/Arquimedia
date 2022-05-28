@@ -276,7 +276,7 @@ class ExamView(APIView):
 
 			# Selects randomly a set of final questions for the exam
 			if len(questionsQuery) < QUESTION_PER_EXAM:
-				return Response({"Error": "Not enough questions" }, status=status.HTTP_400_BAD_REQUEST)
+				return Response({"error": "Not enough questions" }, status=status.HTTP_400_BAD_REQUEST)
 
 
 			questions = random.sample(list(questionsQuery), QUESTION_PER_EXAM)
