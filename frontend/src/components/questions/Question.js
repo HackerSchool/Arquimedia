@@ -83,7 +83,6 @@ const Question = (props) => {
 		const widthAnswers = answerBox.current.clientWidth;
 		const widthAll = questionBox.current.clientWidth;
 		const difference = widthAll - widthAnswers - 100;
-		console.log(difference);
 		setBoxWidth(difference);
 	};
 	useEffect(() => {
@@ -140,7 +139,7 @@ const Question = (props) => {
 				<Grid container direction='column' justifyContent='space-around' spacing={3}>
 					{props.question.answer.map((answer) => {
 						return (
-							<Grid item className={classes.options} key={answer}>
+							<Grid item className={classes.options} key={answer.id}>
 								<Answer
 									preview={props.preview}
 									selected={answer.id === selectedAnswer}

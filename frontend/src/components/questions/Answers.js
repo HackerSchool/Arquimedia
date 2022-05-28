@@ -8,19 +8,13 @@ import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(() => ({
-	paperAnswer: (selected) => ({
+	paperAnswer: () => ({
 		width: '95%',
 		borderRadius: 38,
 		backgroundColor: '#F9F9F9',
 		padding: 3,
 		margin: 4,
-		boxShadow: selected === true && '3px 5px rgba(0, 0, 0, 0.25)',
 		transition: 'transform 0.15s ease-in-out',
-		'&:hover': (selected) => ({
-			transform: 'scale3d(1.05, 1.05, 1)',
-			boxShadow: selected === false && '0px 5px rgba(0, 0, 0, 0.1)',
-			backgroundColor: '#E4E4E4',
-		}),
 	}),
 	buttonWrapper: {
 		padding: 0,
@@ -40,7 +34,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Answer = (props) => {
-	const classes = useStyles(props.selected);
+	const classes = useStyles();
 
 	const changeChosenAnswer = () => {
 		// do something to change the answer
@@ -54,7 +48,17 @@ const Answer = (props) => {
 			key={props.answer.id}
 			size='large'
 		>
-			<Paper className={classes.paperAnswer}>
+			<Paper
+				className={classes.paperAnswer}
+				style={{
+					boxShadow: props.selected && '3px 5px rgba(0, 0, 0, 0.25)',
+					'&:hover': props.select && {
+						transform: 'scale3d(1.05, 1.05, 1)',
+						boxShadow: props.selected === false && '0px 5px rgba(0, 0, 0, 0.1)',
+						backgroundColor: '#E4E4E4',
+					},
+				}}
+			>
 				<Typography className={classes.answerText} variant='h6'>
 					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 						{props.answer.text}
