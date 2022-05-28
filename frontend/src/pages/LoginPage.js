@@ -14,10 +14,7 @@ const useStyles = makeStyles(() => ({
 		backgroundColor: '#56CCF2',
 	},
 	svg: {
-		position: 'relative',
-		bottom: 0,
 		marginBottom: '2rem',
-		left: 0,
 		marginLeft: '6rem',
 	},
 	text: {
@@ -40,8 +37,15 @@ const LoginPage = () => {
 			container
 			direction='row'
 			align='center'
+			alignItems='stretch'
 		>
-			<Grid container xs={7}>
+			<Grid
+				container
+				xs={7}
+				direction='column'
+				justifyContent='space-between'
+				alignItems='flex-start'
+			>
 				<Grid>
 					<Typography variant='h1' className={classes.text}>
 						Um exame por dia
