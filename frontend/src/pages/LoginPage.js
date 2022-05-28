@@ -3,10 +3,10 @@ import { Grid, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import LoginInput from '../components/login/LoginInput';
 import { ReactComponent as Girl } from '../assets/girl_laid.svg';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 const useStyles = makeStyles(() => ({
 	container: {
-		height: '100vh',
 		border: 3,
 		boxSizing: 'border-box',
 	},
@@ -31,9 +31,16 @@ const useStyles = makeStyles(() => ({
 
 const LoginPage = () => {
 	const classes = useStyles();
+	const { height, width } = useWindowDimensions();
 
 	return (
-		<Grid className={classes.container} container direction='row' align='center'>
+		<Grid
+			style={{ width: width, height: height }}
+			className={classes.container}
+			container
+			direction='row'
+			align='center'
+		>
 			<Grid container xs={7}>
 				<Grid>
 					<Typography variant='h1' className={classes.text}>
