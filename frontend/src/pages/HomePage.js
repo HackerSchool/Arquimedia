@@ -7,6 +7,7 @@ import { ReactComponent as ExamIcon } from '../assets/examIcon.svg';
 import { ReactComponent as ProfileIcon } from '../assets/profileIcon.svg';
 import { ReactComponent as LeaderboardIcon } from '../assets/leaderboardIcon.svg';
 import { ReactComponent as AnswersIcon } from '../assets/answersIcon.svg';
+import { ReactComponent as DiscordIcon } from '../assets/icons8-discord-new-96.svg';
 
 const useStyles = makeStyles(() => ({
 	paper: {
@@ -59,10 +60,10 @@ export const HomePage = () => {
 						spacing={5}
 						container
 						direction='row'
-						justifyContent='flex-start'
+						justifyContent='space-around'
 						alignItems='center'
 					>
-						<Grid item xs={3}>
+						<Grid item xs={2}>
 							<IconButton
 								direction='column'
 								fontSize={25}
@@ -78,7 +79,7 @@ export const HomePage = () => {
 								<ExamIcon className={classes.icon} />
 							</IconButton>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs={2}>
 							<IconButton
 								direction='column'
 								fontSize={25}
@@ -94,7 +95,7 @@ export const HomePage = () => {
 								<ProfileIcon className={classes.icon} />
 							</IconButton>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs={2}>
 							<IconButton
 								direction='column'
 								fontSize={25}
@@ -110,7 +111,7 @@ export const HomePage = () => {
 								<LeaderboardIcon className={classes.icon} />
 							</IconButton>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs={2}>
 							<IconButton
 								direction='column'
 								fontSize={25}
@@ -124,6 +125,26 @@ export const HomePage = () => {
 								href='/submeter_questao'
 							>
 								<AnswersIcon className={classes.icon} />
+							</IconButton>
+						</Grid>
+						<Grid item xs={2}>
+							<IconButton
+								direction='column'
+								fontSize={25}
+								text='Junta-te ao nosso Discord'
+								iconFirst={false}
+								alignItems='flex-start'
+								height='21vh'
+								width='10vw'
+								minWidth='200px'
+								minHeigth='200px'
+								href='https://discord.gg/3Fgxs8pJMh'
+								target='_blank'
+							>
+								<DiscordIcon
+									className={classes.icon}
+									style={{ height: 78, width: 78 }}
+								/>
 							</IconButton>
 						</Grid>
 					</Grid>

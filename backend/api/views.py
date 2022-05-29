@@ -276,6 +276,10 @@ class ExamView(APIView):
 					questionsQuery += list(Question.objects.filter(accepted=True))
 
 			# Selects randomly a set of final questions for the exam
+			if len(questionsQuery) < QUESTION_PER_EXAM:
+				return Response({"error": "Not enough questions" }, status=status.HTTP_400_BAD_REQUEST)
+
+
 			questions = random.sample(list(questionsQuery), QUESTION_PER_EXAM)
 			
 			exam = Exam.objects.create()
@@ -347,6 +351,7 @@ class RecommendedExamView(APIView):
 		
 		# Only insert a certain amount of unasnwered questions in the exam
 		if len(questions_unanswered) > MAX_UNANSWERED_QUESTIONS_RECOMMENDED:
+
 			questions_unanswered = random.sample(questions_unanswered, MAX_UNANSWERED_QUESTIONS_RECOMMENDED)
 
 		questions = questions_unanswered
@@ -358,6 +363,7 @@ class RecommendedExamView(APIView):
 
 			questions += questions_wrong_selected
 			# Return a "perfect" exam
+
 		else:
 			questions += questions_wrong
 		

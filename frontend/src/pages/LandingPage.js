@@ -9,7 +9,7 @@ import { HomePage } from './HomePage';
 
 const useStyles = makeStyles(() => ({
 	mainBox: {
-		marginTop: '5rem',
+		marginTop: '5vh',
 	},
 	slogan: {
 		fontSize: 55,
@@ -46,8 +46,8 @@ const LandingPage = () => {
 							<i>made easy</i> <Emoji />
 						</Typography>
 					</Grid>
-					<Grid item>
-						<NormalButton xs={6} text='Inscreve-te' href='/registar' fontSize={41} />
+					<Grid xs={6} item style={{ minWidth: '19rem' }}>
+						<NormalButton text='Inscreve-te' href='/registar' fontSize={41} />
 					</Grid>
 				</Grid>
 				<Grid item>
