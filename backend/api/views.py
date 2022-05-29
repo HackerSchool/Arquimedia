@@ -343,7 +343,7 @@ class RecommendedExamView(APIView):
 		questions_correct = [i.answer for i in user_subject.correctAnswers.all()]
 		questions_wrong_id = [i.id for i in questions_wrong]
 		questions_correct_id = [i.id for i in questions_correct]
-		questions_unanswered = list(Question.objects.exclude(id__in=questions_correct_id).exclude(id__in=questions_wrong_id))
+		questions_unanswered = list(Question.objects.exclude(id__in=questions_correct_id).exclude(id__in=questions_wrong_id).filter(accepted=True))
 		
 		# Only insert a certain amount of unasnwered questions in the exam
 		if len(questions_unanswered) > MAX_UNANSWERED_QUESTIONS_RECOMMENDED:
