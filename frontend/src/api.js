@@ -111,6 +111,13 @@ export async function createExam(body, successCall, errorCall) {
 		.catch((error) => errorCall(error));
 }
 
+export async function createRecommendedExam(body, successCall, errorCall) {
+	axios
+		.post('api/exam/recommended/', body)
+		.then((res) => successCall(res))
+		.catch((error) => errorCall(error));
+}
+
 export async function examInfo(id, successCall) {
 	axios.get('api/exam/' + id).then((res) => successCall(res));
 }

@@ -16,7 +16,7 @@ import {
 	ListItemButton,
 	useMediaQuery,
 } from '@mui/material';
-import { createExam } from '../api';
+import { createExam, createRecommendedExam } from '../api';
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import NormalButton from '../components/buttons/NormalButton';
@@ -249,17 +249,11 @@ const GenExamPage = () => {
 		);
 	};
 
-	const handleClickCustom = (subject) => {
-		//Function for the perosnalised Exam experience of the right Panel
-		// TODO: should create the best exam for the user
-		// for now it just creates a general exam
-
-		createExam(
+	const handleClickRecommended = (subject) => {
+		// Creates a recommended exam that fits the user
+		createRecommendedExam(
 			{
 				subject: subject.name,
-				subSubjects: subject.themes,
-				year: subject.years,
-				randomSubSubject: false,
 			},
 			(res) => {
 				window.location.href = '/exame/' + res.data.id;
@@ -454,7 +448,7 @@ const GenExamPage = () => {
 							.filter((subject) => subject.active)
 							.map((subject) => (
 								<ListItem key={subject.name} className={classes.listItem}>
-									<ListItemButton onClick={() => handleClickCustom(subject)}>
+									<ListItemButton onClick={() => handleClickRecommended(subject)}>
 										<ListItemText
 											primary={
 												<Typography variant='h6'>{subject.name}</Typography>
