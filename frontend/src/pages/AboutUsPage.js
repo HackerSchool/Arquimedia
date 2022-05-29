@@ -91,7 +91,7 @@ export const AboutUsPage = () => {
 							<Typography variant='h6' className={classes.body}>
 								Esta plataforma foi desenvolvida com o objetivo de facilitar o
 								estudo a estudantes de ensino secundário, disponibilizando
-								ferramentas de análise automática (index de performance) e geração
+								ferramentas de análise automática (índex de desempenho) e geração
 								personalizada de exames.
 							</Typography>
 							<Typography variant='h6'>
