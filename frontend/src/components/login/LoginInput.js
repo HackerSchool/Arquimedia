@@ -48,7 +48,7 @@ const LoginInput = () => {
 				error.response.data.non_field_errors[0] ===
 					'Unable to log in with provided credentials.'
 			)
-				enqueueSnackbar('Nome de utilizador e/ou password incorretos', {
+				enqueueSnackbar('Nome de utilizador e/ou palavra-passe incorretos', {
 					variant: 'error',
 				});
 		});
@@ -96,7 +96,7 @@ const LoginInput = () => {
 						className={classes.input}
 						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
 						variant='outlined'
-						placeholder='Password'
+						placeholder='Palavra-passe'
 						type='password'
 						onChange={handleChangePassword}
 						onKeyUp={handleKeyPress}

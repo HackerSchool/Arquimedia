@@ -63,7 +63,7 @@ const RegisterInput = () => {
 				{ variant: 'warning' }
 			);
 		else if (pass1 !== pass2)
-			enqueueSnackbar('As passwords inseridas são diferentes.', { variant: 'warning' });
+			enqueueSnackbar('As palavras-passe inseridas são diferentes.', { variant: 'warning' });
 		else {
 			const body = {
 				username: username,
@@ -104,7 +104,7 @@ const RegisterInput = () => {
 								'The password is too similar to the emails.')
 					)
 						enqueueSnackbar(
-							'A sua palavra passe é demasiado parecida com o resto da sua informação pessoal.',
+							'A sua palavra-passe é demasiado parecida com o resto da sua informação pessoal.',
 							{ variant: 'warning' }
 						);
 					else if (
@@ -112,7 +112,7 @@ const RegisterInput = () => {
 						error.response.data.password1[0] === 'This password is entirely numeric.'
 					)
 						enqueueSnackbar(
-							'A sua palavra passe não pode ser composta unicamente por carateres numéricos.',
+							'A sua palavra-passe não pode ser composta unicamente por carateres numéricos.',
 							{ variant: 'warning' }
 						);
 					else if (
@@ -195,7 +195,7 @@ const RegisterInput = () => {
 							className={classes.input}
 							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
 							variant='outlined'
-							placeholder='Password'
+							placeholder='Palavra-passe'
 							type='password'
 							autoComplete='password'
 							onChange={handleChangePass1}
@@ -208,7 +208,7 @@ const RegisterInput = () => {
 							className={classes.input}
 							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
 							variant='outlined'
-							placeholder='Repete a password'
+							placeholder='Repete a palavra-passe'
 							type='password'
 							autoComplete='password'
 							onChange={handleChangePass2}

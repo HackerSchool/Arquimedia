@@ -49,7 +49,7 @@ const PasswordResetPage = () => {
 			direction='column'
 		>
 			<Typography className={classes.formItems} variant='h2'>
-				Reset de Password
+				Reset de palavra-passe
 			</Typography>
 			<TextField
 				className={classes.formItems}

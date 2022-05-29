@@ -95,7 +95,7 @@ export const SettingsPage = () => {
 					error.response.data.non_field_errors[0] ===
 						'Your old password was entered incorrectly. Please enter it again.'
 				)
-					enqueueSnackbar('Password incorreta!', { variant: 'error' });
+					enqueueSnackbar('Palavra-passe incorreta!', { variant: 'error' });
 				else enqueueSnackbar('Não foi possível apagar conta!', { variant: 'error' });
 			}
 		);
@@ -104,9 +104,9 @@ export const SettingsPage = () => {
 	const handleChangePassword = () => {
 		// change the password
 		if (newPassword !== newPasswordRep)
-			enqueueSnackbar('Novas passwords têm de ser iguais', { variant: 'error' });
+			enqueueSnackbar('Novas palavras-passe têm de ser iguais', { variant: 'error' });
 		else if (newPassword === currentPassword) {
-			enqueueSnackbar('Nova password não pode ser igual à password atual', {
+			enqueueSnackbar('Nova palavra-passe não pode ser igual à palavra-passe atual', {
 				variant: 'error',
 			});
 		} else {
@@ -116,7 +116,7 @@ export const SettingsPage = () => {
 				newPassword,
 				newPasswordRep,
 				() => {
-					enqueueSnackbar('Password mudada com sucesso!', {
+					enqueueSnackbar('Palavra-passe mudada com sucesso!', {
 						variant: 'success',
 					});
 					setCurrentPassword('');
@@ -140,11 +140,11 @@ export const SettingsPage = () => {
 								});
 						});
 					} else if (error.response.data.old_password)
-						enqueueSnackbar('Password atual errada!', {
+						enqueueSnackbar('Palavra-passe atual errada!', {
 							variant: 'error',
 						});
 					else {
-						enqueueSnackbar('Erro na mudança de password!', {
+						enqueueSnackbar('Erro na mudança de palavra-passe!', {
 							variant: 'error',
 						});
 					}
@@ -190,11 +190,11 @@ export const SettingsPage = () => {
 							fontWeight='bold'
 							className={classes.settingsSubTitle}
 						>
-							Mudar Password
+							Mudar Palavra-Passe
 						</Typography>
 					</Grid>
 					<Grid item>
-						<Typography variant='h5'>Password atual</Typography>
+						<Typography variant='h5'>Palavra-Passe atual</Typography>
 						<TextInput
 							type='password'
 							backgroundColor='#D9D9D9'
@@ -205,7 +205,7 @@ export const SettingsPage = () => {
 						/>
 					</Grid>
 					<Grid item>
-						<Typography variant='h5'>Password nova</Typography>
+						<Typography variant='h5'>Palavra-Passe nova</Typography>
 						<TextInput
 							type='password'
 							backgroundColor='#D9D9D9'
@@ -216,7 +216,7 @@ export const SettingsPage = () => {
 						/>
 					</Grid>
 					<Grid item>
-						<Typography variant='h5'>Password nova repetição</Typography>
+						<Typography variant='h5'>Repita a Palavra-Passe</Typography>
 						<TextInput
 							type='password'
 							backgroundColor='#D9D9D9'
@@ -266,7 +266,7 @@ export const SettingsPage = () => {
 									Tens a certeza que queres apagar a conta?
 								</Typography>
 								<Typography variant='h5'>
-									Insere a password para continuar
+									Insere a palavra-passe para continuar
 								</Typography>
 								<TextInput
 									type='password'
