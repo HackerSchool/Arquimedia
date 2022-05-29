@@ -1,5 +1,5 @@
 import React from 'react';
-import QuestionPage from './pages/QuestionPage.js';
+// import QuestionPage from './pages/QuestionPage.js';
 import LoginPage from './pages/LoginPage.js';
 import GenExamPage from './pages/GenExamPage.js';
 import ExamPage from './pages/ExamPage.js';
@@ -48,10 +48,13 @@ function App() {
 									<div style={{ marginRight: '12em', marginLeft: '12em' }}>
 										<Switch>
 											<Route exact path='/' component={LandingPage} />
-											<AuthRoute
-												path='/question/:id'
-												component={QuestionPage}
-											/>
+											{/*
+												<AuthRoute
+													path='/question/:id'
+													component={QuestionPage}
+												/>
+												
+												*/}
 											<AuthRoute path='/exames' component={GenExamPage} />
 											<AuthRoute path='/exame/:id' component={ExamPage} />
 											<AuthRoute
