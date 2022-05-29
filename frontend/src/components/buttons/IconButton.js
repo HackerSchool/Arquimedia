@@ -39,30 +39,27 @@ const IconButton = (props) => {
 	return (
 		<StyledEngineProvider injectFirst>
 			<ThemeProvider theme={globalTheme}>
-				{props.iconFirst ? (
-					<Button
-						href={props.href}
-						target={props.target}
-						classes={{ root: classes.button, label: classes.label }}
-						onClick={props.onClick}
-					>
-						<>{props.children}</>
-						<Typography variant={props.variant}> {props.text} </Typography>
-					</Button>
-				) : (
-					<Button
-						href={props.href}
-						target={props.target}
-						classes={{ root: classes.button, label: classes.label }}
-						onClick={props.onClick}
-					>
-						<Typography className={classes.semibold} variant={props.variant}>
-							{' '}
-							{props.text}{' '}
-						</Typography>
-						<>{props.children}</>
-					</Button>
-				)}
+				<Button
+					href={props.href}
+					target={props.target}
+					classes={{ root: classes.button, label: classes.label }}
+					onClick={props.onClick}
+				>
+					{props.iconFirst ? (
+						<>
+							<>{props.children}</>
+							<Typography variant={props.variant}> {props.text} </Typography>
+						</>
+					) : (
+						<>
+							<Typography className={classes.semibold} variant={props.variant}>
+								{' '}
+								{props.text}{' '}
+							</Typography>
+							<>{props.children}</>
+						</>
+					)}
+				</Button>
 			</ThemeProvider>
 		</StyledEngineProvider>
 	);
