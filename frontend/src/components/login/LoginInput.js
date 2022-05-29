@@ -104,7 +104,7 @@ const LoginInput = () => {
 				</Grid>
 				<Grid item>
 					<Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
-						Não sabes a tua Password ?
+						Não sabes a tua palavra-passe ?
 					</Link>
 				</Grid>
 				<Grid item style={{ marginTop: '4rem' }}>
