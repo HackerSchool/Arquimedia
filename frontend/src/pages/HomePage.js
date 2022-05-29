@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
 		fontWeight: 600,
 	},
 	futureText: {
-		fontWeight: 500,
+		fontWeight: 'normal',
 		margin: '0px 10px',
 	},
 }));
