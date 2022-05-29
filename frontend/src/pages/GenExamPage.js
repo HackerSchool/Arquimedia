@@ -451,7 +451,7 @@ const GenExamPage = () => {
 						<span style={{ color: theme.palette.secondary.main }}>
 							melhor exame para ti
 						</span>
-						, tendo em conta as tuas últimas performances.
+						, tendo em conta os teus últimos desempenhos.
 					</Typography>{' '}
 					{/* Best way to change a specific attribute in a string */}
 				</Grid>
