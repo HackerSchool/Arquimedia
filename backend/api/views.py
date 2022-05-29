@@ -347,26 +347,25 @@ class RecommendedExamView(APIView):
 		
 		# Only insert a certain amount of unasnwered questions in the exam
 		if len(questions_unanswered) > MAX_UNANSWERED_QUESTIONS_RECOMMENDED:
-			questions_unanswered = random.sample(questions_unanswered, QUESTION_PER_EXAM)
+			questions_unanswered = random.sample(questions_unanswered, MAX_UNANSWERED_QUESTIONS_RECOMMENDED)
 
-		questions = []
+		questions = questions_unanswered
 
 		# Check if there are enough wrong answers to fill the exam, if not insert correct answers
-		space_left = QUESTION_PER_EXAM - len(questions_unanswered)
+		space_left = QUESTION_PER_EXAM - len(questions)
 		if len(questions_wrong) >= space_left:
 			questions_wrong_selected = random.sample(questions_wrong, space_left)
 
 			questions += questions_wrong_selected
 			# Return a "perfect" exam
-		
 		else:
+			questions += questions_wrong
+		
 			# There are not enough wrong and unanswered questions so when need to get some right answers
-			space_left = QUESTION_PER_EXAM - len(questions_unanswered) - user_subject.wrongAnswers.count
+			space_left = QUESTION_PER_EXAM - len(questions)
 
 			questions_right_selected = random.sample(questions_correct, space_left)
 			questions += questions_right_selected
-
-		questions += questions_unanswered
 
 		if len(questions) < 10: 
 			return Response({"error": "Could not create a recommended exam" }, status=status.HTTP_400_BAD_REQUEST)
