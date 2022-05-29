@@ -26,7 +26,7 @@ const RegisterInfo = () => {
 				<Typography variant='h1' className={classes.text}>
 					Preparado para
 					<br />
-					<span style={{ textDecoration: 'underline' }}>subir notas?</span>
+					<span style={{ textDecoration: 'underline' }}>subir as notas?</span>
 				</Typography>
 			</Grid>
 			<Grid>
