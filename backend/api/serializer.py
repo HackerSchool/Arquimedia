@@ -106,6 +106,9 @@ class CreateExamSerializer(serializers.Serializer):
 	year = serializers.ListField(child = serializers.IntegerField())
 	randomSubSubject = serializers.BooleanField()
 
+class CreateRecommendedExamSerializer(serializers.Serializer):
+	subject = serializers.ChoiceField(choices=SUBJECT_CHOICES)
+
 
 class AchievementSerializer(serializers.ModelSerializer):
 	class Meta:

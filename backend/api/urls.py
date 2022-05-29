@@ -14,6 +14,7 @@ urlpatterns = [
 	path("has_downvoted/<int:id>", HasUserDownvoted.as_view()),
 	path("exam/", ExamView.as_view()),
 	path("exam/<int:id>", ExamView.as_view()),
+	path("exam/recommended/", RecommendedExamView.as_view()),
 	path("achievements", AchievementsListView.as_view()),
 	path("profile/<int:id>", ProfileView.as_view()),
 	path("add_image/<int:id>", AddImageToQuestion.as_view()),
