@@ -42,6 +42,7 @@ const IconButton = (props) => {
 				{props.iconFirst ? (
 					<Button
 						href={props.href}
+						target={props.target}
 						classes={{ root: classes.button, label: classes.label }}
 						onClick={props.onClick}
 					>
@@ -51,6 +52,7 @@ const IconButton = (props) => {
 				) : (
 					<Button
 						href={props.href}
+						target={props.target}
 						classes={{ root: classes.button, label: classes.label }}
 						onClick={props.onClick}
 					>
