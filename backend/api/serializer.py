@@ -14,11 +14,14 @@ class UserSerializer(serializers.ModelSerializer):
 	username = serializers.ReadOnlyField()
 	mod = serializers.BooleanField(source="is_staff")
 	admin = serializers.BooleanField(source="is_superuser")
+	profile = serializers.IntegerField(source='profile.id')
 
 	class Meta:
 		model = User
-		fields = ("id", "username", "email", "mod", "admin")
+		fields = ("id", "profile", "username", "email", "mod", "admin")
 
+	def get_profile(self):
+		profile = Profile.objects.get(user=self.id)
 
 class XPEventSerializer(serializers.ModelSerializer):
 	class Meta:

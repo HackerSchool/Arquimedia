@@ -27,8 +27,8 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		getUser((res1) => {
-			getProfile(res1.data.id, (res2) => {
-				getXpEvents(res1.data.id, (res3) => {
+			getProfile(res1.data.profile, (res2) => {
+				getXpEvents(res1.data.profile, (res3) => {
 					setXpEvents(res3.data);
 					setLoading(false);
 				});
