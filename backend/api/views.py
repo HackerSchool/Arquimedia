@@ -348,13 +348,13 @@ class RecommendedExamView(APIView):
 		questions_wrong_id = [i.id for i in questions_wrong]
 		questions_correct_id = [i.id for i in questions_correct]
 		questions_unanswered = list(Question.objects.exclude(id__in=questions_correct_id).exclude(id__in=questions_wrong_id).filter(accepted=True))
-		
+
 		# Only insert a certain amount of unasnwered questions in the exam
 		if len(questions_unanswered) > MAX_UNANSWERED_QUESTIONS_RECOMMENDED:
+			questions_unanswered_selected = random.sample(questions_unanswered, MAX_UNANSWERED_QUESTIONS_RECOMMENDED)
+		else: questions_unanswered_selected = questions_unanswered
 
-			questions_unanswered = random.sample(questions_unanswered, MAX_UNANSWERED_QUESTIONS_RECOMMENDED)
-
-		questions = questions_unanswered
+		questions = questions_unanswered_selected
 
 		# Check if there are enough wrong answers to fill the exam, if not insert correct answers
 		space_left = QUESTION_PER_EXAM - len(questions)
@@ -370,7 +370,12 @@ class RecommendedExamView(APIView):
 			# There are not enough wrong and unanswered questions so when need to get some right answers
 			space_left = QUESTION_PER_EXAM - len(questions)
 
-			questions_right_selected = random.sample(questions_correct, space_left)
+			if len(questions_correct) < space_left:
+				questions_right_selected = questions_correct
+				questions += random.sample(set(questions_unanswered) - set(questions_unanswered_selected), space_left - len(questions_correct))
+			else: 
+				questions_right_selected = random.sample(questions_correct, space_left)
+
 			questions += questions_right_selected
 
 		if len(questions) < 10: 
