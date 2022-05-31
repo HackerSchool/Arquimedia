@@ -493,10 +493,10 @@ class Leaderboard(APIView):
 		for user in users[start_position:end_position + 1]:
 			for event in events:
 				if user == event.user:
-					if not checkForUser(usersXP, user.id): 
-						usersXP.append(self.XPProfile(user.id, event.amount))
+					if not checkForUser(usersXP, user.profile.id): 
+						usersXP.append(self.XPProfile(user.profile.id, event.amount))
 					else:
-						getXPProfile(usersXP, user.id).xp += event.amount
+						getXPProfile(usersXP, user.profile.id).xp += event.amount
 
 		usersXP.sort(key=lambda x: x.xp, reverse=True)
 
