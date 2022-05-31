@@ -74,11 +74,11 @@ function App() {
 												component={SubmittedQuestions}
 											/>
 											<AuthRoute path='/perfil' component={ProfilePage} />
-											<AuthRoute
+											<Route
 												path='/password/reset'
 												component={PasswordResetPage}
 											/>
-											<AuthRoute
+											<Route
 												path='/password/reset/confirm/:uid/:token'
 												component={PasswordResetConfirmPage}
 											/>
