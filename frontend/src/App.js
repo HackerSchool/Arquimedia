@@ -75,12 +75,12 @@ function App() {
 											/>
 											<AuthRoute path='/perfil' component={ProfilePage} />
 											<Route
-												path='/password/reset'
-												component={PasswordResetPage}
-											/>
-											<Route
 												path='/password/reset/confirm/:uid/:token'
 												component={PasswordResetConfirmPage}
+											/>
+											<Route
+												path='/password/reset'
+												component={PasswordResetPage}
 											/>
 											<AuthRoute
 												path='/configuracoes'
