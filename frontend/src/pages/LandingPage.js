@@ -6,13 +6,10 @@ import { ReactComponent as Emoji } from '../assets/winking_emoji.svg';
 import NormalButton from '../components/buttons/NormalButton';
 import { userContext } from '../context/UserContextProvider';
 import { HomePage } from './HomePage';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 const useStyles = makeStyles(() => ({
-	mainBox: {
-		marginTop: '5vh',
-	},
 	slogan: {
-		fontSize: 55,
 		textAlign: 'center',
 	},
 	girl: {
@@ -23,10 +20,21 @@ const useStyles = makeStyles(() => ({
 const LandingPage = () => {
 	const classes = useStyles();
 	const [user, loading] = useContext(userContext);
+	const windowArray = useWindowDimensions();
 
 	if (!loading && user !== null) {
 		return <HomePage />;
 	}
+
+	const responsiveFontsize = (windowArray, minFontsize, coef) => {
+		let fontsize = coef * windowArray.height;
+
+		if (fontsize > minFontsize) {
+			fontsize = minFontsize;
+		}
+
+		return fontsize;
+	};
 
 	return (
 		!loading && (
@@ -36,22 +44,34 @@ const LandingPage = () => {
 				xs={12}
 				justifyContent='center'
 				alignItems='center'
-				spacing={8}
+				spacing={4}
+				style={{ marginTop: 0.01 * windowArray.height }}
 			>
 				<Grid item container xs={4} direction='column' align='center' spacing={6}>
 					<Grid item>
-						<Typography className={classes.slogan}>
+						<Typography
+							style={{ fontSize: responsiveFontsize(windowArray, 55, 0.07) }}
+							className={classes.slogan}
+						>
 							Exames nacionais
 							<br />
-							<i>made easy</i> <Emoji />
+							<i>made easy</i>{' '}
+							<Emoji style={{ width: responsiveFontsize(windowArray, 55, 0.07) }} />
 						</Typography>
 					</Grid>
 					<Grid xs={6} item style={{ minWidth: '19rem' }}>
-						<NormalButton text='Inscreve-te' href='/registar' fontSize={41} />
+						<NormalButton
+							text='Inscreve-te'
+							href='/registar'
+							fontSize={responsiveFontsize(windowArray, 41, 0.07)}
+						/>
 					</Grid>
 				</Grid>
 				<Grid item>
-					<Girl className={classes.girl} />
+					<Girl
+						style={{ maxHeight: windowArray.height - 100 }}
+						className={classes.girl}
+					/>
 				</Grid>
 			</Grid>
 		)
