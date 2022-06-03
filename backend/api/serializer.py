@@ -160,7 +160,7 @@ class AnswerSubmitionSerializer(serializers.Serializer):
 
 class CreateQuestionSerializer(serializers.Serializer):
 	text = serializers.CharField()
-	resolution = serializers.CharField()
+	resolution = serializers.CharField(required=False, allow_blank=True)
 	subsubject = serializers.CharField()
 	subject = serializers.CharField()
 	year = serializers.IntegerField()
