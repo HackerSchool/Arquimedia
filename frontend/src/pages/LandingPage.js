@@ -40,14 +40,21 @@ const LandingPage = () => {
 		!loading && (
 			<Grid
 				container
-				className={classes.mainBox}
 				xs={12}
 				justifyContent='center'
 				alignItems='center'
 				spacing={4}
 				style={{ marginTop: 0.01 * windowArray.height }}
 			>
-				<Grid item container xs={4} direction='column' align='center' spacing={6}>
+				<Grid
+					item
+					container
+					xs={4}
+					direction='column'
+					justifyContent='center'
+					alignItems='center'
+					spacing={6}
+				>
 					<Grid item>
 						<Typography
 							style={{ fontSize: responsiveFontsize(windowArray, 55, 0.07) }}
