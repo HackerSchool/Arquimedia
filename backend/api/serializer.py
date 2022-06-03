@@ -77,7 +77,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Question
-		fields = ("id", "text", "subject", "subsubject", "year", "difficulty", "comment", "answer", "image", "source", "date")
+		fields = ("id", "text", "resolution", "subject", "subsubject", "year", "difficulty", "comment", "answer", "image", "source", "date")
 
 	def getAnswers(self, question):
 		return [answer for answer in question.answer.all]
