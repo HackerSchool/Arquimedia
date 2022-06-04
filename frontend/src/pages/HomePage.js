@@ -8,6 +8,8 @@ import { ReactComponent as ProfileIcon } from '../assets/profileIcon.svg';
 import { ReactComponent as LeaderboardIcon } from '../assets/leaderboardIcon.svg';
 import { ReactComponent as AnswersIcon } from '../assets/answersIcon.svg';
 import { ReactComponent as DiscordIcon } from '../assets/icons8-discord-new-96.svg';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import responsiveWidth from '../hooks/responsiveWidth';
 
 const useStyles = makeStyles(() => ({
 	paper: {
@@ -36,7 +38,7 @@ const useStyles = makeStyles(() => ({
 
 export const HomePage = () => {
 	const classes = useStyles();
-
+	const windowArray = useWindowDimensions();
 	return (
 		<Paper theme={theme} className={classes.paper}>
 			<Grid
@@ -70,10 +72,8 @@ export const HomePage = () => {
 								text='Resolver exames'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='21vh'
-								width='10vw'
-								minWidth='200px'
-								minHeigth='200px'
+								height={responsiveWidth(windowArray, undefined, undefined, 0.12)}
+								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/exames'
 							>
 								<ExamIcon className={classes.icon} />
@@ -86,10 +86,8 @@ export const HomePage = () => {
 								text='Ver o teu perfil'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='21vh'
-								width='10vw'
-								minWidth='200px'
-								minHeigth='200px'
+								height={responsiveWidth(windowArray, undefined, undefined, 0.12)}
+								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/perfil'
 							>
 								<ProfileIcon className={classes.icon} />
@@ -102,10 +100,8 @@ export const HomePage = () => {
 								text='Ver a Leaderboard'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='21vh'
-								width='10vw'
-								minWidth='200px'
-								minHeigth='200px'
+								height={responsiveWidth(windowArray, undefined, undefined, 0.12)}
+								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/leaderboards'
 							>
 								<LeaderboardIcon className={classes.icon} />
@@ -118,10 +114,8 @@ export const HomePage = () => {
 								text='Contribui com perguntas'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='21vh'
-								width='10vw'
-								minWidth='200px'
-								minHeigth='200px'
+								height={responsiveWidth(windowArray, undefined, undefined, 0.12)}
+								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/submeter_questao'
 							>
 								<AnswersIcon className={classes.icon} />
@@ -134,10 +128,8 @@ export const HomePage = () => {
 								text='Junta-te ao nosso Discord'
 								iconFirst={false}
 								alignItems='flex-start'
-								height='21vh'
-								width='10vw'
-								minWidth='200px'
-								minHeigth='200px'
+								height={responsiveWidth(windowArray, undefined, undefined, 0.12)}
+								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='https://discord.gg/3Fgxs8pJMh'
 								target='_blank'
 							>

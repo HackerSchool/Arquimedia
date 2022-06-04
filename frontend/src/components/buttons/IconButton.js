@@ -74,8 +74,6 @@ IconButton.propTypes = {
 	direction: PropTypes.string,
 	iconFirst: PropTypes.bool,
 	spacing: PropTypes.number,
-	width: PropTypes.string,
-	height: PropTypes.string,
 	variant: PropTypes.string,
 	justifyContent: PropTypes.string,
 	alignItems: PropTypes.string,
