@@ -576,6 +576,8 @@ class DeleteAccount(APIView):
 		)
 
 class ResourceView(APIView):
+	permission_classes = [IsAdminUser]
+	
 	def post(self, request, id):
 		serializer = ResourceSerializer(data=request.data)
 		serializer.is_valid(raise_exception=True)
