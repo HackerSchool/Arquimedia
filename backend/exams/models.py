@@ -29,8 +29,8 @@ SUB_SUBJECTS = ((j, j) for i in subjects for j in i['themes'])
 YEARS = [(0, "0"), (10, "10"), (11, "11"), (12, "12")]
 
 RESOURCE_TYPES = (
-    ("VIDEO", "Video"),
-    ("PAPER", "Paper"),
+    ("video", "Video"),
+    ("paper", "Paper"),
 )
 
 class Exam(models.Model):

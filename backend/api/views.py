@@ -10,7 +10,7 @@ from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404, get_list_or_404
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 import datetime
 from rest_auth.registration.serializers import VerifyEmailSerializer
 from allauth.account.models import EmailAddress
@@ -574,4 +574,19 @@ class DeleteAccount(APIView):
 			{"detail": ("Account has been deleted")},
 			status=status.HTTP_200_OK
 		)
+
+class ResourceView(APIView):
+	def post(self, request, id):
+		serializer = ResourceSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		resource = Resource.objects.create(
+			description=serializer.data.get("description"),
+			url=serializer.data.get("url"),
+			type=serializer.data.get("type"),
+			question=Question.objects.get(id=id)
+		)
+
+		return Response(ResourceSerializer(resource).data, status=status.HTTP_201_CREATED)
+
 
