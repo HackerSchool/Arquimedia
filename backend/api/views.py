@@ -73,7 +73,7 @@ class QuestionView(APIView):
 
 			if question.data.get("source"):
 				newQuestion.source = question.data.get("source")
-			print(question.data)
+
 			newQuestion.text = question.data.get("text")
 			newQuestion.resolution = question.data.get("resolution")
 			newQuestion.subject = question.data.get("subject")
