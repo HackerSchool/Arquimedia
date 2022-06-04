@@ -23,10 +23,10 @@ import { changePassword, deleteAccount } from '../api';
 const useStyles = makeStyles(() => ({
 	paper: {
 		width: '100%',
-		height: '80vh',
 		borderRadius: 40,
 		border: '3px solid #D9D9D9',
 		boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
+		marginBottom: '1rem',
 	},
 	container: {
 		width: '100%',
