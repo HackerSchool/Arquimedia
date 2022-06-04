@@ -205,3 +205,8 @@ class DeleteAccountSerializer(serializers.Serializer):
 		user.delete()
 
 		return password
+
+class ResourceSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Resource
+		fields = ("type", "url", "description")
