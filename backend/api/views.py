@@ -584,9 +584,15 @@ class ResourceView(APIView):
 			description=serializer.data.get("description"),
 			url=serializer.data.get("url"),
 			type=serializer.data.get("type"),
-			question=Question.objects.get(id=id)
+			question=get_object_or_404(Question, id=id)
 		)
 
 		return Response(ResourceSerializer(resource).data, status=status.HTTP_201_CREATED)
+
+	def delete(self, request, id):
+		resource = get_object_or_404(Resource, id=id)
+		resource.delete()
+
+		return Response(status=status.HTTP_200_OK)
 
 
