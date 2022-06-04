@@ -52,6 +52,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, related_name="question", null=True, on_delete=CASCADE)
     accepted = models.BooleanField(null=True, default=False)
     text = models.CharField(max_length=1000,  null=False)
+    resolution = models.TextField(null=True)
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...

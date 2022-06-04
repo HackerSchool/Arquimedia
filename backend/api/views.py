@@ -75,6 +75,7 @@ class QuestionView(APIView):
 				newQuestion.source = question.data.get("source")
 
 			newQuestion.text = question.data.get("text")
+			newQuestion.resolution = question.data.get("resolution")
 			newQuestion.subject = question.data.get("subject")
 			newQuestion.subsubject = question.data.get("subsubject")
 			newQuestion.year = question.data.get("year")
