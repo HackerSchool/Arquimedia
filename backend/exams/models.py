@@ -1,4 +1,5 @@
 from os import extsep, rename
+from pyexpat import model
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields.related import ForeignKey
@@ -120,3 +121,21 @@ class Answer(models.Model):
     text = models.TextField(max_length=100,null=False)
     correct = models.BooleanField(default=False)
     question = models.ForeignKey("question", related_name="answer", on_delete=models.CASCADE, null=True)
+
+
+class Report(models.Model):
+    question = models.ForeignKey("question", related_name="report", on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, related_name="report", on_delete=models.CASCADE, null=False)
+    date = models.DateTimeField(auto_now_add=True)
+    
+    ISSUE_TYPE = (
+        ('Typo', 'Gralha no enunciado ou nas opções de resposta'),
+        ('SubmissionError', 'Erro na submissão'),
+        ('QuestionFormatting', 'Pergunta desformatada'),
+        ('LoadingError', 'Página não carrega'),
+        ('ImageError', 'Figura errada ou em falta')
+        ('Other', 'Outro'),
+    )
+
+    issue_type = models.CharField(max_length=50, choices=ISSUE_TYPE)
+    body = models.TextField()
