@@ -21,6 +21,8 @@ import Loading from '../loading/Loading';
 import MenuCircular from '../MenuCircular/MenuCircular';
 import { Link as LinkRouter } from 'react-router-dom';
 import theme from '../../globalTheme';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import responsiveHeight from '../../hooks/responsiveHeight';
 
 let useStyles = makeStyles((theme) => ({
 	menuButton: {
@@ -88,10 +90,21 @@ const Navbar = () => {
 		setClick(!click);
 	};
 	const [user, loading] = useContext(userContext);
+	const windowArray = useWindowDimensions();
 
 	return (
-		<Box sx={{ flexGrow: 1, alignItems: 'center', display: 'flex' }}>
-			<AppBar position='static' className={classes.navbar}>
+		<Box
+			sx={{
+				flexGrow: 1,
+				alignItems: 'center',
+				display: 'flex',
+			}}
+		>
+			<AppBar
+				position='static'
+				className={classes.navbar}
+				style={{ marginBottom: responsiveHeight(windowArray, undefined, undefined, 0.05) }}
+			>
 				<Toolbar className={classes.toolbar}>
 					<a href='/' style={{ flexGrow: 1 }}>
 						<Logo className={classes.logo} />

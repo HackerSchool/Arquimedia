@@ -8,6 +8,7 @@ import { userContext } from '../context/UserContextProvider';
 import { HomePage } from './HomePage';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import responsiveWidth from '../hooks/responsiveWidth';
+import responsiveHeight from '../hooks/responsiveHeight';
 
 const useStyles = makeStyles(() => ({
 	slogan: {
@@ -30,7 +31,10 @@ const LandingPage = () => {
 	return (
 		!loading && (
 			<Grid
-				style={{ height: windowArray.height }}
+				style={{
+					height: windowArray.height,
+					marginTop: -responsiveHeight(windowArray, undefined, undefined, 0.1),
+				}}
 				container
 				xs={12}
 				justifyContent='center'
