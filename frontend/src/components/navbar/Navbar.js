@@ -22,7 +22,7 @@ import MenuCircular from '../MenuCircular/MenuCircular';
 import { Link as LinkRouter } from 'react-router-dom';
 import theme from '../../globalTheme';
 
-const useStyles = makeStyles((theme) => ({
+let useStyles = makeStyles((theme) => ({
 	menuButton: {
 		marginRight: theme.spacing(2),
 		color: 'grey',
@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: theme.shadows[0],
 		marginTop: '1.5rem',
 		height: 90,
-		marginBottom: '3rem',
 	},
 	menu: {
 		[theme.breakpoints.down('md')]: {
@@ -87,7 +86,6 @@ const Navbar = () => {
 	const [click, setClick] = useState(false);
 	const handleClick = () => {
 		setClick(!click);
-		console.log(click);
 	};
 	const [user, loading] = useContext(userContext);
 

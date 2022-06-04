@@ -7,6 +7,7 @@ import NormalButton from '../components/buttons/NormalButton';
 import { userContext } from '../context/UserContextProvider';
 import { HomePage } from './HomePage';
 import useWindowDimensions from '../hooks/useWindowDimensions';
+import responsiveWidth from '../hooks/responsiveWidth';
 
 const useStyles = makeStyles(() => ({
 	slogan: {
@@ -26,57 +27,51 @@ const LandingPage = () => {
 		return <HomePage />;
 	}
 
-	const responsiveFontsize = (windowArray, minFontsize, coef) => {
-		let fontsize = coef * windowArray.height;
-
-		if (fontsize > minFontsize) {
-			fontsize = minFontsize;
-		}
-
-		return fontsize;
-	};
-
 	return (
 		!loading && (
 			<Grid
+				style={{ height: windowArray.height }}
 				container
 				xs={12}
 				justifyContent='center'
 				alignItems='center'
 				spacing={4}
-				style={{ marginTop: 0.01 * windowArray.height }}
 			>
 				<Grid
 					item
 					container
-					xs={4}
 					direction='column'
 					justifyContent='center'
 					alignItems='center'
 					spacing={6}
+					style={{ minWidth: '20rem' }}
+					xs={6}
 				>
 					<Grid item>
 						<Typography
-							style={{ fontSize: responsiveFontsize(windowArray, 55, 0.07) }}
+							style={{ fontSize: responsiveWidth(windowArray, 10, 70, 0.05) }}
 							className={classes.slogan}
 						>
 							Exames nacionais
 							<br />
 							<i>made easy</i>{' '}
-							<Emoji style={{ width: responsiveFontsize(windowArray, 55, 0.07) }} />
+							<Emoji style={{ width: responsiveWidth(windowArray, 10, 70, 0.05) }} />
 						</Typography>
 					</Grid>
-					<Grid xs={6} item style={{ minWidth: '19rem' }}>
+					<Grid xs={6} item>
 						<NormalButton
 							text='Inscreve-te'
 							href='/registar'
-							fontSize={responsiveFontsize(windowArray, 41, 0.07)}
+							fontSize={responsiveWidth(windowArray, 10, 50, 0.04)}
 						/>
 					</Grid>
 				</Grid>
-				<Grid item>
+				<Grid container xs={6}>
 					<Girl
-						style={{ maxHeight: windowArray.height - 100 }}
+						style={{
+							maxHeight: windowArray.height - 100,
+							width: responsiveWidth(windowArray, 250, undefined, 0.3),
+						}}
 						className={classes.girl}
 					/>
 				</Grid>
