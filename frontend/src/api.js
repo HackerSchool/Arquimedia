@@ -249,3 +249,10 @@ export async function deleteAccount(password, successCall, errorCall) {
 		.then((res) => successCall(res))
 		.catch((error) => errorCall(error));
 }
+
+export const fetchQuestion = async (id, successCall, errorCall) => {
+	axios
+		.get('api/question/' + id)
+		.then((res) => successCall(res))
+		.then((error) => errorCall(error));
+};
