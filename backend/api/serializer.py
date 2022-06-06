@@ -1,7 +1,7 @@
 from users.models import Achievement, AnswerInfo, Profile, SubjectInfo, XPEvent, XPSystem
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
-from exams.models import Question, Comment, Exam, Answer
+from exams.models import *
 from django.contrib.auth.models import User 
 from rest_framework import serializers
 from config import subjects
@@ -69,15 +69,23 @@ class AnswerSerializer(serializers.ModelSerializer):
 		model = Answer
 		fields = ("id", "text", "correct")
 
+class ResourceSerializer(serializers.ModelSerializer):
+	id = serializers.IntegerField(required=False)
+
+	class Meta:
+		model = Resource
+		fields = ("id", "description", "url", "type")
+
 
 class QuestionSerializer(serializers.ModelSerializer):
 	comment = CommentSerializer(many=True, read_only=True)
 	answer = AnswerSerializer(many=True)
 	image = serializers.SerializerMethodField()
+	resources = ResourceSerializer(many=True)
 	
 	class Meta:
 		model = Question
-		fields = ("id", "text", "resolution", "subject", "subsubject", "year", "difficulty", "comment", "answer", "image", "source", "date")
+		fields = ("id", "text", "resolution", "subject", "subsubject", "year", "difficulty", "comment", "answer", "image", "source", "date", "resources")
 
 	def getAnswers(self, question):
 		return [answer for answer in question.answer.all]

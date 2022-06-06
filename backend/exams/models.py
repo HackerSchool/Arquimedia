@@ -29,6 +29,11 @@ SUB_SUBJECTS = ((j, j) for i in subjects for j in i['themes'])
 
 YEARS = [(0, "0"), (10, "10"), (11, "11"), (12, "12")]
 
+RESOURCE_TYPES = (
+    ("video", "Video"),
+    ("paper", "Paper"),
+)
+
 class Exam(models.Model):
 
     questions = models.ManyToManyField("Question", related_name="questions")
@@ -116,7 +121,6 @@ class Comment(models.Model):
         return 1
         
 
-
 class Answer(models.Model):
     text = models.TextField(max_length=100,null=False)
     correct = models.BooleanField(default=False)
@@ -133,9 +137,16 @@ class Report(models.Model):
         ('SubmissionError', 'Erro na submissão'),
         ('QuestionFormatting', 'Pergunta desformatada'),
         ('LoadingError', 'Página não carrega'),
-        ('ImageError', 'Figura errada ou em falta')
+        ('ImageError', 'Figura errada ou em falta'),
         ('Other', 'Outro'),
     )
 
     issue_type = models.CharField(max_length=50, choices=ISSUE_TYPE)
     body = models.TextField()
+
+
+class Resource(models.Model):
+    type = models.CharField(null=False, choices=RESOURCE_TYPES, max_length=50)
+    url = models.TextField(null=False)
+    description = models.TextField(null=False)
+    question = models.ForeignKey(Question, on_delete=CASCADE, related_name="resources")
