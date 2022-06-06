@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Question from '../components/questions/Question';
 import { fetchQuestion } from '../api';
@@ -10,6 +10,13 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import ArticleIcon from '@mui/icons-material/Article';
+
+const iconSelector = {
+	video: <VideoLibraryIcon />,
+	paper: <ArticleIcon />,
+};
 
 const useStyles = makeStyles(() => ({
 	itemInfo: {
@@ -17,6 +24,25 @@ const useStyles = makeStyles(() => ({
 	},
 	itemInfoLabel: {
 		fontWeight: 'bold',
+	},
+	resources: {
+		border: '2px solid',
+		borderRadius: 20,
+		borderColor: theme.palette.grey.primary,
+		boxShadow: '-6px 7px 16px rgba(0, 0, 0, 0.25)',
+		padding: '1rem',
+	},
+	resource: {
+		'&:hover': {
+			color: theme.palette.secondary.main,
+		},
+		color: 'black',
+		marginLeft: '1rem',
+	},
+	resourceGrid: {
+		'&:hover': {
+			color: theme.palette.secondary.main,
+		},
 	},
 }));
 
@@ -83,7 +109,56 @@ export default function QuestionPage() {
 				</Box>
 			</Grid>
 			{/* Resources */}
-			<Grid item xs={12}></Grid>
+			<Grid item xs={12}>
+				<Accordion className={classes.resources} square>
+					<AccordionSummary>
+						<Typography
+							variant='h4'
+							fontWeight='bold'
+							color={theme.palette.secondary.main}
+						>
+							+ Recursos
+						</Typography>
+					</AccordionSummary>
+					<AccordionDetails>
+						{question.resources.length > 0 ? (
+							<>
+								{question.resources.map((resource) => (
+									<Grid
+										container
+										alignItems='center'
+										key={classes.description}
+										className={classes.resourceGrid}
+									>
+										{iconSelector[resource.type]}
+										<Typography
+											variant='h6'
+											fontWeight='normal'
+											key={resource.text}
+										>
+											<a
+												style={{
+													textDecoration: 'none',
+												}}
+												className={classes.resource}
+												href={resource.url}
+												target='_blank'
+												rel='noreferrer'
+											>
+												{resource.description}
+											</a>
+										</Typography>
+									</Grid>
+								))}
+							</>
+						) : (
+							<Typography variant='h6' fontWeight='normal'>
+								Ainda estamos à procura de recursos...
+							</Typography>
+						)}
+					</AccordionDetails>
+				</Accordion>
+			</Grid>
 			{/* Comments */}
 			<Grid item xs={12}></Grid>
 		</Grid>
