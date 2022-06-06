@@ -27,5 +27,7 @@ urlpatterns = [
 	path("follow/<int:id>", Follow.as_view()),
 	path("email-confirm/<str:username>/<int:code>", VerifyEmailView.as_view()),
 	path("users/", Users.as_view()),
-	path("user/", DeleteAccount.as_view())
+	path("user/", DeleteAccount.as_view()),
+	path("report/", ReportListView.as_view()),
+	path("report/<int:id>", ReportView.as_view())
 ]

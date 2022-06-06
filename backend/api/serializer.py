@@ -1,3 +1,4 @@
+from exams.models import Report
 from users.models import Achievement, AnswerInfo, Profile, SubjectInfo, XPEvent, XPSystem
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
@@ -85,7 +86,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Question
-		fields = ("id", "text", "resolution", "subject", "subsubject", "year", "difficulty", "comment", "answer", "image", "source", "date", "resources")
+		fields = ("id", "text", "resolution", "subject", "subsubject", "year", "difficulty", "comment", "answer", "image", "source", "date")
 
 	def getAnswers(self, question):
 		return [answer for answer in question.answer.all]
@@ -213,3 +214,8 @@ class DeleteAccountSerializer(serializers.Serializer):
 		user.delete()
 
 		return password
+
+class ReportSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Report
+		fields = ['id', 'question', 'date', 'type', 'body']

@@ -597,4 +597,36 @@ class ResourceView(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
+class ReportListView(generics.ListAPIView):
+	#permission_classes = [IsAuthenticated]
 
+	queryset = Report.objects.all()
+	serializer_class = ReportSerializer
+
+class ReportView(APIView):
+	#permission_classes = [IsAdminUser]
+	
+	def post(self, request, id):
+		serializer = ReportSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		report = Report.objects.create(
+			question = get_object_or_404(Question, id=id),
+			author = request.user,
+			date = serializer.data.get("date"),
+			type = serializer.data.get("type"),
+			body = serializer.data.get("body")
+		)
+
+		return Response(ReportSerializer(report).data, status=status.HTTP_201_CREATED)
+
+	def delete(self, request, id):
+		report = get_object_or_404(Report, id=id)
+		report.delete()
+
+		return Response(status=status.HTTP_200_OK)
+	
+	def get(self, request, id):
+		report = get_object_or_404(Report, id=id)
+
+		return Response(ReportSerializer(report).data, status=status.HTTP_200_OK)

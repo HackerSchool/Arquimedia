@@ -132,7 +132,7 @@ class Report(models.Model):
     author = models.ForeignKey(User, related_name="report", on_delete=models.CASCADE, null=False)
     date = models.DateTimeField(auto_now_add=True)
     
-    ISSUE_TYPE = (
+    TYPE = (
         ('Typo', 'Gralha no enunciado ou nas opções de resposta'),
         ('SubmissionError', 'Erro na submissão'),
         ('QuestionFormatting', 'Pergunta desformatada'),
@@ -141,8 +141,12 @@ class Report(models.Model):
         ('Other', 'Outro'),
     )
 
-    issue_type = models.CharField(max_length=50, choices=ISSUE_TYPE)
+    type = models.CharField(max_length=50, choices=TYPE)
     body = models.TextField()
+
+    def __str__(self):
+        # string formatting (slice used to eliminate milliseconds and timezone parameters in the string)
+        return str(self.date)[:19] + ' || ' + self.type + ' || ' + str(self.question)
 
 
 class Resource(models.Model):
