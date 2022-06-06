@@ -6,6 +6,10 @@ import { fetchQuestion } from '../api';
 import theme from '../globalTheme';
 import Box from '../components/box/Box';
 import makeStyles from '@mui/styles/makeStyles';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkKatex from 'rehype-katex';
+import remarRehype from 'remark-rehype';
 
 const useStyles = makeStyles(() => ({
 	itemInfo: {
@@ -25,7 +29,7 @@ export default function QuestionPage() {
 		fetchQuestion(id, (res) => {
 			setQuestion(res.data);
 		});
-	});
+	}, []);
 
 	if (question === null) return <></>;
 
@@ -37,7 +41,7 @@ export default function QuestionPage() {
 			</Grid>
 			{/* Question info box */}
 			<Grid item>
-				<Box style={{ height: '95%' }}>
+				<Box style={{ height: '95%', width: '95%' }}>
 					<Typography variant='h4' fontWeight='bold' color={theme.palette.secondary.main}>
 						Detalhes
 					</Typography>
@@ -60,7 +64,24 @@ export default function QuestionPage() {
 				</Box>
 			</Grid>
 			{/* Resolution */}
-			<Grid item xs={12}></Grid>
+			<Grid item xs={12}>
+				<Box>
+					<Typography variant='h4' fontWeight='bold' color={theme.palette.secondary.main}>
+						Resolução
+					</Typography>
+					{question.resolution ? (
+						<Typography variant='h6' fontWeight='normal'>
+							<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+								{question.resolution}
+							</ReactMarkdown>
+						</Typography>
+					) : (
+						<Typography>
+							Ainda estamos a trabalhar na resolução desta pergunta...
+						</Typography>
+					)}
+				</Box>
+			</Grid>
 			{/* Resources */}
 			<Grid item xs={12}></Grid>
 			{/* Comments */}
