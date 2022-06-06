@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: '4rem',
 	},
 	finishBttn: {
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: theme.palette.primary.main,
 		color: 'white',
 		fontSize: 24,
 		borderRadius: 20,
@@ -132,18 +132,21 @@ const ExamPage = (props) => {
 					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion} />
 				</Grid>
 				<Grid item xs={1}>
-					<IconButton className={classes.nextBttn} onClick={increaseCurrent} size='large'>
-						<ArrowForwardIcon fontSize='large' />
-					</IconButton>
+					{currentQuestion === exam.questions.length - 1 ? (
+						<Button className={classes.finishBttn} onClick={onComplete}>
+							Submeter
+						</Button>
+					) : (
+						<IconButton
+							className={classes.nextBttn}
+							onClick={increaseCurrent}
+							size='large'
+						>
+							<ArrowForwardIcon fontSize='large' />
+						</IconButton>
+					)}
 				</Grid>
 			</Grid>
-			<div align='center' className={classes.finishBttnWrapper}>
-				{currentQuestion === exam.questions.length - 1 && (
-					<Button className={classes.finishBttn} onClick={onComplete}>
-						Submeter
-					</Button>
-				)}
-			</div>
 		</Grid>
 	);
 };
