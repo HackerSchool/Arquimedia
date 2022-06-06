@@ -9,13 +9,18 @@ const useStyles = makeStyles(() => ({
 		borderRadius: 20,
 		borderColor: theme.palette.grey.primary,
 		boxShadow: '-6px 7px 16px rgba(0, 0, 0, 0.25)',
+		padding: '1rem',
 	},
 }));
 
 const Box = (props) => {
 	const classes = useStyles();
 
-	return <Paper className={classes.box}>{props.children}</Paper>;
+	return (
+		<Paper className={classes.box} {...props}>
+			{props.children}
+		</Paper>
+	);
 };
 
 export default Box;
