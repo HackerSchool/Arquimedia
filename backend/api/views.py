@@ -598,13 +598,13 @@ class ResourceView(APIView):
 		return Response(status=status.HTTP_200_OK)
 
 class ReportListView(generics.ListAPIView):
-	#permission_classes = [IsAuthenticated]
+	permission_classes = [IsAdminUser]
 
 	queryset = Report.objects.all()
 	serializer_class = ReportSerializer
 
 class ReportView(APIView):
-	#permission_classes = [IsAdminUser]
+	permission_classes = [IsAuthenticated]
 	
 	def post(self, request):
 		serializer = ReportSerializer(data=request.data)
@@ -620,12 +620,18 @@ class ReportView(APIView):
 		return Response(ReportSerializer(report).data, status=status.HTTP_201_CREATED)
 
 	def delete(self, request, id):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
 		report = get_object_or_404(Report, id=id)
 		report.delete()
 
 		return Response(status=status.HTTP_200_OK)
 	
 	def get(self, request, id):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
 		report = get_object_or_404(Report, id=id)
 
 		return Response(ReportSerializer(report).data, status=status.HTTP_200_OK)
