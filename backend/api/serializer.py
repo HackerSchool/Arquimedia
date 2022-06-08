@@ -216,6 +216,9 @@ class DeleteAccountSerializer(serializers.Serializer):
 		return password
 
 class ReportSerializer(serializers.ModelSerializer):
+	id = serializers.SlugField(read_only=True)
+	date = serializers.DateTimeField(read_only=True)
+	
 	class Meta:
 		model = Report
 		fields = ['id', 'question', 'date', 'type', 'body']

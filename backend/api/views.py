@@ -606,14 +606,13 @@ class ReportListView(generics.ListAPIView):
 class ReportView(APIView):
 	#permission_classes = [IsAdminUser]
 	
-	def post(self, request, id):
+	def post(self, request):
 		serializer = ReportSerializer(data=request.data)
 		serializer.is_valid(raise_exception=True)
 
 		report = Report.objects.create(
-			question = get_object_or_404(Question, id=id),
+			question = get_object_or_404(Question, id=serializer.data.get("question")),
 			author = request.user,
-			date = serializer.data.get("date"),
 			type = serializer.data.get("type"),
 			body = serializer.data.get("body")
 		)

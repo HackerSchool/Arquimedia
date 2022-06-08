@@ -28,6 +28,7 @@ urlpatterns = [
 	path("email-confirm/<str:username>/<int:code>", VerifyEmailView.as_view()),
 	path("users/", Users.as_view()),
 	path("user/", DeleteAccount.as_view()),
-	path("report/", ReportListView.as_view()),
+	path("reports/", ReportListView.as_view()),
+	path("report/", ReportView.as_view()),
 	path("report/<int:id>", ReportView.as_view())
 ]
