@@ -103,7 +103,10 @@ const Navbar = () => {
 			<AppBar
 				position='static'
 				className={classes.navbar}
-				style={{ marginBottom: responsiveHeight(windowArray, undefined, undefined, 0.05) }}
+				style={{
+					marginBottom: responsiveHeight(windowArray, undefined, undefined, 0.05),
+					width: windowArray.width,
+				}}
 			>
 				<Toolbar className={classes.toolbar}>
 					<a href='/' style={{ flexGrow: 1 }}>
