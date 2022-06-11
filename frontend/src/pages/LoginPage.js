@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 		fontWeight: 'bold',
 		textAlign: 'start',
 		marginLeft: '3rem',
-		marginTop: '12rem',
+		marginTop: '6rem',
 	},
 }));
 

@@ -15,10 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: 50,
 		disableUnderline: true,
 	},
-	containerForm: {
-		width: '100%',
-		marginTop: '7rem',
-	},
+
 	resetPasswordText: {
 		color: theme.palette.background.default,
 		'&:hover': {
@@ -60,24 +57,26 @@ const LoginInput = () => {
 
 	return (
 		<Grid
-			className={classes.container}
 			container
 			direction='column'
 			alignContent='center'
 			justifyContent='flex-start'
+			style={{ height: windowArray.height }}
 		>
 			<Grid item>
 				<a href='/'>
 					<Logo
 						className={classes.logo}
-						style={{ width: responsiveWidth(windowArray, 170, undefined, 0.25) }}
+						style={{ width: responsiveWidth(windowArray, 170, undefined, 0.24) }}
 					/>
 				</a>
 			</Grid>
 			<Grid
-				className={classes.containerForm}
+				style={{
+					marginTop: responsiveHeight(windowArray, undefined, undefined, 0.1),
+				}}
 				container
-				spacing={4}
+				spacing={3}
 				direction='column'
 				justifyContent='flex-start'
 				alignItems='center'
@@ -132,7 +131,10 @@ const LoginInput = () => {
 						Não sabes a tua Password ?
 					</Link>
 				</Grid>
-				<Grid item style={{ marginTop: '4rem' }}>
+				<Grid
+					item
+					style={{ marginTop: responsiveHeight(windowArray, undefined, undefined, 0.05) }}
+				>
 					<NormalButton
 						fontSize={responsiveWidth(windowArray, 10, 45, 0.025)}
 						text='Entrar'

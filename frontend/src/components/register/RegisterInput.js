@@ -17,10 +17,6 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: 50,
 		disableUnderline: true,
 	},
-	containerForm: {
-		width: '100%',
-		marginTop: '5rem',
-	},
 	resetPasswordText: {
 		color: theme.palette.background.default,
 		'&:hover': {
@@ -143,25 +139,20 @@ const RegisterInput = () => {
 	if (codePhase) return <CodeInput username={username} password={pass1} />;
 
 	return (
-		<Grid
-			className={classes.container}
-			container
-			direction='column'
-			alignContent='center'
-			justifyContent='flex-start'
-		>
+		<Grid container direction='column' alignContent='center' justifyContent='flex-start'>
 			<Grid item>
 				<a href='/'>
 					<Logo
 						className={classes.logo}
-						style={{ width: responsiveWidth(windowArray, 170, undefined, 0.25) }}
+						style={{ width: responsiveWidth(windowArray, 170, undefined, 0.24) }}
 					/>
 				</a>
 			</Grid>
 			<Grid
-				className={classes.containerForm}
+				style={{
+					marginTop: responsiveHeight(windowArray, undefined, undefined, 0.1),
+				}}
 				container
-				spacing={4}
 				direction='column'
 				justifyContent='flex-start'
 				alignItems='center'
@@ -253,7 +244,12 @@ const RegisterInput = () => {
 							onKeyUp={handleKeyPress}
 						/>
 					</Grid>
-					<Grid item style={{ marginTop: '4rem' }}>
+					<Grid
+						item
+						style={{
+							marginTop: responsiveHeight(windowArray, undefined, undefined, 0.1),
+						}}
+					>
 						<NormalButton
 							fontSize={responsiveWidth(windowArray, 10, 45, 0.025)}
 							text='Registar'

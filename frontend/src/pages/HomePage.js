@@ -13,7 +13,6 @@ import responsiveWidth from '../hooks/responsiveWidth';
 
 const useStyles = makeStyles(() => ({
 	paper: {
-		width: '88%',
 		borderRadius: 40,
 		border: '3px solid #D9D9D9',
 		boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
@@ -23,9 +22,6 @@ const useStyles = makeStyles(() => ({
 		width: '100%',
 		height: '100%',
 		padding: '3rem',
-	},
-	icon: {
-		fontSize: 100,
 	},
 	bold: {
 		fontWeight: 600,
@@ -40,7 +36,11 @@ export const HomePage = () => {
 	const classes = useStyles();
 	const windowArray = useWindowDimensions();
 	return (
-		<Paper theme={theme} className={classes.paper}>
+		<Paper
+			theme={theme}
+			className={classes.paper}
+			style={{ width: responsiveWidth(windowArray, undefined, undefined, 0.8) }}
+		>
 			<Grid
 				container
 				direction='column'
@@ -68,7 +68,7 @@ export const HomePage = () => {
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={25}
+								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
 								text='Resolver exames'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -76,13 +76,23 @@ export const HomePage = () => {
 								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/exames'
 							>
-								<ExamIcon className={classes.icon} />
+								<ExamIcon
+									className={classes.icon}
+									style={{
+										width: responsiveWidth(
+											windowArray,
+											undefined,
+											undefined,
+											0.03
+										),
+									}}
+								/>
 							</IconButton>
 						</Grid>
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={25}
+								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
 								text='Ver o teu perfil'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -90,13 +100,23 @@ export const HomePage = () => {
 								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/perfil'
 							>
-								<ProfileIcon className={classes.icon} />
+								<ProfileIcon
+									className={classes.icon}
+									style={{
+										width: responsiveWidth(
+											windowArray,
+											undefined,
+											undefined,
+											0.03
+										),
+									}}
+								/>
 							</IconButton>
 						</Grid>
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={25}
+								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
 								text='Ver a Leaderboard'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -104,13 +124,23 @@ export const HomePage = () => {
 								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/leaderboards'
 							>
-								<LeaderboardIcon className={classes.icon} />
+								<LeaderboardIcon
+									className={classes.icon}
+									style={{
+										width: responsiveWidth(
+											windowArray,
+											undefined,
+											undefined,
+											0.03
+										),
+									}}
+								/>
 							</IconButton>
 						</Grid>
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={25}
+								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
 								text='Contribui com perguntas'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -118,13 +148,23 @@ export const HomePage = () => {
 								width={responsiveWidth(windowArray, undefined, undefined, 0.11)}
 								href='/submeter_questao'
 							>
-								<AnswersIcon className={classes.icon} />
+								<AnswersIcon
+									className={classes.icon}
+									style={{
+										width: responsiveWidth(
+											windowArray,
+											undefined,
+											undefined,
+											0.03
+										),
+									}}
+								/>
 							</IconButton>
 						</Grid>
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={25}
+								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
 								text='Junta-te ao nosso Discord'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -135,7 +175,14 @@ export const HomePage = () => {
 							>
 								<DiscordIcon
 									className={classes.icon}
-									style={{ height: 78, width: 78 }}
+									style={{
+										width: responsiveWidth(
+											windowArray,
+											undefined,
+											undefined,
+											0.03
+										),
+									}}
 								/>
 							</IconButton>
 						</Grid>
