@@ -49,6 +49,7 @@ const LoginPage = () => {
 			>
 				<Grid item>
 					<Typography
+						variant='h1'
 						className={classes.text}
 						fontSize={responsiveWidth(windowArray, 5, 50, 0.03)}
 					>

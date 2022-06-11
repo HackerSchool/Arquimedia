@@ -53,20 +53,20 @@ const LandingPage = () => {
 				>
 					<Grid item>
 						<Typography
-							style={{ fontSize: responsiveWidth(windowArray, 10, 70, 0.05) }}
+							style={{ fontSize: responsiveWidth(windowArray, 10, 60, 0.05) }}
 							className={classes.slogan}
 						>
 							Exames nacionais
 							<br />
 							<i>made easy</i>{' '}
-							<Emoji style={{ width: responsiveWidth(windowArray, 10, 70, 0.05) }} />
+							<Emoji style={{ width: responsiveWidth(windowArray, 10, 60, 0.05) }} />
 						</Typography>
 					</Grid>
 					<Grid xs={6} item>
 						<NormalButton
 							text='Inscreve-te'
 							href='/registar'
-							fontSize={responsiveWidth(windowArray, 10, 50, 0.04)}
+							fontSize={responsiveWidth(windowArray, 10, 45, 0.04)}
 						/>
 					</Grid>
 				</Grid>

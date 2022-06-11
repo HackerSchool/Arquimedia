@@ -7,17 +7,15 @@ import { ReactComponent as Logo } from '../../assets/logo_white.svg';
 import NormalButton from '../buttons/NormalButton';
 import CodeInput from './CodeInput';
 import { useSnackbar } from 'notistack';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import responsiveWidth from '../../hooks/responsiveWidth';
+import responsiveHeight from '../../hooks/responsiveHeight';
 
 const useStyles = makeStyles((theme) => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,
 		disableUnderline: true,
-		height: 65,
-		width: '22rem',
-	},
-	container: {
-		width: '100%',
 	},
 	containerForm: {
 		width: '100%',
@@ -25,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	resetPasswordText: {
 		color: theme.palette.background.default,
-		fontSize: 18,
 		'&:hover': {
 			color: theme.palette.secondary.main,
 		},
@@ -49,6 +46,7 @@ const RegisterInput = () => {
 	const validUsername = new RegExp('^[a-zA-Z0-9._+-@]+$');
 	const validEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$');
 	const { enqueueSnackbar } = useSnackbar();
+	const windowArray = useWindowDimensions();
 
 	const handleClick = () => {
 		if (username === '' || email === '' || pass1 === '' || pass2 === '')
@@ -148,13 +146,16 @@ const RegisterInput = () => {
 		<Grid
 			className={classes.container}
 			container
-			spacing={4}
 			direction='column'
-			alignItems='center'
+			alignContent='center'
+			justifyContent='flex-start'
 		>
 			<Grid item>
-				<a href='/' style={{ flexGrow: 1 }}>
-					<Logo className={classes.logo} />
+				<a href='/'>
+					<Logo
+						className={classes.logo}
+						style={{ width: responsiveWidth(windowArray, 170, undefined, 0.25) }}
+					/>
 				</a>
 			</Grid>
 			<Grid
@@ -162,13 +163,23 @@ const RegisterInput = () => {
 				container
 				spacing={4}
 				direction='column'
+				justifyContent='flex-start'
 				alignItems='center'
 			>
 				<form>
 					<Grid item>
 						<InputBase
 							className={classes.input}
-							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							style={{
+								width: responsiveWidth(windowArray, 150, undefined, 0.2),
+								height: responsiveHeight(windowArray, 30, undefined, 0.06),
+							}}
+							inputProps={{
+								style: {
+									margin: '0 1rem 0 1rem',
+									fontSize: responsiveWidth(windowArray, undefined, 30, 0.017),
+								},
+							}}
 							margin='dense'
 							variant='outlined'
 							placeholder='Nome de utilizador'
@@ -181,7 +192,16 @@ const RegisterInput = () => {
 					<Grid item>
 						<InputBase
 							className={classes.input}
-							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							style={{
+								width: responsiveWidth(windowArray, 150, undefined, 0.2),
+								height: responsiveHeight(windowArray, 30, undefined, 0.06),
+							}}
+							inputProps={{
+								style: {
+									margin: '0 1rem 0 1rem',
+									fontSize: responsiveWidth(windowArray, undefined, 30, 0.017),
+								},
+							}}
 							variant='outlined'
 							placeholder='E-mail'
 							autoComplete='email'
@@ -193,7 +213,16 @@ const RegisterInput = () => {
 					<Grid item>
 						<InputBase
 							className={classes.input}
-							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							style={{
+								width: responsiveWidth(windowArray, 150, undefined, 0.2),
+								height: responsiveHeight(windowArray, 30, undefined, 0.06),
+							}}
+							inputProps={{
+								style: {
+									margin: '0 1rem 0 1rem',
+									fontSize: responsiveWidth(windowArray, undefined, 30, 0.017),
+								},
+							}}
 							variant='outlined'
 							placeholder='Password'
 							type='password'
@@ -206,7 +235,16 @@ const RegisterInput = () => {
 					<Grid item>
 						<InputBase
 							className={classes.input}
-							inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+							style={{
+								width: responsiveWidth(windowArray, 150, undefined, 0.2),
+								height: responsiveHeight(windowArray, 30, undefined, 0.06),
+							}}
+							inputProps={{
+								style: {
+									margin: '0 1rem 0 1rem',
+									fontSize: responsiveWidth(windowArray, undefined, 30, 0.017),
+								},
+							}}
 							variant='outlined'
 							placeholder='Repete a password'
 							type='password'
@@ -216,11 +254,20 @@ const RegisterInput = () => {
 						/>
 					</Grid>
 					<Grid item style={{ marginTop: '4rem' }}>
-						<NormalButton fontSize={45} text='Registar' onClick={handleClick} />
+						<NormalButton
+							fontSize={responsiveWidth(windowArray, 10, 45, 0.025)}
+							text='Registar'
+							onClick={handleClick}
+						/>
 					</Grid>
 					<br />
 					<Grid item>
-						<Link className={classes.resetPasswordText} variant='h5' href='/login'>
+						<Link
+							className={classes.resetPasswordText}
+							variant='h5'
+							href='/login'
+							style={{ fontSize: responsiveWidth(windowArray, undefined, 18, 0.02) }}
+						>
 							Já tens conta? Faz Login
 						</Link>
 					</Grid>
