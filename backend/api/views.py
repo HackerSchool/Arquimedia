@@ -620,7 +620,7 @@ class ReportView(APIView):
 		return Response(ReportSerializer(report).data, status=status.HTTP_201_CREATED)
 
 	def delete(self, request, id):
-		if not(request.user.is_superuser):
+		if not(request.user.is_staff):
 			return Response(status=status.HTTP_403_FORBIDDEN)
 
 		report = get_object_or_404(Report, id=id)
@@ -629,7 +629,7 @@ class ReportView(APIView):
 		return Response(status=status.HTTP_200_OK)
 	
 	def get(self, request, id):
-		if not(request.user.is_superuser):
+		if not(request.user.is_staff):
 			return Response(status=status.HTTP_403_FORBIDDEN)
 
 		report = get_object_or_404(Report, id=id)

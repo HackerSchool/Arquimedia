@@ -34,6 +34,15 @@ RESOURCE_TYPES = (
     ("paper", "Paper"),
 )
 
+ISSUE_TYPES = (
+        ('Typo', 'Gralha no enunciado ou nas opções de resposta'),
+        ('SubmissionError', 'Erro na submissão'),
+        ('QuestionFormatting', 'Pergunta desformatada'),
+        ('LoadingError', 'Página não carrega'),
+        ('ImageError', 'Figura errada ou em falta'),
+        ('Other', 'Outro'),
+)
+
 class Exam(models.Model):
 
     questions = models.ManyToManyField("Question", related_name="questions")
@@ -131,22 +140,12 @@ class Report(models.Model):
     question = models.ForeignKey("question", related_name="report", on_delete=models.CASCADE, null=False)
     author = models.ForeignKey(User, related_name="report", on_delete=models.CASCADE, null=False)
     date = models.DateTimeField(auto_now_add=True)
-    
-    TYPE = (
-        ('Typo', 'Gralha no enunciado ou nas opções de resposta'),
-        ('SubmissionError', 'Erro na submissão'),
-        ('QuestionFormatting', 'Pergunta desformatada'),
-        ('LoadingError', 'Página não carrega'),
-        ('ImageError', 'Figura errada ou em falta'),
-        ('Other', 'Outro'),
-    )
 
-    type = models.CharField(max_length=50, choices=TYPE)
+    type = models.CharField(max_length=50, choices=ISSUE_TYPES)
     body = models.TextField()
 
     def __str__(self):
-        # string formatting (slice used to eliminate milliseconds and timezone parameters in the string)
-        return str(self.date)[:19] + ' || ' + self.type + ' || ' + str(self.question)
+        return str(self.date.date()) + ' || ' + self.type + ' || ' + str(self.question)
 
 
 class Resource(models.Model):
