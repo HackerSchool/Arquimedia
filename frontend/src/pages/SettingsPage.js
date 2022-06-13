@@ -19,18 +19,17 @@ import config from '../config';
 import { TextInput } from '../components/inputs/TextInput';
 import { useSnackbar } from 'notistack';
 import { changePassword, deleteAccount } from '../api';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import responsiveWidth from '../hooks/responsiveWidth';
 
 const useStyles = makeStyles(() => ({
 	paper: {
-		width: '100%',
-		height: '80vh',
 		borderRadius: 40,
 		border: '3px solid #D9D9D9',
 		boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
+		marginBottom: '1rem',
 	},
 	container: {
-		width: '100%',
-		height: '100%',
 		padding: '3rem',
 	},
 	settings: {
@@ -80,6 +79,7 @@ export const SettingsPage = () => {
 	const [newPassword, setNewPassword] = useState('');
 	const [newPasswordRep, setNewPasswordRep] = useState('');
 	const [dialogOpen, setDialogOpen] = useState(false);
+	const windowArray = useWindowDimensions();
 
 	const handleDelete = () => {
 		deleteAccount(
@@ -312,20 +312,28 @@ export const SettingsPage = () => {
 	};
 
 	return (
-		<Paper theme={theme} className={classes.paper}>
-			<Grid container className={classes.container}>
-				<Grid item xs={3}>
-					{/* Menu */}
-					{renderMenu()}
-				</Grid>
+		<Grid container direction='column' justifyContent='center' alignItems='center'>
+			<Paper
+				theme={theme}
+				className={classes.paper}
+				style={{
+					width: responsiveWidth(windowArray, 300, undefined, 0.7),
+				}}
+			>
+				<Grid container className={classes.container}>
+					<Grid item xs={3}>
+						{/* Menu */}
+						{renderMenu()}
+					</Grid>
 
-				<Divider orientation='vertical' flexItem className={classes.divider} />
+					<Divider orientation='vertical' flexItem className={classes.divider} />
 
-				<Grid item className={classes.settings}>
-					{/* Settings */}
-					{menuOption === 'Conta' ? renderAccountSettings() : renderPrivacySettings()}
+					<Grid item className={classes.settings}>
+						{/* Settings */}
+						{menuOption === 'Conta' ? renderAccountSettings() : renderPrivacySettings()}
+					</Grid>
 				</Grid>
-			</Grid>
-		</Paper>
+			</Paper>
+		</Grid>
 	);
 };

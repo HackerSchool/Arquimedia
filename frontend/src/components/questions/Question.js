@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { Typography, Grid, Paper } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
@@ -8,15 +7,16 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
+import responsiveWidth from '../../hooks/responsiveWidth';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
-const useStyles = makeStyles((boxWidth) => ({
+const useStyles = makeStyles(() => ({
 	questionBox: {
 		borderRadius: 20,
 		boxShadow: '0px 8px 8px #9A9A9A',
 		backgroundColor: 'white',
 		border: '0.05rem solid #D9D9D9',
 		minWidth: '25vw',
-		maxWidth: '60vw',
 	},
 
 	answers: {
@@ -41,9 +41,7 @@ const useStyles = makeStyles((boxWidth) => ({
 		padding: 5,
 		borderColor: '#EB5757',
 		position: 'relative',
-		height: '2rem',
 		top: '-1rem',
-		width: '9rem',
 	},
 
 	bold: {
@@ -72,7 +70,6 @@ const Question = (props) => {
 	const answerBox = useRef();
 
 	const [boxWidth, setBoxWidth] = useState();
-	const [boxHeight, setBoxHeight] = useState();
 
 	const handleAnswer = (newAnswer) => {
 		setSelectedAnswer(newAnswer);
@@ -85,6 +82,7 @@ const Question = (props) => {
 		const difference = widthAll - widthAnswers - 100;
 		setBoxWidth(difference);
 	};
+	const windowArray = useWindowDimensions();
 	useEffect(() => {
 		computeQuestionTextSize();
 	}, []);
@@ -100,6 +98,7 @@ const Question = (props) => {
 			direction='row'
 			justifyContent='space-between'
 			ref={questionBox}
+			style={{ maxWidth: windowArray.width * 0.55 }}
 		>
 			<Grid
 				className={classes.question}
@@ -109,8 +108,17 @@ const Question = (props) => {
 			>
 				{/* Question's number */}
 				<Grid item xs={12}>
-					<Paper className={classes.number}>
-						<Typography className={classes.bold} variant='h5'>
+					<Paper
+						className={classes.number}
+						style={{
+							width: responsiveWidth(windowArray, undefined, 200, 0.08),
+						}}
+					>
+						<Typography
+							className={classes.bold}
+							variant='h5'
+							fontSize={responsiveWidth(windowArray, 10, undefined, 0.012)}
+						>
 							{' '}
 							{props.preview ? 'Preview' : 'Questão ' + (props.answer + 1)}{' '}
 						</Typography>
@@ -119,7 +127,12 @@ const Question = (props) => {
 
 				{/* Question's text */}
 				<Grid item xs={12} spacing={3}>
-					<Typography display='block' variant='h5' className={classes.questionText}>
+					<Typography
+						display='block'
+						variant='h5'
+						className={classes.questionText}
+						fontSize={responsiveWidth(windowArray, 10, undefined, 0.012)}
+					>
 						<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 							{props.question.text}
 						</ReactMarkdown>

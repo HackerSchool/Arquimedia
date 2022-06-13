@@ -8,7 +8,6 @@ import globalTheme from '../../globalTheme';
 const useStyles = makeStyles(() => ({
 	button: (props) => ({
 		borderRadius: 25,
-		fontSize: props.fontSize,
 		textTransform: 'none',
 		borderRigth: '4px',
 		padding: '1rem',
@@ -48,11 +47,18 @@ const IconButton = (props) => {
 					{props.iconFirst ? (
 						<>
 							<>{props.children}</>
-							<Typography variant={props.variant}> {props.text} </Typography>
+							<Typography fontSize={props.fontSize} variant={props.variant}>
+								{' '}
+								{props.text}{' '}
+							</Typography>
 						</>
 					) : (
 						<>
-							<Typography className={classes.semibold} variant={props.variant}>
+							<Typography
+								fontSize={props.fontSize}
+								className={classes.semibold}
+								variant={props.variant}
+							>
 								{' '}
 								{props.text}{' '}
 							</Typography>
@@ -74,8 +80,6 @@ IconButton.propTypes = {
 	direction: PropTypes.string,
 	iconFirst: PropTypes.bool,
 	spacing: PropTypes.number,
-	width: PropTypes.string,
-	height: PropTypes.string,
 	variant: PropTypes.string,
 	justifyContent: PropTypes.string,
 	alignItems: PropTypes.string,
