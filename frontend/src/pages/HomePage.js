@@ -68,7 +68,7 @@ export const HomePage = () => {
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
+								fontSize={responsiveWidth(windowArray, 10, 30, 0.015)}
 								text='Resolver exames'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -92,7 +92,7 @@ export const HomePage = () => {
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
+								fontSize={responsiveWidth(windowArray, 10, 30, 0.015)}
 								text='Ver o teu perfil'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -116,7 +116,7 @@ export const HomePage = () => {
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
+								fontSize={responsiveWidth(windowArray, 10, 30, 0.015)}
 								text='Ver a Leaderboard'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -140,7 +140,7 @@ export const HomePage = () => {
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
+								fontSize={responsiveWidth(windowArray, 10, 30, 0.015)}
 								text='Contribui com perguntas'
 								iconFirst={false}
 								alignItems='flex-start'
@@ -164,7 +164,7 @@ export const HomePage = () => {
 						<Grid item xs={2}>
 							<IconButton
 								direction='column'
-								fontSize={responsiveWidth(windowArray, 10, 50, 0.015)}
+								fontSize={responsiveWidth(windowArray, 10, 30, 0.015)}
 								text='Junta-te ao nosso Discord'
 								iconFirst={false}
 								alignItems='flex-start'
