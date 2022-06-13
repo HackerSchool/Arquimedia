@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
 		backgroundColor: 'white',
 		border: '0.05rem solid #D9D9D9',
 		minWidth: '25vw',
-		maxWidth: '60vw',
 	},
 
 	answers: {
@@ -99,6 +98,7 @@ const Question = (props) => {
 			direction='row'
 			justifyContent='space-between'
 			ref={questionBox}
+			style={{ maxWidth: windowArray.width * 0.55 }}
 		>
 			<Grid
 				className={classes.question}
