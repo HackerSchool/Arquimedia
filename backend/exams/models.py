@@ -1,5 +1,4 @@
 from os import extsep, rename
-from pyexpat import model
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.fields.related import ForeignKey
