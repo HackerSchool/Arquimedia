@@ -1,3 +1,4 @@
+from exams.models import Report
 from users.models import Achievement, AnswerInfo, Profile, SubjectInfo, XPEvent, XPSystem
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
@@ -213,3 +214,11 @@ class DeleteAccountSerializer(serializers.Serializer):
 		user.delete()
 
 		return password
+
+class ReportSerializer(serializers.ModelSerializer):
+	id = serializers.SlugField(read_only=True)
+	date = serializers.DateTimeField(read_only=True)
+	
+	class Meta:
+		model = Report
+		fields = ['id', 'question', 'date', 'type', 'body']
