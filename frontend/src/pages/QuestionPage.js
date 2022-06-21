@@ -34,7 +34,7 @@ import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import ArticleIcon from '@mui/icons-material/Article';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { ReactComponent as DeleteIcon } from '../assets/deleteComment.svg';
 import { ReactComponent as UpvoteIcon } from '../assets/upvote.svg';
 import { ReactComponent as DownvoteIcon } from '../assets/downvote.svg';
@@ -166,12 +166,12 @@ export default function QuestionPage() {
 	return (
 		<Grid container spacing={4} alignItems='stretch'>
 			{/* Question box */}
-			<Grid item>
+			<Grid item xs={9}>
 				<Question question={question} />
 			</Grid>
 			{/* Question info box */}
-			<Grid item>
-				<Box style={{ height: '95%', width: '95%' }}>
+			<Grid item xs={3}>
+				<Box style={{ height: '93%' }}>
 					<Typography variant='h4' fontWeight='bold' color={theme.palette.secondary.main}>
 						Detalhes
 					</Typography>
@@ -437,22 +437,34 @@ export default function QuestionPage() {
 							</Grid>
 						</Grid>
 
-						<Grid container>
+						<Grid
+							container
+							direction='row'
+							justifyContent='space-between'
+							alignItems='center'
+						>
 							<Grid item xs={11}>
 								{' '}
-								<TextField
-									value={commentText}
-									name='commentText'
-									label='Escreve aqui o teu comentário'
-									variant='outlined'
-									rows={5}
-									onChange={handleComment}
-								/>
+								<Box>
+									{' '}
+									<TextField
+										variant='standard'
+										fullWidth
+										value={commentText}
+										name='commentText'
+										placeholder='Escreve aqui o teu comentário....'
+										label=''
+										onChange={handleComment}
+										InputProps={{
+											disableUnderline: true,
+										}}
+									/>
+								</Box>
 							</Grid>
 							<Grid item xs={1}>
 								{' '}
 								<IconButton onClick={handleCommentSubmition}>
-									<PhotoCamera />
+									<SendRoundedIcon />
 								</IconButton>
 							</Grid>
 						</Grid>
