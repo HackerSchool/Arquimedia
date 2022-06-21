@@ -35,6 +35,11 @@ import remarRehype from 'remark-rehype';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import ArticleIcon from '@mui/icons-material/Article';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { ReactComponent as DeleteIcon } from '../assets/deleteComment.svg';
+import { ReactComponent as UpvoteIcon } from '../assets/upvote.svg';
+import { ReactComponent as DownvoteIcon } from '../assets/downvote.svg';
+import { ReactComponent as UpvoteFilledIcon } from '../assets/upvoteFilled.svg';
+import { ReactComponent as DownvoteFilledIcon } from '../assets/downvoteFilled.svg';
 
 const iconSelector = {
 	video: <VideoLibraryIcon />,
@@ -67,6 +72,16 @@ const useStyles = makeStyles(() => ({
 			color: theme.palette.secondary.main,
 		},
 	},
+	author: {
+		color: '#BEBEBE',
+		fontWeight: 700,
+		fontSize: 18,
+		marginLeft: '0.5rem',
+	},
+	voteCounter: {
+		fontWeight: 600,
+		fontSize: 18,
+	},
 }));
 
 export default function QuestionPage() {
@@ -75,6 +90,9 @@ export default function QuestionPage() {
 	const [question, setQuestion] = useState(null);
 	const [commentText, setCommentText] = useState('');
 	const [userID, setUserID] = useState(null);
+	const [hasUpvoted, setHasUpvoted] = useState(false);
+	const [hasDownvoted, setHasDownvoted] = useState(false);
+
 	useEffect(() => {
 		fetchQuestion(id, (res) => {
 			setQuestion(res.data);
@@ -109,7 +127,7 @@ export default function QuestionPage() {
 			console.log(res.data);
 		});
 	};
-	// TODO: Handle what happens when the user wants to remove its vote with else statemnet, and dop the itteration
+
 	const handleCommentUpvote = (commentID) => {
 		if (
 			!hasUpvotedAPI(commentID, (res) => {
@@ -118,10 +136,12 @@ export default function QuestionPage() {
 		) {
 			upvoteAPI(commentID, (res) => {
 				console.log(res.data);
+				setHasUpvoted(true);
 			});
 		} else {
 			removeUpvoteAPI(commentID, (res) => {
 				console.log(res.data);
+				setHasUpvoted(false);
 			});
 		}
 	};
@@ -133,10 +153,12 @@ export default function QuestionPage() {
 		) {
 			downvoteAPI(commentID, (res) => {
 				console.log(res.data);
+				setHasDownvoted(true);
 			});
 		} else {
 			removeDownvoteAPI(commentID, (res) => {
 				console.log(res.data);
+				setHasDownvoted(false);
 			});
 		}
 	};
@@ -248,53 +270,173 @@ export default function QuestionPage() {
 						{/* List of Comments Area */}
 						{question.comment.map((comment) => (
 							<Grid container key={comment.id}>
-								<Grid container xs={11}>
-									{/* Comment Area */}
-									<Grid item>
+								{/* Comment Area */}
+								<Grid item xs={1}>
+									{' '}
+									{/* User Photo*/}
+									<AvatarUser user={comment.author} />
+								</Grid>
+								<Grid
+									container
+									direction='column'
+									xs={11}
+									justifyContent='center'
+									alignItems='flex-start'
+								>
+									<Grid item xs={1}>
 										{' '}
-										{/* User Photo*/}
-										<AvatarUser user={comment.author} />
+										{/* Username*/}
+										<Typography className={classes.author}>
+											{comment.author.username}
+										</Typography>
 									</Grid>
-									<Grid container direction='column' xs={9}>
-										<Grid item xs={2}>
-											{' '}
-											{/* Username*/}
-											<Typography>{comment.author.username}</Typography>
-										</Grid>
-										<Grid item xs={10}>
+									<Grid container direction='row' alignItems='center'>
+										<Grid item xs={11}>
 											{' '}
 											{/* Comment content*/}{' '}
 											<Box>
 												<Typography>{comment.content}</Typography>
 											</Box>
 										</Grid>
-									</Grid>
-								</Grid>
-								<Grid container direction='column' xs={0.5}>
-									{/* Upvotes Area */}
-									<Grid item xs={6}>
-										<IconButton onClick={handleCommentUpvote(comment.id)}>
-											<PhotoCamera />
-										</IconButton>
-									</Grid>
-									<Grid item xs={6}>
-										{' '}
-										<IconButton onClick={handleCommentDownvote(comment.id)}>
-											<PhotoCamera />
-										</IconButton>
-									</Grid>
-								</Grid>
-								<Grid container direction='column' xs={0.5}>
-									{/* Delete Area */}
-									<Grid item xs={12}>
-										<IconButton onClick={handleCommentDelete(comment.id)}>
-											<PhotoCamera />
-										</IconButton>
+										<Grid
+											container
+											direction='column'
+											justifyContent='center'
+											alignItems='center'
+											xs={0.5}
+										>
+											{/* Upvotes Area */}
+											<Grid item xs={1}>
+												<IconButton
+													onClick={handleCommentUpvote(comment.id)}
+												>
+													{hasUpvoted ? (
+														<UpvoteFilledIcon />
+													) : (
+														<UpvoteIcon />
+													)}
+												</IconButton>
+											</Grid>
+											<Grid item xs={1}>
+												<Typography
+													variant='h6'
+													className={classes.voteCounter}
+												>
+													{comment.votes}
+												</Typography>
+											</Grid>
+											<Grid item xs={1}>
+												{' '}
+												<IconButton
+													onClick={handleCommentDownvote(comment.id)}
+												>
+													{hasDownvoted ? (
+														<DownvoteFilledIcon />
+													) : (
+														<DownvoteIcon />
+													)}
+												</IconButton>
+											</Grid>
+										</Grid>
+										<Grid
+											container
+											direction='column'
+											justifyContent='center'
+											alignItems='center'
+											xs={0.5}
+										>
+											{/* Delete Area */}
+											<Grid item xs={3}>
+												<IconButton
+													onClick={handleCommentDelete(comment.id)}
+												>
+													<DeleteIcon />
+												</IconButton>
+											</Grid>
+										</Grid>
 									</Grid>
 								</Grid>
 							</Grid>
 						))}
 						{/* Reply Area */}
+						<Grid container>
+							{/* Comment Area */}
+							<Grid item xs={1}></Grid>
+							<Grid
+								container
+								direction='column'
+								xs={11}
+								justifyContent='center'
+								alignItems='flex-start'
+							>
+								<Grid item xs={1}>
+									{' '}
+									{/* Username*/}
+									<Typography className={classes.author}>Jerónimo</Typography>
+								</Grid>
+								<Grid container direction='row' alignItems='center'>
+									<Grid item xs={11}>
+										{' '}
+										{/* Comment content*/}{' '}
+										<Box>
+											<Typography>
+												consectetur adipiscing elit, sed do eiusmod tempor
+												incididunt ut labore et dolore magna aliqua. Ut enim
+												ad minim veniam, quis nostrud exercitation ullamco
+												laboris
+											</Typography>
+										</Box>
+									</Grid>
+									<Grid
+										container
+										direction='column'
+										justifyContent='center'
+										alignItems='center'
+										xs={0.5}
+									>
+										{/* Upvotes Area */}
+										<Grid item xs={1}>
+											<IconButton onClick={handleCommentUpvote()}>
+												{hasUpvoted ? <UpvoteFilledIcon /> : <UpvoteIcon />}
+											</IconButton>
+										</Grid>
+										<Grid item xs={1}>
+											<Typography
+												variant='h6'
+												className={classes.voteCounter}
+											>
+												1
+											</Typography>
+										</Grid>
+										<Grid item xs={1}>
+											{' '}
+											<IconButton onClick={handleCommentDownvote()}>
+												{hasDownvoted ? (
+													<DownvoteFilledIcon />
+												) : (
+													<DownvoteIcon />
+												)}
+											</IconButton>
+										</Grid>
+									</Grid>
+									<Grid
+										container
+										direction='column'
+										justifyContent='center'
+										alignItems='center'
+										xs={0.5}
+									>
+										{/* Delete Area */}
+										<Grid item xs={3}>
+											<IconButton onClick={handleCommentDelete()}>
+												<DeleteIcon />
+											</IconButton>
+										</Grid>
+									</Grid>
+								</Grid>
+							</Grid>
+						</Grid>
+
 						<Grid container>
 							<Grid item xs={11}>
 								{' '}
