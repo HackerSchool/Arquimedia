@@ -1,10 +1,32 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import {
+	Grid,
+	Typography,
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	TextField,
+	IconButton,
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Question from '../components/questions/Question';
-import { fetchQuestion } from '../api';
+import {
+	fetchQuestion,
+	getUser,
+	createCommentAPI,
+	getProfile,
+	deleteCommentAPI,
+	upvoteAPI,
+	downvoteAPI,
+	hasUpvotedAPI,
+	hasDownvotedAPI,
+	removeUpvoteAPI,
+	removeDownvoteAPI,
+} from '../api';
 import theme from '../globalTheme';
 import Box from '../components/box/Box';
+import AvatarUser from '../components/avatar/AvatarUser';
 import makeStyles from '@mui/styles/makeStyles';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -12,6 +34,7 @@ import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import ArticleIcon from '@mui/icons-material/Article';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const iconSelector = {
 	video: <VideoLibraryIcon />,
@@ -50,15 +73,74 @@ export default function QuestionPage() {
 	const classes = useStyles();
 	const { id } = useParams();
 	const [question, setQuestion] = useState(null);
-
+	const [commentText, setCommentText] = useState('');
+	const [userID, setUserID] = useState(null);
 	useEffect(() => {
 		fetchQuestion(id, (res) => {
 			setQuestion(res.data);
 		});
 	}, []);
 
-	if (question === null) return <></>;
+	useEffect(() => {
+		getUser((res1) => {
+			getProfile(res1.data.profile, (res2) => {
+				setUserID(res2.data.user.id);
+			});
+		});
+	}, []);
 
+	const handleComment = (e) => {
+		setCommentText(e.target.value);
+	};
+
+	const handleCommentSubmition = () => {
+		const body = {
+			content: commentText,
+			author: userID,
+			question: id,
+		};
+
+		createCommentAPI(body, (res) => {
+			console.log(res.data);
+		});
+	};
+	const handleCommentDelete = (commentID) => {
+		deleteCommentAPI(commentID, (res) => {
+			console.log(res.data);
+		});
+	};
+	// TODO: Handle what happens when the user wants to remove its vote with else statemnet, and dop the itteration
+	const handleCommentUpvote = (commentID) => {
+		if (
+			!hasUpvotedAPI(commentID, (res) => {
+				console.log(res.data);
+			})
+		) {
+			upvoteAPI(commentID, (res) => {
+				console.log(res.data);
+			});
+		} else {
+			removeUpvoteAPI(commentID, (res) => {
+				console.log(res.data);
+			});
+		}
+	};
+	const handleCommentDownvote = (commentID) => {
+		if (
+			!hasDownvotedAPI(commentID, (res) => {
+				console.log(res.data);
+			})
+		) {
+			downvoteAPI(commentID, (res) => {
+				console.log(res.data);
+			});
+		} else {
+			removeDownvoteAPI(commentID, (res) => {
+				console.log(res.data);
+			});
+		}
+	};
+	if (question === null) return <></>;
 	return (
 		<Grid container spacing={4} alignItems='stretch'>
 			{/* Question box */}
@@ -160,7 +242,81 @@ export default function QuestionPage() {
 				</Accordion>
 			</Grid>
 			{/* Comments */}
-			<Grid item xs={12}></Grid>
+			<Grid item xs={12}>
+				<Box>
+					<Grid container direction='column'>
+						{/* List of Comments Area */}
+						{question.comment.map((comment) => (
+							<Grid container key={comment.id}>
+								<Grid container xs={11}>
+									{/* Comment Area */}
+									<Grid item>
+										{' '}
+										{/* User Photo*/}
+										<AvatarUser user={comment.author} />
+									</Grid>
+									<Grid container direction='column' xs={9}>
+										<Grid item xs={2}>
+											{' '}
+											{/* Username*/}
+											<Typography>{comment.author.username}</Typography>
+										</Grid>
+										<Grid item xs={10}>
+											{' '}
+											{/* Comment content*/}{' '}
+											<Box>
+												<Typography>{comment.content}</Typography>
+											</Box>
+										</Grid>
+									</Grid>
+								</Grid>
+								<Grid container direction='column' xs={0.5}>
+									{/* Upvotes Area */}
+									<Grid item xs={6}>
+										<IconButton onClick={handleCommentUpvote(comment.id)}>
+											<PhotoCamera />
+										</IconButton>
+									</Grid>
+									<Grid item xs={6}>
+										{' '}
+										<IconButton onClick={handleCommentDownvote(comment.id)}>
+											<PhotoCamera />
+										</IconButton>
+									</Grid>
+								</Grid>
+								<Grid container direction='column' xs={0.5}>
+									{/* Delete Area */}
+									<Grid item xs={12}>
+										<IconButton onClick={handleCommentDelete(comment.id)}>
+											<PhotoCamera />
+										</IconButton>
+									</Grid>
+								</Grid>
+							</Grid>
+						))}
+						{/* Reply Area */}
+						<Grid container>
+							<Grid item xs={11}>
+								{' '}
+								<TextField
+									value={commentText}
+									name='commentText'
+									label='Escreve aqui o teu comentário'
+									variant='outlined'
+									rows={5}
+									onChange={handleComment}
+								/>
+							</Grid>
+							<Grid item xs={1}>
+								{' '}
+								<IconButton onClick={handleCommentSubmition}>
+									<PhotoCamera />
+								</IconButton>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Box>
+			</Grid>
 		</Grid>
 	);
 }
