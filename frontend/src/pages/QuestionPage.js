@@ -102,7 +102,7 @@ export default function QuestionPage() {
 
 	useEffect(() => {
 		getUser((res1) => {
-			if (user?.mod) {
+			if (res1.data?.mod) {
 				setIsUserMod(true);
 			}
 
