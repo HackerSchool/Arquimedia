@@ -92,6 +92,7 @@ export default function QuestionPage() {
 	const [userID, setUserID] = useState(null);
 	const [hasUpvoted, setHasUpvoted] = useState(false);
 	const [hasDownvoted, setHasDownvoted] = useState(false);
+	const [isUserMod, setIsUserMod] = useState(false);
 
 	useEffect(() => {
 		fetchQuestion(id, (res) => {
@@ -101,6 +102,10 @@ export default function QuestionPage() {
 
 	useEffect(() => {
 		getUser((res1) => {
+			if (user?.mod) {
+				setIsUserMod(true);
+			}
+
 			getProfile(res1.data.profile, (res2) => {
 				setUserID(res2.data.user.id);
 			});
@@ -347,18 +352,22 @@ export default function QuestionPage() {
 										>
 											{/* Delete Area */}
 											<Grid item xs={3}>
-												<IconButton
-													onClick={handleCommentDelete(comment.id)}
-												>
-													<DeleteIcon />
-												</IconButton>
+												{userID === comment.author.id || isUserMod ? (
+													<IconButton
+														onClick={handleCommentDelete(comment.id)}
+													>
+														<DeleteIcon />
+													</IconButton>
+												) : (
+													<></>
+												)}
 											</Grid>
 										</Grid>
 									</Grid>
 								</Grid>
 							</Grid>
 						))}
-						{/* Reply Area */}
+						{/*Dummy Comment*/}
 						<Grid container>
 							{/* Comment Area */}
 							<Grid item xs={1}></Grid>
