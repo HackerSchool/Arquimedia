@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import {
 	Grid,
@@ -40,6 +39,8 @@ import { ReactComponent as UpvoteIcon } from '../assets/upvote.svg';
 import { ReactComponent as DownvoteIcon } from '../assets/downvote.svg';
 import { ReactComponent as UpvoteFilledIcon } from '../assets/upvoteFilled.svg';
 import { ReactComponent as DownvoteFilledIcon } from '../assets/downvoteFilled.svg';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import responsiveWidth from '../hooks/responsiveWidth';
 
 const iconSelector = {
 	video: <VideoLibraryIcon />,
@@ -93,6 +94,8 @@ export default function QuestionPage() {
 	const [hasUpvoted, setHasUpvoted] = useState(false);
 	const [hasDownvoted, setHasDownvoted] = useState(false);
 	const [isUserMod, setIsUserMod] = useState(false);
+
+	const windowArray = useWindowDimensions();
 
 	useEffect(() => {
 		fetchQuestion(id, (res) => {
@@ -177,23 +180,60 @@ export default function QuestionPage() {
 			{/* Question info box */}
 			<Grid item xs={3}>
 				<Box style={{ height: '93%' }}>
-					<Typography variant='h4' fontWeight='bold' color={theme.palette.secondary.main}>
+					<Typography
+						variant='h4'
+						fontWeight='bold'
+						color={theme.palette.secondary.main}
+						style={{
+							fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
+						}}
+					>
 						Detalhes
 					</Typography>
-					<Typography variant='h6' className={classes.itemInfo}>
+					<Typography
+						variant='h6'
+						className={classes.itemInfo}
+						style={{
+							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+						}}
+					>
 						<span className={classes.itemInfoLabel}>Disciplina:</span>{' '}
 						{question.subject}
 					</Typography>
-					<Typography variant='h6' className={classes.itemInfo}>
+					<Typography
+						variant='h6'
+						className={classes.itemInfo}
+						style={{
+							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+						}}
+					>
 						<span className={classes.itemInfoLabel}>Tema:</span> {question.subSubject}
 					</Typography>
-					<Typography variant='h6' className={classes.itemInfo}>
+					<Typography
+						variant='h6'
+						className={classes.itemInfo}
+						style={{
+							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+						}}
+					>
 						<span className={classes.itemInfoLabel}>Ano:</span> {question.year}
 					</Typography>
-					<Typography variant='h6' className={classes.itemInfo}>
+					<Typography
+						variant='h6'
+						className={classes.itemInfo}
+						style={{
+							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+						}}
+					>
 						<span className={classes.itemInfoLabel}>Fonte:</span> {question.source}
 					</Typography>
-					<Typography variant='h6' className={classes.itemInfo}>
+					<Typography
+						variant='h6'
+						className={classes.itemInfo}
+						style={{
+							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+						}}
+					>
 						<span className={classes.itemInfoLabel}>Autor:</span>{' '}
 					</Typography>
 				</Box>
@@ -201,17 +241,34 @@ export default function QuestionPage() {
 			{/* Resolution */}
 			<Grid item xs={12}>
 				<Box>
-					<Typography variant='h4' fontWeight='bold' color={theme.palette.secondary.main}>
+					<Typography
+						variant='h4'
+						fontWeight='bold'
+						color={theme.palette.secondary.main}
+						style={{
+							fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
+						}}
+					>
 						Resolução
 					</Typography>
 					{question.resolution ? (
-						<Typography variant='h6' fontWeight='normal'>
+						<Typography
+							variant='h6'
+							fontWeight='normal'
+							style={{
+								fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
+							}}
+						>
 							<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 								{question.resolution}
 							</ReactMarkdown>
 						</Typography>
 					) : (
-						<Typography>
+						<Typography
+							style={{
+								fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
+							}}
+						>
 							Ainda estamos a trabalhar na resolução desta pergunta...
 						</Typography>
 					)}
@@ -225,6 +282,9 @@ export default function QuestionPage() {
 							variant='h4'
 							fontWeight='bold'
 							color={theme.palette.secondary.main}
+							style={{
+								fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
+							}}
 						>
 							+ Recursos
 						</Typography>
@@ -244,6 +304,14 @@ export default function QuestionPage() {
 											variant='h6'
 											fontWeight='normal'
 											key={resource.text}
+											style={{
+												fontSize: responsiveWidth(
+													windowArray,
+													12,
+													20,
+													0.012
+												),
+											}}
 										>
 											<a
 												style={{
@@ -261,7 +329,13 @@ export default function QuestionPage() {
 								))}
 							</>
 						) : (
-							<Typography variant='h6' fontWeight='normal'>
+							<Typography
+								variant='h6'
+								fontWeight='normal'
+								style={{
+									fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
+								}}
+							>
 								Ainda estamos à procura de recursos...
 							</Typography>
 						)}
@@ -291,7 +365,17 @@ export default function QuestionPage() {
 									<Grid item xs={1}>
 										{' '}
 										{/* Username*/}
-										<Typography className={classes.author}>
+										<Typography
+											className={classes.author}
+											style={{
+												fontSize: responsiveWidth(
+													windowArray,
+													15,
+													20,
+													0.012
+												),
+											}}
+										>
 											{comment.author.username}
 										</Typography>
 									</Grid>
@@ -300,7 +384,18 @@ export default function QuestionPage() {
 											{' '}
 											{/* Comment content*/}{' '}
 											<Box>
-												<Typography>{comment.content}</Typography>
+												<Typography
+													style={{
+														fontSize: responsiveWidth(
+															windowArray,
+															12,
+															20,
+															0.012
+														),
+													}}
+												>
+													{comment.content}
+												</Typography>
 											</Box>
 										</Grid>
 										<Grid
@@ -316,9 +411,27 @@ export default function QuestionPage() {
 													onClick={handleCommentUpvote(comment.id)}
 												>
 													{hasUpvoted ? (
-														<UpvoteFilledIcon />
+														<UpvoteFilledIcon
+															style={{
+																height: responsiveWidth(
+																	windowArray,
+																	22,
+																	50,
+																	0.012
+																),
+															}}
+														/>
 													) : (
-														<UpvoteIcon />
+														<UpvoteIcon
+															style={{
+																height: responsiveWidth(
+																	windowArray,
+																	22,
+																	50,
+																	0.012
+																),
+															}}
+														/>
 													)}
 												</IconButton>
 											</Grid>
@@ -326,6 +439,14 @@ export default function QuestionPage() {
 												<Typography
 													variant='h6'
 													className={classes.voteCounter}
+													style={{
+														fontSize: responsiveWidth(
+															windowArray,
+															12,
+															20,
+															0.012
+														),
+													}}
 												>
 													{comment.votes}
 												</Typography>
@@ -336,9 +457,27 @@ export default function QuestionPage() {
 													onClick={handleCommentDownvote(comment.id)}
 												>
 													{hasDownvoted ? (
-														<DownvoteFilledIcon />
+														<DownvoteFilledIcon
+															style={{
+																height: responsiveWidth(
+																	windowArray,
+																	22,
+																	50,
+																	0.012
+																),
+															}}
+														/>
 													) : (
-														<DownvoteIcon />
+														<DownvoteIcon
+															style={{
+																height: responsiveWidth(
+																	windowArray,
+																	22,
+																	50,
+																	0.012
+																),
+															}}
+														/>
 													)}
 												</IconButton>
 											</Grid>
@@ -356,7 +495,16 @@ export default function QuestionPage() {
 													<IconButton
 														onClick={handleCommentDelete(comment.id)}
 													>
-														<DeleteIcon />
+														<DeleteIcon
+															style={{
+																height: responsiveWidth(
+																	windowArray,
+																	18,
+																	50,
+																	0.015
+																),
+															}}
+														/>
 													</IconButton>
 												) : (
 													<></>
@@ -381,14 +529,30 @@ export default function QuestionPage() {
 								<Grid item xs={1}>
 									{' '}
 									{/* Username*/}
-									<Typography className={classes.author}>Jerónimo</Typography>
+									<Typography
+										className={classes.author}
+										style={{
+											fontSize: responsiveWidth(windowArray, 15, 20, 0.012),
+										}}
+									>
+										Jerónimo
+									</Typography>
 								</Grid>
 								<Grid container direction='row' alignItems='center'>
 									<Grid item xs={11}>
 										{' '}
 										{/* Comment content*/}{' '}
 										<Box>
-											<Typography>
+											<Typography
+												style={{
+													fontSize: responsiveWidth(
+														windowArray,
+														12,
+														20,
+														0.012
+													),
+												}}
+											>
 												consectetur adipiscing elit, sed do eiusmod tempor
 												incididunt ut labore et dolore magna aliqua. Ut enim
 												ad minim veniam, quis nostrud exercitation ullamco
@@ -406,13 +570,43 @@ export default function QuestionPage() {
 										{/* Upvotes Area */}
 										<Grid item xs={1}>
 											<IconButton onClick={handleCommentUpvote()}>
-												{hasUpvoted ? <UpvoteFilledIcon /> : <UpvoteIcon />}
+												{hasUpvoted ? (
+													<UpvoteFilledIcon
+														style={{
+															height: responsiveWidth(
+																windowArray,
+																22,
+																50,
+																0.012
+															),
+														}}
+													/>
+												) : (
+													<UpvoteIcon
+														style={{
+															height: responsiveWidth(
+																windowArray,
+																22,
+																50,
+																0.012
+															),
+														}}
+													/>
+												)}
 											</IconButton>
 										</Grid>
 										<Grid item xs={1}>
 											<Typography
 												variant='h6'
 												className={classes.voteCounter}
+												style={{
+													fontSize: responsiveWidth(
+														windowArray,
+														12,
+														20,
+														0.012
+													),
+												}}
 											>
 												1
 											</Typography>
@@ -421,9 +615,27 @@ export default function QuestionPage() {
 											{' '}
 											<IconButton onClick={handleCommentDownvote()}>
 												{hasDownvoted ? (
-													<DownvoteFilledIcon />
+													<DownvoteFilledIcon
+														style={{
+															height: responsiveWidth(
+																windowArray,
+																22,
+																50,
+																0.012
+															),
+														}}
+													/>
 												) : (
-													<DownvoteIcon />
+													<DownvoteIcon
+														style={{
+															height: responsiveWidth(
+																windowArray,
+																22,
+																50,
+																0.012
+															),
+														}}
+													/>
 												)}
 											</IconButton>
 										</Grid>
@@ -438,7 +650,16 @@ export default function QuestionPage() {
 										{/* Delete Area */}
 										<Grid item xs={3}>
 											<IconButton onClick={handleCommentDelete()}>
-												<DeleteIcon />
+												<DeleteIcon
+													style={{
+														height: responsiveWidth(
+															windowArray,
+															18,
+															50,
+															0.015
+														),
+													}}
+												/>
 											</IconButton>
 										</Grid>
 									</Grid>
