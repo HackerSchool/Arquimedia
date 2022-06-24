@@ -105,7 +105,6 @@ const Navbar = () => {
 				className={classes.navbar}
 				style={{
 					marginBottom: responsiveHeight(windowArray, undefined, undefined, 0.05),
-					width: windowArray.width,
 				}}
 			>
 				<Toolbar className={classes.toolbar}>
