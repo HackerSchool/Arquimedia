@@ -16,12 +16,12 @@ export function Chat(props) {
 	const handleCommentSubmition = () => {
 		const body = {
 			content: commentText,
-			author: props.userID,
 			question: props.questionID,
 		};
 
 		createCommentAPI(body, (res) => {
-			console.log(res.data);
+			const newComments = comments.concat(res.data);
+			setComments(newComments);
 		});
 	};
 
