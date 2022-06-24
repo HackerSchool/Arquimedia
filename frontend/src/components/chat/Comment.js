@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import {
-	deleteCommentAPI,
+	/* deleteCommentAPI, */
 	upvoteAPI,
 	downvoteAPI,
-	hasUpvotedAPI,
-	hasDownvotedAPI,
 	removeUpvoteAPI,
 	removeDownvoteAPI,
 } from '../../api';
@@ -34,51 +32,45 @@ const useStyles = makeStyles(() => ({
 }));
 export default function Comment(props) {
 	const classes = useStyles();
-	const [hasUpvoted, setHasUpvoted] = useState(false);
-	const [hasDownvoted, setHasDownvoted] = useState(false);
+	const [voted, setVoted] = useState(props.comment.voted);
+	const [votes, setVotes] = useState(props.comment.votes);
 
 	const windowArray = useWindowDimensions();
 
-	const handleCommentDelete = (commentID) => {
-		deleteCommentAPI(commentID, (res) => {
-			console.log(res.data);
+	const handleCommentDelete = () => {};
+
+	const handleCommentUpvote = () => {
+		let votesToAdd = 1;
+		if (voted === 1) {
+			removeUpvoteAPI(props.comment.id, () => {
+				setVoted(0);
+				setVotes(votes - 1);
+			});
+			return;
+		} else if (voted === -1) votesToAdd++;
+
+		upvoteAPI(props.comment.id, () => {
+			setVoted(1);
+			setVotes(votes + votesToAdd);
 		});
 	};
 
-	const handleCommentUpvote = (commentID) => {
-		if (
-			!hasUpvotedAPI(commentID, (res) => {
-				console.log(res.data);
-			})
-		) {
-			upvoteAPI(commentID, (res) => {
-				console.log(res.data);
-				setHasUpvoted(true);
+	const handleCommentDownvote = () => {
+		let votesToRemove = 1;
+		if (voted === -1) {
+			removeDownvoteAPI(props.comment.id, () => {
+				setVoted(0);
+				setVotes(votes + 1);
 			});
-		} else {
-			removeUpvoteAPI(commentID, (res) => {
-				console.log(res.data);
-				setHasUpvoted(false);
-			});
-		}
+			return;
+		} else if (voted === 1) votesToRemove++;
+
+		downvoteAPI(props.comment.id, () => {
+			setVoted(-1);
+			setVotes(votes - votesToRemove);
+		});
 	};
-	const handleCommentDownvote = (commentID) => {
-		if (
-			!hasDownvotedAPI(commentID, (res) => {
-				console.log(res.data);
-			})
-		) {
-			downvoteAPI(commentID, (res) => {
-				console.log(res.data);
-				setHasDownvoted(true);
-			});
-		} else {
-			removeDownvoteAPI(commentID, (res) => {
-				console.log(res.data);
-				setHasDownvoted(false);
-			});
-		}
-	};
+
 	return (
 		<Grid container>
 			{/* Comment Area */}
@@ -129,8 +121,8 @@ export default function Comment(props) {
 					>
 						{/* Upvotes Area */}
 						<Grid item xs={1}>
-							<IconButton onClick={handleCommentUpvote(props.comment.id)}>
-								{hasUpvoted ? (
+							<IconButton onClick={() => handleCommentUpvote()}>
+								{voted === 1 ? (
 									<UpvoteFilledIcon
 										style={{
 											height: responsiveWidth(windowArray, 22, 50, 0.012),
@@ -153,13 +145,13 @@ export default function Comment(props) {
 									fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
 								}}
 							>
-								{props.comment.votes}
+								{votes}
 							</Typography>
 						</Grid>
 						<Grid item xs={1}>
 							{' '}
-							<IconButton onClick={handleCommentDownvote(props.comment.id)}>
-								{hasDownvoted ? (
+							<IconButton onClick={() => handleCommentDownvote()}>
+								{voted === -1 ? (
 									<DownvoteFilledIcon
 										style={{
 											height: responsiveWidth(windowArray, 22, 50, 0.012),
@@ -185,7 +177,7 @@ export default function Comment(props) {
 						{/* Delete Area */}
 						<Grid item xs={3}>
 							{props.userID === props.comment.author.id || props.isUserMod ? (
-								<IconButton onClick={handleCommentDelete(props.comment.id)}>
+								<IconButton onClick={() => handleCommentDelete(props.comment.id)}>
 									<DeleteIcon
 										style={{
 											height: responsiveWidth(windowArray, 18, 50, 0.015),

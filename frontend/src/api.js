@@ -72,32 +72,24 @@ export async function questionInfo(id, successCall) {
 		.catch((error) => console.log(error));
 }
 
-export async function hasDownvotedAPI(id, successCall) {
-	axios.get('api/has_downvoted/' + id).then((res) => successCall(res));
-}
-
-export async function hasUpvotedAPI(id, successCall) {
-	axios.get('api/has_upvoted/' + id).then((res) => successCall(res));
-}
-
 export async function upvoteAPI(id, successCall) {
 	axios.post('api/upvote/' + id).then((res) => successCall(res));
-}
-
-export async function downvoteAPI(id, successCall) {
-	axios.post('api/downvote/' + id).then((res) => successCall(res));
-}
-
-export async function deleteCommentAPI(id, successCall) {
-	axios.delete('api/comment/' + id).then((res) => successCall(res));
 }
 
 export async function removeUpvoteAPI(id, successCall) {
 	axios.delete('api/upvote/' + id).then((res) => successCall(res));
 }
 
+export async function downvoteAPI(id, successCall) {
+	axios.post('api/downvote/' + id).then((res) => successCall(res));
+}
+
 export async function removeDownvoteAPI(id, successCall) {
 	axios.delete('api/downvote/' + id).then((res) => successCall(res));
+}
+
+export async function deleteCommentAPI(id, successCall) {
+	axios.delete('api/comment/' + id).then((res) => successCall(res));
 }
 
 export async function createCommentAPI(body, successCall) {
