@@ -39,6 +39,7 @@ class QuestionShortSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
 	voted = serializers.SerializerMethodField()
+	author = UserSerializer()
 
 	class Meta:
 		model = Comment
