@@ -208,7 +208,7 @@ class DownvoteCommentView(APIView):
 		comment.downvoters.add(request.user)
 		comment.save()
 
-		return Response("Comment downvoted!".data, status=status.HTTP_200_OK)
+		return Response("Comment downvoted!", status=status.HTTP_200_OK)
 
 	# Removes a downvote from a Comment
 	def delete(self, request, id):
