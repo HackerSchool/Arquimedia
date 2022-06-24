@@ -81,7 +81,7 @@ export default function QuestionPage() {
 		<Grid container spacing={4} alignItems='stretch'>
 			{/* Question box */}
 			<Grid item xs={9}>
-				<Question question={question} />
+				<Question question={question} overrideResponsive={true} />
 			</Grid>
 			{/* Question info box */}
 			<Grid item xs={3}>
