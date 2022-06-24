@@ -7,6 +7,7 @@ import { createCommentAPI } from '../../api';
 
 export function Chat(props) {
 	const [commentText, setCommentText] = useState('');
+	const [comments, setComments] = useState(props.messageArray);
 
 	const handleComment = (e) => {
 		setCommentText(e.target.value);
@@ -23,14 +24,21 @@ export function Chat(props) {
 			console.log(res.data);
 		});
 	};
+
+	const deleteComment = (id) => {
+		const newComments = comments.filter((e) => e.id !== id);
+		setComments(newComments);
+	};
+
 	return (
 		<Grid container direction='column'>
-			{props.messageArray.map((comment) => (
+			{comments.map((comment) => (
 				<Comment
 					comment={comment}
 					key={comment.id}
 					userID={props.userID}
 					isUserMod={props.isUserMod}
+					deleteComment={deleteComment}
 				></Comment>
 			))}
 			<Grid container direction='row' justifyContent='space-between' alignItems='center'>

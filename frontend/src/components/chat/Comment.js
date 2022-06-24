@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-	/* deleteCommentAPI, */
+	deleteCommentAPI,
 	upvoteAPI,
 	downvoteAPI,
 	removeUpvoteAPI,
@@ -37,7 +37,11 @@ export default function Comment(props) {
 
 	const windowArray = useWindowDimensions();
 
-	const handleCommentDelete = () => {};
+	const handleCommentDelete = () => {
+		deleteCommentAPI(props.comment.id, () => {
+			props.deleteComment(props.comment.id);
+		});
+	};
 
 	const handleCommentUpvote = () => {
 		let votesToAdd = 1;
@@ -177,7 +181,7 @@ export default function Comment(props) {
 						{/* Delete Area */}
 						<Grid item xs={3}>
 							{props.userID === props.comment.author.id || props.isUserMod ? (
-								<IconButton onClick={() => handleCommentDelete(props.comment.id)}>
+								<IconButton onClick={() => handleCommentDelete()}>
 									<DeleteIcon
 										style={{
 											height: responsiveWidth(windowArray, 18, 50, 0.015),
