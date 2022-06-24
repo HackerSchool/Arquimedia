@@ -38,24 +38,23 @@ class QuestionShortSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-	author = UserSerializer(many=False)
-	question = QuestionShortSerializer(many=False)
-
+	voted = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Comment
-		fields = ("id", "content", "author", "votes", "date", "question")
+		fields = ("id", "content", "author", "votes", "voted", "date", "question")
 
-	def create(self, validated_data):
-		content = validated_data["content"]
-		author = User.objects.get(id=validated_data["author"]["id"])
-		question = Question.objects.get(id=validated_data["question"]["id"])
-		comment = Comment.objects.create(
-			content=content,
-			author=author,
-			question=question
-		)
-		return comment
+	def get_voted(self, obj):
+		current_user = self.context.user
+		comment = obj
+
+		if current_user in comment.upvoters.all():
+			return 1
+		
+		if current_user in comment.downvoters.all():
+			return -1
+
+		return 0
 
 
 class CommentCreateSerializer(serializers.Serializer):

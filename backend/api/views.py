@@ -125,7 +125,7 @@ class CommentView(APIView):
 			
 		comment = get_object_or_404(Comment, id=id)
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response(self.serializer_class(comment, context=request).data, status=status.HTTP_200_OK)
 
 	def post(self, request):
 		if not self.request.user.is_authenticated:
@@ -172,7 +172,7 @@ class UpvoteCommentView(APIView):
 		comment.save()
 
 	
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response("Comment upvoted!", status=status.HTTP_200_OK)
 
 	# Removes an upvote from a Comment
 	def delete(self, request, id):
@@ -185,7 +185,7 @@ class UpvoteCommentView(APIView):
 		comment.upvoters.remove(request.user)
 		comment.save()
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response("Removed upvote!", status=status.HTTP_200_OK)
 
 
 
@@ -208,7 +208,7 @@ class DownvoteCommentView(APIView):
 		comment.downvoters.add(request.user)
 		comment.save()
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response("Comment downvoted!".data, status=status.HTTP_200_OK)
 
 	# Removes a downvote from a Comment
 	def delete(self, request, id):
@@ -221,29 +221,7 @@ class DownvoteCommentView(APIView):
 		comment.downvoters.remove(request.user)
 		comment.save()
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
-
-
-class HasUserUpvoted(APIView):
-	permission_classes = [IsAuthenticated]
-
-	def get(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
-		if request.user in comment.upvoters.all():
-			return Response(status=status.HTTP_200_OK)
-		
-		else: return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-class HasUserDownvoted(APIView):
-	permission_classes = [IsAuthenticated]
-
-	def get(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
-		if request.user in comment.downvoters.all():
-			return Response(status=status.HTTP_200_OK)
-		
-		else: return Response(status=status.HTTP_400_BAD_REQUEST)
+		return Response("Removed downvote", status=status.HTTP_200_OK)
 
 
 class ExamView(APIView):
