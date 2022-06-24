@@ -6,13 +6,12 @@ import { ReactComponent as Emoji } from '../assets/winking_emoji.svg';
 import NormalButton from '../components/buttons/NormalButton';
 import { userContext } from '../context/UserContextProvider';
 import { HomePage } from './HomePage';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import responsiveWidth from '../hooks/responsiveWidth';
+import responsiveHeight from '../hooks/responsiveHeight';
 
 const useStyles = makeStyles(() => ({
-	mainBox: {
-		marginTop: '5vh',
-	},
 	slogan: {
-		fontSize: 55,
 		textAlign: 'center',
 	},
 	girl: {
@@ -23,6 +22,7 @@ const useStyles = makeStyles(() => ({
 const LandingPage = () => {
 	const classes = useStyles();
 	const [user, loading] = useContext(userContext);
+	const windowArray = useWindowDimensions();
 
 	if (!loading && user !== null) {
 		return <HomePage />;
@@ -31,27 +31,53 @@ const LandingPage = () => {
 	return (
 		!loading && (
 			<Grid
+				style={{
+					height: windowArray.height,
+					marginTop: -responsiveHeight(windowArray, undefined, undefined, 0.1),
+				}}
 				container
-				className={classes.mainBox}
 				xs={12}
 				justifyContent='center'
 				alignItems='center'
-				spacing={8}
+				spacing={4}
 			>
-				<Grid item container xs={4} direction='column' align='center' spacing={6}>
+				<Grid
+					item
+					container
+					direction='column'
+					justifyContent='center'
+					alignItems='center'
+					spacing={6}
+					style={{ minWidth: '20rem' }}
+					xs={6}
+				>
 					<Grid item>
-						<Typography className={classes.slogan}>
+						<Typography
+							style={{ fontSize: responsiveWidth(windowArray, 10, 60, 0.05) }}
+							className={classes.slogan}
+						>
 							Exames nacionais
 							<br />
-							<i>made easy</i> <Emoji />
+							<i>made easy</i>{' '}
+							<Emoji style={{ width: responsiveWidth(windowArray, 10, 60, 0.05) }} />
 						</Typography>
 					</Grid>
-					<Grid xs={6} item style={{ minWidth: '19rem' }}>
-						<NormalButton text='Inscreve-te' href='/registar' fontSize={41} />
+					<Grid xs={6} item>
+						<NormalButton
+							text='Inscreve-te'
+							href='/registar'
+							fontSize={responsiveWidth(windowArray, 10, 45, 0.04)}
+						/>
 					</Grid>
 				</Grid>
-				<Grid item>
-					<Girl className={classes.girl} />
+				<Grid container xs={6}>
+					<Girl
+						style={{
+							maxHeight: windowArray.height - 100,
+							width: responsiveWidth(windowArray, 250, undefined, 0.3),
+						}}
+						className={classes.girl}
+					/>
 				</Grid>
 			</Grid>
 		)

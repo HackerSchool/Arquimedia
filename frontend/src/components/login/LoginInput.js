@@ -5,25 +5,19 @@ import React, { useState } from 'react';
 import NormalButton from '../buttons/NormalButton';
 import { ReactComponent as Logo } from '../../assets/logo_white.svg';
 import { useSnackbar } from 'notistack';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import responsiveWidth from '../../hooks/responsiveWidth';
+import responsiveHeight from '../../hooks/responsiveHeight';
 
 const useStyles = makeStyles((theme) => ({
 	input: {
 		backgroundColor: '#fff',
 		borderRadius: 50,
 		disableUnderline: true,
-		height: 65,
-		width: '22rem',
 	},
-	container: {
-		width: '100%',
-	},
-	containerForm: {
-		width: '100%',
-		marginTop: '7rem',
-	},
+
 	resetPasswordText: {
 		color: theme.palette.background.default,
-		fontSize: 18,
 		'&:hover': {
 			color: theme.palette.secondary.main,
 		},
@@ -40,6 +34,7 @@ const LoginInput = () => {
 	const handleChangePassword = (e) => setPassword(e.target.value);
 
 	const { enqueueSnackbar } = useSnackbar();
+	const windowArray = useWindowDimensions();
 
 	const handleClick = () => {
 		logIn(username, password, (error) => {
@@ -62,28 +57,43 @@ const LoginInput = () => {
 
 	return (
 		<Grid
-			className={classes.container}
 			container
-			spacing={4}
 			direction='column'
 			alignContent='center'
+			justifyContent='flex-start'
+			style={{ height: windowArray.height }}
 		>
 			<Grid item>
 				<a href='/'>
-					<Logo className={classes.logo} />
+					<Logo
+						className={classes.logo}
+						style={{ width: responsiveWidth(windowArray, 170, undefined, 0.24) }}
+					/>
 				</a>
 			</Grid>
 			<Grid
-				className={classes.containerForm}
+				style={{
+					marginTop: responsiveHeight(windowArray, undefined, undefined, 0.1),
+				}}
 				container
-				spacing={4}
+				spacing={3}
 				direction='column'
-				justifyContent='center'
+				justifyContent='flex-start'
+				alignItems='center'
 			>
 				<Grid item>
 					<InputBase
 						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+						style={{
+							width: responsiveWidth(windowArray, 150, undefined, 0.2),
+							height: responsiveHeight(windowArray, 30, undefined, 0.06),
+						}}
+						inputProps={{
+							style: {
+								margin: '0 1rem 0 1rem',
+								fontSize: responsiveWidth(windowArray, undefined, 30, 0.017),
+							},
+						}}
 						margin='dense'
 						variant='outlined'
 						placeholder='Nome de utilizador'
@@ -94,7 +104,16 @@ const LoginInput = () => {
 				<Grid item>
 					<InputBase
 						className={classes.input}
-						inputProps={{ style: { margin: '0 1rem 0 1rem', fontSize: 26 } }}
+						style={{
+							width: responsiveWidth(windowArray, 150, undefined, 0.2),
+							height: responsiveHeight(windowArray, 30, undefined, 0.06),
+						}}
+						inputProps={{
+							style: {
+								margin: '0 1rem 0 1rem',
+								fontSize: responsiveWidth(windowArray, 10, 30, 0.017),
+							},
+						}}
 						variant='outlined'
 						placeholder='Password'
 						type='password'
@@ -103,15 +122,32 @@ const LoginInput = () => {
 					/>
 				</Grid>
 				<Grid item>
-					<Link className={classes.resetPasswordText} variant='h5' href='/password/reset'>
+					<Link
+						className={classes.resetPasswordText}
+						style={{ fontSize: responsiveWidth(windowArray, undefined, 18, 0.02) }}
+						variant='h5'
+						href='/password/reset'
+					>
 						Não sabes a tua Password ?
 					</Link>
 				</Grid>
-				<Grid item style={{ marginTop: '4rem' }}>
-					<NormalButton fontSize={45} text='Entrar' onClick={handleClick} />
+				<Grid
+					item
+					style={{ marginTop: responsiveHeight(windowArray, undefined, undefined, 0.05) }}
+				>
+					<NormalButton
+						fontSize={responsiveWidth(windowArray, 10, 45, 0.025)}
+						text='Entrar'
+						onClick={handleClick}
+					/>
 				</Grid>
 				<Grid item>
-					<Link className={classes.resetPasswordText} variant='h5' href='/registar'>
+					<Link
+						className={classes.resetPasswordText}
+						variant='h5'
+						href='/registar'
+						style={{ fontSize: responsiveWidth(windowArray, undefined, 18, 0.02) }}
+					>
 						Ainda não tens conta? Regista-te
 					</Link>
 				</Grid>

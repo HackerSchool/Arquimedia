@@ -33,6 +33,15 @@ RESOURCE_TYPES = (
     ("paper", "Paper"),
 )
 
+ISSUE_TYPES = (
+        ('Typo', 'Gralha no enunciado ou nas opções de resposta'),
+        ('SubmissionError', 'Erro na submissão'),
+        ('QuestionFormatting', 'Pergunta desformatada'),
+        ('LoadingError', 'Página não carrega'),
+        ('ImageError', 'Figura errada ou em falta'),
+        ('Other', 'Outro'),
+)
+
 class Exam(models.Model):
 
     questions = models.ManyToManyField("Question", related_name="questions")
@@ -124,6 +133,18 @@ class Answer(models.Model):
     text = models.TextField(max_length=100,null=False)
     correct = models.BooleanField(default=False)
     question = models.ForeignKey("question", related_name="answer", on_delete=models.CASCADE, null=True)
+
+
+class Report(models.Model):
+    question = models.ForeignKey("question", related_name="report", on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, related_name="report", on_delete=models.CASCADE, null=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    type = models.CharField(max_length=50, choices=ISSUE_TYPES)
+    body = models.TextField()
+
+    def __str__(self):
+        return str(self.date.date()) + ' || ' + self.type + ' || ' + str(self.question)
 
 
 class Resource(models.Model):

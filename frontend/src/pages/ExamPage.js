@@ -9,6 +9,8 @@ import Loading from '../components/loading/Loading';
 import CustomizedSteppers from '../components/questions/Stepper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import responsiveWidth from '../hooks/responsiveWidth';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 const COUNTDOWN_TIME = 60 * 45;
 
@@ -67,6 +69,8 @@ const ExamPage = (props) => {
 	const [loading, setLoading] = useState(true);
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 
+	const windowArray = useWindowDimensions();
+
 	useEffect(() => {
 		examInfo(props.match.params.id, (res) => {
 			res.data.questions.forEach((question) => {
@@ -123,17 +127,35 @@ const ExamPage = (props) => {
 					<IconButton
 						className={classes.beforeBttn}
 						onClick={decreaseCurrent}
-						size='large'
+						style={{
+							width: responsiveWidth(windowArray, undefined, 65, 0.032),
+							height: responsiveWidth(windowArray, undefined, 65, 0.032),
+						}}
 					>
-						<ArrowBackIcon fontSize='large' />
+						<ArrowBackIcon
+							style={{
+								fontSize: responsiveWidth(windowArray, undefined, 40, 0.02),
+							}}
+						/>
 					</IconButton>
 				</Grid>
 				<Grid item xs='auto'>
 					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion} />
 				</Grid>
 				<Grid item xs={1}>
-					<IconButton className={classes.nextBttn} onClick={increaseCurrent} size='large'>
-						<ArrowForwardIcon fontSize='large' />
+					<IconButton
+						className={classes.nextBttn}
+						onClick={increaseCurrent}
+						style={{
+							width: responsiveWidth(windowArray, undefined, 65, 0.032),
+							height: responsiveWidth(windowArray, undefined, 65, 0.032),
+						}}
+					>
+						<ArrowForwardIcon
+							style={{
+								fontSize: responsiveWidth(windowArray, undefined, 40, 0.02),
+							}}
+						/>
 					</IconButton>
 				</Grid>
 			</Grid>
