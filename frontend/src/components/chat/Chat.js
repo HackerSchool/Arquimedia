@@ -23,6 +23,7 @@ export function Chat(props) {
 			const newComments = comments.concat(res.data);
 			setComments(newComments);
 		});
+		setCommentText('');
 	};
 
 	const deleteComment = (id) => {
