@@ -35,7 +35,7 @@ class QuestionView(APIView):
 	def get(self, request, id):
 		question = get_object_or_404(Question, id=id)
 
-		return Response(QuestionSerializer(question).data, status=status.HTTP_200_OK)
+		return Response(QuestionSerializer(question, context=request).data, status=status.HTTP_200_OK)
 
 
 	# Validates a question
@@ -138,7 +138,7 @@ class CommentView(APIView):
 			comment = Comment(author=self.request.user, question=question, content=content)
 			comment.save()
 
-			return Response(CommentSerializer(comment).data, status=status.HTTP_201_CREATED)
+			return Response(CommentSerializer(comment, context=request).data, status=status.HTTP_201_CREATED)
 		
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
