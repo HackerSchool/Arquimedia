@@ -113,7 +113,7 @@ export default function QuestionPage() {
 							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
 						}}
 					>
-						<span className={classes.itemInfoLabel}>Tema:</span> {question.subSubject}
+						<span className={classes.itemInfoLabel}>Tema:</span> {question.subsubject}
 					</Typography>
 					<Typography
 						variant='h6'
