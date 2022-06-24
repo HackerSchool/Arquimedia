@@ -43,7 +43,7 @@ export function Chat(props) {
 				></Comment>
 			))}
 			<Grid container direction='row' justifyContent='space-between' alignItems='center'>
-				<Grid item xs={11}>
+				<Grid item xs={true}>
 					{' '}
 					<Box>
 						{' '}
@@ -61,7 +61,7 @@ export function Chat(props) {
 						/>
 					</Box>
 				</Grid>
-				<Grid item xs={1}>
+				<Grid item>
 					{' '}
 					<IconButton onClick={handleCommentSubmition}>
 						<SendRoundedIcon />

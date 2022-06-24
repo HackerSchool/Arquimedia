@@ -76,12 +76,18 @@ export default function Comment(props) {
 	};
 
 	return (
-		<Grid container>
+		<Grid container direction='row' justifyContent='center' alignItems='center'>
 			{/* Comment Area */}
-			<Grid item xs={1}>
+			<Grid container xs={1} direction='row' justifyContent='center' alignItems='center'>
 				{' '}
 				{/* User Photo*/}
-				<AvatarUser user={props.comment.author} />
+				<AvatarUser
+					user={props.comment.author}
+					style={{
+						width: responsiveWidth(windowArray, undefined, 75, 0.035),
+						height: responsiveWidth(windowArray, undefined, 75, 0.035),
+					}}
+				/>
 			</Grid>
 			<Grid
 				container
