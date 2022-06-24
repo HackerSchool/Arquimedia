@@ -58,6 +58,11 @@ class CommentSerializer(serializers.ModelSerializer):
 		return comment
 
 
+class CommentCreateSerializer(serializers.Serializer):
+	content = serializers.CharField()
+	question = serializers.IntegerField()
+
+
 class CommentVoteChangeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Comment

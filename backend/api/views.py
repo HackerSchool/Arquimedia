@@ -131,10 +131,10 @@ class CommentView(APIView):
 		if not self.request.user.is_authenticated:
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
-		serializer = self.serializer_class(data=request.data)
+		serializer = CommentCreateSerializer(data=request.data)
 		if serializer.is_valid():
 			content = serializer.data.get("content")
-			question = Question.objects.get(id=serializer.data.get("question")["id"])
+			question = Question.objects.get(id=serializer.data.get("question"))
 			comment = Comment(author=self.request.user, question=question, content=content)
 			comment.save()
 
