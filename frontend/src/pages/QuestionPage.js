@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import {
+	Grid,
+	Typography,
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	IconButton,
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Question from '../components/questions/Question';
 import { fetchQuestion, getUser, getProfile } from '../api';
@@ -15,6 +22,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import responsiveWidth from '../hooks/responsiveWidth';
 import { Chat } from '../components/chat/Chat';
+import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
 
 const iconSelector = {
 	video: <VideoLibraryIcon />,
@@ -84,65 +92,103 @@ export default function QuestionPage() {
 				<Question question={question} overrideResponsive={true} />
 			</Grid>
 			{/* Question info box */}
-			<Grid item xs={3}>
-				<Box style={{ height: '93%' }}>
-					<Typography
-						variant='h4'
-						fontWeight='bold'
-						color={theme.palette.secondary.main}
-						style={{
-							fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
-						}}
-					>
-						Detalhes
-					</Typography>
-					<Typography
-						variant='h6'
-						className={classes.itemInfo}
-						style={{
-							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-						}}
-					>
-						<span className={classes.itemInfoLabel}>Disciplina:</span>{' '}
-						{question.subject}
-					</Typography>
-					<Typography
-						variant='h6'
-						className={classes.itemInfo}
-						style={{
-							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-						}}
-					>
-						<span className={classes.itemInfoLabel}>Tema:</span> {question.subsubject}
-					</Typography>
-					<Typography
-						variant='h6'
-						className={classes.itemInfo}
-						style={{
-							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-						}}
-					>
-						<span className={classes.itemInfoLabel}>Ano:</span> {question.year}
-					</Typography>
-					<Typography
-						variant='h6'
-						className={classes.itemInfo}
-						style={{
-							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-						}}
-					>
-						<span className={classes.itemInfoLabel}>Fonte:</span> {question.source}
-					</Typography>
-					<Typography
-						variant='h6'
-						className={classes.itemInfo}
-						style={{
-							fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-						}}
-					>
-						<span className={classes.itemInfoLabel}>Autor:</span>{' '}
-					</Typography>
-				</Box>
+			<Grid container item xs={3} direction='row'>
+				<Grid
+					container
+					direction='column'
+					justifyContent='space-between'
+					alignItems='flex-start'
+				>
+					<Grid container direction='column'>
+						<Grid item>
+							<Typography
+								variant='h4'
+								fontWeight='bold'
+								color={theme.palette.secondary.main}
+								style={{
+									fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
+								}}
+							>
+								Detalhes
+							</Typography>
+						</Grid>
+						<Grid item>
+							<Typography
+								variant='h6'
+								className={classes.itemInfo}
+								style={{
+									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+								}}
+							>
+								<span className={classes.itemInfoLabel}>Disciplina:</span>{' '}
+								{question.subject}
+							</Typography>
+						</Grid>
+						<Grid item>
+							{' '}
+							<Typography
+								variant='h6'
+								className={classes.itemInfo}
+								style={{
+									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+								}}
+							>
+								<span className={classes.itemInfoLabel}>Tema:</span>{' '}
+								{question.subsubject}
+							</Typography>
+						</Grid>
+						<Grid item>
+							<Typography
+								variant='h6'
+								className={classes.itemInfo}
+								style={{
+									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+								}}
+							>
+								<span className={classes.itemInfoLabel}>Ano:</span> {question.year}
+							</Typography>
+						</Grid>
+						<Grid item>
+							<Typography
+								variant='h6'
+								className={classes.itemInfo}
+								style={{
+									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+								}}
+							>
+								<span className={classes.itemInfoLabel}>Fonte:</span>{' '}
+								{question.source}
+							</Typography>
+						</Grid>
+						<Grid item>
+							<Typography
+								variant='h6'
+								className={classes.itemInfo}
+								style={{
+									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+								}}
+							>
+								<span className={classes.itemInfoLabel}>Autor:</span>{' '}
+							</Typography>
+						</Grid>
+					</Grid>
+
+					<Grid item>
+						{' '}
+						<IconButton>
+							<MessageReport />
+							<Typography
+								variant='h6'
+								className={classes.itemInfoLabel}
+								style={{
+									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+								}}
+							>
+								Reportar Erro
+							</Typography>
+						</IconButton>
+					</Grid>
+				</Grid>
 			</Grid>
 			{/* Resolution */}
 			<Grid item xs={12}>
