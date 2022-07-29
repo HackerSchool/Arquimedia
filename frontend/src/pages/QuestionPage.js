@@ -22,6 +22,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import responsiveWidth from '../hooks/responsiveWidth';
 import { Chat } from '../components/chat/Chat';
+import ReportDialog from '../components/dialogs/ReportDialog';
 import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
 
 const iconSelector = {
@@ -63,9 +64,19 @@ export default function QuestionPage() {
 	const [question, setQuestion] = useState(null);
 	const [userID, setUserID] = useState(null);
 	const [isUserMod, setIsUserMod] = useState(false);
+	const [open, setOpen] = React.useState(false);
+	const [reportType, setReportType] = React.useState('none');
 
 	const windowArray = useWindowDimensions();
 
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = (value) => {
+		setOpen(false);
+		setReportType(value);
+	};
 	useEffect(() => {
 		fetchQuestion(id, (res) => {
 			setQuestion(res.data);
@@ -175,7 +186,7 @@ export default function QuestionPage() {
 
 					<Grid item>
 						{' '}
-						<IconButton>
+						<IconButton style={{ borderRadius: 15 }} onClick={handleClickOpen}>
 							<MessageReport />
 							<Typography
 								variant='h6'
@@ -187,6 +198,11 @@ export default function QuestionPage() {
 								Reportar Erro
 							</Typography>
 						</IconButton>
+						<ReportDialog
+							open={open}
+							reportType={reportType}
+							onClose={handleClose}
+						></ReportDialog>
 					</Grid>
 				</Grid>
 			</Grid>
