@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Question from '../components/questions/Question';
-import { fetchQuestion, getUser, getProfile } from '../api';
+import { fetchQuestion, getUser, getProfile, createReport } from '../api';
 import theme from '../globalTheme';
 import Box from '../components/box/Box';
 import makeStyles from '@mui/styles/makeStyles';
@@ -23,6 +23,7 @@ import useWindowDimensions from '../hooks/useWindowDimensions';
 import responsiveWidth from '../hooks/responsiveWidth';
 import { Chat } from '../components/chat/Chat';
 import ReportDialog from '../components/dialogs/ReportDialog';
+import { useSnackbar } from 'notistack';
 import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
 
 const iconSelector = {
@@ -61,6 +62,7 @@ const useStyles = makeStyles(() => ({
 export default function QuestionPage() {
 	const classes = useStyles();
 	const { id } = useParams();
+	const { enqueueSnackbar } = useSnackbar();
 	const [question, setQuestion] = useState(null);
 	const [userID, setUserID] = useState(null);
 	const [isUserMod, setIsUserMod] = useState(false);
@@ -74,9 +76,29 @@ export default function QuestionPage() {
 	};
 
 	// eslint-disable-next-line no-unused-vars
-	const handleClose = (reportType, _otherDescription) => {
+	const handleClose = (reportType, otherDescription) => {
 		setOpen(false);
 		setReportType(reportType);
+		let body = '';
+		if (otherDescription !== null) {
+			body = { question: id, type: reportType, body: otherDescription };
+		} else {
+			body = { question: id, type: reportType };
+		}
+		createReport(
+			body,
+			(res) => {
+				enqueueSnackbar(
+					'Foi criado com sucesso o seu comentário com id:' + String(res.data.id),
+					{ variant: 'success' }
+				);
+			},
+			() => {
+				enqueueSnackbar('Não foi possível criar o seu comentário tente mais tarde...', {
+					variant: 'error',
+				});
+			}
+		);
 	};
 	useEffect(() => {
 		fetchQuestion(id, (res) => {

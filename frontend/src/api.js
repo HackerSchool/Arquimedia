@@ -248,3 +248,10 @@ export const fetchQuestion = async (id, successCall, errorCall) => {
 		.then((res) => successCall(res))
 		.then((error) => errorCall(error));
 };
+
+export async function createReport(body, successCall, errorCall) {
+	axios
+		.post('api/report/', body)
+		.then((res) => successCall(res))
+		.catch((error) => errorCall(error));
+}
