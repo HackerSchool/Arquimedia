@@ -148,6 +148,14 @@ export default function ReportDialog(props) {
 								justifyContent='flex-start'
 								alignItems='center'
 								key={report.type}
+								style={{
+									borderRadius: 20,
+									backgroundColor: reportType === report.type && '#E5E5E5',
+									boxShadow:
+										reportType === report.type &&
+										'-6px 7px 16px rgba(0, 0, 0, 0.25)',
+									padding: '1rem',
+								}}
 							>
 								<Button
 									startIcon={report.icon}
@@ -174,6 +182,8 @@ export default function ReportDialog(props) {
 								<Box>
 									{' '}
 									<TextField
+										multiline
+										maxRows={4}
 										variant='standard'
 										fullWidth
 										value={otherDescription}
