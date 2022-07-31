@@ -65,7 +65,7 @@ export default function QuestionPage() {
 	const [userID, setUserID] = useState(null);
 	const [isUserMod, setIsUserMod] = useState(false);
 	const [open, setOpen] = React.useState(false);
-	const [reportType, setReportType] = React.useState('none');
+	const [reportType, setReportType] = React.useState(null);
 
 	const windowArray = useWindowDimensions();
 
@@ -73,9 +73,10 @@ export default function QuestionPage() {
 		setOpen(true);
 	};
 
-	const handleClose = (value) => {
+	// eslint-disable-next-line no-unused-vars
+	const handleClose = (reportType, _otherDescription) => {
 		setOpen(false);
-		setReportType(value);
+		setReportType(reportType);
 	};
 	useEffect(() => {
 		fetchQuestion(id, (res) => {
