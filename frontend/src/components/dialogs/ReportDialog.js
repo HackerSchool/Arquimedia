@@ -227,6 +227,7 @@ export default function ReportDialog(props) {
 									<Box>
 										{' '}
 										<TextField
+											size='small'
 											multiline
 											maxRows={4}
 											variant='standard'
@@ -251,7 +252,7 @@ export default function ReportDialog(props) {
 								className={classes.paddingGrid}
 							>
 								<NormalButton
-									fontSize={responsiveWidth(windowArray, 10, 25, 0.015)}
+									fontSize={20}
 									text='Submeter'
 									variant='contained'
 									onClick={handleSubmission}
