@@ -105,7 +105,7 @@ export default function ReportDialog(props) {
 					fontWeight='bold'
 					color={theme.palette.secondary.main}
 					style={{
-						fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
+						fontSize: responsiveWidth(windowArray, 20, 35, 0.017),
 					}}
 				>
 					Reportar
@@ -168,6 +168,9 @@ export default function ReportDialog(props) {
 										variant='body1'
 										className={classes.reportText}
 										display='block'
+										style={{
+											fontSize: responsiveWidth(windowArray, 10, 23, 0.017),
+										}}
 									>
 										{report.text}
 									</Typography>
@@ -183,6 +186,7 @@ export default function ReportDialog(props) {
 									<Box>
 										{' '}
 										<TextField
+											size='small'
 											required
 											multiline
 											maxRows={4}
@@ -208,7 +212,7 @@ export default function ReportDialog(props) {
 								className={classes.paddingGrid}
 							>
 								<NormalButton
-									fontSize={responsiveWidth(windowArray, 10, 25, 0.015)}
+									fontSize={20}
 									text='Submeter'
 									variant='contained'
 									onClick={handleSubmission}
