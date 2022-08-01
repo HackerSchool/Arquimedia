@@ -67,21 +67,24 @@ export default function QuestionPage() {
 	const [userID, setUserID] = useState(null);
 	const [isUserMod, setIsUserMod] = useState(false);
 	const [open, setOpen] = React.useState(false);
-	const [reportType, setReportType] = React.useState(null);
 
 	const windowArray = useWindowDimensions();
 
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
-
 	// eslint-disable-next-line no-unused-vars
-	const handleClose = (reportType, otherDescription) => {
-		setOpen(false);
-		setReportType(reportType);
+	const reportCreator = (reportType, otherDescription) => {
 		let body = '';
 		if (otherDescription !== null) {
 			body = { question: id, type: reportType, body: otherDescription };
+
+			if (String(otherDescription).length < 30) {
+				enqueueSnackbar('A sua descrição necessita de um mínimo de 30 caractéres', {
+					variant: 'error',
+				});
+				return;
+			}
 		} else {
 			body = { question: id, type: reportType };
 		}
@@ -94,11 +97,27 @@ export default function QuestionPage() {
 				);
 			},
 			() => {
-				enqueueSnackbar('Não foi possível criar o seu comentário tente mais tarde...', {
+				enqueueSnackbar('Não foi possível criar a sua denúncia, tente mais tarde...', {
 					variant: 'error',
 				});
 			}
 		);
+	};
+	// eslint-disable-next-line no-unused-vars
+	const onClose = (reportType, otherDescription) => {
+		// We only want to submit stuff when the user chooses a report Type, and in the case of the Other there must be some description
+		setOpen(false);
+
+		if (reportType === 'Other' && otherDescription === null) {
+			enqueueSnackbar(
+				"Submissão Inválida! Se escolheu 'Outro...', precisa de clarificar o problema encontrado...",
+				{
+					variant: 'error',
+				}
+			);
+		} else if (reportType !== null) {
+			reportCreator(reportType, otherDescription);
+		}
 	};
 	useEffect(() => {
 		fetchQuestion(id, (res) => {
@@ -221,11 +240,7 @@ export default function QuestionPage() {
 								Reportar Erro
 							</Typography>
 						</IconButton>
-						<ReportDialog
-							open={open}
-							reportType={reportType}
-							onClose={handleClose}
-						></ReportDialog>
+						<ReportDialog open={open} onClose={onClose}></ReportDialog>
 					</Grid>
 				</Grid>
 			</Grid>

@@ -56,17 +56,17 @@ const useStyles = makeStyles(() => ({
 
 export default function ReportDialog(props) {
 	const classes = useStyles();
-	const [reportType, setReportType] = useState(props.reportType);
+	const [reportType, setReportType] = useState(null);
 	const [otherDescription, setOtherDescription] = useState(null);
+
 	const handleClose = () => {
 		//In the end we Reset the reportType State and Discard The Information
 		setReportType(null);
 		setOtherDescription(null);
-		props.onClose(props.reportType);
+		props.onClose(null, null); // Since the state is only updated afterwards
 	};
 
 	const handleSubmission = () => {
-		console.log(reportType);
 		//In the end we Reset the reportType State and Submit the Information
 		props.onClose(reportType, otherDescription);
 		setReportType(null);
@@ -175,45 +175,86 @@ export default function ReportDialog(props) {
 							</Grid>
 						))}
 					</Grid>
-					{reportType === 'Other' ? (
-						<Grid container className={classes.paddingGrid}>
-							<Grid item xs={true}>
-								{' '}
-								<Box>
+					{reportType === 'Other' ? ( // Caso a modalidade seja Outros, desbloqueia os passos seguintes
+						<>
+							<Grid container className={classes.paddingGrid}>
+								<Grid item xs={true}>
 									{' '}
-									<TextField
-										multiline
-										maxRows={4}
-										variant='standard'
-										fullWidth
-										value={otherDescription}
-										name='OtherDescription'
-										placeholder='Descreve o teu problema...'
-										label=''
-										onChange={handleOtherDescription}
-										InputProps={{
-											disableUnderline: true,
-										}}
-									/>
-								</Box>
+									<Box>
+										{' '}
+										<TextField
+											required
+											multiline
+											maxRows={4}
+											variant='standard'
+											fullWidth
+											value={otherDescription}
+											name='OtherDescription'
+											placeholder='OBRIGATÓRIO: Descreve o teu problema, em pelo menos 30 caractéres'
+											label=''
+											onChange={handleOtherDescription}
+											InputProps={{
+												disableUnderline: true,
+											}}
+										/>
+									</Box>
+								</Grid>
 							</Grid>
-						</Grid>
+							<Grid
+								container
+								direction='row'
+								justifyContent='flex-end'
+								alignItems='flex-end'
+								className={classes.paddingGrid}
+							>
+								<NormalButton
+									fontSize={responsiveWidth(windowArray, 10, 25, 0.015)}
+									text='Submeter'
+									variant='contained'
+									onClick={handleSubmission}
+								></NormalButton>
+							</Grid>
+						</>
+					) : reportType !== null ? ( //O utilizador escolhe uma modalidade que não Outro, desbloqueia os passos seguintes
+						<>
+							<Grid container className={classes.paddingGrid}>
+								<Grid item xs={true}>
+									{' '}
+									<Box>
+										{' '}
+										<TextField
+											multiline
+											maxRows={4}
+											variant='standard'
+											fullWidth
+											value={otherDescription}
+											name='OtherDescription'
+											placeholder='OPCIONAL: Descreve o teu problema, em pelo menos 30 caractéres'
+											label=''
+											onChange={handleOtherDescription}
+											InputProps={{
+												disableUnderline: true,
+											}}
+										/>
+									</Box>
+								</Grid>
+							</Grid>
+							<Grid
+								container
+								direction='row'
+								justifyContent='flex-end'
+								alignItems='flex-end'
+								className={classes.paddingGrid}
+							>
+								<NormalButton
+									fontSize={responsiveWidth(windowArray, 10, 25, 0.015)}
+									text='Submeter'
+									variant='contained'
+									onClick={handleSubmission}
+								></NormalButton>
+							</Grid>
+						</>
 					) : null}
-
-					<Grid
-						container
-						direction='row'
-						justifyContent='flex-end'
-						alignItems='flex-end'
-						className={classes.paddingGrid}
-					>
-						<NormalButton
-							fontSize={responsiveWidth(windowArray, 10, 25, 0.015)}
-							text='Submeter'
-							variant='contained'
-							onClick={handleSubmission}
-						></NormalButton>
-					</Grid>
 				</Grid>
 			</DialogContent>
 		</Dialog>
