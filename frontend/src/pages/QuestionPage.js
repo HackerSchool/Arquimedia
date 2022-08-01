@@ -78,13 +78,6 @@ export default function QuestionPage() {
 		let body = '';
 		if (otherDescription !== null) {
 			body = { question: id, type: reportType, body: otherDescription };
-
-			if (String(otherDescription).length < 30) {
-				enqueueSnackbar('A sua descrição necessita de um mínimo de 30 caractéres', {
-					variant: 'error',
-				});
-				return;
-			}
 		} else {
 			body = { question: id, type: reportType };
 		}
@@ -106,6 +99,7 @@ export default function QuestionPage() {
 	// eslint-disable-next-line no-unused-vars
 	const onClose = (reportType, otherDescription) => {
 		// We only want to submit stuff when the user chooses a report Type, and in the case of the Other there must be some description
+		// If there is some description regardless of report type it must have at least 30 characters
 		setOpen(false);
 
 		if (reportType === 'Other' && otherDescription === null) {
@@ -115,6 +109,15 @@ export default function QuestionPage() {
 					variant: 'error',
 				}
 			);
+		} else if (
+			reportType !== null &&
+			otherDescription !== null &&
+			String(otherDescription).length < 30
+		) {
+			enqueueSnackbar('A sua descrição necessita de um mínimo de 30 caractéres', {
+				variant: 'error',
+			});
+			return;
 		} else if (reportType !== null) {
 			reportCreator(reportType, otherDescription);
 		}
