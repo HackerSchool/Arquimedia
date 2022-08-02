@@ -57,6 +57,13 @@ const useStyles = makeStyles(() => ({
 			color: theme.palette.secondary.main,
 		},
 	},
+	detailsBox: {
+		border: '2px solid',
+		borderRadius: 20,
+		borderColor: theme.palette.grey.primary,
+		boxShadow: '-6px 7px 16px rgba(0, 0, 0, 0.25)',
+		padding: '1rem',
+	},
 }));
 
 export default function QuestionPage() {
@@ -145,7 +152,9 @@ export default function QuestionPage() {
 		<Grid container spacing={4} alignItems='stretch'>
 			{/* Question box */}
 			<Grid item xs={9}>
-				<Question question={question} overrideResponsive={true} />
+				<Question question={question} overrideResponsive={true} answer={Number(id) - 1} />{' '}
+				{/* //So that the number we see in the question matches the id, since the answer prop was made for the specific case of exams,
+				 it adds one more so that an exam does not start in 0. So this is a adaptation */}
 			</Grid>
 			{/* Question info box */}
 			<Grid container item xs={3} direction='row'>
@@ -154,6 +163,7 @@ export default function QuestionPage() {
 					direction='column'
 					justifyContent='space-between'
 					alignItems='flex-start'
+					className={classes.detailsBox}
 				>
 					<Grid container direction='column'>
 						<Grid item>
