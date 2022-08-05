@@ -90,25 +90,25 @@ function stableSort(array, comparator) {
 const headCells = [
 	{
 		id: 'id',
-		numeric: true,
+		rightAlligned: false,
 		disablePadding: true,
 		label: 'ReportID',
 	},
 	{
 		id: 'question',
-		numeric: true,
+		rightAlligned: false,
 		disablePadding: false,
 		label: 'Questão',
 	},
 	{
 		id: 'type',
-		numeric: false,
+		rightAlligned: false,
 		disablePadding: false,
 		label: 'Tipo',
 	},
 	{
 		id: 'body',
-		numeric: false,
+		rightAlligned: false,
 		disablePadding: false,
 		label: 'Descrição',
 	},
@@ -126,7 +126,7 @@ function EnhancedTableHead(props) {
 				{headCells.map((headCell) => (
 					<TableCell
 						key={headCell.id}
-						align={headCell.numeric ? 'right' : 'left'}
+						align={headCell.rightAlligned ? 'right' : 'left'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 					>
@@ -235,6 +235,12 @@ const ReportsPage = () => {
 						aria-labelledby='tableTitle'
 						size={dense ? 'small' : 'medium'}
 					>
+						<colgroup>
+							<col style={{ width: '2%' }} />
+							<col style={{ width: '2%' }} />
+							<col style={{ width: '15%' }} />
+							<col style={{ width: '81%' }} />
+						</colgroup>
 						<EnhancedTableHead
 							order={order}
 							orderBy={orderBy}
@@ -256,12 +262,13 @@ const ReportsPage = () => {
 												id={labelId}
 												scope='row'
 												padding='none'
+												align='left'
 											>
 												{row.id}
 											</TableCell>
-											<TableCell align='right'>{row.question}</TableCell>
-											<TableCell align='right'>{row.type}</TableCell>
-											<TableCell align='right'>{row.body}</TableCell>
+											<TableCell align='left'>{row.question}</TableCell>
+											<TableCell align='left'>{row.type}</TableCell>
+											<TableCell align='left'>{row.body}</TableCell>
 										</TableRow>
 									);
 								})}
