@@ -195,7 +195,6 @@ const ReportsPage = () => {
 
 	useEffect(() => {
 		getReports((res) => {
-			console.log(res.data[0].ReportID);
 			setRows(res.data);
 			setLoading(false);
 		});
