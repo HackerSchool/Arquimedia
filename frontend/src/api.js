@@ -249,3 +249,6 @@ export async function deleteAccount(password, successCall, errorCall) {
 		.then((res) => successCall(res))
 		.catch((error) => errorCall(error));
 }
+export async function getReports(successCall) {
+	axios.get('api/reports/').then((res) => successCall(res));
+}

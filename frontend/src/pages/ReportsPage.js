@@ -1,23 +1,28 @@
-import * as React from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import {
+	Box,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TablePagination,
+	TableRow,
+	TableSortLabel,
+	Toolbar,
+	Typography,
+	Paper,
+	IconButton,
+	Tooltip,
+	FormControlLabel,
+	Switch,
+} from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { getReports } from '../api';
+import Loading from '../components/loading/Loading';
 
 /* function createData(name, calories, fat, carbs, protein) {
 	return {
@@ -84,25 +89,25 @@ function stableSort(array, comparator) {
 
 const headCells = [
 	{
-		id: 'ReportID',
+		id: 'id',
 		numeric: true,
 		disablePadding: true,
 		label: 'ReportID',
 	},
 	{
-		id: 'Questão',
+		id: 'question',
 		numeric: true,
 		disablePadding: false,
 		label: 'Questão',
 	},
 	{
-		id: 'Tipo',
+		id: 'type',
 		numeric: false,
 		disablePadding: false,
 		label: 'Tipo',
 	},
 	{
-		id: 'Descrição',
+		id: 'body',
 		numeric: false,
 		disablePadding: false,
 		label: 'Descrição',
@@ -125,18 +130,26 @@ function EnhancedTableHead(props) {
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 					>
-						<TableSortLabel
-							active={orderBy === headCell.id}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							onClick={createSortHandler(headCell.id)}
-						>
-							{headCell.label}
-							{orderBy === headCell.id ? (
-								<Box component='span' sx={visuallyHidden}>
-									{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-								</Box>
-							) : null}
-						</TableSortLabel>
+						{headCell.id !== 'body' ? (
+							<TableSortLabel
+								active={orderBy === headCell.id}
+								direction={orderBy === headCell.id ? order : 'asc'}
+								onClick={
+									headCell.id === 'body' ? null : createSortHandler(headCell.id)
+								}
+							>
+								{headCell.label}
+								{orderBy === headCell.id ? (
+									<Box component='span' sx={visuallyHidden}>
+										{order === 'desc'
+											? 'sorted descending'
+											: 'sorted ascending'}
+									</Box>
+								) : null}
+							</TableSortLabel>
+						) : (
+							headCell.label
+						)}
 					</TableCell>
 				))}
 			</TableRow>
@@ -172,14 +185,23 @@ const EnhancedTableToolbar = () => {
 };
 
 const ReportsPage = () => {
-	const [order, setOrder] = React.useState('asc');
-	const [orderBy, setOrderBy] = React.useState('calories');
-	const [page, setPage] = React.useState(0);
-	const [dense, setDense] = React.useState(false);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [order, setOrder] = useState('asc');
+	const [orderBy, setOrderBy] = useState('ReportID');
+	const [page, setPage] = useState(0);
+	const [dense, setDense] = useState(false);
+	const [rows, setRows] = useState(null);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		getReports((res) => {
+			console.log(res.data[0].ReportID);
+			setRows(res.data);
+			setLoading(false);
+		});
+	}, []);
 
 	const handleRequestSort = (event, property) => {
-		console.log(event);
 		const isAsc = orderBy === property && order === 'asc';
 		//We ought to know if the event is happening on the same property, if so the order will be inversed
 		setOrder(isAsc ? 'desc' : 'asc'); //if it was previously ascending in the same porperty we now change for descending
@@ -201,6 +223,8 @@ const ReportsPage = () => {
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+	if (loading) return <Loading />;
 
 	return (
 		<Box sx={{ width: '100%' }}>
@@ -227,19 +251,18 @@ const ReportsPage = () => {
 									const labelId = `enhanced-table-checkbox-${index}`;
 
 									return (
-										<TableRow hover tabIndex={-1} key={row.name}>
+										<TableRow hover tabIndex={-1} key={row.id}>
 											<TableCell
 												component='th'
 												id={labelId}
 												scope='row'
 												padding='none'
 											>
-												{row.name}
+												{row.id}
 											</TableCell>
-											<TableCell align='right'>{row.calories}</TableCell>
-											<TableCell align='right'>{row.fat}</TableCell>
-											<TableCell align='right'>{row.carbs}</TableCell>
-											<TableCell align='right'>{row.protein}</TableCell>
+											<TableCell align='right'>{row.question}</TableCell>
+											<TableCell align='right'>{row.type}</TableCell>
+											<TableCell align='right'>{row.body}</TableCell>
 										</TableRow>
 									);
 								})}
