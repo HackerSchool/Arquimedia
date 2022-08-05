@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,16 +12,14 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 
-function createData(name, calories, fat, carbs, protein) {
+/* function createData(name, calories, fat, carbs, protein) {
 	return {
 		name,
 		calories,
@@ -46,7 +43,7 @@ const rows = [
 	createData('Marshmallow', 318, 0, 81, 2.0),
 	createData('Nougat', 360, 19.0, 9, 37.0),
 	createData('Oreo', 437, 18.0, 63, 4.0),
-];
+]; */
 
 function descendingComparator(a, b, orderBy) {
 	// We assume that values are descending
@@ -87,39 +84,33 @@ function stableSort(array, comparator) {
 
 const headCells = [
 	{
-		id: 'name',
-		numeric: false,
+		id: 'ReportID',
+		numeric: true,
 		disablePadding: true,
-		label: 'Dessert (100g serving)',
+		label: 'ReportID',
 	},
 	{
-		id: 'calories',
+		id: 'Questão',
 		numeric: true,
 		disablePadding: false,
-		label: 'Calories',
+		label: 'Questão',
 	},
 	{
-		id: 'fat',
-		numeric: true,
+		id: 'Tipo',
+		numeric: false,
 		disablePadding: false,
-		label: 'Fat (g)',
+		label: 'Tipo',
 	},
 	{
-		id: 'carbs',
-		numeric: true,
+		id: 'Descrição',
+		numeric: false,
 		disablePadding: false,
-		label: 'Carbs (g)',
-	},
-	{
-		id: 'protein',
-		numeric: true,
-		disablePadding: false,
-		label: 'Protein (g)',
+		label: 'Descrição',
 	},
 ];
 
 function EnhancedTableHead(props) {
-	const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+	const { order, orderBy, onRequestSort } = props;
 	const createSortHandler = (property) => (event) => {
 		onRequestSort(event, property);
 	};
@@ -127,17 +118,6 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead>
 			<TableRow>
-				<TableCell padding='checkbox'>
-					<Checkbox
-						color='primary'
-						indeterminate={numSelected > 0 && numSelected < rowCount}
-						checked={rowCount > 0 && numSelected === rowCount}
-						onChange={onSelectAllClick}
-						inputProps={{
-							'aria-label': 'select all desserts',
-						}}
-					/>
-				</TableCell>
 				{headCells.map((headCell) => (
 					<TableCell
 						key={headCell.id}
@@ -165,105 +145,45 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-	numSelected: PropTypes.number.isRequired,
 	onRequestSort: PropTypes.func.isRequired,
-	onSelectAllClick: PropTypes.func.isRequired,
 	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
 	orderBy: PropTypes.string.isRequired,
-	rowCount: PropTypes.number.isRequired,
 };
 
-const EnhancedTableToolbar = (props) => {
-	const { numSelected } = props;
-
+const EnhancedTableToolbar = () => {
 	return (
 		<Toolbar
 			sx={{
 				pl: { sm: 2 },
 				pr: { xs: 1, sm: 1 },
-				...(numSelected > 0 && {
-					bgcolor: (theme) =>
-						alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-				}),
 			}}
 		>
-			{numSelected > 0 ? (
-				<Typography
-					sx={{ flex: '1 1 100%' }}
-					color='inherit'
-					variant='subtitle1'
-					component='div'
-				>
-					{numSelected} selected
-				</Typography>
-			) : (
-				<Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
-					Nutrition
-				</Typography>
-			)}
+			<Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
+				Nutrition
+			</Typography>
 
-			{numSelected > 0 ? (
-				<Tooltip title='Delete'>
-					<IconButton>
-						<DeleteIcon />
-					</IconButton>
-				</Tooltip>
-			) : (
-				<Tooltip title='Filter list'>
-					<IconButton>
-						<FilterListIcon />
-					</IconButton>
-				</Tooltip>
-			)}
+			<Tooltip title='Filter list'>
+				<IconButton>
+					<FilterListIcon />
+				</IconButton>
+			</Tooltip>
 		</Toolbar>
 	);
-};
-
-EnhancedTableToolbar.propTypes = {
-	numSelected: PropTypes.number.isRequired,
 };
 
 const ReportsPage = () => {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
-	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [dense, setDense] = React.useState(false);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
 	const handleRequestSort = (event, property) => {
+		console.log(event);
 		const isAsc = orderBy === property && order === 'asc';
-		setOrder(isAsc ? 'desc' : 'asc');
+		//We ought to know if the event is happening on the same property, if so the order will be inversed
+		setOrder(isAsc ? 'desc' : 'asc'); //if it was previously ascending in the same porperty we now change for descending
 		setOrderBy(property);
-	};
-
-	const handleSelectAllClick = (event) => {
-		if (event.target.checked) {
-			const newSelected = rows.map((n) => n.name);
-			setSelected(newSelected);
-			return;
-		}
-		setSelected([]);
-	};
-
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
-		let newSelected = [];
-
-		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
-		} else if (selectedIndex === 0) {
-			newSelected = newSelected.concat(selected.slice(1));
-		} else if (selectedIndex === selected.length - 1) {
-			newSelected = newSelected.concat(selected.slice(0, -1));
-		} else if (selectedIndex > 0) {
-			newSelected = newSelected.concat(
-				selected.slice(0, selectedIndex),
-				selected.slice(selectedIndex + 1)
-			);
-		}
-
-		setSelected(newSelected);
 	};
 
 	const handleChangePage = (event, newPage) => {
@@ -279,15 +199,13 @@ const ReportsPage = () => {
 		setDense(event.target.checked);
 	};
 
-	const isSelected = (name) => selected.indexOf(name) !== -1;
-
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar numSelected={selected.length} />
+				<EnhancedTableToolbar />
 				<TableContainer>
 					<Table
 						sx={{ minWidth: 750 }}
@@ -295,10 +213,8 @@ const ReportsPage = () => {
 						size={dense ? 'small' : 'medium'}
 					>
 						<EnhancedTableHead
-							numSelected={selected.length}
 							order={order}
 							orderBy={orderBy}
-							onSelectAllClick={handleSelectAllClick}
 							onRequestSort={handleRequestSort}
 							rowCount={rows.length}
 						/>
@@ -306,30 +222,12 @@ const ReportsPage = () => {
 							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
 							{stableSort(rows, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) //What objects will be shown
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
 									const labelId = `enhanced-table-checkbox-${index}`;
 
 									return (
-										<TableRow
-											hover
-											onClick={(event) => handleClick(event, row.name)}
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.name}
-											selected={isItemSelected}
-										>
-											<TableCell padding='checkbox'>
-												<Checkbox
-													color='primary'
-													checked={isItemSelected}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
+										<TableRow hover tabIndex={-1} key={row.name}>
 											<TableCell
 												component='th'
 												id={labelId}
@@ -346,6 +244,8 @@ const ReportsPage = () => {
 									);
 								})}
 							{emptyRows > 0 && (
+								// This is made so that if a page is not completely filled it will not have a layout change.
+								// The height of that page will remain the same as the previous ones through some blank fill-ins.
 								<TableRow
 									style={{
 										height: (dense ? 33 : 53) * emptyRows,
