@@ -221,4 +221,4 @@ class ReportSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Report
-		fields = ['id', 'question', 'date', 'type', 'body']
+		fields = ['id', 'question', 'date', 'type', 'body', 'author']
