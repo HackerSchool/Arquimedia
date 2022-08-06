@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { ReactComponent as DeleteReport } from '../../assets/deleteComment.svg';
 
 const Report = (props) => {
 	const [expand, setExpand] = useState(false);
@@ -59,7 +60,11 @@ const Report = (props) => {
 								<TableRow>
 									<TableCell>{row.author}</TableCell>
 									<TableCell>{row.date}</TableCell>
-									<TableCell>Icon PlaceHolder</TableCell>
+									<TableCell>
+										<IconButton>
+											<DeleteReport />
+										</IconButton>
+									</TableCell>
 								</TableRow>
 							</TableBody>
 						</Table>
