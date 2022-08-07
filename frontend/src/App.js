@@ -49,7 +49,7 @@ function App() {
 										<Switch>
 											<Route exact path='/' component={LandingPage} />
 											<AuthRoute
-												path='/question/:id'
+												path='/questao/:id'
 												component={QuestionPage}
 											/>
 											<AuthRoute path='/exames' component={GenExamPage} />
