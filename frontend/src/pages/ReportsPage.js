@@ -25,11 +25,11 @@ import Report from '../components/report/Report';
 
 function descendingComparator(a, b, orderBy) {
 	// We assume that values are descending
-	if (b[orderBy] < a[orderBy]) {
+	if (Number(b[orderBy]) < Number(a[orderBy])) {
 		// B<A logo A vai aparecer primeiro que B
 		return -1;
 	}
-	if (b[orderBy] > a[orderBy]) {
+	if (Number(b[orderBy]) > Number(a[orderBy])) {
 		// B>A logo B vai aparecer primeiro que A
 		return 1;
 	}
@@ -46,7 +46,9 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
+	console.log(array);
 	const stabilizedThis = array.map((el, index) => [el, index]); //Stores each object and it's index prior to sorting
+	console.log(stabilizedThis);
 	stabilizedThis.sort((a, b) => {
 		//Sorts according to a comparator Function (if it returns value > 0 sort A after B) (if it returns value < 0 sort B after A)
 		//(If they are the same, the old indexes decide, and the same sorting is mantained for that case)
@@ -104,7 +106,9 @@ function EnhancedTableHead(props) {
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 					>
-						{headCell.id !== 'body' ? (
+						{headCell.id === 'body' || headCell.id === 'type' ? (
+							headCell.label
+						) : (
 							<TableSortLabel
 								active={orderBy === headCell.id}
 								direction={orderBy === headCell.id ? order : 'asc'}
@@ -121,8 +125,6 @@ function EnhancedTableHead(props) {
 									</Box>
 								) : null}
 							</TableSortLabel>
-						) : (
-							headCell.label
 						)}
 					</TableCell>
 				))}
@@ -160,7 +162,7 @@ const EnhancedTableToolbar = () => {
 
 const ReportsPage = () => {
 	const [order, setOrder] = useState('asc');
-	const [orderBy, setOrderBy] = useState('ReportID');
+	const [orderBy, setOrderBy] = useState('id');
 	const [page, setPage] = useState(0);
 	const [rows, setRows] = useState(null);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -193,9 +195,6 @@ const ReportsPage = () => {
 		setPage(0);
 	};
 
-	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
 	if (loading) return <Loading />;
 
 	return (
@@ -223,7 +222,6 @@ const ReportsPage = () => {
 							{stableSort(rows, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) //What objects will be shown
 								.map((row, index) => {
-									console.log(row);
 									const labelId = `enhanced-table-checkbox-${index}`;
 
 									return (
@@ -235,17 +233,6 @@ const ReportsPage = () => {
 										/>
 									);
 								})}
-							{emptyRows > 0 && (
-								// This is made so that if a page is not completely filled it will not have a layout change.
-								// The height of that page will remain the same as the previous ones through some blank fill-ins.
-								<TableRow
-									style={{
-										height: 53 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
 						</TableBody>
 					</Table>
 				</TableContainer>

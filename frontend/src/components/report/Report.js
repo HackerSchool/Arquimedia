@@ -36,14 +36,8 @@ const Report = (props) => {
 						{expand ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
 					</IconButton>
 				</TableCell>
-				<TableCell
-					component='th'
-					id={props.labelId}
-					scope='row'
-					padding='none'
-					align='left'
-				>
-					{row.id}
+				<TableCell id={props.labelId} scope='row' padding='none' align='left'>
+					{Number(row.id)}
 				</TableCell>
 				<TableCell align='left'>{row.question}</TableCell>
 				<TableCell align='left'>{row.type}</TableCell>
