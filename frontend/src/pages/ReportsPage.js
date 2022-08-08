@@ -16,12 +16,15 @@ import {
 	Paper,
 	IconButton,
 	Tooltip,
+	Select,
+	MenuItem,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { getReports } from '../api';
 import Loading from '../components/loading/Loading';
 import Report from '../components/report/Report';
+import isUnique from '../utils/isUnique';
 
 function descendingComparator(a, b, orderBy) {
 	// We assume that values are descending
@@ -46,9 +49,7 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	console.log(array);
 	const stabilizedThis = array.map((el, index) => [el, index]); //Stores each object and it's index prior to sorting
-	console.log(stabilizedThis);
 	stabilizedThis.sort((a, b) => {
 		//Sorts according to a comparator Function (if it returns value > 0 sort A after B) (if it returns value < 0 sort B after A)
 		//(If they are the same, the old indexes decide, and the same sorting is mantained for that case)
@@ -139,7 +140,21 @@ EnhancedTableHead.propTypes = {
 	orderBy: PropTypes.string.isRequired,
 };
 
-const EnhancedTableToolbar = () => {
+const EnhancedTableToolbar = (props) => {
+	const [types, setTypes] = useState([]);
+	const [chosenType, setChosenType] = useState('none');
+
+	useEffect(() => {
+		var types = props.rows.map((row) => row['type']);
+		var uniqueTypes = types.filter(isUnique);
+		setTypes(uniqueTypes);
+	}, []);
+
+	const handleErrorTypeChange = (event) => {
+		setChosenType(event.target.value);
+		props.onErrorTypeChange(event.target.value);
+	};
+
 	return (
 		<Toolbar
 			sx={{
@@ -150,6 +165,20 @@ const EnhancedTableToolbar = () => {
 			<Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
 				Reports
 			</Typography>
+			<Select
+				labelId='errorType'
+				id='errorType'
+				value={chosenType}
+				onChange={handleErrorTypeChange}
+				disableUnderline
+			>
+				{types.map((type, index) => (
+					<MenuItem value={type} key={index}>
+						{type}
+					</MenuItem>
+				))}
+				<MenuItem value={'none'}>Filter by Error Type</MenuItem>
+			</Select>
 
 			<Tooltip title='Filter list'>
 				<IconButton>
@@ -167,9 +196,11 @@ const ReportsPage = () => {
 	const [rows, setRows] = useState(null);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [loading, setLoading] = useState(true);
+	const [originalRows, setOriginalRows] = useState([]);
 
 	useEffect(() => {
 		getReports((res) => {
+			setOriginalRows(res.data);
 			setRows(res.data);
 			setLoading(false);
 		});
@@ -184,6 +215,7 @@ const ReportsPage = () => {
 		//We ought to know if the event is happening on the same property, if so the order will be inversed
 		setOrder(isAsc ? 'desc' : 'asc'); //if it was previously ascending in the same porperty we now change for descending
 		setOrderBy(property);
+		console.log(originalRows);
 	};
 
 	const handleChangePage = (event, newPage) => {
@@ -194,13 +226,22 @@ const ReportsPage = () => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
 	};
+	const filterErrorType = (type) => {
+		if (type === 'none' && rows !== originalRows) {
+			setRows(originalRows);
+		} else {
+			var reports = originalRows;
+			var newReports = reports.filter((value) => value['type'] === type);
+			setRows(newReports);
+		}
+	};
 
 	if (loading) return <Loading />;
 
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar />
+				<EnhancedTableToolbar rows={rows} onErrorTypeChange={filterErrorType} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<colgroup>
