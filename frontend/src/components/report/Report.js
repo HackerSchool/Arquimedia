@@ -12,10 +12,16 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { ReactComponent as DeleteReport } from '../../assets/deleteComment.svg';
+import { deleteReport } from '../../api';
 
 const Report = (props) => {
 	const [expand, setExpand] = useState(false);
 	const row = props.data;
+	function handleReportDelete(id) {
+		deleteReport(id, () => {
+			props.afterReportDeleted(id);
+		});
+	}
 
 	return (
 		<>
@@ -61,7 +67,7 @@ const Report = (props) => {
 									<TableCell>{row.author}</TableCell>
 									<TableCell>{row.date}</TableCell>
 									<TableCell>
-										<IconButton>
+										<IconButton onClick={() => handleReportDelete(row.id)}>
 											<DeleteReport />
 										</IconButton>
 									</TableCell>

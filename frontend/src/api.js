@@ -252,3 +252,6 @@ export async function deleteAccount(password, successCall, errorCall) {
 export async function getReports(successCall) {
 	axios.get('api/reports/').then((res) => successCall(res));
 }
+export async function deleteReport(id, successCall) {
+	axios.delete('api/report/' + id).then((res) => successCall(res));
+}

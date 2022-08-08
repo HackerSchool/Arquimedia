@@ -172,6 +172,10 @@ const ReportsPage = () => {
 			setLoading(false);
 		});
 	}, []);
+	const afterReportDeleted = (id) => {
+		const reports = rows.filter((report) => report.id !== id);
+		setRows(reports); //Update List
+	};
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -222,7 +226,14 @@ const ReportsPage = () => {
 									console.log(row);
 									const labelId = `enhanced-table-checkbox-${index}`;
 
-									return <Report data={row} labelId={labelId} key={row.id} />;
+									return (
+										<Report
+											data={row}
+											labelId={labelId}
+											key={row.id}
+											afterReportDeleted={afterReportDeleted}
+										/>
+									);
 								})}
 							{emptyRows > 0 && (
 								// This is made so that if a page is not completely filled it will not have a layout change.
