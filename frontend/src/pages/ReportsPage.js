@@ -29,6 +29,7 @@ import isUnique from '../utils/isUnique';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CloseIcon from '@mui/icons-material/Close';
+import globalTheme from '../globalTheme';
 
 function descendingComparator(a, b, orderBy) {
 	// We assume that values are descending
@@ -158,29 +159,37 @@ const EnhancedTableToolbar = (props) => {
 		var reportIDs = props.rows.map((row) => row['id']);
 		var uniqueReportIDs = reportIDs.filter(isUnique);
 		setReportIDs(uniqueReportIDs);
+
 		var questionIDs = props.rows.map((row) => row['question']);
 		var uniqueQuestionIDs = questionIDs.filter(isUnique);
 		setQuestionIDs(uniqueQuestionIDs);
+
 		var types = props.rows.map((row) => row['type']);
 		var uniqueTypes = types.filter(isUnique);
 		setTypes(uniqueTypes);
 	}, []);
+
 	const handleReportIDChange = (event) => {
 		setReportID(event.target.value);
 	};
+
 	const handleQuestionIDChange = (event) => {
 		setQuestionID(event.target.value);
 	};
+
 	const handleErrorTypeChange = (event) => {
 		setChosenType(event.target.value);
 	};
+
 	const handleBodyQueryChange = (event) => {
 		setBodyQuery(event.target.value);
 	};
+
 	const search = () => {
 		props.searchFunction(reportID, questionID, chosenType, bodyQuery);
 		setBodyQuery('');
 	};
+
 	const resetFilters = () => {
 		setReportID('none');
 		setQuestionID('none');
@@ -188,7 +197,7 @@ const EnhancedTableToolbar = (props) => {
 		setBodyQuery('');
 		props.resetFilters();
 	};
-
+	console.log(globalTheme);
 	return (
 		<Toolbar
 			sx={{
@@ -208,13 +217,17 @@ const EnhancedTableToolbar = (props) => {
 						id='ReportID'
 						value={reportID}
 						onChange={handleReportIDChange}
+						sx={globalTheme.components.select.styleOverrides}
+						MenuProps={{
+							sx: globalTheme.components.menuItem.styleOverrides,
+						}}
 					>
-						{reportIDs.map((type, index) => (
-							<MenuItem value={type} key={index}>
-								{type}
+						<MenuItem value={'none'}>Todos os ReportIDs</MenuItem>
+						{reportIDs.map((id, index) => (
+							<MenuItem value={id} key={index}>
+								{id}
 							</MenuItem>
 						))}
-						<MenuItem value={'none'}>Todos os ReportIDs</MenuItem>
 					</Select>
 					<Select
 						labelId='QuestionID'
@@ -222,26 +235,34 @@ const EnhancedTableToolbar = (props) => {
 						value={questionID}
 						onChange={handleQuestionIDChange}
 						style={{ margin: '1rem' }}
+						sx={globalTheme.components.select.styleOverrides}
+						MenuProps={{
+							sx: globalTheme.components.menuItem.styleOverrides,
+						}}
 					>
-						{questionIDs.map((type, index) => (
-							<MenuItem value={type} key={index}>
-								{type}
+						<MenuItem value={'none'}>Todos as questões</MenuItem>
+						{questionIDs.map((questionID, index) => (
+							<MenuItem value={questionID} key={index}>
+								{questionID}
 							</MenuItem>
 						))}
-						<MenuItem value={'none'}>Todos as questões</MenuItem>
 					</Select>
 					<Select
 						labelId='errorType'
 						id='errorType'
 						value={chosenType}
 						onChange={handleErrorTypeChange}
+						sx={globalTheme.components.select.styleOverrides}
+						MenuProps={{
+							sx: globalTheme.components.menuItem.styleOverrides,
+						}}
 					>
+						<MenuItem value={'none'}>Filtre por tipo de erro</MenuItem>
 						{types.map((type, index) => (
 							<MenuItem value={type} key={index}>
 								{type}
 							</MenuItem>
 						))}
-						<MenuItem value={'none'}>Filtre por tipo de erro</MenuItem>
 					</Select>
 					<TextField
 						style={{ margin: '1rem' }}
@@ -322,32 +343,6 @@ const ReportsPage = () => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
 	};
-
-	/* 	const filterErrorType = (type) => {
-		if (type === 'none' && rows !== originalRows) {
-			setRows(originalRows);
-		} else {
-			var reports = originalRows;
-			var newReports = reports.filter((value) => value['type'] === type);
-			setRows(newReports);
-		}
-	};
-		const search = (bodyQuery) => {
-		if (bodyQuery && bodyQuery.length > 0) {
-			// if it exists
-
-			var reports = originalRows;
-			var newReports = reports
-				.filter((report) => report['body']) //filter only rows with a body !== null
-				.filter((report) => {
-					return report['body'].toLowerCase().includes(bodyQuery.toLowerCase());
-				}); //Search is case insentive
-
-			setRows(newReports);
-		} else {
-			setRows([]);
-		}
-	}; */
 
 	const search = (reportID, questionID, chosenType, bodyQuery) => {
 		var reports = originalRows;
