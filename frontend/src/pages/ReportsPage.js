@@ -88,10 +88,22 @@ const headCells = [
 		label: 'Tipo',
 	},
 	{
-		id: 'body',
+		id: 'author',
 		rightAlligned: false,
 		disablePadding: false,
-		label: 'Descrição',
+		label: 'Autor',
+	},
+	{
+		id: 'date',
+		rightAlligned: false,
+		disablePadding: false,
+		label: 'Data',
+	},
+	{
+		id: 'action',
+		rightAlligned: false,
+		disablePadding: false,
+		label: 'Ações',
 	},
 ];
 

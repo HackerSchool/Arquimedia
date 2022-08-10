@@ -43,36 +43,36 @@ const Report = (props) => {
 					<a href={'/questao/' + row.question}>{row.question}</a>
 				</TableCell>
 				<TableCell align='left'>{row.type}</TableCell>
-				<TableCell align='left'>{row.body}</TableCell>
-			</TableRow>
-			<TableRow>
-				{' '}
-				{/* Expandable */}
-				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
-					<Collapse in={expand} timeout='auto' unmountOnExit>
-						<Table size='small' aria-label='purchases'>
-							<TableHead>
-								<TableRow>
-									<TableCell>Autor</TableCell>
-									<TableCell>Data</TableCell>
-									<TableCell>Acções</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<TableRow>
-									<TableCell>{row.author}</TableCell>
-									<TableCell>{row.date}</TableCell>
-									<TableCell>
-										<IconButton onClick={() => handleReportDelete(row.id)}>
-											<DeleteReport />
-										</IconButton>
-									</TableCell>
-								</TableRow>
-							</TableBody>
-						</Table>
-					</Collapse>
+				<TableCell align='left'>{row.author}</TableCell>
+				<TableCell align='left'>{row.date}</TableCell>
+				<TableCell>
+					<IconButton onClick={() => handleReportDelete(row.id)}>
+						<DeleteReport />
+					</IconButton>
 				</TableCell>
 			</TableRow>
+			{row.body && (
+				<TableRow>
+					{' '}
+					{/* Expandable */}
+					<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
+						<Collapse in={expand} timeout='auto' unmountOnExit>
+							<Table size='small' aria-label='purchases'>
+								<TableHead>
+									<TableRow>
+										<TableCell>Descricão</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									<TableRow>
+										<TableCell>{row.body}</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
+						</Collapse>
+					</TableCell>
+				</TableRow>
+			)}
 		</>
 	);
 };
