@@ -39,7 +39,9 @@ const Report = (props) => {
 				<TableCell id={props.labelId} scope='row' padding='none' align='left'>
 					{Number(row.id)}
 				</TableCell>
-				<TableCell align='left'>{row.question}</TableCell>
+				<TableCell align='left'>
+					<a href={'/questao/' + row.question}>{row.question}</a>
+				</TableCell>
 				<TableCell align='left'>{row.type}</TableCell>
 				<TableCell align='left'>{row.body}</TableCell>
 			</TableRow>
