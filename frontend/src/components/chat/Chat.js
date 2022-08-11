@@ -4,8 +4,12 @@ import { Grid, TextField, IconButton } from '@mui/material';
 import Box from '../box/Box';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { createCommentAPI } from '../../api';
+import isSwear from '../../utils/isSwear';
+import { useSnackbar } from 'notistack';
 
 export function Chat(props) {
+	const { enqueueSnackbar } = useSnackbar();
+
 	const [commentText, setCommentText] = useState('');
 	const [comments, setComments] = useState(props.messageArray);
 
@@ -18,11 +22,16 @@ export function Chat(props) {
 			content: commentText,
 			question: props.questionID,
 		};
-
-		createCommentAPI(body, (res) => {
-			const newComments = comments.concat(res.data);
-			setComments(newComments);
-		});
+		if (isSwear(body.content)) {
+			enqueueSnackbar('O seu comentário contém expressões agressivas/impróprias', {
+				variant: 'warning',
+			});
+		} else {
+			createCommentAPI(body, (res) => {
+				const newComments = comments.concat(res.data);
+				setComments(newComments);
+			});
+		}
 		setCommentText('');
 	};
 
