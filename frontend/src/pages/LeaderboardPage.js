@@ -94,6 +94,10 @@ function LeaderboardPage() {
 					value={span}
 					onChange={handleChange}
 					className={classes.dropdown}
+					sx={globalTheme.components.select.styleOverrides}
+					MenuProps={{
+						sx: globalTheme.components.menuItem.styleOverrides,
+					}}
 				>
 					{SPANS.map((span) => (
 						<MenuItem key={span} value={span}>
