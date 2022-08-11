@@ -1,35 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import {
-	Box,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TablePagination,
-	TableRow,
-	TableSortLabel,
-	Toolbar,
-	Typography,
-	Paper,
-	IconButton,
-	Tooltip,
-	Select,
-	MenuItem,
-	TextField,
-} from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
+import { Box, Table, TableBody, TableContainer, TablePagination, Paper } from '@mui/material';
 import { getReports } from '../api';
 import Loading from '../components/loading/Loading';
 import Report from '../components/report/Report';
-import isUnique from '../utils/isUnique';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import CloseIcon from '@mui/icons-material/Close';
-import globalTheme from '../globalTheme';
+import ReportTableHead from '../components/report/ReportTableHead';
+import ReportTableToolbar from '../components/report/ReportTableToolbar';
 
 function descendingComparator(a, b, orderBy) {
 	// We assume that values are descending
@@ -67,256 +43,6 @@ function stableSort(array, comparator) {
 	return stabilizedThis.map((el) => el[0]);
 	//Eliminates old index, makes it only one element again, only store the first element of the array which is the initial object
 }
-
-const headCells = [
-	{
-		id: 'id',
-		rightAlligned: false,
-		disablePadding: true,
-		label: 'ReportID',
-	},
-	{
-		id: 'question',
-		rightAlligned: false,
-		disablePadding: false,
-		label: 'Questão',
-	},
-	{
-		id: 'type',
-		rightAlligned: false,
-		disablePadding: false,
-		label: 'Tipo',
-	},
-	{
-		id: 'author',
-		rightAlligned: false,
-		disablePadding: false,
-		label: 'Autor',
-	},
-	{
-		id: 'date',
-		rightAlligned: false,
-		disablePadding: false,
-		label: 'Data',
-	},
-	{
-		id: 'action',
-		rightAlligned: false,
-		disablePadding: false,
-		label: 'Ações',
-	},
-];
-
-function EnhancedTableHead(props) {
-	const { order, orderBy, onRequestSort } = props;
-	const createSortHandler = (property) => (event) => {
-		onRequestSort(event, property);
-	};
-
-	return (
-		<TableHead>
-			<TableRow>
-				<TableCell />
-				{headCells.map((headCell) => (
-					<TableCell
-						key={headCell.id}
-						align={headCell.rightAlligned ? 'right' : 'left'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
-						sortDirection={orderBy === headCell.id ? order : false}
-					>
-						{headCell.id === 'body' || headCell.id === 'type' ? (
-							headCell.label
-						) : (
-							<TableSortLabel
-								active={orderBy === headCell.id}
-								direction={orderBy === headCell.id ? order : 'asc'}
-								onClick={
-									headCell.id === 'body' ? null : createSortHandler(headCell.id)
-								}
-							>
-								{headCell.label}
-								{orderBy === headCell.id ? (
-									<Box component='span' sx={visuallyHidden}>
-										{order === 'desc'
-											? 'sorted descending'
-											: 'sorted ascending'}
-									</Box>
-								) : null}
-							</TableSortLabel>
-						)}
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
-	);
-}
-
-EnhancedTableHead.propTypes = {
-	onRequestSort: PropTypes.func.isRequired,
-	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-	orderBy: PropTypes.string.isRequired,
-};
-
-const EnhancedTableToolbar = (props) => {
-	const [reportIDs, setReportIDs] = useState([]);
-	const [questionIDs, setQuestionIDs] = useState([]);
-	const [types, setTypes] = useState([]);
-	const [reportID, setReportID] = useState('none');
-	const [questionID, setQuestionID] = useState('none');
-	const [chosenType, setChosenType] = useState('none');
-	const [bodyQuery, setBodyQuery] = useState('');
-	const [filtering, setFiltering] = useState(false);
-
-	useEffect(() => {
-		var reportIDs = props.rows.map((row) => row['id']);
-		var uniqueReportIDs = reportIDs.filter(isUnique);
-		setReportIDs(uniqueReportIDs);
-
-		var questionIDs = props.rows.map((row) => row['question']);
-		var uniqueQuestionIDs = questionIDs.filter(isUnique);
-		setQuestionIDs(uniqueQuestionIDs);
-
-		var types = props.rows.map((row) => row['type']);
-		var uniqueTypes = types.filter(isUnique);
-		setTypes(uniqueTypes);
-	}, []);
-
-	const handleReportIDChange = (event) => {
-		setReportID(event.target.value);
-	};
-
-	const handleQuestionIDChange = (event) => {
-		setQuestionID(event.target.value);
-	};
-
-	const handleErrorTypeChange = (event) => {
-		setChosenType(event.target.value);
-	};
-
-	const handleBodyQueryChange = (event) => {
-		setBodyQuery(event.target.value);
-	};
-
-	const search = () => {
-		props.searchFunction(reportID, questionID, chosenType, bodyQuery);
-		setBodyQuery('');
-	};
-
-	const resetFilters = () => {
-		setReportID('none');
-		setQuestionID('none');
-		setChosenType('none');
-		setBodyQuery('');
-		props.resetFilters();
-	};
-	console.log(globalTheme);
-	return (
-		<Toolbar
-			sx={{
-				pl: { sm: 2 },
-				pr: { xs: 1, sm: 1 },
-			}}
-		>
-			<Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
-				Reports
-			</Typography>
-
-			{filtering ? (
-				<>
-					{' '}
-					<Select
-						labelId='ReportID'
-						id='ReportID'
-						value={reportID}
-						onChange={handleReportIDChange}
-						sx={globalTheme.components.select.styleOverrides}
-						MenuProps={{
-							sx: globalTheme.components.menuItem.styleOverrides,
-						}}
-					>
-						<MenuItem value={'none'}>Todos os ReportIDs</MenuItem>
-						{reportIDs.map((id, index) => (
-							<MenuItem value={id} key={index}>
-								{id}
-							</MenuItem>
-						))}
-					</Select>
-					<Select
-						labelId='QuestionID'
-						id='QuestionID'
-						value={questionID}
-						onChange={handleQuestionIDChange}
-						style={{ margin: '1rem' }}
-						sx={globalTheme.components.select.styleOverrides}
-						MenuProps={{
-							sx: globalTheme.components.menuItem.styleOverrides,
-						}}
-					>
-						<MenuItem value={'none'}>Todos as questões</MenuItem>
-						{questionIDs.map((questionID, index) => (
-							<MenuItem value={questionID} key={index}>
-								{questionID}
-							</MenuItem>
-						))}
-					</Select>
-					<Select
-						labelId='errorType'
-						id='errorType'
-						value={chosenType}
-						onChange={handleErrorTypeChange}
-						sx={globalTheme.components.select.styleOverrides}
-						MenuProps={{
-							sx: globalTheme.components.menuItem.styleOverrides,
-						}}
-					>
-						<MenuItem value={'none'}>Filtre por tipo de erro</MenuItem>
-						{types.map((type, index) => (
-							<MenuItem value={type} key={index}>
-								{type}
-							</MenuItem>
-						))}
-					</Select>
-					<TextField
-						style={{ margin: '1rem' }}
-						variant='standard'
-						fullWidth
-						value={bodyQuery}
-						name='bodyQuery'
-						placeholder='Pesquise por descrição....'
-						label=''
-						onChange={handleBodyQueryChange}
-						InputProps={{
-							disableUnderline: true,
-						}}
-					/>
-					<Tooltip title='Search'>
-						<IconButton onClick={search}>
-							<SearchIcon />
-						</IconButton>
-					</Tooltip>
-					<Tooltip title='Reset Filters'>
-						<IconButton onClick={resetFilters}>
-							<RefreshIcon />
-						</IconButton>
-					</Tooltip>
-				</>
-			) : null}
-			{filtering ? (
-				<Tooltip title='Close filters tab'>
-					<IconButton onClick={() => setFiltering(!filtering)}>
-						<CloseIcon />
-					</IconButton>
-				</Tooltip>
-			) : (
-				<Tooltip title='Open filters tab'>
-					<IconButton onClick={() => setFiltering(!filtering)}>
-						<FilterListIcon />
-					</IconButton>
-				</Tooltip>
-			)}
-		</Toolbar>
-	);
-};
 
 const ReportsPage = () => {
 	const [order, setOrder] = useState('asc');
@@ -390,21 +116,19 @@ const ReportsPage = () => {
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar
-					rows={rows}
-					searchFunction={search}
-					resetFilters={resetRows}
-				/>
+				<ReportTableToolbar rows={rows} searchFunction={search} resetFilters={resetRows} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<colgroup>
-							<col style={{ width: '2%' }} />
-							<col style={{ width: '2%' }} />
-							<col style={{ width: '2%' }} />
+							<col style={{ width: '5%' }} />
+							<col style={{ width: '5%' }} />
+							<col style={{ width: '5%' }} />
 							<col style={{ width: '15%' }} />
-							<col style={{ width: '79%' }} />
+							<col style={{ width: '25%' }} />
+							<col style={{ width: '25%' }} />
+							<col style={{ width: '10%' }} />
 						</colgroup>
-						<EnhancedTableHead
+						<ReportTableHead
 							order={order}
 							orderBy={orderBy}
 							onRequestSort={handleRequestSort}
@@ -416,7 +140,7 @@ const ReportsPage = () => {
 							{stableSort(rows, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) //What objects will be shown
 								.map((row, index) => {
-									const labelId = `enhanced-table-checkbox-${index}`;
+									const labelId = `report-table-checkbox-${index}`;
 
 									return (
 										<Report
