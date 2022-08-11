@@ -15,6 +15,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CloseIcon from '@mui/icons-material/Close';
 import globalTheme from '../../globalTheme';
+import NormalButton from '../buttons/NormalButton';
+import maxNumOccurences from '../../utils/maxNumOccurences';
 
 export default function ReportTableToolbar(props) {
 	const [reportIDs, setReportIDs] = useState([]);
@@ -67,6 +69,16 @@ export default function ReportTableToolbar(props) {
 		setChosenType('none');
 		setBodyQuery('');
 		props.resetFilters();
+	};
+
+	const questionWithMoreReports = () => {
+		var questionIDs = props.rows.map((row) => row['question']);
+		var questionPrevalent = maxNumOccurences(questionIDs);
+		alert(
+			'A questão com mais Problemas é a → ' +
+				String(questionPrevalent) +
+				'\n \n \n ლ(¯ロ¯"ლ) → (ﾉಥ益ಥ）ﾉ彡┻━┻'
+		);
 	};
 	return (
 		<Toolbar
@@ -158,7 +170,13 @@ export default function ReportTableToolbar(props) {
 						</IconButton>
 					</Tooltip>
 				</>
-			) : null}
+			) : (
+				<NormalButton
+					text='Qual a questão com mais Problemas?'
+					fontSize={12}
+					onClick={questionWithMoreReports}
+				/>
+			)}
 			{filtering ? (
 				<Tooltip title='Close filters tab'>
 					<IconButton onClick={() => setFiltering(!filtering)}>
