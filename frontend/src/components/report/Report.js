@@ -28,13 +28,15 @@ const Report = (props) => {
 			{' '}
 			<TableRow hover tabIndex={-1} key={row.id}>
 				<TableCell>
-					<IconButton
-						aria-label='expand row'
-						size='small'
-						onClick={() => setExpand(!expand)}
-					>
-						{expand ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-					</IconButton>
+					{row.body && ( //Only shows arrow to open expandable if there is a body to show
+						<IconButton
+							aria-label='expand row'
+							size='small'
+							onClick={() => setExpand(!expand)}
+						>
+							{expand ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+						</IconButton>
+					)}
 				</TableCell>
 				<TableCell id={props.labelId} scope='row' padding='none' align='left'>
 					{Number(row.id)}
