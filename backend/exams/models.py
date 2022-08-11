@@ -28,6 +28,20 @@ SUB_SUBJECTS = ((j, j) for i in subjects for j in i['themes'])
 
 YEARS = [(0, "0"), (10, "10"), (11, "11"), (12, "12")]
 
+RESOURCE_TYPES = (
+    ("video", "Video"),
+    ("paper", "Paper"),
+)
+
+ISSUE_TYPES = (
+        ('Typo', 'Gralha no enunciado ou nas opções de resposta'),
+        ('SubmissionError', 'Erro na submissão'),
+        ('QuestionFormatting', 'Pergunta desformatada'),
+        ('LoadingError', 'Página não carrega'),
+        ('ImageError', 'Figura errada ou em falta'),
+        ('Other', 'Outro'),
+)
+
 class Exam(models.Model):
 
     questions = models.ManyToManyField("Question", related_name="questions")
@@ -52,6 +66,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, related_name="question", null=True, on_delete=CASCADE)
     accepted = models.BooleanField(null=True, default=False)
     text = models.CharField(max_length=1000,  null=False)
+    resolution = models.TextField(null=True)
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
     subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary
     year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
@@ -114,8 +129,26 @@ class Comment(models.Model):
         return 1
         
 
-
 class Answer(models.Model):
     text = models.TextField(max_length=100,null=False)
     correct = models.BooleanField(default=False)
     question = models.ForeignKey("question", related_name="answer", on_delete=models.CASCADE, null=True)
+
+
+class Report(models.Model):
+    question = models.ForeignKey("question", related_name="report", on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(User, related_name="report", on_delete=models.CASCADE, null=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    type = models.CharField(max_length=50, choices=ISSUE_TYPES)
+    body = models.TextField()
+
+    def __str__(self):
+        return str(self.date.date()) + ' || ' + self.type + ' || ' + str(self.question)
+
+
+class Resource(models.Model):
+    type = models.CharField(null=False, choices=RESOURCE_TYPES, max_length=50)
+    url = models.TextField(null=False)
+    description = models.TextField(null=False)
+    question = models.ForeignKey(Question, on_delete=CASCADE, related_name="resources")

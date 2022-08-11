@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
 	path("questions", QuestionsListView.as_view()),
 	path("question/<int:id>", QuestionView.as_view()),
+	path("question/resource/<int:id>", ResourceView.as_view()),
 	path("question/", QuestionView.as_view()),
 	path("comment/", CommentView.as_view()),
 	path("comment/<int:id>", CommentView.as_view()),
@@ -26,5 +27,8 @@ urlpatterns = [
 	path("follow/<int:id>", Follow.as_view()),
 	path("email-confirm/<str:username>/<int:code>", VerifyEmailView.as_view()),
 	path("users/", Users.as_view()),
-	path("user/", DeleteAccount.as_view())
+	path("user/", DeleteAccount.as_view()),
+	path("reports/", ReportListView.as_view()),
+	path("report/", ReportView.as_view()),
+	path("report/<int:id>", ReportView.as_view())
 ]
