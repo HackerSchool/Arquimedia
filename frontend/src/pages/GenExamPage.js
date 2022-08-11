@@ -25,6 +25,7 @@ import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import { useSnackbar } from 'notistack';
 import { Checkbox } from '../components/checkbox/Checkbox';
 import config from '../config';
+import globalTheme from '../globalTheme';
 
 const useStyles = makeStyles((theme) => ({
 	body: {},
@@ -297,8 +298,12 @@ const GenExamPage = () => {
 							value={subject}
 							classes={{ root: classes.selectRoot }}
 							className={classes.select}
-							MenuProps={{ classes: { paper: classes.paper } }}
 							inputProps={{ classes: { icon: classes.icon } }}
+							sx={globalTheme.components.select.styleOverrides}
+							MenuProps={{
+								sx: globalTheme.components.menuItem.styleOverrides,
+								classes: { paper: classes.paper },
+							}}
 						>
 							{config.areas.map((area) => [
 								<ListSubheader key={area} className={classes.subheader}>
