@@ -24,7 +24,7 @@ import theme from '../../globalTheme';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveHeight from '../../hooks/responsiveHeight';
 
-let useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
 	menuButton: {
 		marginRight: theme.spacing(2),
 		color: 'grey',
