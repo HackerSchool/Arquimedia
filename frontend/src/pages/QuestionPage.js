@@ -25,6 +25,7 @@ import { Chat } from '../components/chat/Chat';
 import ReportDialog from '../components/dialogs/ReportDialog';
 import { useSnackbar } from 'notistack';
 import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
+import isSwear from '../utils/isSwear';
 
 const iconSelector = {
 	video: <VideoLibraryIcon />,
@@ -92,7 +93,7 @@ export default function QuestionPage() {
 			body,
 			(res) => {
 				enqueueSnackbar(
-					'Foi criado com sucesso o seu comentário com id:' + String(res.data.id),
+					'Foi criado com sucesso a sua denúncia com id:' + String(res.data.id),
 					{ variant: 'success' }
 				);
 			},
@@ -103,7 +104,6 @@ export default function QuestionPage() {
 			}
 		);
 	};
-	// eslint-disable-next-line no-unused-vars
 	const onClose = (reportType, otherDescription) => {
 		// We only want to submit stuff when the user chooses a report Type, and in the case of the Other there must be some description
 		// If there is some description regardless of report type it must have at least 30 characters
@@ -123,6 +123,11 @@ export default function QuestionPage() {
 		) {
 			enqueueSnackbar('A sua descrição necessita de um mínimo de 30 caractéres', {
 				variant: 'error',
+			});
+			return;
+		} else if (reportType !== null && isSwear(otherDescription)) {
+			enqueueSnackbar('A sua descrição contém expressões agressivas/impróprias', {
+				variant: 'warning',
 			});
 			return;
 		} else if (reportType !== null) {
