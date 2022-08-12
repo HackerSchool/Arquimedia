@@ -8,16 +8,10 @@ function escapeRegExp(string) {
 }
 
 export default function isSwear(query) {
-	var badWordsPresent = badWords.filter((badWord) => {
+	for (const badWord of badWords) {
 		var regex = '\\b';
 		regex += escapeRegExp(badWord);
 		regex += '\\b';
-		return new RegExp(regex, 'i').test(query);
-	});
-
-	if (badWordsPresent.length > 0) {
-		return true;
-	} else {
-		return false;
+		if (new RegExp(regex, 'i').test(query)) return true;
 	}
 }
