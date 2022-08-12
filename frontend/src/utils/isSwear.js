@@ -8,17 +8,10 @@ function escapeRegExp(string) {
 }
 
 export default function isSwear(query) {
-	let listIndex = 0;
-	let swearing = false;
-
-	while (!swearing && listIndex < badWords.length) {
-		var badWord = badWords[listIndex];
+	for (const badWord of badWords) {
 		var regex = '\\b';
 		regex += escapeRegExp(badWord);
 		regex += '\\b';
-		swearing = new RegExp(regex, 'i').test(query);
-		listIndex++;
+		if (new RegExp(regex, 'i').test(query)) return true;
 	}
-
-	return swearing;
 }
