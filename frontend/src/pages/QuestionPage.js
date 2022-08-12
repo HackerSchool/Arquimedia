@@ -26,7 +26,6 @@ import ReportDialog from '../components/dialogs/ReportDialog';
 import { useSnackbar } from 'notistack';
 import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
 import isSwear from '../utils/isSwear';
-
 const iconSelector = {
 	video: <VideoLibraryIcon />,
 	paper: <ArticleIcon />,
@@ -74,7 +73,7 @@ export default function QuestionPage() {
 	const [question, setQuestion] = useState(null);
 	const [userID, setUserID] = useState(null);
 	const [isUserMod, setIsUserMod] = useState(false);
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 
 	const windowArray = useWindowDimensions();
 

@@ -50,13 +50,16 @@ export default function Comment(props) {
 			removeUpvoteAPI(props.comment.id, () => {
 				setVoted(0);
 				setVotes(votes - 1);
+				props.handleVoteChange(props.comment.id, votes - 1);
 			});
+
 			return;
 		} else if (voted === -1) votesToAdd++;
 
 		upvoteAPI(props.comment.id, () => {
 			setVoted(1);
 			setVotes(votes + votesToAdd);
+			props.handleVoteChange(props.comment.id, votes + votesToAdd);
 		});
 	};
 
@@ -66,13 +69,16 @@ export default function Comment(props) {
 			removeDownvoteAPI(props.comment.id, () => {
 				setVoted(0);
 				setVotes(votes + 1);
+				props.handleVoteChange(props.comment.id, votes + 1);
 			});
+
 			return;
 		} else if (voted === 1) votesToRemove++;
 
 		downvoteAPI(props.comment.id, () => {
 			setVoted(-1);
 			setVotes(votes - votesToRemove);
+			props.handleVoteChange(props.comment.id, votes - votesToRemove);
 		});
 	};
 	function getCurrentDate(separator = '-') {
