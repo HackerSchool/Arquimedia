@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	deleteCommentAPI,
 	upvoteAPI,
@@ -34,6 +34,7 @@ export default function Comment(props) {
 	const classes = useStyles();
 	const [voted, setVoted] = useState(props.comment.voted);
 	const [votes, setVotes] = useState(props.comment.votes);
+	const [timeShown, setTimeShown] = useState(null);
 
 	const windowArray = useWindowDimensions();
 
@@ -74,6 +75,25 @@ export default function Comment(props) {
 			setVotes(votes - votesToRemove);
 		});
 	};
+	function getCurrentDate(separator = '-') {
+		let newDate = new Date();
+		let date = newDate.getDate();
+		let month = newDate.getMonth() + 1;
+		let year = newDate.getFullYear();
+
+		return `${year}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${date}`;
+	}
+
+	useEffect(() => {
+		const currentDate = getCurrentDate('-');
+		const time = props.comment.date.slice(11, -11); //Gets the time HH:MM
+		const date = props.comment.date.slice(0, 10); //Date YYYY-MM-DD
+		if (currentDate === date) {
+			setTimeShown('- ' + time);
+		} else {
+			setTimeShown('- ' + date + ' ' + time);
+		}
+	}, []);
 
 	return (
 		<Grid container direction='row' justifyContent='center' alignItems='center'>
@@ -105,7 +125,7 @@ export default function Comment(props) {
 							fontSize: responsiveWidth(windowArray, 15, 20, 0.012),
 						}}
 					>
-						{props.comment.author.username}
+						{props.comment.author.username} {timeShown}
 					</Typography>
 				</Grid>
 				<Grid container direction='row' alignItems='center'>

@@ -112,7 +112,7 @@ class Comment(models.Model):
         User, related_name="comment", on_delete=models.CASCADE, null=False)
     #fatherComment = models.ForeignKey("comment", related_name="reply", on_delete=models.CASCADE, null=True)
     votes = models.IntegerField(default=0)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     upvoters = models.ManyToManyField(
         User, related_name="upvoters", blank=True)
     downvoters = models.ManyToManyField(
