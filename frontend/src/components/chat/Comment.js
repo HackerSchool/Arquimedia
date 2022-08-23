@@ -6,7 +6,6 @@ import {
 	removeUpvoteAPI,
 	removeDownvoteAPI,
 } from '../../api';
-import makeStyles from '@mui/styles/makeStyles';
 import { ReactComponent as DeleteIcon } from '../../assets/deleteComment.svg';
 import { ReactComponent as UpvoteIcon } from '../../assets/upvote.svg';
 import { ReactComponent as DownvoteIcon } from '../../assets/downvote.svg';
@@ -18,25 +17,34 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveWidth from '../../hooks/responsiveWidth';
 import Box from '../box/Box';
 
-const useStyles = makeStyles(() => ({
-	author: {
-		color: '#BEBEBE',
-		fontWeight: 700,
-		fontSize: 18,
-		marginLeft: '0.5rem',
-	},
-	voteCounter: {
-		fontWeight: 600,
-		fontSize: 18,
-	},
-}));
 export default function Comment(props) {
-	const classes = useStyles();
 	const [voted, setVoted] = useState(props.comment.voted);
 	const [votes, setVotes] = useState(props.comment.votes);
 	const [timeShown, setTimeShown] = useState(null);
 
 	const windowArray = useWindowDimensions();
+
+	const sxStyles = {
+		arrowIcons: { height: responsiveWidth(windowArray, 22, 50, 0.012) },
+		deleteIcons: { height: responsiveWidth(windowArray, 18, 50, 0.015) },
+		author: {
+			color: '#BEBEBE',
+			fontWeight: 700,
+			fontSize: 18,
+			marginLeft: '0.5rem',
+		},
+		voteCounter: {
+			fontWeight: 600,
+			fontSize: 18,
+		},
+		avatarComment: {
+			width: responsiveWidth(windowArray, undefined, 75, 0.035),
+			height: responsiveWidth(windowArray, undefined, 75, 0.035),
+		},
+		descriptiveText: {
+			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+		},
+	};
 
 	const handleCommentDelete = () => {
 		deleteCommentAPI(props.comment.id, () => {
@@ -107,13 +115,7 @@ export default function Comment(props) {
 			<Grid container xs={1} direction='row' justifyContent='center' alignItems='center'>
 				{' '}
 				{/* User Photo*/}
-				<AvatarUser
-					user={props.comment.author}
-					style={{
-						width: responsiveWidth(windowArray, undefined, 75, 0.035),
-						height: responsiveWidth(windowArray, undefined, 75, 0.035),
-					}}
-				/>
+				<AvatarUser user={props.comment.author} sx={sxStyles.avatarComment} />
 			</Grid>
 			<Grid
 				container
@@ -125,12 +127,7 @@ export default function Comment(props) {
 				<Grid item xs={1}>
 					{' '}
 					{/* Username*/}
-					<Typography
-						className={classes.author}
-						style={{
-							fontSize: responsiveWidth(windowArray, 15, 20, 0.012),
-						}}
-					>
+					<Typography sx={(sxStyles.author, sxStyles.descriptiveText)}>
 						{props.comment.author.username} {timeShown}
 					</Typography>
 				</Grid>
@@ -139,11 +136,7 @@ export default function Comment(props) {
 						{' '}
 						{/* Comment content*/}{' '}
 						<Box>
-							<Typography
-								style={{
-									fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
-								}}
-							>
+							<Typography sx={sxStyles.descriptiveText}>
 								{props.comment.content}
 							</Typography>
 						</Box>
@@ -159,27 +152,16 @@ export default function Comment(props) {
 						<Grid item xs={1}>
 							<IconButton onClick={() => handleCommentUpvote()}>
 								{voted === 1 ? (
-									<UpvoteFilledIcon
-										style={{
-											height: responsiveWidth(windowArray, 22, 50, 0.012),
-										}}
-									/>
+									<UpvoteFilledIcon sx={sxStyles.arrowIcons} />
 								) : (
-									<UpvoteIcon
-										style={{
-											height: responsiveWidth(windowArray, 22, 50, 0.012),
-										}}
-									/>
+									<UpvoteIcon sx={sxStyles.arrowIcons} />
 								)}
 							</IconButton>
 						</Grid>
 						<Grid item xs={1}>
 							<Typography
 								variant='h6'
-								className={classes.voteCounter}
-								style={{
-									fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
-								}}
+								sx={(sxStyles.voteCounter, sxStyles.descriptiveText)}
 							>
 								{votes}
 							</Typography>
@@ -188,17 +170,9 @@ export default function Comment(props) {
 							{' '}
 							<IconButton onClick={() => handleCommentDownvote()}>
 								{voted === -1 ? (
-									<DownvoteFilledIcon
-										style={{
-											height: responsiveWidth(windowArray, 22, 50, 0.012),
-										}}
-									/>
+									<DownvoteFilledIcon sx={sxStyles.arrowIcons} />
 								) : (
-									<DownvoteIcon
-										style={{
-											height: responsiveWidth(windowArray, 22, 50, 0.012),
-										}}
-									/>
+									<DownvoteIcon sx={sxStyles.arrowIcons} />
 								)}
 							</IconButton>
 						</Grid>
@@ -214,11 +188,7 @@ export default function Comment(props) {
 						<Grid item xs={3}>
 							{props.userID === props.comment.author.id || props.isUserMod ? (
 								<IconButton onClick={() => handleCommentDelete()}>
-									<DeleteIcon
-										style={{
-											height: responsiveWidth(windowArray, 18, 50, 0.015),
-										}}
-									/>
+									<DeleteIcon sx={sxStyles.deleteIcons} />
 								</IconButton>
 							) : (
 								<></>

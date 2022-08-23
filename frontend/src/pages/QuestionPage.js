@@ -14,7 +14,6 @@ import Question from '../components/questions/Question';
 import { fetchQuestion, getUser, getProfile, createReport } from '../api';
 import theme from '../globalTheme';
 import Box from '../components/box/Box';
-import makeStyles from '@mui/styles/makeStyles';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
@@ -34,40 +33,6 @@ const iconSelector = {
 	paper: <ArticleIcon />,
 };
 
-const useStyles = makeStyles(() => ({
-	itemInfo: {
-		fontWeight: 'normal',
-	},
-	itemInfoLabel: {
-		fontWeight: 'bold',
-	},
-	resources: {
-		border: '2px solid',
-		borderRadius: 20,
-		borderColor: theme.palette.grey.primary,
-		boxShadow: '-6px 7px 16px rgba(0, 0, 0, 0.25)',
-		padding: '1rem',
-	},
-	resource: {
-		'&:hover': {
-			color: theme.palette.secondary.main,
-		},
-		color: 'black',
-		marginLeft: '1rem',
-	},
-	resourceGrid: {
-		'&:hover': {
-			color: theme.palette.secondary.main,
-		},
-	},
-	detailsBox: {
-		border: '2px solid',
-		borderRadius: 20,
-		borderColor: theme.palette.grey.primary,
-		boxShadow: '-6px 7px 16px rgba(0, 0, 0, 0.25)',
-		padding: '1rem',
-	},
-}));
 function descendingComparator(a, b, orderBy) {
 	// We assume that values are descending
 	if (Number(b[orderBy]) < Number(a[orderBy])) {
@@ -99,7 +64,6 @@ function stableSort(array, comparator) {
 }
 
 export default function QuestionPage() {
-	const classes = useStyles();
 	const { id } = useParams();
 	const { enqueueSnackbar } = useSnackbar();
 	const [question, setQuestion] = useState(null);
@@ -110,6 +74,42 @@ export default function QuestionPage() {
 	const [comments, setComments] = useState([]);
 
 	const windowArray = useWindowDimensions();
+
+	const sxStyles = {
+		sorterText: { fontSize: responsiveWidth(windowArray, 10, 20, 0.01) },
+		subtitle: {
+			fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
+			color: theme.palette.secondary.main,
+		},
+		descriptiveText: {
+			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
+		},
+		itemInfo: {
+			fontWeight: 'normal',
+		},
+		itemInfoLabel: {
+			fontWeight: 'bold',
+		},
+		box: {
+			border: '2px solid',
+			borderRadius: 6,
+			borderColor: theme.palette.grey.primary,
+			boxShadow: '-6px 7px 16px rgba(0, 0, 0, 0.25)',
+			padding: '1rem',
+		},
+		resource: {
+			'&:hover': {
+				color: theme.palette.secondary.main,
+			},
+			color: 'black',
+			marginLeft: '1rem',
+		},
+		resourceGrid: {
+			'&:hover': {
+				color: theme.palette.secondary.main,
+			},
+		},
+	};
 
 	const changeSorting = () => {
 		if (sortingType === 'votes') {
@@ -187,7 +187,6 @@ export default function QuestionPage() {
 		if (question) {
 			sortRerender(comments);
 		} else {
-			console.log('hi there');
 			fetchQuestion(id, (res) => {
 				setQuestion(res.data);
 				sortRerender(res.data.comment);
@@ -223,30 +222,21 @@ export default function QuestionPage() {
 					direction='column'
 					justifyContent='space-between'
 					alignItems='flex-start'
-					className={classes.detailsBox}
+					sx={sxStyles.box}
 				>
 					<Grid container direction='column'>
 						<Grid item>
-							<Typography
-								variant='h4'
-								fontWeight='bold'
-								color={theme.palette.secondary.main}
-								style={{
-									fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
-								}}
-							>
+							<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
 								Detalhes
 							</Typography>
 						</Grid>
 						<Grid item>
 							<Typography
 								variant='h6'
-								className={classes.itemInfo}
-								style={{
-									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-								}}
+								sx={sxStyles.itemInfo}
+								style={sxStyles.descriptiveText}
 							>
-								<span className={classes.itemInfoLabel}>Disciplina:</span>{' '}
+								<span style={sxStyles.itemInfoLabel}>Disciplina:</span>{' '}
 								{question.subject}
 							</Typography>
 						</Grid>
@@ -254,47 +244,38 @@ export default function QuestionPage() {
 							{' '}
 							<Typography
 								variant='h6'
-								className={classes.itemInfo}
-								style={{
-									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-								}}
+								sx={sxStyles.itemInfo}
+								style={sxStyles.descriptiveText}
 							>
-								<span className={classes.itemInfoLabel}>Tema:</span>{' '}
+								<span style={sxStyles.itemInfoLabel}>Tema:</span>{' '}
 								{question.subsubject}
 							</Typography>
 						</Grid>
 						<Grid item>
 							<Typography
 								variant='h6'
-								className={classes.itemInfo}
-								style={{
-									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-								}}
+								sx={sxStyles.itemInfo}
+								style={sxStyles.descriptiveText}
 							>
-								<span className={classes.itemInfoLabel}>Ano:</span> {question.year}
+								<span style={sxStyles.itemInfoLabel}>Ano:</span> {question.year}
 							</Typography>
 						</Grid>
 						<Grid item>
 							<Typography
 								variant='h6'
-								className={classes.itemInfo}
-								style={{
-									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-								}}
+								sx={sxStyles.itemInfo}
+								style={sxStyles.descriptiveText}
 							>
-								<span className={classes.itemInfoLabel}>Fonte:</span>{' '}
-								{question.source}
+								<span style={sxStyles.itemInfoLabel}>Fonte:</span> {question.source}
 							</Typography>
 						</Grid>
 						<Grid item>
 							<Typography
 								variant='h6'
-								className={classes.itemInfo}
-								style={{
-									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-								}}
+								sx={sxStyles.itemInfo}
+								style={sxStyles.descriptiveText}
 							>
-								<span className={classes.itemInfoLabel}>Autor:</span>{' '}
+								<span style={sxStyles.itemInfoLabel}>Autor:</span>{' '}
 							</Typography>
 						</Grid>
 					</Grid>
@@ -305,10 +286,8 @@ export default function QuestionPage() {
 							<MessageReport />
 							<Typography
 								variant='h6'
-								className={classes.itemInfoLabel}
-								style={{
-									fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-								}}
+								sx={sxStyles.itemInfoLabel}
+								style={sxStyles.descriptiveText}
 							>
 								Reportar Erro
 							</Typography>
@@ -320,34 +299,17 @@ export default function QuestionPage() {
 			{/* Resolution */}
 			<Grid item xs={12}>
 				<Box>
-					<Typography
-						variant='h4'
-						fontWeight='bold'
-						color={theme.palette.secondary.main}
-						style={{
-							fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
-						}}
-					>
+					<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
 						Resolução
 					</Typography>
 					{question.resolution ? (
-						<Typography
-							variant='h6'
-							fontWeight='normal'
-							style={{
-								fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
-							}}
-						>
+						<Typography variant='h6' fontWeight='normal' sx={sxStyles.descriptiveText}>
 							<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 								{question.resolution}
 							</ReactMarkdown>
 						</Typography>
 					) : (
-						<Typography
-							style={{
-								fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
-							}}
-						>
+						<Typography sx={sxStyles.descriptiveText}>
 							Ainda estamos a trabalhar na resolução desta pergunta...
 						</Typography>
 					)}
@@ -355,16 +317,9 @@ export default function QuestionPage() {
 			</Grid>
 			{/* Resources */}
 			<Grid item xs={12}>
-				<Accordion className={classes.resources} square>
+				<Accordion sx={sxStyles.box} square>
 					<AccordionSummary>
-						<Typography
-							variant='h4'
-							fontWeight='bold'
-							color={theme.palette.secondary.main}
-							style={{
-								fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
-							}}
-						>
+						<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
 							+ Recursos
 						</Typography>
 					</AccordionSummary>
@@ -375,28 +330,21 @@ export default function QuestionPage() {
 									<Grid
 										container
 										alignItems='center'
-										key={classes.description}
-										className={classes.resourceGrid}
+										key={sxStyles.description}
+										sx={sxStyles.resourceGrid}
 									>
 										{iconSelector[resource.type]}
 										<Typography
 											variant='h6'
 											fontWeight='normal'
 											key={resource.text}
-											style={{
-												fontSize: responsiveWidth(
-													windowArray,
-													12,
-													20,
-													0.012
-												),
-											}}
+											sx={sxStyles.descriptiveText}
 										>
 											<a
 												style={{
 													textDecoration: 'none',
 												}}
-												className={classes.resource}
+												sx={sxStyles.resource}
 												href={resource.url}
 												target='_blank'
 												rel='noreferrer'
@@ -411,9 +359,7 @@ export default function QuestionPage() {
 							<Typography
 								variant='h6'
 								fontWeight='normal'
-								style={{
-									fontSize: responsiveWidth(windowArray, 12, 20, 0.012),
-								}}
+								sx={sxStyles.descriptiveText}
 							>
 								Ainda estamos à procura de recursos...
 							</Typography>
@@ -443,30 +389,12 @@ export default function QuestionPage() {
 									}}
 								>
 									<MenuItem value={'votes'}>
-										<Typography
-											style={{
-												fontSize: responsiveWidth(
-													windowArray,
-													10,
-													20,
-													0.01
-												),
-											}}
-										>
+										<Typography sx={sxStyles.sorterText}>
 											Ordernar por Pontuação
 										</Typography>
 									</MenuItem>
 									<MenuItem value={'id'}>
-										<Typography
-											style={{
-												fontSize: responsiveWidth(
-													windowArray,
-													10,
-													20,
-													0.01
-												),
-											}}
-										>
+										<Typography sx={sxStyles.sorterText}>
 											Ordernar por Data
 										</Typography>
 									</MenuItem>
