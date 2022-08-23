@@ -92,7 +92,7 @@ export default function QuestionPage() {
 		},
 		box: {
 			border: '2px solid',
-			borderRadius: 6,
+			borderRadius: 5,
 			borderColor: theme.palette.grey.primary,
 			boxShadow: '-6px 7px 16px rgba(0, 0, 0, 0.25)',
 			padding: '1rem',
