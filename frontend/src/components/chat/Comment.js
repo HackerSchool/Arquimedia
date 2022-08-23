@@ -127,7 +127,7 @@ export default function Comment(props) {
 				<Grid item xs={1}>
 					{' '}
 					{/* Username*/}
-					<Typography sx={(sxStyles.author, sxStyles.descriptiveText)}>
+					<Typography sx={sxStyles.author} style={sxStyles.descriptiveText}>
 						{props.comment.author.username} {timeShown}
 					</Typography>
 				</Grid>
@@ -161,7 +161,8 @@ export default function Comment(props) {
 						<Grid item xs={1}>
 							<Typography
 								variant='h6'
-								sx={(sxStyles.voteCounter, sxStyles.descriptiveText)}
+								sx={sxStyles.voteCounter}
+								style={sxStyles.descriptiveText}
 							>
 								{votes}
 							</Typography>
