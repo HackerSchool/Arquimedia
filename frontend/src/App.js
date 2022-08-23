@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import QuestionPage from './pages/QuestionPage.js';
 import LoginPage from './pages/LoginPage.js';
@@ -32,8 +33,6 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('Authoriza
 
 function App() {
 	const matches = useMediaQuery('(max-width:1000px)');
-
-	if (matches) return <MobileWarningPage />;
 
 	return (
 		<UserContextProvider>
