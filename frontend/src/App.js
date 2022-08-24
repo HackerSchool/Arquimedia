@@ -14,6 +14,7 @@ import PasswordResetPage from './pages/PasswordResetPage.js';
 import PasswordResetConfirmPage from './pages/PasswordResetConfirmPage.js';
 import LeaderboardPage from './pages/LeaderboardPage.js';
 import PageNotFound from './pages/PageNotFound.js';
+import ReportsPage from './pages/ReportsPage.js';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
@@ -70,6 +71,7 @@ function App() {
 												path='/questoes_submetidas'
 												component={SubmittedQuestions}
 											/>
+											<ModRoute path='/reports' component={ReportsPage} />
 											<AuthRoute path='/perfil' component={ProfilePage} />
 											<Route
 												path='/password/reset/confirm/:uid/:token'

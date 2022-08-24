@@ -240,12 +240,13 @@ class DeleteAccountSerializer(serializers.Serializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
-    id = serializers.SlugField(read_only=True)
-    date = serializers.DateTimeField(read_only=True)
 
-    class Meta:
-        model = Report
-        fields = ['id', 'question', 'date', 'type', 'body']
+	id = serializers.SlugField(read_only=True)
+	date = serializers.DateTimeField(read_only=True)
+	author = serializers.CharField(source='author.username', read_only=True)
+	class Meta:
+		model = Report
+		fields = ['id', 'question', 'date', 'type', 'body', 'author']
 
 
 class CreateReportSerializer(serializers.ModelSerializer):
@@ -255,3 +256,4 @@ class CreateReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = ['question', 'type', 'body']
+
