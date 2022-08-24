@@ -242,7 +242,6 @@ export async function deleteAccount(password, successCall, errorCall) {
 		.catch((error) => errorCall(error));
 }
 
-
 export const fetchQuestion = async (id, successCall, errorCall) => {
 	axios
 		.get('api/question/' + id)
@@ -255,11 +254,10 @@ export async function createReport(body, successCall, errorCall) {
 		.post('api/report/', body)
 		.then((res) => successCall(res))
 		.catch((error) => errorCall(error));
-
+}
 export async function getReports(successCall) {
 	axios.get('api/reports/').then((res) => successCall(res));
 }
 export async function deleteReport(id, successCall) {
 	axios.delete('api/report/' + id).then((res) => successCall(res));
-
 }
