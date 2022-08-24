@@ -170,8 +170,6 @@ const GenExamPage = () => {
 	const resetDictSubSubjects = () => {
 		const newThemes = Object.fromEntries(
 			Object.entries(dictSubSubjects).map(([k, v], i) => {
-				console.log(v);
-				console.log(i);
 				return [k, false];
 			})
 		);

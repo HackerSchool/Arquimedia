@@ -89,7 +89,6 @@ export const SettingsPage = () => {
 				window.location.replace('/');
 			},
 			(error) => {
-				console.log(error.response);
 				if (
 					error.response.data.non_field_errors &&
 					error.response.data.non_field_errors[0] ===
