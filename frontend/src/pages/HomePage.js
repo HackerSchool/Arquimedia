@@ -19,8 +19,6 @@ const useStyles = makeStyles(() => ({
 		margin: '0 auto',
 	},
 	container: {
-		width: '100%',
-		height: '100%',
 		padding: '3rem',
 	},
 	bold: {

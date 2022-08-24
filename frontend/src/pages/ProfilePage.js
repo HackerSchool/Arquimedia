@@ -40,39 +40,42 @@ const ProfilePage = () => {
 	if (loading) return <Loading />;
 
 	return (
-		<Grid container align='center' spacing={3} xs={12} className={classes.body}>
-			<Grid item xs={4}>
-				{' '}
-				{/* General Info */}
-				<Paper className={classes.panel}>
-					<ProfileBasicInfo profile={profile} XPEvents={xpEvents} />
-				</Paper>
+		<Grid container direction='row' justifyContent='center' alignItems='center'>
+			{' '}
+			<Grid container align='center' spacing={3} xs={10} className={classes.body}>
+				<Grid item xs={4}>
+					{' '}
+					{/* General Info */}
+					<Paper className={classes.panel}>
+						<ProfileBasicInfo profile={profile} XPEvents={xpEvents} />
+					</Paper>
+				</Grid>
+				<Grid item xs={8}>
+					{' '}
+					{/* XP Graph */}
+					<Paper className={classes.panel}>
+						<XPGraph xpEvents={xpEvents} />
+					</Paper>
+				</Grid>
+				<Grid item xs={4}>
+					{' '}
+					{/* Subject info */}
+					<Paper className={classes.panel}>
+						<SubjectInfoPanel profile={profile} changeSubject={setSelectedSubject} />
+					</Paper>
+				</Grid>
+				<Grid item xs={8}>
+					{' '}
+					{/* Subject Achievements Info */}
+					<Paper className={classes.panel}>
+						<AchievementTray
+							achievements={profile.achievements}
+							subjectProp={selectedSubject}
+						/>
+					</Paper>
+				</Grid>
+				<Grid item xs={12}></Grid>
 			</Grid>
-			<Grid item xs={8}>
-				{' '}
-				{/* XP Graph */}
-				<Paper className={classes.panel}>
-					<XPGraph xpEvents={xpEvents} />
-				</Paper>
-			</Grid>
-			<Grid item xs={4}>
-				{' '}
-				{/* Subject info */}
-				<Paper className={classes.panel}>
-					<SubjectInfoPanel profile={profile} changeSubject={setSelectedSubject} />
-				</Paper>
-			</Grid>
-			<Grid item xs={8}>
-				{' '}
-				{/* Subject Achievements Info */}
-				<Paper className={classes.panel}>
-					<AchievementTray
-						achievements={profile.achievements}
-						subjectProp={selectedSubject}
-					/>
-				</Paper>
-			</Grid>
-			<Grid item xs={12}></Grid>
 		</Grid>
 	);
 };
