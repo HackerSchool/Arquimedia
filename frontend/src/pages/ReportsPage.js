@@ -70,7 +70,6 @@ const ReportsPage = () => {
 		//We ought to know if the event is happening on the same property, if so the order will be inversed
 		setOrder(isAsc ? 'desc' : 'asc'); //if it was previously ascending in the same porperty we now change for descending
 		setOrderBy(property);
-		console.log(originalRows);
 	};
 
 	const handleChangePage = (event, newPage) => {
@@ -84,7 +83,6 @@ const ReportsPage = () => {
 
 	const search = (reportID, questionID, chosenType, bodyQuery) => {
 		var reports = originalRows;
-		console.log(reports);
 		if (reportID !== 'none') {
 			//The journey ends here
 			reports = reports.filter((report) => reportID === report['id']);
@@ -101,7 +99,6 @@ const ReportsPage = () => {
 					.filter((report) => {
 						return report['body'].toLowerCase().includes(bodyQuery.toLowerCase());
 					}); //Search is case insentive
-				console.log(reports);
 			}
 		}
 

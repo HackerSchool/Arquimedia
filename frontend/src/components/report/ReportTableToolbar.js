@@ -29,16 +29,16 @@ export default function ReportTableToolbar(props) {
 	const [filtering, setFiltering] = useState(false);
 
 	useEffect(() => {
-		var reportIDs = props.rows.map((row) => row['id']);
-		var uniqueReportIDs = reportIDs.filter(isUnique);
+		const reportIDs = props.rows.map((row) => row['id']);
+		const uniqueReportIDs = reportIDs.filter(isUnique);
 		setReportIDs(uniqueReportIDs);
 
-		var questionIDs = props.rows.map((row) => row['question']);
-		var uniqueQuestionIDs = questionIDs.filter(isUnique);
+		const questionIDs = props.rows.map((row) => row['question']);
+		const uniqueQuestionIDs = questionIDs.filter(isUnique);
 		setQuestionIDs(uniqueQuestionIDs);
 
-		var types = props.rows.map((row) => row['type']);
-		var uniqueTypes = types.filter(isUnique);
+		const types = props.rows.map((row) => row['type']);
+		const uniqueTypes = types.filter(isUnique);
 		setTypes(uniqueTypes);
 	}, []);
 
