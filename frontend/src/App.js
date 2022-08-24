@@ -44,52 +44,44 @@ function App() {
 								<Route path='/registar' component={RegistrationPage} />
 								<div>
 									<Navbar />
-									<div style={{ marginRight: '12em', marginLeft: '12em' }}>
-										<Switch>
-											<Route exact path='/' component={LandingPage} />
-											{/*
+									<Switch>
+										<Route exact path='/' component={LandingPage} />
+										{/*
 												<AuthRoute
 													path='/question/:id'
 													component={QuestionPage}
 												/>
 												
 												*/}
-											<AuthRoute path='/exames' component={GenExamPage} />
-											<AuthRoute path='/exame/:id' component={ExamPage} />
-											<AuthRoute
-												path='/leaderboards'
-												component={LeaderboardPage}
-											/>
-											<AuthRoute
-												path='/resultado/:id'
-												component={ResultsPage}
-											/>
-											<AuthRoute
-												path='/submeter_questao'
-												component={QuestionSubmissionPage}
-											/>
-											<ModRoute
-												path='/questoes_submetidas'
-												component={SubmittedQuestions}
-											/>
-											<ModRoute path='/navbarTest' component={Navbar} />
-											<AuthRoute path='/perfil' component={ProfilePage} />
-											<Route
-												path='/password/reset/confirm/:uid/:token'
-												component={PasswordResetConfirmPage}
-											/>
-											<Route
-												path='/password/reset'
-												component={PasswordResetPage}
-											/>
-											<AuthRoute
-												path='/configuracoes'
-												component={SettingsPage}
-											/>
-											<Route path='/sobre' component={AboutUsPage} />
-											<Route path='*' component={PageNotFound} />
-										</Switch>
-									</div>
+										<AuthRoute path='/exames' component={GenExamPage} />
+										<AuthRoute path='/exame/:id' component={ExamPage} />
+										<AuthRoute
+											path='/leaderboards'
+											component={LeaderboardPage}
+										/>
+										<AuthRoute path='/resultado/:id' component={ResultsPage} />
+										<AuthRoute
+											path='/submeter_questao'
+											component={QuestionSubmissionPage}
+										/>
+										<ModRoute
+											path='/questoes_submetidas'
+											component={SubmittedQuestions}
+										/>
+										<ModRoute path='/navbarTest' component={Navbar} />
+										<AuthRoute path='/perfil' component={ProfilePage} />
+										<Route
+											path='/password/reset/confirm/:uid/:token'
+											component={PasswordResetConfirmPage}
+										/>
+										<Route
+											path='/password/reset'
+											component={PasswordResetPage}
+										/>
+										<AuthRoute path='/configuracoes' component={SettingsPage} />
+										<Route path='/sobre' component={AboutUsPage} />
+										<Route path='*' component={PageNotFound} />
+									</Switch>
 								</div>
 							</Switch>
 						</Router>

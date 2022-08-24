@@ -57,9 +57,6 @@ export const AboutUsPage = () => {
 		<div
 			style={{
 				overflowX: 'hidden',
-				marginLeft: '-12em',
-				marginRight: '-12em',
-				paddingBottom: '4rem',
 			}}
 		>
 			<Grid

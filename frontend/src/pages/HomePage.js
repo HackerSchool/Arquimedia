@@ -218,7 +218,7 @@ export const HomePage = () => {
 						</Typography>
 					</Grid>
 					<Grid item xs={true}>
-						<List bull>
+						<List bull='true'>
 							<ListItem>
 								<Typography className={classes.futureText} variant='h5'>
 									{' '}
