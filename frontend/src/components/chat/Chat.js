@@ -6,10 +6,22 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { createCommentAPI } from '../../api';
 import isSwear from '../../utils/isSwear';
 import { useSnackbar } from 'notistack';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import responsiveWidth from '../../hooks/responsiveWidth';
 
 export function Chat(props) {
 	const { enqueueSnackbar } = useSnackbar();
 	const [commentText, setCommentText] = useState('');
+	const windowArray = useWindowDimensions();
+
+	const sxStyles = {
+		textfieldPlaceholder: {
+			'& .MuiInputBase-input': {
+				fontSize: responsiveWidth(windowArray, 13, 20, 0.01),
+			},
+		},
+		responsiveIcons: { width: responsiveWidth(windowArray, 20, 40, 0.025), height: 'auto' },
+	};
 
 	const handleVoteChange = (id, vote) => {
 		const newComments = props.messageArray.map((comment) => {
@@ -65,6 +77,7 @@ export function Chat(props) {
 					<Box>
 						{' '}
 						<TextField
+							sx={sxStyles.textfieldPlaceholder}
 							variant='standard'
 							fullWidth
 							value={commentText}
@@ -81,7 +94,7 @@ export function Chat(props) {
 				<Grid item>
 					{' '}
 					<IconButton onClick={handleCommentSubmition}>
-						<SendRoundedIcon />
+						<SendRoundedIcon sx={sxStyles.responsiveIcons} />
 					</IconButton>
 				</Grid>
 			</Grid>
