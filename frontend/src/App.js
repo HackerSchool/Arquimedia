@@ -45,7 +45,6 @@ function App() {
 								<Route path='/registar' component={RegistrationPage} />
 								<div>
 									<Navbar />
-									<div style={{ marginRight: '12em', marginLeft: '12em' }}>
 										<Switch>
 											<Route exact path='/' component={LandingPage} />
 											<AuthRoute
@@ -87,7 +86,6 @@ function App() {
 											<Route path='/sobre' component={AboutUsPage} />
 											<Route path='*' component={PageNotFound} />
 										</Switch>
-									</div>
 								</div>
 							</Switch>
 						</Router>
