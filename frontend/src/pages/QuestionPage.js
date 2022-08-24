@@ -83,13 +83,10 @@ export default function QuestionPage() {
 			color: theme.palette.secondary.main,
 		},
 		descriptiveText: {
-			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-		},
-		responsiveIcons: { width: responsiveWidth(windowArray, 20, 40, 0.025), height: 'auto' },
-		itemInfo: {
 			fontWeight: 'normal',
 			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
 		},
+		responsiveIcons: { width: responsiveWidth(windowArray, 20, 40, 0.025), height: 'auto' },
 		itemInfoLabel: {
 			fontWeight: 'bold',
 			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
@@ -241,30 +238,30 @@ export default function QuestionPage() {
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h6' sx={sxStyles.itemInfo}>
+							<Typography variant='h6' sx={sxStyles.descriptiveText}>
 								<span style={sxStyles.itemInfoLabel}>Disciplina:</span>{' '}
 								{question.subject}
 							</Typography>
 						</Grid>
 						<Grid item>
 							{' '}
-							<Typography variant='h6' sx={sxStyles.itemInfo}>
+							<Typography variant='h6' sx={sxStyles.descriptiveText}>
 								<span style={sxStyles.itemInfoLabel}>Tema:</span>{' '}
 								{question.subsubject}
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h6' sx={sxStyles.itemInfo}>
+							<Typography variant='h6' sx={sxStyles.descriptiveText}>
 								<span style={sxStyles.itemInfoLabel}>Ano:</span> {question.year}
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h6' sx={sxStyles.itemInfo}>
+							<Typography variant='h6' sx={sxStyles.descriptiveText}>
 								<span style={sxStyles.itemInfoLabel}>Fonte:</span> {question.source}
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography variant='h6' sx={sxStyles.itemInfo}>
+							<Typography variant='h6' sx={sxStyles.descriptiveText}>
 								<span style={sxStyles.itemInfoLabel}>Autor:</span>{' '}
 							</Typography>
 						</Grid>
