@@ -28,6 +28,7 @@ import { useSnackbar } from 'notistack';
 import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
 import isSwear from '../utils/isSwear';
 import globalTheme from '../globalTheme';
+import Loading from '../components/loading/Loading';
 const iconSelector = {
 	video: <VideoLibraryIcon />,
 	paper: <ArticleIcon />,
@@ -76,7 +77,7 @@ export default function QuestionPage() {
 	const windowArray = useWindowDimensions();
 
 	const sxStyles = {
-		sorterText: { fontSize: responsiveWidth(windowArray, 10, 20, 0.01) },
+		sorterText: { fontSize: responsiveWidth(windowArray, 13, 20, 0.01) },
 		subtitle: {
 			fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
 			color: theme.palette.secondary.main,
@@ -84,11 +85,14 @@ export default function QuestionPage() {
 		descriptiveText: {
 			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
 		},
+		responsiveIcons: { width: responsiveWidth(windowArray, 20, 40, 0.025), height: 'auto' },
 		itemInfo: {
 			fontWeight: 'normal',
+			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
 		},
 		itemInfoLabel: {
 			fontWeight: 'bold',
+			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
 		},
 		box: {
 			border: '2px solid',
@@ -206,7 +210,13 @@ export default function QuestionPage() {
 		});
 	}, []);
 
-	if (question === null) return <></>;
+	if (question === null) {
+		return (
+			<Grid container justifyContent='center' alignItems='center'>
+				<Loading />
+			</Grid>
+		);
+	}
 	return (
 		<Grid container spacing={4} alignItems='stretch'>
 			{/* Question box */}
@@ -231,50 +241,30 @@ export default function QuestionPage() {
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography
-								variant='h6'
-								sx={sxStyles.itemInfo}
-								style={sxStyles.descriptiveText}
-							>
+							<Typography variant='h6' sx={sxStyles.itemInfo}>
 								<span style={sxStyles.itemInfoLabel}>Disciplina:</span>{' '}
 								{question.subject}
 							</Typography>
 						</Grid>
 						<Grid item>
 							{' '}
-							<Typography
-								variant='h6'
-								sx={sxStyles.itemInfo}
-								style={sxStyles.descriptiveText}
-							>
+							<Typography variant='h6' sx={sxStyles.itemInfo}>
 								<span style={sxStyles.itemInfoLabel}>Tema:</span>{' '}
 								{question.subsubject}
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography
-								variant='h6'
-								sx={sxStyles.itemInfo}
-								style={sxStyles.descriptiveText}
-							>
+							<Typography variant='h6' sx={sxStyles.itemInfo}>
 								<span style={sxStyles.itemInfoLabel}>Ano:</span> {question.year}
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography
-								variant='h6'
-								sx={sxStyles.itemInfo}
-								style={sxStyles.descriptiveText}
-							>
+							<Typography variant='h6' sx={sxStyles.itemInfo}>
 								<span style={sxStyles.itemInfoLabel}>Fonte:</span> {question.source}
 							</Typography>
 						</Grid>
 						<Grid item>
-							<Typography
-								variant='h6'
-								sx={sxStyles.itemInfo}
-								style={sxStyles.descriptiveText}
-							>
+							<Typography variant='h6' sx={sxStyles.itemInfo}>
 								<span style={sxStyles.itemInfoLabel}>Autor:</span>{' '}
 							</Typography>
 						</Grid>
@@ -282,13 +272,9 @@ export default function QuestionPage() {
 
 					<Grid item>
 						{' '}
-						<IconButton style={{ borderRadius: 15 }} onClick={handleClickOpen}>
-							<MessageReport />
-							<Typography
-								variant='h6'
-								sx={sxStyles.itemInfoLabel}
-								style={sxStyles.descriptiveText}
-							>
+						<IconButton sx={{ borderRadius: 15 }} onClick={handleClickOpen}>
+							<MessageReport sx={sxStyles.responsiveIcons} />
+							<Typography variant='h6' sx={sxStyles.itemInfoLabel}>
 								Reportar Erro
 							</Typography>
 						</IconButton>
