@@ -33,12 +33,12 @@ export const HomePage = () => {
 		homepageButton: {
 			height: {
 				md: responsiveWidth(windowArray, 150, undefined, 0.12),
-				sm: responsiveWidth(windowArray, 175, undefined, 0.11),
+				sm: responsiveWidth(windowArray, 195, undefined, 0.25),
 				xs: responsiveWidth(windowArray, 160, undefined, 0.5),
 			},
 			width: {
 				md: responsiveWidth(windowArray, 135, undefined, 0.11),
-				sm: responsiveWidth(windowArray, 160, undefined, 0.11),
+				sm: responsiveWidth(windowArray, 180, undefined, 0.25),
 				xs: responsiveWidth(windowArray, 160, undefined, 0.5),
 			},
 		},
