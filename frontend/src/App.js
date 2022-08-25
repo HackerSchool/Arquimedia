@@ -26,16 +26,10 @@ import { UserContextProvider } from './context/UserContextProvider.js';
 import { SnackbarProvider } from 'notistack';
 import { SettingsPage } from './pages/SettingsPage.js';
 import { AboutUsPage } from './pages/AboutUsPage.js';
-import { MobileWarningPage } from './pages/MobileWarningPage.js';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('Authorization');
 
 function App() {
-	const matches = useMediaQuery('(max-width:1000px)');
-
-	if (matches) return <MobileWarningPage />;
-
 	return (
 		<UserContextProvider>
 			<StyledEngineProvider injectFirst>

@@ -22,6 +22,7 @@ import { Link as LinkRouter } from 'react-router-dom';
 import theme from '../../globalTheme';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveHeight from '../../hooks/responsiveHeight';
+import responsiveWidth from '../../hooks/responsiveWidth';
 
 const Navbar = () => {
 	const [click, setClick] = useState(false);
@@ -44,21 +45,20 @@ const Navbar = () => {
 		},
 		toolbar: {
 			height: 300,
-			justifyContent: windowArray.width >= 1000 ? 'space-around' : 'space-between',
+			justifyContent: windowArray.width >= 900 ? 'space-around' : 'space-between',
 		},
 		logo: {
-			height: '5rem',
+			height: responsiveHeight(windowArray, undefined, 100, 0.08),
 			width: 'auto',
-			margin: 0,
 		},
 		avatar: {
-			width: 80,
-			height: 80,
+			height: responsiveHeight(windowArray, 50, 100, 0.1),
+			width: 'auto',
 		},
 		link: {
 			textDecoration: 'none',
 			color: 'black',
-			fontSize: '22px',
+			fontSize: responsiveWidth(windowArray, 15, 35, 0.0125),
 			marginLeft: theme.spacing(2),
 			transition: 'all 0.15s ease-in-out',
 			'&:hover': { color: theme.palette.secondary.main },
@@ -113,7 +113,7 @@ const Navbar = () => {
 
 					{loading ? (
 						<Loading />
-					) : user && windowArray.width >= 1000 ? (
+					) : user && windowArray.width >= 900 ? (
 						<div style={{ right: 0, display: 'flex', alignItems: 'center' }}>
 							<Typography sx={sxStyles.link} component={LinkRouter} to='/exames'>
 								Gerar Exame
@@ -125,7 +125,7 @@ const Navbar = () => {
 							>
 								Leaderboards
 							</Typography>
-							<MenuCircular user={user} />
+							<MenuCircular user={user} sx={sxStyles.avatar} />
 						</div>
 					) : user ? (
 						<div style={sxStyles.menuMobile}>
