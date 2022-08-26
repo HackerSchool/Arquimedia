@@ -13,7 +13,7 @@ const NavbarButton = (props) => {
 	const color = window.location.pathname === props.href ? 'orange' : 'grey';
 
 	return (
-		<Button className={classes.menuItems} style={{ color: color }} href={props.href}>
+		<Button className={classes.menuItems} style={{ color: color }} href={props.href} {...props}>
 			{props.text}
 		</Button>
 	);

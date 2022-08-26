@@ -23,6 +23,7 @@ import theme from '../../globalTheme';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveHeight from '../../hooks/responsiveHeight';
 import responsiveWidth from '../../hooks/responsiveWidth';
+import { logOut } from '../../api';
 
 const Navbar = () => {
 	const [click, setClick] = useState(false);
@@ -65,6 +66,11 @@ const Navbar = () => {
 			paddingRight: '2rem',
 			fontWeight: 'bold',
 		},
+	};
+
+	const handleLogout = () => {
+		logOut();
+		window.location.replace('/');
 	};
 
 	return (
@@ -125,10 +131,14 @@ const Navbar = () => {
 										<NavbarButton href='/leaderboards' text='Leaderboards' />
 									</ListItem>
 									<ListItem>
-										<NavbarButton href='/contact' text='Contactos' />
+										<NavbarButton href='/sobre' text='Sobre Nós' />
 									</ListItem>
 									<ListItem>
-										<NavbarButton href='' text='Logout' />
+										<NavbarButton
+											href=''
+											text='Logout'
+											onClick={handleLogout}
+										/>
 									</ListItem>
 								</List>
 							</SwipeableDrawer>
