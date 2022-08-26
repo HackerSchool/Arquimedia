@@ -23,6 +23,7 @@ import theme from '../../globalTheme';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveHeight from '../../hooks/responsiveHeight';
 import responsiveWidth from '../../hooks/responsiveWidth';
+import { logOut } from '../../api';
 
 const Navbar = () => {
 	const [click, setClick] = useState(false);
@@ -67,40 +68,9 @@ const Navbar = () => {
 		},
 	};
 
-	const sxStyles = {
-		navbar: {
-			backgroundColor: theme.palette.background.default,
-			boxShadow: theme.shadows[0],
-			marginTop: '1.5rem',
-			height: 90,
-			marginBottom: responsiveHeight(windowArray, undefined, 10, 0.01),
-		},
-		menuMobile: {
-			color: 'grey',
-		},
-		toolbar: {
-			height: 300,
-			justifyContent: windowArray.width >= 1000 ? 'space-around' : 'space-between',
-		},
-		logo: {
-			height: '5rem',
-			width: 'auto',
-			margin: 0,
-		},
-		avatar: {
-			width: 80,
-			height: 80,
-		},
-		link: {
-			textDecoration: 'none',
-			color: 'black',
-			fontSize: '22px',
-			marginLeft: theme.spacing(2),
-			transition: 'all 0.15s ease-in-out',
-			'&:hover': { color: theme.palette.secondary.main },
-			paddingRight: '2rem',
-			fontWeight: 'bold',
-		},
+	const handleLogout = () => {
+		logOut();
+		window.location.replace('/');
 	};
 
 	return (
@@ -161,10 +131,14 @@ const Navbar = () => {
 										<NavbarButton href='/leaderboards' text='Leaderboards' />
 									</ListItem>
 									<ListItem>
-										<NavbarButton href='/contact' text='Contactos' />
+										<NavbarButton href='/sobre' text='Sobre Nós' />
 									</ListItem>
 									<ListItem>
-										<NavbarButton href='' text='Logout' />
+										<NavbarButton
+											href=''
+											text='Logout'
+											onClick={handleLogout}
+										/>
 									</ListItem>
 								</List>
 							</SwipeableDrawer>
