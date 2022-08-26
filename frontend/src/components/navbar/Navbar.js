@@ -24,6 +24,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveHeight from '../../hooks/responsiveHeight';
 import responsiveWidth from '../../hooks/responsiveWidth';
 import { logOut } from '../../api';
+import { ReactComponent as OnlyBrainLogo } from '../../assets/onlyBrainLogo.svg';
 
 const Navbar = () => {
 	const [click, setClick] = useState(false);
@@ -97,7 +98,7 @@ const Navbar = () => {
 							</Typography>
 							<MenuCircular user={user} sx={sxStyles.avatar} />
 						</div>
-					) : user ? (
+					) : windowArray.width < 900 ? (
 						<div style={sxStyles.menuMobile}>
 							<IconButton onClick={handleClick} size='large'>
 								<MenuIcon fontSize='large' />
@@ -107,40 +108,56 @@ const Navbar = () => {
 								onClose={handleClick}
 								onOpen={handleClick}
 							>
-								<List>
-									<ListItem>
-										{user ? (
+								{user ? (
+									<List>
+										<ListItem>
 											<AvatarUser sx={sxStyles.avatar} user={user} />
-										) : (
-											<NavbarButton href='/login' text='login' /> || (
-												<NavbarButton href='/register' text='registar' />
-											)
-										)}
-									</ListItem>
-
-									<ListItem>
-										<NavbarButton href='/' text='Home' />
-									</ListItem>
-									<ListItem>
-										<NavbarButton href='/perfil' text='Perfil' />
-									</ListItem>
-									<ListItem>
-										<NavbarButton href='/exames' text='Realizar Exames' />
-									</ListItem>
-									<ListItem>
-										<NavbarButton href='/leaderboards' text='Leaderboards' />
-									</ListItem>
-									<ListItem>
-										<NavbarButton href='/sobre' text='Sobre Nós' />
-									</ListItem>
-									<ListItem>
-										<NavbarButton
-											href=''
-											text='Logout'
-											onClick={handleLogout}
-										/>
-									</ListItem>
-								</List>
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/' text='Dashboard' />
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/perfil' text='Perfil' />
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/exames' text='Realizar Exames' />
+										</ListItem>
+										<ListItem>
+											<NavbarButton
+												href='/leaderboards'
+												text='Leaderboards'
+											/>
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/sobre' text='Sobre Nós' />
+										</ListItem>
+										<ListItem>
+											<NavbarButton
+												href=''
+												text='Logout'
+												onClick={handleLogout}
+											/>
+										</ListItem>
+									</List>
+								) : (
+									<List align='center'>
+										<ListItem>
+											<OnlyBrainLogo style={sxStyles.avatar} />
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/login' text='login' />
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/register' text='registar' />
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/' text='Página Inicial' />
+										</ListItem>
+										<ListItem>
+											<NavbarButton href='/sobre' text='Sobre Nós' />
+										</ListItem>
+									</List>
+								)}
 							</SwipeableDrawer>
 						</div>
 					) : (
