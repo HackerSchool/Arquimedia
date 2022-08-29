@@ -72,32 +72,24 @@ export async function questionInfo(id, successCall) {
 		.catch((error) => console.log(error));
 }
 
-export async function hasDownvotedAPI(id, successCall) {
-	axios.get('api/has_downvoted/' + id).then((res) => successCall(res));
-}
-
-export async function hasUpvotedAPI(id, successCall) {
-	axios.get('api/has_upvoted/' + id).then((res) => successCall(res));
-}
-
 export async function upvoteAPI(id, successCall) {
 	axios.post('api/upvote/' + id).then((res) => successCall(res));
-}
-
-export async function downvoteAPI(id, successCall) {
-	axios.post('api/downvote/' + id).then((res) => successCall(res));
-}
-
-export async function deleteCommentAPI(id, successCall) {
-	axios.delete('api/comment/' + id).then((res) => successCall(res));
 }
 
 export async function removeUpvoteAPI(id, successCall) {
 	axios.delete('api/upvote/' + id).then((res) => successCall(res));
 }
 
+export async function downvoteAPI(id, successCall) {
+	axios.post('api/downvote/' + id).then((res) => successCall(res));
+}
+
 export async function removeDownvoteAPI(id, successCall) {
 	axios.delete('api/downvote/' + id).then((res) => successCall(res));
+}
+
+export async function deleteCommentAPI(id, successCall) {
+	axios.delete('api/comment/' + id).then((res) => successCall(res));
 }
 
 export async function createCommentAPI(body, successCall) {
@@ -246,6 +238,20 @@ export async function deleteAccount(password, successCall, errorCall) {
 		.delete('api/user/', {
 			data: { password: password },
 		})
+		.then((res) => successCall(res))
+		.catch((error) => errorCall(error));
+}
+
+export const fetchQuestion = async (id, successCall, errorCall) => {
+	axios
+		.get('api/question/' + id)
+		.then((res) => successCall(res))
+		.then((error) => errorCall(error));
+};
+
+export async function createReport(body, successCall, errorCall) {
+	axios
+		.post('api/report/', body)
 		.then((res) => successCall(res))
 		.catch((error) => errorCall(error));
 }

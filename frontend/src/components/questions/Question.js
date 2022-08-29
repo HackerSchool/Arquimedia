@@ -98,7 +98,7 @@ const Question = (props) => {
 			direction='row'
 			justifyContent='space-between'
 			ref={questionBox}
-			style={{ maxWidth: windowArray.width * 0.55 }}
+			style={{ maxWidth: !props.overrideResponsive && windowArray.width * 0.55 }}
 		>
 			<Grid
 				className={classes.question}
@@ -166,6 +166,10 @@ const Question = (props) => {
 			</Grid>
 		</Grid>
 	);
+};
+
+Question.defaultProps = {
+	overrideResponsive: false,
 };
 
 export default Question;

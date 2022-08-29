@@ -170,9 +170,8 @@ const GenExamPage = () => {
 
 	const resetDictSubSubjects = () => {
 		const newThemes = Object.fromEntries(
+			// eslint-disable-next-line no-unused-vars
 			Object.entries(dictSubSubjects).map(([k, v], i) => {
-				console.log(v);
-				console.log(i);
 				return [k, false];
 			})
 		);
