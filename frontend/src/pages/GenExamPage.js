@@ -271,17 +271,18 @@ const GenExamPage = () => {
 
 	return (
 		<Grid container direction='row' justifyContent='center' alignItems='center'>
+			<Grid container xs={10} direction='row' justifyContent='center' alignItems='center'>
 			<Grid container xs={10} direction={is1100pxScreen ? 'column' : 'row'}>
-				<Grid item container xs md direction='row'>
-					<Grid item textAlign='center' xs={12}>
-						<Typography
-							style={{ marginBottom: '2rem' }}
-							className={classes.upperSideText}
-							variant='h4'
-						>
-							Personaliza o teu exame
-						</Typography>
-					</Grid>
+					<Grid item container xs md direction='row'>
+						<Grid item textAlign='center' xs={12}>
+							<Typography
+								style={{ marginBottom: '2rem' }}
+								className={classes.upperSideText}
+								variant='h4'
+							>
+								Personaliza o teu exame
+							</Typography>
+						</Grid>
 
 					<Grid container direction='column' xs={is1100pxScreen ? 12 : 6}>
 						{' '}
@@ -331,114 +332,116 @@ const GenExamPage = () => {
 						</Grid>
 					</Grid>
 
-					<Grid container direction='column' xs={is1100pxScreen ? 12 : 6}>
-						{' '}
-						{/* Pick year*/}
-						<Grid textAlign={is1100pxScreen && 'center'} item>
-							<Typography variant='h6'> 2 - Ano(s) </Typography>
+						<Grid container direction='column' xs={is1100pxScreen ? 12 : 6}>
+							{' '}
+							{/* Pick year*/}
+							<Grid textAlign={is1100pxScreen && 'center'} item>
+								<Typography variant='h6'> 2 - Ano(s) </Typography>
+							</Grid>
+							<Grid justifyContent={is1100pxScreen ? 'center' : 'flex-start'} container>
+								<FormControl
+									style={{ margin: is1100pxScreen && '20px 0px' }}
+									className={classes.boxes}
+								>
+									<FormGroup>
+										<FormControlLabel
+											labelPlacement='start'
+											control={
+												<Checkbox
+													checked={options.randomGrade}
+													onChange={handleChangeRandomGrade}
+													name='randomGrade'
+												/>
+											}
+											label={<Typography variant='h6'>Aleatório</Typography>}
+										/>
+										{config.subjects
+											.find((el) => el.name === subject)
+											.years.map((year) => (
+												<FormControlLabel
+													key={year}
+													labelPlacement='start'
+													control={
+														<Checkbox
+															checked={dictYears[year]}
+															onChange={handleChangeYear}
+															name={`${year}`}
+														/>
+													}
+													label={
+														<Typography variant='h6'>
+															{String(year) + 'º'}
+														</Typography>
+													}
+												/>
+											))}
+									</FormGroup>
+								</FormControl>
+							</Grid>
 						</Grid>
-						<Grid justifyContent={is1100pxScreen ? 'center' : 'flex-start'} container>
-							<FormControl
-								style={{ margin: is1100pxScreen && '20px 0px' }}
-								className={classes.boxes}
-							>
-								<FormGroup>
-									<FormControlLabel
-										labelPlacement='start'
-										control={
-											<Checkbox
-												checked={options.randomGrade}
-												onChange={handleChangeRandomGrade}
-												name='randomGrade'
-											/>
-										}
-										label={<Typography variant='h6'>Aleatório</Typography>}
-									/>
-									{config.subjects
-										.find((el) => el.name === subject)
-										.years.map((year) => (
-											<FormControlLabel
-												key={year}
-												labelPlacement='start'
-												control={
-													<Checkbox
-														checked={dictYears[year]}
-														onChange={handleChangeYear}
-														name={`${year}`}
-													/>
-												}
-												label={
-													<Typography variant='h6'>
-														{String(year) + 'º'}
-													</Typography>
-												}
-											/>
-										))}
-								</FormGroup>
-							</FormControl>
-						</Grid>
-					</Grid>
 
-					<Grid direction='column' xs={is1100pxScreen ? 12 : true} container>
-						{' '}
-						{/*Pick Themes*/}
-						<Grid textAlign={is1100pxScreen && 'center'} item>
-							<Typography variant='h6'> 3 - Tópicos </Typography>
-						</Grid>
-						<Grid justifyContent={is1100pxScreen ? 'center' : 'flex-start'} container>
-							<FormControl
-								style={{ margin: is1100pxScreen && '20px 0px' }}
-								className={classes.boxes}
-							>
-								<FormGroup>
-									<FormControlLabel
-										labelPlacement='start'
-										control={
-											<Checkbox
-												checked={options.randomSubSubject}
-												onChange={handleChangeRandomSubSubject}
-												name='randomSubSubject'
-											/>
-										}
-										label={<Typography variant='h6'>Aleatório</Typography>}
-									/>
-									{config.subjects
-										.find((el) => el.name === subject)
-										.themes.map((theme) => (
-											<FormControlLabel
-												key={theme}
-												labelPlacement='start'
-												control={
-													<Checkbox
-														checked={dictSubSubjects[theme]}
-														onChange={handleChangeSubSubjects}
-														name={`${theme}`}
-													/>
-												}
-												label={
+						<Grid direction='column' xs={is1100pxScreen ? 12 : true} container>
+							{' '}
+							{/*Pick Themes*/}
+							<Grid textAlign={is1100pxScreen && 'center'} item>
+								<Typography variant='h6'> 3 - Tópicos </Typography>
+							</Grid>
+							<Grid justifyContent={is1100pxScreen ? 'center' : 'flex-start'} container>
+								<FormControl
+									style={{ margin: is1100pxScreen && '20px 0px' }}
+									className={classes.boxes}
+								>
+									<FormGroup>
+										<FormControlLabel
+											labelPlacement='start'
+											control={
+												<Checkbox
+													checked={options.randomSubSubject}
+													onChange={handleChangeRandomSubSubject}
+													name='randomSubSubject'
+												/>
+											}
+											label={<Typography variant='h6'>Aleatório</Typography>}
+										/>
+										{config.subjects
+											.find((el) => el.name === subject)
+											.themes.map((theme) => (
+												<FormControlLabel
+													key={theme}
+													labelPlacement='start'
+													control={
+														<Checkbox
+															checked={dictSubSubjects[theme]}
+															onChange={handleChangeSubSubjects}
+															name={`${theme}`}
+														/>
+													}
+													label={
+													
 													<Typography variant='h6'>{theme}</Typography>
+												
 												}
-											/>
-										))}
-								</FormGroup>
-							</FormControl>
+												/>
+											))}
+									</FormGroup>
+								</FormControl>
+							</Grid>
+						</Grid>
+
+						<Grid justifyContent='center' container xs={12}>
+							{' '}
+							{/*Começar Button*/}
+							<Grid className={classes.button} item>
+								<NormalButton fontSize={28} text='Começar' onClick={handleClick} />
+							</Grid>
 						</Grid>
 					</Grid>
 
-					<Grid justifyContent='center' container xs={12}>
-						{' '}
-						{/*Começar Button*/}
-						<Grid className={classes.button} item>
-							<NormalButton fontSize={28} text='Começar' onClick={handleClick} />
-						</Grid>
-					</Grid>
-				</Grid>
-
-				<Divider orientation={is1100pxScreen ? 'horizontal' : 'vertical'} flexItem>
-					<Typography textAlign='center' variant='h6'>
-						ou
-					</Typography>
-				</Divider>
+					<Divider orientation={is1100pxScreen ? 'horizontal' : 'vertical'} flexItem>
+						<Typography textAlign='center' variant='h6'>
+							ou
+						</Typography>
+					</Divider>
 
 				<Grid item container direction='column' xs md spacing={4}>
 					<Grid item textAlign='center'>
