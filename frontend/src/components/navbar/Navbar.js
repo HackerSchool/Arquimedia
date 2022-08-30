@@ -70,7 +70,7 @@ const Navbar = () => {
 			fontWeight: 'bold',
 		},
 		svg: {
-			height: responsiveHeight(windowArray, undefined, undefined, 0.25),
+			height: responsiveHeight(windowArray, 200, undefined, 0.25),
 		},
 	};
 
