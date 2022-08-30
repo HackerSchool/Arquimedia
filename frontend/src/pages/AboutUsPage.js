@@ -1,56 +1,58 @@
 import React from 'react';
 import { Grid, Paper, Typography, IconButton } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import theme from '../globalTheme.js';
 import { ReactComponent as Discord } from '../assets/icon_disc_3.svg';
 import { ReactComponent as HackerSchool } from '../assets/icon_hs_3.svg';
 import { ReactComponent as Instagram } from '../assets/icon_insta_1.svg';
 import config from '../config';
 
-const useStyles = makeStyles(() => ({
-	rectangle: {
-		width: '100vw',
-		height: '30vh',
-		flexWrap: 'nowrap',
-		background: theme.palette.primary.main,
-	},
-	paper: {
-		borderRadius: 20,
-		border: '3px solid #D9D9D9',
-		boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
-		marginTop: '-25px',
-		padding: '2rem',
-	},
-
-	text: {
-		wordWrap: 'break-word',
-		padding: '2rem',
-	},
-
-	body: {
-		minHeight: '12vh',
-	},
-
-	title: {
-		minHeight: '7vh',
-	},
-
-	name: {
-		wordWrap: 'break-word',
-		paddingLeft: '2rem',
-	},
-
-	hover: {
-		transition: 'transform 0.15s ease-in-out',
-		'&:hover': {
-			transform: 'scale(1.05,1.05)',
-			boxShadow: '0px 6px 4px #Bbb9b9',
-		},
-	},
-}));
-
 export const AboutUsPage = () => {
-	const classes = useStyles();
+	const sxStyles = {
+		rectangle: {
+			width: '100vw',
+			height: '30vh',
+			flexWrap: 'nowrap',
+			background: theme.palette.primary.main,
+			minHeight: '20vh',
+		},
+		bigTitle: {
+			marginTop: '-7vh',
+		},
+		paper: {
+			borderRadius: 20,
+			border: '3px solid #D9D9D9',
+			boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
+			marginTop: '-25px',
+			padding: '2rem',
+		},
+
+		text: {
+			wordWrap: 'break-word',
+			padding: '2rem',
+		},
+
+		body: {
+			minHeight: '12vh',
+		},
+
+		title: {
+			minHeight: '7vh',
+		},
+
+		name: {
+			wordWrap: 'break-word',
+			paddingLeft: '2rem',
+		},
+		devName: { display: 'inline-block', minWidth: '20vh' },
+		devSocials: { display: 'inline-block' },
+		hover: {
+			transition: 'transform 0.15s ease-in-out',
+			'&:hover': {
+				transform: 'scale(1.05,1.05)',
+				boxShadow: '0px 6px 4px #Bbb9b9',
+			},
+		},
+	};
 
 	return (
 		<div
@@ -59,19 +61,18 @@ export const AboutUsPage = () => {
 			}}
 		>
 			<Grid
-				className={classes.rectangle}
+				sx={sxStyles.rectangle}
 				container
 				direction='column'
 				align='center'
 				justifyContent='center'
-				style={{ minHeight: '20vh' }}
 			>
 				<Grid item>
 					<Typography
 						variant='h2'
 						fontWeight={'bold'}
 						color='white'
-						style={{ marginTop: '-7vh' }}
+						sx={sxStyles.bigTitle}
 					>
 						Quem somos...
 					</Typography>
@@ -81,17 +82,17 @@ export const AboutUsPage = () => {
 				<Grid container direction='row' justifyContent='center' alignItems='center' xs={10}>
 					{' '}
 					<Grid container direction='column' alignItems='center' justifyContent='center'>
-						<Paper className={classes.paper}>
+						<Paper sx={sxStyles.paper}>
 							<Grid container>
-								<Grid item className={classes.text}>
+								<Grid item sx={sxStyles.text}>
 									<Typography
 										variant='h3'
 										fontWeight={'bold'}
-										className={classes.title}
+										sx={sxStyles.title}
 									>
 										O Projeto
 									</Typography>
-									<Typography variant='h6' className={classes.body}>
+									<Typography variant='h6' sx={sxStyles.body}>
 										Esta plataforma foi desenvolvida com o objetivo de facilitar
 										o estudo a estudantes de ensino secundário, disponibilizando
 										ferramentas de análise automática (index de performance) e
@@ -102,40 +103,33 @@ export const AboutUsPage = () => {
 										todos os estudantes.
 									</Typography>
 								</Grid>
-								<Grid item className={classes.text}>
+								<Grid item sx={sxStyles.text}>
 									<Typography
 										variant='h3'
 										fontWeight={'bold'}
-										className={classes.title}
+										sx={sxStyles.title}
 									>
 										De estudantes para estudantes
 									</Typography>
-									<Typography variant='h6' className={classes.title}>
+									<Typography variant='h6' sx={sxStyles.title}>
 										Este projeto foi desenvolvido ao abrigo do núcleo
 										Hackerschool do Instituto Superior Técnico.
 									</Typography>
-									<Typography variant='h6' className={classes.title}>
+									<Typography variant='h6' sx={sxStyles.title}>
 										Até à data, contribuiram:
 									</Typography>
 									<Grid container>
-										<Typography variant='h6' className={classes.name}>
+										<Typography variant='h6' sx={sxStyles.name}>
 											{config.devs.map((dev) => {
 												return (
 													<li key={dev.name}>
 														<Typography
 															variant='h6'
-															style={{
-																display: 'inline-block',
-																minWidth: '20vh',
-															}}
+															sx={sxStyles.devName}
 														>
 															{dev.name}
 														</Typography>{' '}
-														<Typography
-															style={{
-																display: 'inline-block',
-															}}
-														>
+														<Typography sx={sxStyles.devSocials}>
 															{dev.socials.map((social) => {
 																return (
 																	<IconButton
@@ -163,11 +157,7 @@ export const AboutUsPage = () => {
 								justifyContent='center'
 							>
 								<Grid item>
-									<Typography
-										variant='h3'
-										fontWeight={'bold'}
-										className={classes.text}
-									>
+									<Typography variant='h3' fontWeight={'bold'} sx={sxStyles.text}>
 										Acompanha!
 									</Typography>
 								</Grid>
@@ -186,7 +176,7 @@ export const AboutUsPage = () => {
 										target='_blank'
 										rel='noreferrer'
 									>
-										<Discord className={classes.hover} />
+										<Discord sx={sxStyles.hover} />
 									</IconButton>
 								</Grid>
 								<Grid item xs={1.3}>
@@ -195,7 +185,7 @@ export const AboutUsPage = () => {
 										target='_blank'
 										rel='noreferrer'
 									>
-										<Instagram className={classes.hover} />
+										<Instagram sx={sxStyles.hover} />
 									</IconButton>
 								</Grid>
 								<Grid item xs={1.3}>
@@ -204,7 +194,7 @@ export const AboutUsPage = () => {
 										target='_blank'
 										rel='noreferrer'
 									>
-										<HackerSchool className={classes.hover} />
+										<HackerSchool sx={sxStyles.hover} />
 									</IconButton>
 								</Grid>
 							</Grid>
