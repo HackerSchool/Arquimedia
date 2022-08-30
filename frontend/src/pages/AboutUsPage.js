@@ -5,11 +5,12 @@ import { ReactComponent as Discord } from '../assets/icon_disc_3.svg';
 import { ReactComponent as HackerSchool } from '../assets/icon_hs_3.svg';
 import { ReactComponent as Instagram } from '../assets/icon_insta_1.svg';
 import config from '../config';
+import Title from '../components/typographies/Title.js';
+import Body from '../components/typographies/Body.js';
 
 export const AboutUsPage = () => {
 	const sxStyles = {
 		rectangle: {
-			width: '100vw',
 			height: '30vh',
 			flexWrap: 'nowrap',
 			background: theme.palette.primary.main,
@@ -22,26 +23,12 @@ export const AboutUsPage = () => {
 			borderRadius: 20,
 			border: '3px solid #D9D9D9',
 			boxShadow: '-6px 4px 6px rgba(0, 0, 0, 0.25)',
-			marginTop: '-25px',
 			padding: '2rem',
+			marginTop: '-7vh',
 		},
-
 		text: {
 			wordWrap: 'break-word',
 			padding: '2rem',
-		},
-
-		body: {
-			minHeight: '12vh',
-		},
-
-		title: {
-			minHeight: '7vh',
-		},
-
-		name: {
-			wordWrap: 'break-word',
-			paddingLeft: '2rem',
 		},
 		devName: { display: 'inline-block', minWidth: '20vh' },
 		devSocials: { display: 'inline-block' },
@@ -55,11 +42,7 @@ export const AboutUsPage = () => {
 	};
 
 	return (
-		<div
-			style={{
-				overflowX: 'hidden',
-			}}
-		>
+		<Grid container direction='column' justifyContent='center' alignItems='center'>
 			<Grid
 				sx={sxStyles.rectangle}
 				container
@@ -85,47 +68,34 @@ export const AboutUsPage = () => {
 						<Paper sx={sxStyles.paper}>
 							<Grid container>
 								<Grid item sx={sxStyles.text}>
-									<Typography
-										variant='h3'
-										fontWeight={'bold'}
-										sx={sxStyles.title}
-									>
-										O Projeto
-									</Typography>
-									<Typography variant='h6' sx={sxStyles.body}>
+									<Title variant='h3'>O Projeto</Title>
+									<Body variant='h6'>
 										Esta plataforma foi desenvolvida com o objetivo de facilitar
 										o estudo a estudantes de ensino secundário, disponibilizando
 										ferramentas de análise automática (index de performance) e
 										geração personalizada de exames.
-									</Typography>
-									<Typography variant='h6'>
+									</Body>
+									<Body variant='h6'>
 										Arquimedia será sempre disponibilizada de forma gratuita a
 										todos os estudantes.
-									</Typography>
+									</Body>
 								</Grid>
 								<Grid item sx={sxStyles.text}>
-									<Typography
-										variant='h3'
-										fontWeight={'bold'}
-										sx={sxStyles.title}
-									>
-										De estudantes para estudantes
-									</Typography>
-									<Typography variant='h6' sx={sxStyles.title}>
+									<Title variant='h3'>De estudantes para estudantes</Title>
+									<Body variant='h6'>
 										Este projeto foi desenvolvido ao abrigo do núcleo
 										Hackerschool do Instituto Superior Técnico.
-									</Typography>
-									<Typography variant='h6' sx={sxStyles.title}>
-										Até à data, contribuiram:
-									</Typography>
+									</Body>
+									<Title variant='h6'>Até à data, contribuiram:</Title>
 									<Grid container>
-										<Typography variant='h6' sx={sxStyles.name}>
+										<Typography variant='h6' sx={sxStyles.text}>
 											{config.devs.map((dev) => {
 												return (
 													<li key={dev.name}>
 														<Typography
 															variant='h6'
 															sx={sxStyles.devName}
+															style={sxStyles.body}
 														>
 															{dev.name}
 														</Typography>{' '}
@@ -157,9 +127,7 @@ export const AboutUsPage = () => {
 								justifyContent='center'
 							>
 								<Grid item>
-									<Typography variant='h3' fontWeight={'bold'} sx={sxStyles.text}>
-										Acompanha!
-									</Typography>
+									<Title>Acompanha!</Title>
 								</Grid>
 							</Grid>
 							<Grid
@@ -202,6 +170,6 @@ export const AboutUsPage = () => {
 					</Grid>
 				</Grid>
 			</Grid>
-		</div>
+		</Grid>
 	);
 };
