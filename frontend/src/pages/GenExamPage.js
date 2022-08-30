@@ -272,7 +272,7 @@ const GenExamPage = () => {
 	return (
 		<Grid container direction='row' justifyContent='center' alignItems='center'>
 			<Grid container xs={10} direction='row' justifyContent='center' alignItems='center'>
-			<Grid container xs={10} direction={is1100pxScreen ? 'column' : 'row'}>
+				<Grid container xs={10} direction={is1100pxScreen ? 'column' : 'row'}>
 					<Grid item container xs md direction='row'>
 						<Grid item textAlign='center' xs={12}>
 							<Typography
@@ -284,53 +284,56 @@ const GenExamPage = () => {
 							</Typography>
 						</Grid>
 
-					<Grid container direction='column' xs={is1100pxScreen ? 12 : 6}>
-						{' '}
-						{/*Pick Subject*/}
-						<Grid textAlign={is1100pxScreen && 'center'} item>
-							<Typography variant='h6'> 1 - Disciplina </Typography>
-						</Grid>
-						<Grid justifyContent={is1100pxScreen ? 'center' : 'flex-start'} container>
-							<Select
-								style={{ margin: is1100pxScreen && '20px 0px' }}
-								IconComponent={ArrowDropDownRoundedIcon}
-								onChange={handleChangeSubject}
-								id='grouped-select'
-								value={subject}
-								classes={{ root: classes.selectRoot }}
-								className={classes.select}
-								sx={globalTheme.components.select.styleOverrides}
-								MenuProps={{
-								sx: globalTheme.components.menuItem.styleOverrides,
-								classes: { paper: classes.paper },
-								}}
-								inputProps={{ classes: { icon: classes.icon } }}
+						<Grid container direction='column' xs={is1100pxScreen ? 12 : 6}>
+							{' '}
+							{/*Pick Subject*/}
+							<Grid textAlign={is1100pxScreen && 'center'} item>
+								<Typography variant='h6'> 1 - Disciplina </Typography>
+							</Grid>
+							<Grid
+								justifyContent={is1100pxScreen ? 'center' : 'flex-start'}
+								container
 							>
-								{config.areas.map((area) => [
-									<ListSubheader key={area} className={classes.subheader}>
-										{' '}
-										<Typography>{area}</Typography>
-									</ListSubheader>,
-									config.subjects
-										.filter((el) => el.area === area)
-										.map((el) => (
-											<MenuItem
-												key={el.name}
-												disabled={!el.active}
-												classes={{
-													selected: classes.selected,
-													root: classes.rootMenuItem,
-												}}
-												value={el.name}
-											>
-												{' '}
-												<Typography variant='h6'>{el.name}</Typography>
-											</MenuItem>
-										)),
-								])}
-							</Select>
+								<Select
+									style={{ margin: is1100pxScreen && '20px 0px' }}
+									IconComponent={ArrowDropDownRoundedIcon}
+									onChange={handleChangeSubject}
+									id='grouped-select'
+									value={subject}
+									classes={{ root: classes.selectRoot }}
+									className={classes.select}
+									sx={globalTheme.components.select.styleOverrides}
+									MenuProps={{
+										sx: globalTheme.components.menuItem.styleOverrides,
+										classes: { paper: classes.paper },
+									}}
+									inputProps={{ classes: { icon: classes.icon } }}
+								>
+									{config.areas.map((area) => [
+										<ListSubheader key={area} className={classes.subheader}>
+											{' '}
+											<Typography>{area}</Typography>
+										</ListSubheader>,
+										config.subjects
+											.filter((el) => el.area === area)
+											.map((el) => (
+												<MenuItem
+													key={el.name}
+													disabled={!el.active}
+													classes={{
+														selected: classes.selected,
+														root: classes.rootMenuItem,
+													}}
+													value={el.name}
+												>
+													{' '}
+													<Typography variant='h6'>{el.name}</Typography>
+												</MenuItem>
+											)),
+									])}
+								</Select>
+							</Grid>
 						</Grid>
-					</Grid>
 
 						<Grid container direction='column' xs={is1100pxScreen ? 12 : 6}>
 							{' '}
@@ -338,7 +341,10 @@ const GenExamPage = () => {
 							<Grid textAlign={is1100pxScreen && 'center'} item>
 								<Typography variant='h6'> 2 - Ano(s) </Typography>
 							</Grid>
-							<Grid justifyContent={is1100pxScreen ? 'center' : 'flex-start'} container>
+							<Grid
+								justifyContent={is1100pxScreen ? 'center' : 'flex-start'}
+								container
+							>
 								<FormControl
 									style={{ margin: is1100pxScreen && '20px 0px' }}
 									className={classes.boxes}
@@ -386,7 +392,10 @@ const GenExamPage = () => {
 							<Grid textAlign={is1100pxScreen && 'center'} item>
 								<Typography variant='h6'> 3 - Tópicos </Typography>
 							</Grid>
-							<Grid justifyContent={is1100pxScreen ? 'center' : 'flex-start'} container>
+							<Grid
+								justifyContent={is1100pxScreen ? 'center' : 'flex-start'}
+								container
+							>
 								<FormControl
 									style={{ margin: is1100pxScreen && '20px 0px' }}
 									className={classes.boxes}
@@ -417,10 +426,10 @@ const GenExamPage = () => {
 														/>
 													}
 													label={
-													
-													<Typography variant='h6'>{theme}</Typography>
-												
-												}
+														<Typography variant='h6'>
+															{theme}
+														</Typography>
+													}
 												/>
 											))}
 									</FormGroup>
@@ -443,45 +452,46 @@ const GenExamPage = () => {
 						</Typography>
 					</Divider>
 
-				<Grid item container direction='column' xs md spacing={4}>
-					<Grid item textAlign='center'>
-						<Typography className={classes.upperSideText} variant='h4'>
-							Deixa isso connosco
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Typography style={{ marginLeft: '4rem' }} variant='h6'>
-							Aqui ficamos responsáveis por gerar o{' '}
-							<span style={{ color: theme.palette.secondary.main }}>
-								melhor exame para ti
-							</span>
-							, tendo em conta as tuas últimas performances.
-						</Typography>{' '}
-						{/* Best way to change a specific attribute in a string */}
-					</Grid>
-					<Grid container justifyContent='center'>
-						<List className={classes.list} subheader={<li />}>
-							{config.subjects
-								.filter((subject) => subject.active)
-								.map((subject) => (
-									<ListItem key={subject.name} className={classes.listItem}>
-										<ListItemButton
-											onClick={() => handleClickRecommended(subject)}
-										>
-											<ListItemText
-												primary={
-													<Typography variant='h6'>
-														{subject.name}
-													</Typography>
-												}
-											/>
-											<ListItemIcon style={{ marginLeft: '2rem' }}>
-												<RedRoundArrow />
-											</ListItemIcon>
-										</ListItemButton>
-									</ListItem>
-								))}
-						</List>
+					<Grid item container direction='column' xs md spacing={4}>
+						<Grid item textAlign='center'>
+							<Typography className={classes.upperSideText} variant='h4'>
+								Deixa isso connosco
+							</Typography>
+						</Grid>
+						<Grid item>
+							<Typography style={{ marginLeft: '4rem' }} variant='h6'>
+								Aqui ficamos responsáveis por gerar o{' '}
+								<span style={{ color: theme.palette.secondary.main }}>
+									melhor exame para ti
+								</span>
+								, tendo em conta as tuas últimas performances.
+							</Typography>{' '}
+							{/* Best way to change a specific attribute in a string */}
+						</Grid>
+						<Grid container justifyContent='center'>
+							<List className={classes.list} subheader={<li />}>
+								{config.subjects
+									.filter((subject) => subject.active)
+									.map((subject) => (
+										<ListItem key={subject.name} className={classes.listItem}>
+											<ListItemButton
+												onClick={() => handleClickRecommended(subject)}
+											>
+												<ListItemText
+													primary={
+														<Typography variant='h6'>
+															{subject.name}
+														</Typography>
+													}
+												/>
+												<ListItemIcon style={{ marginLeft: '2rem' }}>
+													<RedRoundArrow />
+												</ListItemIcon>
+											</ListItemButton>
+										</ListItem>
+									))}
+							</List>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
