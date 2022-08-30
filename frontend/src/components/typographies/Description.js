@@ -6,7 +6,7 @@ const Description = (props) => {
 	const sxStyles = {
 		DescriptiveText: {
 			fontWeight: 'normal',
-			fontSize: responsiveWidth(undefined, 10, 30, 0.012),
+			fontSize: responsiveWidth(undefined, 10, 25, 0.012),
 		},
 	};
 	return (
