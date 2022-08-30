@@ -7,7 +7,7 @@ const Subtitle = (props) => {
 	const sxStyles = {
 		Subtitle: {
 			fontWeight: 'bold',
-			fontSize: responsiveWidth(undefined, 15, 35, 0.017),
+			fontSize: responsiveWidth(undefined, 20, 35, 0.017),
 			color: theme.palette.secondary.main,
 		},
 	};
