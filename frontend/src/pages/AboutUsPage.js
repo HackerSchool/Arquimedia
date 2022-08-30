@@ -7,6 +7,7 @@ import { ReactComponent as Instagram } from '../assets/icon_insta_1.svg';
 import config from '../config';
 import Title from '../components/typographies/Title.js';
 import Body from '../components/typographies/Body.js';
+import responsiveWidth from '../hooks/responsiveWidth.js';
 
 export const AboutUsPage = () => {
 	const sxStyles = {
@@ -18,6 +19,7 @@ export const AboutUsPage = () => {
 		},
 		bigTitle: {
 			marginTop: '-7vh',
+			fontSize: responsiveWidth(undefined, 40, undefined, 0.035),
 		},
 		paper: {
 			borderRadius: 20,
@@ -86,9 +88,11 @@ export const AboutUsPage = () => {
 										Este projeto foi desenvolvido ao abrigo do núcleo
 										Hackerschool do Instituto Superior Técnico.
 									</Body>
-									<Title variant='h6'>Até à data, contribuiram:</Title>
+									<Title variant='h6' style={{ paddingTop: '2rem' }}>
+										Até à data, contribuiram:
+									</Title>
 									<Grid container>
-										<Typography variant='h6' sx={sxStyles.text}>
+										<Typography variant='h6'>
 											{config.devs.map((dev) => {
 												return (
 													<li key={dev.name}>

@@ -5,7 +5,7 @@ import responsiveWidth from '../../hooks/responsiveWidth';
 const Body = (props) => {
 	const sxStyles = {
 		Body: {
-			fontSize: responsiveWidth(undefined, 15, 30, 0.015),
+			fontSize: responsiveWidth(undefined, 15, 25, 0.015),
 		},
 	};
 	return (
