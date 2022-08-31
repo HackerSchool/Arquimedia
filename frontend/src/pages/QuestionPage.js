@@ -29,6 +29,9 @@ import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
 import isSwear from '../utils/isSwear';
 import globalTheme from '../globalTheme';
 import Loading from '../components/loading/Loading';
+import Subtitle from '../components/typographies/Subtitle';
+import Description from '../components/typographies/Description';
+
 const iconSelector = {
 	video: <VideoLibraryIcon />,
 	paper: <ArticleIcon />,
@@ -78,14 +81,6 @@ export default function QuestionPage() {
 
 	const sxStyles = {
 		sorterText: { fontSize: responsiveWidth(windowArray, 13, 20, 0.01) },
-		subtitle: {
-			fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
-			color: theme.palette.secondary.main,
-		},
-		descriptiveText: {
-			fontWeight: 'normal',
-			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-		},
 		responsiveIcons: { width: responsiveWidth(windowArray, 20, 40, 0.025), height: 'auto' },
 		itemInfoLabel: {
 			fontWeight: 'bold',
@@ -240,43 +235,37 @@ export default function QuestionPage() {
 						>
 							<Grid container direction='column'>
 								<Grid item>
-									<Typography
-										variant='h4'
-										fontWeight='bold'
-										sx={sxStyles.subtitle}
-									>
-										Detalhes
-									</Typography>
+									<Subtitle variant='h4'>Detalhes</Subtitle>
 								</Grid>
 								<Grid item>
-									<Typography variant='h6' sx={sxStyles.descriptiveText}>
+									<Description variant='h6'>
 										<span style={sxStyles.itemInfoLabel}>Disciplina:</span>{' '}
 										{question.subject}
-									</Typography>
+									</Description>
 								</Grid>
 								<Grid item>
 									{' '}
-									<Typography variant='h6' sx={sxStyles.descriptiveText}>
+									<Description variant='h6'>
 										<span style={sxStyles.itemInfoLabel}>Tema:</span>{' '}
 										{question.subsubject}
-									</Typography>
+									</Description>
 								</Grid>
 								<Grid item>
-									<Typography variant='h6' sx={sxStyles.descriptiveText}>
+									<Description variant='h6'>
 										<span style={sxStyles.itemInfoLabel}>Ano:</span>{' '}
 										{question.year}
-									</Typography>
+									</Description>
 								</Grid>
 								<Grid item>
-									<Typography variant='h6' sx={sxStyles.descriptiveText}>
+									<Description variant='h6'>
 										<span style={sxStyles.itemInfoLabel}>Fonte:</span>{' '}
 										{question.source}
-									</Typography>
+									</Description>
 								</Grid>
 								<Grid item>
-									<Typography variant='h6' sx={sxStyles.descriptiveText}>
+									<Description variant='h6'>
 										<span style={sxStyles.itemInfoLabel}>Autor:</span>{' '}
-									</Typography>
+									</Description>
 								</Grid>
 							</Grid>
 
@@ -295,25 +284,19 @@ export default function QuestionPage() {
 					{/* Resolution */}
 					<Grid item xs={12}>
 						<Box>
-							<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
-								Resolução
-							</Typography>
+							<Subtitle variant='h4'>Resolução</Subtitle>
 							{question.resolution ? (
-								<Typography
-									variant='h6'
-									fontWeight='normal'
-									sx={sxStyles.descriptiveText}
-								>
+								<Description variant='h6'>
 									<ReactMarkdown
 										remarkPlugins={[remarkMath, remarRehype, remarkKatex]}
 									>
 										{question.resolution}
 									</ReactMarkdown>
-								</Typography>
+								</Description>
 							) : (
-								<Typography sx={sxStyles.descriptiveText}>
+								<Description variant='h6'>
 									Ainda estamos a trabalhar na resolução desta pergunta...
-								</Typography>
+								</Description>
 							)}
 						</Box>
 					</Grid>
@@ -321,9 +304,7 @@ export default function QuestionPage() {
 					<Grid item xs={12}>
 						<Accordion sx={sxStyles.box} square>
 							<AccordionSummary>
-								<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
-									+ Recursos
-								</Typography>
+								<Subtitle variant='h4'>+ Recursos</Subtitle>
 							</AccordionSummary>
 							<AccordionDetails>
 								{question.resources.length > 0 ? (
@@ -336,12 +317,7 @@ export default function QuestionPage() {
 												sx={sxStyles.resourceGrid}
 											>
 												{iconSelector[resource.type]}
-												<Typography
-													variant='h6'
-													fontWeight='normal'
-													key={resource.text}
-													sx={sxStyles.descriptiveText}
-												>
+												<Description variant='h6' key={resource.text}>
 													<a
 														style={{
 															textDecoration: 'none',
@@ -353,18 +329,14 @@ export default function QuestionPage() {
 													>
 														{resource.description}
 													</a>
-												</Typography>
+												</Description>
 											</Grid>
 										))}
 									</>
 								) : (
-									<Typography
-										variant='h6'
-										fontWeight='normal'
-										sx={sxStyles.descriptiveText}
-									>
+									<Description variant='h6'>
 										Ainda estamos à procura de recursos...
-									</Typography>
+									</Description>
 								)}
 							</AccordionDetails>
 						</Accordion>
