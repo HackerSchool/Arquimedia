@@ -102,7 +102,7 @@ const ExamPage = (props) => {
 	return (
 		<Grid container direction='row' justifyContent='center' alignItems='center'>
 			{' '}
-			<Grid container direction='row' justifyContent='center' alignItems='center' xs={9}>
+			<Grid container direction='row' justifyContent='center' alignItems='center' xs={10}>
 				<Grid className={classes.container}>
 					<Grid item xs={12}>
 						<CustomizedSteppers
