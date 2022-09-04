@@ -272,7 +272,7 @@ const GenExamPage = () => {
 	return (
 		<Grid container direction='row' justifyContent='center' alignItems='center'>
 			<Grid container xs={10} direction='row' justifyContent='center' alignItems='center'>
-				<Grid container xs={10} direction={is1100pxScreen ? 'column' : 'row'}>
+				<Grid container xs={12} direction={is1100pxScreen ? 'column' : 'row'}>
 					<Grid item container xs md direction='row'>
 						<Grid item textAlign='center' xs={12}>
 							<Typography
