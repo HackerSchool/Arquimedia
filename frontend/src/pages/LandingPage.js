@@ -30,54 +30,63 @@ const LandingPage = () => {
 
 	return (
 		!loading && (
-			<Grid
-				style={{
-					height: windowArray.height,
-					marginTop: -responsiveHeight(windowArray, undefined, undefined, 0.1),
-				}}
-				container
-				xs={12}
-				justifyContent='center'
-				alignItems='center'
-				spacing={4}
-			>
-				<Grid
-					item
-					container
-					direction='column'
-					justifyContent='center'
-					alignItems='center'
-					spacing={6}
-					style={{ minWidth: '20rem' }}
-					xs={6}
-				>
-					<Grid item>
-						<Typography
-							style={{ fontSize: responsiveWidth(windowArray, 10, 60, 0.05) }}
-							className={classes.slogan}
-						>
-							Exames nacionais
-							<br />
-							<i>made easy</i>{' '}
-							<Emoji style={{ width: responsiveWidth(windowArray, 10, 60, 0.05) }} />
-						</Typography>
-					</Grid>
-					<Grid xs={6} item>
-						<NormalButton
-							text='Inscreve-te'
-							href='/registar'
-							fontSize={responsiveWidth(windowArray, 10, 45, 0.04)}
-						/>
-					</Grid>
-				</Grid>
-				<Grid container xs={6}>
-					<Girl
+			<Grid container direction='row' justifyContent='center' alignItems='center'>
+				{' '}
+				<Grid container direction='row' justifyContent='center' alignItems='center' xs={9}>
+					<Grid
 						style={{
-							maxHeight: windowArray.height - 100,
-							width: responsiveWidth(windowArray, 250, undefined, 0.3),
+							height: windowArray.height,
+							marginTop: -responsiveHeight(windowArray, undefined, undefined, 0.1),
 						}}
-						className={classes.girl}
-					/>
+						container
+						xs={12}
+						justifyContent='center'
+						alignItems='center'
+						spacing={4}
+					>
+						<Grid
+							item
+							container
+							direction='column'
+							justifyContent='center'
+							alignItems='center'
+							spacing={6}
+							style={{ minWidth: '20rem' }}
+							xs={6}
+						>
+							<Grid item>
+								<Typography
+									style={{ fontSize: responsiveWidth(windowArray, 10, 60, 0.05) }}
+									className={classes.slogan}
+								>
+									Exames nacionais
+									<br />
+									<i>made easy</i>{' '}
+									<Emoji
+										style={{
+											width: responsiveWidth(windowArray, 10, 60, 0.05),
+										}}
+									/>
+								</Typography>
+							</Grid>
+							<Grid xs={6} item>
+								<NormalButton
+									text='Inscreve-te'
+									href='/registar'
+									fontSize={responsiveWidth(windowArray, 10, 45, 0.04)}
+								/>
+							</Grid>
+						</Grid>
+						<Grid container xs={6}>
+							<Girl
+								style={{
+									maxHeight: windowArray.height - 100,
+									width: responsiveWidth(windowArray, 250, undefined, 0.3),
+								}}
+								className={classes.girl}
+							/>
+						</Grid>
+					</Grid>
 				</Grid>
 			</Grid>
 		)
