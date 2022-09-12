@@ -8,7 +8,7 @@ import { ReactComponent as AnswersIcon } from '../assets/answersIcon.svg';
 import { ReactComponent as DiscordIcon } from '../assets/icons8-discord-new-96.svg';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import responsiveWidth from '../hooks/responsiveWidth';
-import Box from '../components/box/Box';
+import Box from '../components/Box/Box';
 
 export const HomePage = () => {
 	const windowArray = useWindowDimensions();

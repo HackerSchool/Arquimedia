@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Comment from './Comment';
 import { Grid, TextField, IconButton } from '@mui/material';
-import Box from '../box/Box';
+import Box from '../Box/Box';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { createCommentAPI } from '../../api';
 import isSwear from '../../utils/isSwear';

@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 import Question from '../components/questions/Question';
 import { fetchQuestion, getUser, getProfile, createReport } from '../api';
 import theme from '../globalTheme';
-import Box from '../components/box/Box';
+import Box from '../components/Box/Box';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';

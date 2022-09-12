@@ -25,7 +25,7 @@ import { ReactComponent as OtherIcon } from '../../assets/otherIcon.svg';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveWidth from '../../hooks/responsiveWidth';
 import NormalButton from '../buttons/NormalButton';
-import Box from '../box/Box';
+import Box from '../Box/Box';
 
 const reportData = [
 	{

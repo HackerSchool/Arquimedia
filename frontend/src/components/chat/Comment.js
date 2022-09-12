@@ -15,7 +15,7 @@ import { Grid, IconButton } from '@mui/material';
 import AvatarUser from '../avatar/AvatarUser';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveWidth from '../../hooks/responsiveWidth';
-import Box from '../box/Box';
+import Box from '../Box/Box';
 import Description from '../typographies/Description';
 
 export default function Comment(props) {
