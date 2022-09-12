@@ -29,6 +29,9 @@ import { ReactComponent as MessageReport } from '../assets/messageReport.svg';
 import isSwear from '../utils/isSwear';
 import globalTheme from '../globalTheme';
 import Loading from '../components/loading/Loading';
+import Subtitle from '../components/typographies/Subtitle';
+import Description from '../components/typographies/Description';
+
 const iconSelector = {
 	video: <VideoLibraryIcon />,
 	paper: <ArticleIcon />,
@@ -78,14 +81,6 @@ export default function QuestionPage() {
 
 	const sxStyles = {
 		sorterText: { fontSize: responsiveWidth(windowArray, 13, 20, 0.01) },
-		subtitle: {
-			fontSize: responsiveWidth(windowArray, 15, 35, 0.017),
-			color: theme.palette.secondary.main,
-		},
-		descriptiveText: {
-			fontWeight: 'normal',
-			fontSize: responsiveWidth(windowArray, 10, 30, 0.012),
-		},
 		responsiveIcons: { width: responsiveWidth(windowArray, 20, 40, 0.025), height: 'auto' },
 		itemInfoLabel: {
 			fontWeight: 'bold',
@@ -215,185 +210,183 @@ export default function QuestionPage() {
 		);
 	}
 	return (
-		<Grid container spacing={4} alignItems='stretch'>
-			{/* Question box */}
-			<Grid item xs={9}>
-				<Question question={question} overrideResponsive={true} answer={Number(id) - 1} />{' '}
-				{/* //So that the number we see in the question matches the id, since the answer prop was made for the specific case of exams,
+		<Grid container direction='row' justifyContent='center' alignItems='center'>
+			{' '}
+			<Grid container direction='row' justifyContent='center' alignItems='center' xs={10}>
+				<Grid container spacing={4} alignItems='stretch'>
+					{/* Question box */}
+					<Grid item xs={9}>
+						<Question
+							question={question}
+							overrideResponsive={true}
+							answer={Number(id) - 1}
+						/>{' '}
+						{/* //So that the number we see in the question matches the id, since the answer prop was made for the specific case of exams,
 				 it adds one more so that an exam does not start in 0. So this is a adaptation */}
-			</Grid>
-			{/* Question info box */}
-			<Grid container item xs={3} direction='row'>
-				<Grid
-					container
-					direction='column'
-					justifyContent='space-between'
-					alignItems='flex-start'
-					sx={sxStyles.box}
-				>
-					<Grid container direction='column'>
-						<Grid item>
-							<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
-								Detalhes
-							</Typography>
-						</Grid>
-						<Grid item>
-							<Typography variant='h6' sx={sxStyles.descriptiveText}>
-								<span style={sxStyles.itemInfoLabel}>Disciplina:</span>{' '}
-								{question.subject}
-							</Typography>
-						</Grid>
-						<Grid item>
-							{' '}
-							<Typography variant='h6' sx={sxStyles.descriptiveText}>
-								<span style={sxStyles.itemInfoLabel}>Tema:</span>{' '}
-								{question.subsubject}
-							</Typography>
-						</Grid>
-						<Grid item>
-							<Typography variant='h6' sx={sxStyles.descriptiveText}>
-								<span style={sxStyles.itemInfoLabel}>Ano:</span> {question.year}
-							</Typography>
-						</Grid>
-						<Grid item>
-							<Typography variant='h6' sx={sxStyles.descriptiveText}>
-								<span style={sxStyles.itemInfoLabel}>Fonte:</span> {question.source}
-							</Typography>
-						</Grid>
-						<Grid item>
-							<Typography variant='h6' sx={sxStyles.descriptiveText}>
-								<span style={sxStyles.itemInfoLabel}>Autor:</span>{' '}
-							</Typography>
-						</Grid>
 					</Grid>
-
-					<Grid item>
-						{' '}
-						<IconButton sx={{ borderRadius: 15 }} onClick={handleClickOpen}>
-							<MessageReport sx={sxStyles.responsiveIcons} />
-							<Typography variant='h6' sx={sxStyles.itemInfoLabel}>
-								Reportar Erro
-							</Typography>
-						</IconButton>
-						<ReportDialog open={open} onClose={onClose}></ReportDialog>
-					</Grid>
-				</Grid>
-			</Grid>
-			{/* Resolution */}
-			<Grid item xs={12}>
-				<Box>
-					<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
-						Resolução
-					</Typography>
-					{question.resolution ? (
-						<Typography variant='h6' fontWeight='normal' sx={sxStyles.descriptiveText}>
-							<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
-								{question.resolution}
-							</ReactMarkdown>
-						</Typography>
-					) : (
-						<Typography sx={sxStyles.descriptiveText}>
-							Ainda estamos a trabalhar na resolução desta pergunta...
-						</Typography>
-					)}
-				</Box>
-			</Grid>
-			{/* Resources */}
-			<Grid item xs={12}>
-				<Accordion sx={sxStyles.box} square>
-					<AccordionSummary>
-						<Typography variant='h4' fontWeight='bold' sx={sxStyles.subtitle}>
-							+ Recursos
-						</Typography>
-					</AccordionSummary>
-					<AccordionDetails>
-						{question.resources.length > 0 ? (
-							<>
-								{question.resources.map((resource) => (
-									<Grid
-										container
-										alignItems='center'
-										key={sxStyles.description}
-										sx={sxStyles.resourceGrid}
-									>
-										{iconSelector[resource.type]}
-										<Typography
-											variant='h6'
-											fontWeight='normal'
-											key={resource.text}
-											sx={sxStyles.descriptiveText}
-										>
-											<a
-												style={{
-													textDecoration: 'none',
-												}}
-												sx={sxStyles.resource}
-												href={resource.url}
-												target='_blank'
-												rel='noreferrer'
-											>
-												{resource.description}
-											</a>
-										</Typography>
-									</Grid>
-								))}
-							</>
-						) : (
-							<Typography
-								variant='h6'
-								fontWeight='normal'
-								sx={sxStyles.descriptiveText}
-							>
-								Ainda estamos à procura de recursos...
-							</Typography>
-						)}
-					</AccordionDetails>
-				</Accordion>
-			</Grid>
-			{/* Comments */}
-			<Grid item xs={12}>
-				<Box>
-					<Grid container direction='column'>
+					{/* Question info box */}
+					<Grid container item xs={3} direction='row'>
 						<Grid
 							container
-							direction='row'
-							justifyContent='flex-end'
-							alignItems='center'
+							direction='column'
+							justifyContent='space-between'
+							alignItems='flex-start'
+							sx={sxStyles.box}
 						>
+							<Grid container direction='column'>
+								<Grid item>
+									<Subtitle variant='h4'>Detalhes</Subtitle>
+								</Grid>
+								<Grid item>
+									<Description variant='h6'>
+										<span style={sxStyles.itemInfoLabel}>Disciplina:</span>{' '}
+										{question.subject}
+									</Description>
+								</Grid>
+								<Grid item>
+									{' '}
+									<Description variant='h6'>
+										<span style={sxStyles.itemInfoLabel}>Tema:</span>{' '}
+										{question.subsubject}
+									</Description>
+								</Grid>
+								<Grid item>
+									<Description variant='h6'>
+										<span style={sxStyles.itemInfoLabel}>Ano:</span>{' '}
+										{question.year}
+									</Description>
+								</Grid>
+								<Grid item>
+									<Description variant='h6'>
+										<span style={sxStyles.itemInfoLabel}>Fonte:</span>{' '}
+										{question.source}
+									</Description>
+								</Grid>
+								<Grid item>
+									<Description variant='h6'>
+										<span style={sxStyles.itemInfoLabel}>Autor:</span>{' '}
+									</Description>
+								</Grid>
+							</Grid>
+
 							<Grid item>
-								<Select
-									labelId='sorter'
-									id='sorter'
-									value={sortingType}
-									onChange={changeSorting}
-									sx={globalTheme.components.select.styleOverrides}
-									MenuProps={{
-										sx: globalTheme.components.menuItem.styleOverrides,
-									}}
-								>
-									<MenuItem value={'votes'}>
-										<Typography sx={sxStyles.sorterText}>
-											Ordernar por Pontuação
-										</Typography>
-									</MenuItem>
-									<MenuItem value={'id'}>
-										<Typography sx={sxStyles.sorterText}>
-											Ordernar por Data
-										</Typography>
-									</MenuItem>
-								</Select>
+								{' '}
+								<IconButton sx={{ borderRadius: 15 }} onClick={handleClickOpen}>
+									<MessageReport sx={sxStyles.responsiveIcons} />
+									<Typography variant='h6' sx={sxStyles.itemInfoLabel}>
+										Reportar Erro
+									</Typography>
+								</IconButton>
+								<ReportDialog open={open} onClose={onClose}></ReportDialog>
 							</Grid>
 						</Grid>
-						{/* List of Comments Area */}
-						<Chat
-							userID={userID}
-							isUserMod={isUserMod}
-							questionID={id}
-							messageArray={comments}
-							sortRerender={sortRerender}
-						></Chat>
 					</Grid>
-				</Box>
+					{/* Resolution */}
+					<Grid item xs={12}>
+						<Box>
+							<Subtitle variant='h4'>Resolução</Subtitle>
+							{question.resolution ? (
+								<Description variant='h6'>
+									<ReactMarkdown
+										remarkPlugins={[remarkMath, remarRehype, remarkKatex]}
+									>
+										{question.resolution}
+									</ReactMarkdown>
+								</Description>
+							) : (
+								<Description variant='h6'>
+									Ainda estamos a trabalhar na resolução desta pergunta...
+								</Description>
+							)}
+						</Box>
+					</Grid>
+					{/* Resources */}
+					<Grid item xs={12}>
+						<Accordion sx={sxStyles.box} square>
+							<AccordionSummary>
+								<Subtitle variant='h4'>+ Recursos</Subtitle>
+							</AccordionSummary>
+							<AccordionDetails>
+								{question.resources.length > 0 ? (
+									<>
+										{question.resources.map((resource) => (
+											<Grid
+												container
+												alignItems='center'
+												key={sxStyles.description}
+												sx={sxStyles.resourceGrid}
+											>
+												{iconSelector[resource.type]}
+												<Description variant='h6' key={resource.text}>
+													<a
+														style={{
+															textDecoration: 'none',
+														}}
+														sx={sxStyles.resource}
+														href={resource.url}
+														target='_blank'
+														rel='noreferrer'
+													>
+														{resource.description}
+													</a>
+												</Description>
+											</Grid>
+										))}
+									</>
+								) : (
+									<Description variant='h6'>
+										Ainda estamos à procura de recursos...
+									</Description>
+								)}
+							</AccordionDetails>
+						</Accordion>
+					</Grid>
+					{/* Comments */}
+					<Grid item xs={12}>
+						<Box>
+							<Grid container direction='column'>
+								<Grid
+									container
+									direction='row'
+									justifyContent='flex-end'
+									alignItems='center'
+								>
+									<Grid item>
+										<Select
+											labelId='sorter'
+											id='sorter'
+											value={sortingType}
+											onChange={changeSorting}
+											sx={globalTheme.components.select.styleOverrides}
+											MenuProps={{
+												sx: globalTheme.components.menuItem.styleOverrides,
+											}}
+										>
+											<MenuItem value={'votes'}>
+												<Typography sx={sxStyles.sorterText}>
+													Ordernar por Pontuação
+												</Typography>
+											</MenuItem>
+											<MenuItem value={'id'}>
+												<Typography sx={sxStyles.sorterText}>
+													Ordernar por Data
+												</Typography>
+											</MenuItem>
+										</Select>
+									</Grid>
+								</Grid>
+								{/* List of Comments Area */}
+								<Chat
+									userID={userID}
+									isUserMod={isUserMod}
+									questionID={id}
+									messageArray={comments}
+									sortRerender={sortRerender}
+								></Chat>
+							</Grid>
+						</Box>
+					</Grid>
+				</Grid>
 			</Grid>
 		</Grid>
 	);

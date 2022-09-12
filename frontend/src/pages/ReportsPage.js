@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Box, Table, TableBody, TableContainer, TablePagination, Paper } from '@mui/material';
+import { Box, Table, TableBody, TableContainer, TablePagination, Paper, Grid } from '@mui/material';
 import { getReports } from '../api';
 import Loading from '../components/loading/Loading';
 import Report from '../components/report/Report';
@@ -111,57 +111,70 @@ const ReportsPage = () => {
 	if (loading) return <Loading />;
 
 	return (
-		<Box sx={{ width: '100%' }}>
-			<Paper sx={{ width: '100%', mb: 2 }}>
-				<ReportTableToolbar rows={rows} searchFunction={search} resetFilters={resetRows} />
-				<TableContainer>
-					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<colgroup>
-							<col style={{ width: '5%' }} />
-							<col style={{ width: '5%' }} />
-							<col style={{ width: '5%' }} />
-							<col style={{ width: '15%' }} />
-							<col style={{ width: '25%' }} />
-							<col style={{ width: '25%' }} />
-							<col style={{ width: '10%' }} />
-						</colgroup>
-						<ReportTableHead
-							order={order}
-							orderBy={orderBy}
-							onRequestSort={handleRequestSort}
-							rowCount={rows.length}
+		<Grid container direction='row' justifyContent='center' alignItems='center'>
+			{' '}
+			<Grid container direction='row' justifyContent='center' alignItems='center' xs={10}>
+				<Box sx={{ width: '100%' }}>
+					<Paper sx={{ width: '100%', mb: 2 }}>
+						<ReportTableToolbar
+							rows={rows}
+							searchFunction={search}
+							resetFilters={resetRows}
 						/>
-						<TableBody>
-							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
+						<TableContainer>
+							<Table
+								sx={{ minWidth: 750 }}
+								aria-labelledby='tableTitle'
+								size={'medium'}
+							>
+								<colgroup>
+									<col style={{ width: '5%' }} />
+									<col style={{ width: '5%' }} />
+									<col style={{ width: '5%' }} />
+									<col style={{ width: '15%' }} />
+									<col style={{ width: '25%' }} />
+									<col style={{ width: '25%' }} />
+									<col style={{ width: '10%' }} />
+								</colgroup>
+								<ReportTableHead
+									order={order}
+									orderBy={orderBy}
+									onRequestSort={handleRequestSort}
+									rowCount={rows.length}
+								/>
+								<TableBody>
+									{/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-							{stableSort(rows, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) //What objects will be shown
-								.map((row, index) => {
-									const labelId = `report-table-checkbox-${index}`;
+									{stableSort(rows, getComparator(order, orderBy))
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) //What objects will be shown
+										.map((row, index) => {
+											const labelId = `report-table-checkbox-${index}`;
 
-									return (
-										<Report
-											data={row}
-											labelId={labelId}
-											key={row.id}
-											afterReportDeleted={afterReportDeleted}
-										/>
-									);
-								})}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<TablePagination
-					rowsPerPageOptions={[5, 10, 25]}
-					component='div'
-					count={rows.length}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
-			</Paper>
-		</Box>
+											return (
+												<Report
+													data={row}
+													labelId={labelId}
+													key={row.id}
+													afterReportDeleted={afterReportDeleted}
+												/>
+											);
+										})}
+								</TableBody>
+							</Table>
+						</TableContainer>
+						<TablePagination
+							rowsPerPageOptions={[5, 10, 25]}
+							component='div'
+							count={rows.length}
+							rowsPerPage={rowsPerPage}
+							page={page}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</Paper>
+				</Box>
+			</Grid>
+		</Grid>
 	);
 };
 export default ReportsPage;

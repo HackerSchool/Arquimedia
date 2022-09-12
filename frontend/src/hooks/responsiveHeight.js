@@ -1,4 +1,11 @@
-export default function responsiveHeight(windowArray, min = null, max = null, coef = 1) {
+import useWindowDimensions from './useWindowDimensions';
+
+export default function responsiveHeight(
+	windowArray = useWindowDimensions(),
+	min = null,
+	max = null,
+	coef = 1
+) {
 	let size = coef * windowArray.height;
 
 	if ((min !== null) & (size < min)) {

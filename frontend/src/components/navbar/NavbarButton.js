@@ -1,20 +1,22 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-
-const useStyles = makeStyles(() => ({
-	menuItems: {
-		fontSize: 18,
-	},
-}));
+import Subtitle from '../typographies/Subtitle';
+import globalTheme from '../../globalTheme';
 
 const NavbarButton = (props) => {
-	const classes = useStyles();
-	const color = window.location.pathname === props.href ? 'orange' : 'grey';
-
+	// eslint-disable-next-line no-unused-vars
+	const currentPage = window.location.pathname === props.href;
 	return (
-		<Button className={classes.menuItems} style={{ color: color }} href={props.href}>
-			{props.text}
+		<Button href={props.href} {...props}>
+			<Subtitle
+				style={{
+					color: currentPage
+						? globalTheme.palette.primary.main
+						: globalTheme.palette.secondary.main,
+				}}
+			>
+				{props.text}
+			</Subtitle>
 		</Button>
 	);
 };

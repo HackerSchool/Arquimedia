@@ -11,11 +11,12 @@ import { ReactComponent as UpvoteIcon } from '../../assets/upvote.svg';
 import { ReactComponent as DownvoteIcon } from '../../assets/downvote.svg';
 import { ReactComponent as UpvoteFilledIcon } from '../../assets/upvoteFilled.svg';
 import { ReactComponent as DownvoteFilledIcon } from '../../assets/downvoteFilled.svg';
-import { Grid, Typography, IconButton } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import AvatarUser from '../avatar/AvatarUser';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import responsiveWidth from '../../hooks/responsiveWidth';
 import Box from '../box/Box';
+import Description from '../typographies/Description';
 
 export default function Comment(props) {
 	const [voted, setVoted] = useState(props.comment.voted);
@@ -127,18 +128,16 @@ export default function Comment(props) {
 				<Grid item xs={1}>
 					{' '}
 					{/* Username*/}
-					<Typography sx={sxStyles.author} style={sxStyles.descriptiveText}>
+					<Description style={sxStyles.author}>
 						{props.comment.author.username} {timeShown}
-					</Typography>
+					</Description>
 				</Grid>
 				<Grid container direction='row' alignItems='center'>
 					<Grid item xs={11}>
 						{' '}
 						{/* Comment content*/}{' '}
 						<Box>
-							<Typography sx={sxStyles.descriptiveText}>
-								{props.comment.content}
-							</Typography>
+							<Description>{props.comment.content}</Description>
 						</Box>
 					</Grid>
 					<Grid
@@ -159,13 +158,9 @@ export default function Comment(props) {
 							</IconButton>
 						</Grid>
 						<Grid item xs={1}>
-							<Typography
-								variant='h6'
-								sx={sxStyles.voteCounter}
-								style={sxStyles.descriptiveText}
-							>
+							<Description variant='h6' style={sxStyles.voteCounter}>
 								{votes}
-							</Typography>
+							</Description>
 						</Grid>
 						<Grid item xs={1}>
 							{' '}

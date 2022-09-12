@@ -43,66 +43,71 @@ const ResultsPage = (props) => {
 	if (loading) return <Loading />;
 
 	return (
-		<Paper theme={theme} className={classes.paper}>
-			<Grid container align='center' spacing={2} xs={12}>
-				<Grid item xs={12}>
-					<Typography variant='h2'>Resultados</Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Divider
-						className={classes.divider}
-						orientation='horizontal'
-						flexItem
-					></Divider>
-				</Grid>
-				<Grid className={classes.resultInfo} container xs={12}>
-					<Grid item xs={4}>
-						<Typography style={{ color: 'RGB(22, 198, 12)' }} variant='h4'>
-							{' '}
-							✅ Corretas: {exam.correct.length}
-						</Typography>
+		<Grid container direction='row' justifyContent='center' alignItems='center'>
+			{' '}
+			<Grid container direction='row' justifyContent='center' alignItems='center' xs={9}>
+				<Paper theme={theme} className={classes.paper}>
+					<Grid container align='center' spacing={2} xs={12}>
+						<Grid item xs={12}>
+							<Typography variant='h2'>Resultados</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<Divider
+								className={classes.divider}
+								orientation='horizontal'
+								flexItem
+							></Divider>
+						</Grid>
+						<Grid className={classes.resultInfo} container xs={12}>
+							<Grid item xs={4}>
+								<Typography style={{ color: 'RGB(22, 198, 12)' }} variant='h4'>
+									{' '}
+									✅ Corretas: {exam.correct.length}
+								</Typography>
+							</Grid>
+							<Grid item xs={4}>
+								<Typography variant='h4'> 🏆 Nota: {exam.score} / 200</Typography>
+							</Grid>
+							<Grid item xs={4}>
+								<Typography style={{ color: 'RGB(237, 57, 22)' }} variant='h4'>
+									{' '}
+									❌ Erradas: {exam.failed.length}
+								</Typography>
+							</Grid>
+						</Grid>
 					</Grid>
-					<Grid item xs={4}>
-						<Typography variant='h4'> 🏆 Nota: {exam.score} / 200</Typography>
+					<Grid
+						container
+						direction='row'
+						justifyContent='center'
+						align='center'
+						spacing={2}
+						xs={12}
+					>
+						<Grid item xs={12}>
+							<Typography variant='h6'>Perguntas:</Typography>
+							<QuestionAccordionGroup exam={exam} />
+						</Grid>
+						<Grid item xs={6}>
+							<NormalButton
+								fontSize={20}
+								text='Gerar outro exame'
+								variant='contained'
+								href='/exames'
+							></NormalButton>
+						</Grid>
+						<Grid item xs={6}>
+							<NormalButton
+								fontSize={20}
+								text='Sair'
+								variant='contained'
+								href='/'
+							></NormalButton>
+						</Grid>
 					</Grid>
-					<Grid item xs={4}>
-						<Typography style={{ color: 'RGB(237, 57, 22)' }} variant='h4'>
-							{' '}
-							❌ Erradas: {exam.failed.length}
-						</Typography>
-					</Grid>
-				</Grid>
+				</Paper>
 			</Grid>
-			<Grid
-				container
-				direction='row'
-				justifyContent='center'
-				align='center'
-				spacing={2}
-				xs={12}
-			>
-				<Grid item xs={12}>
-					<Typography variant='h6'>Perguntas:</Typography>
-					<QuestionAccordionGroup exam={exam} />
-				</Grid>
-				<Grid item xs={6}>
-					<NormalButton
-						fontSize={20}
-						text='Gerar outro exame'
-						variant='contained'
-						href='/exames'
-					></NormalButton>
-				</Grid>
-				<Grid item xs={6}>
-					<NormalButton
-						fontSize={20}
-						text='Sair'
-						variant='contained'
-						href='/'
-					></NormalButton>
-				</Grid>
-			</Grid>
-		</Paper>
+		</Grid>
 	);
 };
 

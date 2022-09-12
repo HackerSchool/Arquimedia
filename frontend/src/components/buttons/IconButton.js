@@ -43,6 +43,7 @@ const IconButton = (props) => {
 					target={props.target}
 					classes={{ root: classes.button, label: classes.label }}
 					onClick={props.onClick}
+					{...props}
 				>
 					{props.iconFirst ? (
 						<>
@@ -90,13 +91,10 @@ IconButton.propTypes = {
 IconButton.defaultProps = {
 	color: 'white',
 	backgroundColor: globalTheme.palette.secondary.main,
-	fontSize: 100,
 	scale: 1.05,
 	direction: 'row',
 	iconFirst: true,
 	spacing: 6,
-	height: '23vh',
-	width: '12vw',
 	variant: 'h5',
 	justifyContent: 'space-between',
 	alignItems: 'start',
