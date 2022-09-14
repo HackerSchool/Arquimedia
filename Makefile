@@ -20,3 +20,6 @@ shell-backend:
 
 clean:
 	docker compose -f docker-compose.yml -f docker-compose.override.yml down --remove-orphans
+
+test-backend:
+	docker exec -it backend-dev pytest
