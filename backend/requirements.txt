@@ -45,3 +45,4 @@ sqlparse==0.4.2
 urllib3==1.26.6
 vine==5.0.0
 wrapt==1.14.0
+factory_boy==3.2.1
