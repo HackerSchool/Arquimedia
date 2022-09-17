@@ -25,10 +25,8 @@ from rest_auth import views
 from api.views import VerifyEmailView
 
 urlpatterns = [
-    path('', include("users.urls")),
     path('admin/', admin.site.urls),
     re_path(r'^$', index),
-    re_path('exame/', include('exams.urls')),
     path("api/", include("api.urls")),
     re_path(r'^rest-auth/login/', CustomLoginView.as_view()),
     re_path(r'^rest-auth/registration/', CustomRegisterView.as_view()),
