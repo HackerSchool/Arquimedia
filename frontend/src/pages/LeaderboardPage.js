@@ -82,38 +82,47 @@ function LeaderboardPage() {
 	));
 
 	return (
-		<Paper className={classes.panel}>
-			<Typography variant='h4' className={classes.title}>
-				Leaderboard {span === 'sempre' ? 'de' : 'do'} <span />
-				<Select
-					labelId='demo-controlled-open-select-label'
-					id='demo-controlled-open-select'
-					open={open}
-					onClose={handleClose}
-					onOpen={handleOpen}
-					value={span}
-					onChange={handleChange}
-					className={classes.dropdown}
-				>
-					{SPANS.map((span) => (
-						<MenuItem key={span} value={span}>
-							{span}
-						</MenuItem>
-					))}
-				</Select>
-			</Typography>
+		<Grid container direction='row' justifyContent='center' alignItems='center'>
+			{' '}
+			<Grid container direction='row' justifyContent='center' alignItems='center' xs={10}>
+				<Paper className={classes.panel}>
+					<Typography variant='h4' className={classes.title}>
+						Leaderboard {span === 'sempre' ? 'de' : 'do'} <span />
+						<Select
+							labelId='demo-controlled-open-select-label'
+							id='demo-controlled-open-select'
+							open={open}
+							onClose={handleClose}
+							onOpen={handleOpen}
+							value={span}
+							onChange={handleChange}
+							className={classes.dropdown}
+							sx={globalTheme.components.select.styleOverrides}
+							MenuProps={{
+								sx: globalTheme.components.menuItem.styleOverrides,
+							}}
+						>
+							{SPANS.map((span) => (
+								<MenuItem key={span} value={span}>
+									{span}
+								</MenuItem>
+							))}
+						</Select>
+					</Typography>
 
-			<Grid container>{renderLeaderboard}</Grid>
+					<Grid container>{renderLeaderboard}</Grid>
 
-			<Grid container justifyContent='center' className={classes.pagination}>
-				<Pagination
-					onChange={pageChange}
-					defaultPage={1}
-					color='secondary'
-					count={numberOfPages}
-				/>
+					<Grid container justifyContent='center' className={classes.pagination}>
+						<Pagination
+							onChange={pageChange}
+							defaultPage={1}
+							color='secondary'
+							count={numberOfPages}
+						/>
+					</Grid>
+				</Paper>
 			</Grid>
-		</Paper>
+		</Grid>
 	);
 }
 

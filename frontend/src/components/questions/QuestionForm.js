@@ -44,7 +44,19 @@ const initialState = {
 const QuestionForm = () => {
 	const [submitted, setSubmitted] = useState(false);
 	const [
-		{ subject, subSubject, text, year, image, correct, wrong1, wrong2, wrong3, source },
+		{
+			subject,
+			subSubject,
+			text,
+			year,
+			image,
+			correct,
+			wrong1,
+			wrong2,
+			wrong3,
+			source,
+			resolution,
+		},
 		setState,
 	] = useState(initialState);
 	const classes = useStyles();
@@ -81,6 +93,7 @@ const QuestionForm = () => {
 	const handleSubmition = () => {
 		const body = {
 			text: text,
+			resolution: resolution,
 			answers: [
 				{
 					text: correct,
@@ -253,6 +266,27 @@ const QuestionForm = () => {
 							</MenuItem>
 						))}
 				</Select>
+			</Grid>
+
+			<Grid item xs={6}>
+				<TextField
+					value={resolution}
+					name='resolution'
+					onChange={handleChange}
+					label='Resolução'
+					variant='outlined'
+					multiline
+					rows={5}
+					className={classes.contentInput}
+				/>
+			</Grid>
+
+			<Grid item xs={6}>
+				<Typography textAlign='left'>
+					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
+						{resolution}
+					</ReactMarkdown>
+				</Typography>
 			</Grid>
 
 			<Grid item xs={12}>

@@ -2,24 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Grid, Select, MenuItem, Typography } from '@mui/material';
+import globalTheme from '../../globalTheme';
 
 const useStyles = makeStyles(() => ({
 	select: {
 		fontSize: '2rem',
 		'& .MuiSvgIcon-root': {
 			color: '#EB5757',
-		},
-		'&.MuiOutlinedInput-notchedOutline': {
-			borderRadius: 0,
-		},
-		'MuiOutlinedInput-notchedOutline': {
-			border: 0,
-		},
-		'&:active .MuiOutlinedInput-notchedOutline': {
-			border: 0,
-		},
-		'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-			border: 0,
 		},
 	},
 	indexCircle: (index) => ({
@@ -86,6 +75,10 @@ const SubjectInfoPanel = ({ profile, changeSubject }) => {
 					onChange={handleChange}
 					disableUnderline
 					className={classes.select}
+					sx={globalTheme.components.select.styleOverrides}
+					MenuProps={{
+						sx: globalTheme.components.menuItem.styleOverrides,
+					}}
 				>
 					{profile.subjects.map((subj) => (
 						<MenuItem value={subj.subject} key={subj.subject}>

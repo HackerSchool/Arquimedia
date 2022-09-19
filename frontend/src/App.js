@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-// import QuestionPage from './pages/QuestionPage.js';
+import QuestionPage from './pages/QuestionPage.js';
 import LoginPage from './pages/LoginPage.js';
 import GenExamPage from './pages/GenExamPage.js';
 import ExamPage from './pages/ExamPage.js';
@@ -14,6 +15,7 @@ import PasswordResetPage from './pages/PasswordResetPage.js';
 import PasswordResetConfirmPage from './pages/PasswordResetConfirmPage.js';
 import LeaderboardPage from './pages/LeaderboardPage.js';
 import PageNotFound from './pages/PageNotFound.js';
+import ReportsPage from './pages/ReportsPage.js';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
@@ -45,51 +47,38 @@ function App() {
 								<Route path='/registar' component={RegistrationPage} />
 								<div>
 									<Navbar />
-									<div style={{ marginRight: '12em', marginLeft: '12em' }}>
-										<Switch>
-											<Route exact path='/' component={LandingPage} />
-											{/*
-												<AuthRoute
-													path='/question/:id'
-													component={QuestionPage}
-												/>
-												
-												*/}
-											<AuthRoute path='/exames' component={GenExamPage} />
-											<AuthRoute path='/exame/:id' component={ExamPage} />
-											<AuthRoute
-												path='/leaderboards'
-												component={LeaderboardPage}
-											/>
-											<AuthRoute
-												path='/resultado/:id'
-												component={ResultsPage}
-											/>
-											<AuthRoute
-												path='/submeter_questao'
-												component={QuestionSubmissionPage}
-											/>
-											<ModRoute
-												path='/questoes_submetidas'
-												component={SubmittedQuestions}
-											/>
-											<AuthRoute path='/perfil' component={ProfilePage} />
-											<Route
-												path='/password/reset/confirm/:uid/:token'
-												component={PasswordResetConfirmPage}
-											/>
-											<Route
-												path='/password/reset'
-												component={PasswordResetPage}
-											/>
-											<AuthRoute
-												path='/configuracoes'
-												component={SettingsPage}
-											/>
-											<Route path='/sobre' component={AboutUsPage} />
-											<Route path='*' component={PageNotFound} />
-										</Switch>
-									</div>
+									<Switch>
+										<Route exact path='/' component={LandingPage} />
+										<AuthRoute path='/questao/:id' component={QuestionPage} />
+										<AuthRoute path='/exames' component={GenExamPage} />
+										<AuthRoute path='/exame/:id' component={ExamPage} />
+										<AuthRoute
+											path='/leaderboards'
+											component={LeaderboardPage}
+										/>
+										<AuthRoute path='/resultado/:id' component={ResultsPage} />
+										<AuthRoute
+											path='/submeter_questao'
+											component={QuestionSubmissionPage}
+										/>
+										<ModRoute
+											path='/questoes_submetidas'
+											component={SubmittedQuestions}
+										/>
+										<ModRoute path='/reports' component={ReportsPage} />
+										<AuthRoute path='/perfil' component={ProfilePage} />
+										<Route
+											path='/password/reset/confirm/:uid/:token'
+											component={PasswordResetConfirmPage}
+										/>
+										<Route
+											path='/password/reset'
+											component={PasswordResetPage}
+										/>
+										<AuthRoute path='/configuracoes' component={SettingsPage} />
+										<Route path='/sobre' component={AboutUsPage} />
+										<Route path='*' component={PageNotFound} />
+									</Switch>
 								</div>
 							</Switch>
 						</Router>

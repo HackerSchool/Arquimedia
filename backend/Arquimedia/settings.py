@@ -169,7 +169,7 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 OLD_PASSWORD_FIELD_ENABLED = True
 
 # SMTP Settings
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.getenv("SMTP_HOST")
 EMAIL_PORT = os.getenv("SMTP_PORT")

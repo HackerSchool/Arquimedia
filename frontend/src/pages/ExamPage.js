@@ -9,6 +9,8 @@ import Loading from '../components/loading/Loading';
 import CustomizedSteppers from '../components/questions/Stepper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import responsiveWidth from '../hooks/responsiveWidth';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 const COUNTDOWN_TIME = 60 * 45;
 
@@ -67,6 +69,8 @@ const ExamPage = (props) => {
 	const [loading, setLoading] = useState(true);
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 
+	const windowArray = useWindowDimensions();
+
 	useEffect(() => {
 		examInfo(props.match.params.id, (res) => {
 			res.data.questions.forEach((question) => {
@@ -96,54 +100,81 @@ const ExamPage = (props) => {
 	if (loading) return <Loading />;
 
 	return (
-		<Grid className={classes.container}>
-			<Grid item xs={12}>
-				<CustomizedSteppers
-					className={classes.steppers}
-					size={exam.questions.length}
-					changeIndex={(index) => setCurrentQuestion(index)}
-					submitExam={onComplete}
-					current={currentQuestion}
-				/>
-			</Grid>
-			<Grid item xs={12}>
-				<div className={classes.timer} align='center'>
-					<CountdownClock duration={COUNTDOWN_TIME} onComplete={onComplete} />
-				</div>
-			</Grid>
-			<Grid
-				container
-				justifyContent='space-between'
-				alignItems='center'
-				align='center'
-				spacing={4}
-				xs={12}
-			>
-				<Grid item xs={1}>
-					<IconButton
-						className={classes.beforeBttn}
-						onClick={decreaseCurrent}
-						size='large'
+		<Grid container direction='row' justifyContent='center' alignItems='center'>
+			{' '}
+			<Grid container direction='row' justifyContent='center' alignItems='center' xs={10}>
+				<Grid className={classes.container}>
+					<Grid item xs={12}>
+						<CustomizedSteppers
+							className={classes.steppers}
+							size={exam.questions.length}
+							changeIndex={(index) => setCurrentQuestion(index)}
+							submitExam={onComplete}
+							current={currentQuestion}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<div className={classes.timer} align='center'>
+							<CountdownClock duration={COUNTDOWN_TIME} onComplete={onComplete} />
+						</div>
+					</Grid>
+					<Grid
+						container
+						justifyContent='space-between'
+						alignItems='center'
+						align='center'
+						spacing={4}
+						xs={12}
 					>
-						<ArrowBackIcon fontSize='large' />
-					</IconButton>
-				</Grid>
-				<Grid item xs='auto'>
-					<QuestionsGroup exam={exam} ref={childRef} questionIndex={currentQuestion} />
-				</Grid>
-				<Grid item xs={1}>
-					<IconButton className={classes.nextBttn} onClick={increaseCurrent} size='large'>
-						<ArrowForwardIcon fontSize='large' />
-					</IconButton>
+						<Grid item xs={1}>
+							<IconButton
+								className={classes.beforeBttn}
+								onClick={decreaseCurrent}
+								style={{
+									width: responsiveWidth(windowArray, undefined, 65, 0.032),
+									height: responsiveWidth(windowArray, undefined, 65, 0.032),
+								}}
+							>
+								<ArrowBackIcon
+									style={{
+										fontSize: responsiveWidth(windowArray, undefined, 40, 0.02),
+									}}
+								/>
+							</IconButton>
+						</Grid>
+						<Grid item xs='auto'>
+							<QuestionsGroup
+								exam={exam}
+								ref={childRef}
+								questionIndex={currentQuestion}
+							/>
+						</Grid>
+						<Grid item xs={1}>
+							<IconButton
+								className={classes.nextBttn}
+								onClick={increaseCurrent}
+								style={{
+									width: responsiveWidth(windowArray, undefined, 65, 0.032),
+									height: responsiveWidth(windowArray, undefined, 65, 0.032),
+								}}
+							>
+								<ArrowForwardIcon
+									style={{
+										fontSize: responsiveWidth(windowArray, undefined, 40, 0.02),
+									}}
+								/>
+							</IconButton>
+						</Grid>
+					</Grid>
+					<div align='center' className={classes.finishBttnWrapper}>
+						{currentQuestion === exam.questions.length - 1 && (
+							<Button className={classes.finishBttn} onClick={onComplete}>
+								Submeter
+							</Button>
+						)}
+					</div>
 				</Grid>
 			</Grid>
-			<div align='center' className={classes.finishBttnWrapper}>
-				{currentQuestion === exam.questions.length - 1 && (
-					<Button className={classes.finishBttn} onClick={onComplete}>
-						Submeter
-					</Button>
-				)}
-			</div>
 		</Grid>
 	);
 };

@@ -28,40 +28,70 @@ SUB_SUBJECTS = ((j, j) for i in subjects for j in i['themes'])
 
 YEARS = [(0, "0"), (10, "10"), (11, "11"), (12, "12")]
 
+RESOURCE_TYPES = (
+    ("video", "Video"),
+    ("paper", "Paper"),
+)
+
+ISSUE_TYPES = (
+    ('Typo', 'Gralha no enunciado ou nas opções de resposta'),
+    ('SubmissionError', 'Erro na submissão'),
+    ('QuestionFormatting', 'Pergunta desformatada'),
+    ('LoadingError', 'Página não carrega'),
+    ('ImageError', 'Figura errada ou em falta'),
+    ('Other', 'Outro'),
+)
+
+
 class Exam(models.Model):
 
     questions = models.ManyToManyField("Question", related_name="questions")
-    failed = models.ManyToManyField("Question", related_name="failed", blank=True) # Questions that were responded incorrectlty
-    correct = models.ManyToManyField("Question", related_name="correct", blank=True) # Questions that were responded correctlty
-    score = models.IntegerField(default=0) # 0 - 200
-    subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
-    year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
-    difficulty = models.CharField(max_length=10, null=True, choices=DIFFICULTIES)
+    # Questions that were responded incorrectlty
+    failed = models.ManyToManyField(
+        "Question", related_name="failed", blank=True)
+    # Questions that were responded correctlty
+    correct = models.ManyToManyField(
+        "Question", related_name="correct", blank=True)
+    score = models.IntegerField(default=0)  # 0 - 200
+    # Math, Physics ...
+    subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS)
+    # Geral: 0; 12º: 12...
+    year = models.IntegerField(default=0, null=False, choices=YEARS)
+    difficulty = models.CharField(
+        max_length=10, null=True, choices=DIFFICULTIES)
 
-    #String representation
-    def __str__(self): return "{}-{}-{}".format(self.subject, self.year, self.difficulty)
+    # String representation
+    def __str__(self): return "{}-{}-{}".format(self.subject,
+                                                self.year, self.difficulty)
 
 
 def renameImage(instance, filename):
-        ext = filename.split(".")[-1]
-        if instance.pk:
-            return "question{}.{}".format(instance.pk, ext)
+    ext = filename.split(".")[-1]
+    if instance.pk:
+        return "question{}.{}".format(instance.pk, ext)
 
 
 class Question(models.Model):
-    author = models.ForeignKey(User, related_name="question", null=True, on_delete=CASCADE)
+    author = models.ForeignKey(
+        User, related_name="question", null=True, on_delete=CASCADE)
     accepted = models.BooleanField(null=True, default=False)
     text = models.CharField(max_length=1000,  null=False)
-    subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS) # Math, Physics ...
-    subsubject = models.CharField(max_length=50,  null=False, choices=SUB_SUBJECTS)# Geometry, Imaginary
-    year = models.IntegerField(default=0, null=False, choices=YEARS) # Geral: 0; 12º: 12...
-    difficulty = models.CharField(max_length=10, null=True, choices=DIFFICULTIES)
+    resolution = models.TextField(null=True)
+    # Math, Physics ...
+    subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS)
+    subsubject = models.CharField(
+        max_length=50,  null=False, choices=SUB_SUBJECTS)  # Geometry, Imaginary
+    # Geral: 0; 12º: 12...
+    year = models.IntegerField(default=0, null=False, choices=YEARS)
+    difficulty = models.CharField(
+        max_length=10, null=True, choices=DIFFICULTIES)
     image = models.ImageField(null=True, blank=True, upload_to=renameImage)
     source = models.CharField(max_length=500, null=True)
     date = models.DateField(auto_now_add=True)
 
-    #String representation
-    def __str__(self): return "{}-{}-{}".format(self.id,self.subsubject, self.year, self.difficulty)
+    # String representation
+    def __str__(self): return "{}-{}-{}".format(self.id,
+                                                self.subsubject, self.year, self.difficulty)
 
     def correctAnswer(self):
         return self.answer.get(question=self, correct=True)
@@ -74,15 +104,19 @@ class Question(models.Model):
 
 
 class Comment(models.Model):
-    question = models.ForeignKey("question", related_name="comment", on_delete=models.CASCADE, null=False)
+    question = models.ForeignKey(
+        "question", related_name="comment", on_delete=models.CASCADE, null=False)
     content = models.CharField(max_length=250, null=False)
     # When user delets account, comment shouldn't be deleted, but signaled as "deleted user" or equivalent
-    author = models.ForeignKey(User, related_name="comment", on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(
+        User, related_name="comment", on_delete=models.CASCADE, null=False)
     #fatherComment = models.ForeignKey("comment", related_name="reply", on_delete=models.CASCADE, null=True)
     votes = models.IntegerField(default=0)
-    date = models.DateField(auto_now_add=True)
-    upvoters = models.ManyToManyField(User, related_name="upvoters", blank=True)
-    downvoters = models.ManyToManyField(User, related_name="downvoters" ,blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    upvoters = models.ManyToManyField(
+        User, related_name="upvoters", blank=True)
+    downvoters = models.ManyToManyField(
+        User, related_name="downvoters", blank=True)
 
     def upvote(self, user):
         """ Upvotes a comment. Returns 1 if done successfully, 0 if not """
@@ -98,7 +132,6 @@ class Comment(models.Model):
 
         return 1
 
-
     def downvote(self, user):
         """ Downvotes a comment. Returns 1 if done successfully, 0 if not """
 
@@ -112,10 +145,32 @@ class Comment(models.Model):
         self.save()
 
         return 1
-        
 
 
 class Answer(models.Model):
-    text = models.TextField(max_length=100,null=False)
+    text = models.TextField(max_length=100, null=False)
     correct = models.BooleanField(default=False)
-    question = models.ForeignKey("question", related_name="answer", on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey(
+        "question", related_name="answer", on_delete=models.CASCADE, null=True)
+
+
+class Report(models.Model):
+    question = models.ForeignKey(
+        "question", related_name="report", on_delete=models.CASCADE, null=False)
+    author = models.ForeignKey(
+        User, related_name="report", on_delete=models.CASCADE, null=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    type = models.CharField(max_length=50, choices=ISSUE_TYPES)
+    body = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.date.date()) + ' || ' + self.type + ' || ' + str(self.question)
+
+
+class Resource(models.Model):
+    type = models.CharField(null=False, choices=RESOURCE_TYPES, max_length=50)
+    url = models.TextField(null=False)
+    description = models.TextField(null=False)
+    question = models.ForeignKey(
+        Question, on_delete=CASCADE, related_name="resources")

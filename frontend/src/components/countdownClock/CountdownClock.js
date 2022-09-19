@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { Paper, Typography } from '@mui/material';
 import Countdown from 'react-countdown';
 import makeStyles from '@mui/styles/makeStyles';
+import responsiveWidth from '../../hooks/responsiveWidth';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const useStyles = makeStyles((theme) => ({
 	clock: {
@@ -35,9 +37,15 @@ const CountdownClock = (props) => {
 		}, 2000);
 	};
 
+	const windowArray = useWindowDimensions();
+
 	return (
 		<Paper className={classes.clock}>
-			<Typography variant='h4' className={classes.counter}>
+			<Typography
+				variant='h4'
+				className={classes.counter}
+				fontSize={responsiveWidth(windowArray, 10, undefined, 0.015)}
+			>
 				<Countdown date={duration.current} renderer={renderer} onComplete={completed} />
 			</Typography>
 		</Paper>
