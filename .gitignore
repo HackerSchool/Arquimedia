@@ -7,3 +7,5 @@ node_modules
 backend/static/images
 /data
 static/
+celery-beat.log
+celery-worker.log
