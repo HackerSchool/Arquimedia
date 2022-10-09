@@ -26,5 +26,10 @@ start-worker:
 start-beat:
 	docker exec -i backend-dev /bin/bash -c "celery -A Arquimedia beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler --logfile='celery-beat.log' --detach"
 
+kill-celery:
+	docker exec -i backend-dev /bin/bash -c "pkill -f celery"
+
+restart-celery: kill-celery start-celery
+
 clean:
 	docker compose -f docker-compose.yml -f docker-compose.override.yml down --remove-orphans
