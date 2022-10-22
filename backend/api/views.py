@@ -63,29 +63,12 @@ class QuestionView(APIView):
 
 	# Creates new question request, which will have to be validated
 	def post(self, request):
-		question = CreateQuestionSerializer(data=request.data)
-		if question.is_valid(): 
-			newQuestion = Question.objects.create()
+		serialized_question = CreateQuestionSerializer(data=request.data)
 		
-			for answer in question.data.get("answers"):
-				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
-				newAnswer.save()
+		serialized_question.is_valid(raise_exception=True)
+		new_question = serialized_question.save()
 
-			if question.data.get("source"):
-				newQuestion.source = question.data.get("source")
-
-			newQuestion.text = question.data.get("text")
-			newQuestion.resolution = question.data.get("resolution")
-			newQuestion.subject = question.data.get("subject")
-			newQuestion.subsubject = question.data.get("subsubject")
-			newQuestion.year = question.data.get("year")
-			newQuestion.author = request.user
-
-			newQuestion.save()
-
-			return Response(QuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
-		else:
-			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+		return Response(QuestionSerializer(new_question).data, status=status.HTTP_201_CREATED)
 
 
 class AddImageToQuestion(APIView):
