@@ -6,6 +6,8 @@ urlpatterns = [
 	path("question/<int:id>", QuestionView.as_view()),
 	path("question/resource/<int:id>", ResourceView.as_view()),
 	path("question/", QuestionView.as_view()),
+	path("group/<int:id>", QuestionGroupView.as_view()),
+	path("group/", QuestionGroupView.as_view()),
 	path("comment/", CommentView.as_view()),
 	path("comment/<int:id>", CommentView.as_view()),
 	path("current_user", CurrentUserView.as_view()),
