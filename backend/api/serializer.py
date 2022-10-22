@@ -257,3 +257,10 @@ class CreateReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = ['question', 'type', 'body']
 
+
+class QuestionGroupSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(many=True, source="questions")
+
+    class Meta:
+        model = QuestionGroup
+        fields = ("id", "text", "questions")

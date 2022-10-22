@@ -5,6 +5,7 @@ from django.db.models.fields.related import ForeignKey
 from datetime import date
 from django.contrib.auth.models import User
 from config import subjects
+from exams.utils import *
 
 # Create your models here.
 # TODO: Create Question, Exam models
@@ -42,7 +43,6 @@ ISSUE_TYPES = (
     ('Other', 'Outro'),
 )
 
-
 class Exam(models.Model):
 
     questions = models.ManyToManyField("Question", related_name="questions")
@@ -65,6 +65,13 @@ class Exam(models.Model):
                                                 self.year, self.difficulty)
 
 
+class QuestionGroup(models.Model):
+    text = models.CharField(max_length=10000,  null=False)
+    image = models.ImageField(null=True, blank=True, upload_to=rename_image_group)
+
+    source = models.CharField(max_length=500, null=True)
+
+
 class Question(models.Model):
     author = models.ForeignKey(
         User, related_name="question", null=True, on_delete=CASCADE)
@@ -79,9 +86,10 @@ class Question(models.Model):
     year = models.IntegerField(default=0, null=False, choices=YEARS)
     difficulty = models.CharField(
         max_length=10, null=True, choices=DIFFICULTIES)
-    image = models.ImageField(null=True, blank=True, upload_to=self.rename_image)
+    image = models.ImageField(null=True, blank=True, upload_to=rename_image_question)
     source = models.CharField(max_length=500, null=True)
     date = models.DateField(auto_now_add=True)
+    group = models.ForeignKey(QuestionGroup, on_delete=CASCADE, related_name='questions', null=True, default=None)
 
     # String representation
     def __str__(self): return "{}-{}-{}".format(self.id,
@@ -95,24 +103,6 @@ class Question(models.Model):
 
     def getComments(self):
         return self.comment.all()
-
-    def rename_image(instance, filename):
-        ext = filename.split(".")[-1]
-        if instance.pk:
-            return "question{}.{}".format(instance.pk, ext)
-
-
-
-class QuestionGroup(models.Model):
-    text = models.CharField(max_length=10000,  null=False)
-    image = models.ImageField(null=True, blank=True, upload_to=rename_image)
-
-    source = models.CharField(max_length=500, null=True)
-
-    def rename_image(instance, filename):
-        ext = filename.split(".")[-1]
-        if instance.pk:
-            return "group{}.{}".format(instance.pk, ext)
 
 
 class Comment(models.Model):

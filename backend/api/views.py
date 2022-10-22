@@ -613,3 +613,39 @@ class ReportView(APIView):
 		report = get_object_or_404(Report, id=id)
 
 		return Response(ReportSerializer(report).data, status=status.HTTP_200_OK)
+
+
+class QuestionGroupView(APIView):
+	permission_classes = [IsAdminUser]
+
+	def post(self, request):
+		serializer = QuestionGroupSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		group = QuestionGroup.objects.create(
+			name = serializer.data.get("name"),
+			description = serializer.data.get("description")
+		)
+
+		# check if there are any questions in the request and create them
+		if serializer.data.get("questions"):
+			for question in serializer.data.get("questions"):
+				question = Question.objects.create(
+					group = group,
+					question = question.get("question"),
+					answer = question.get("answer"),
+					author = request.user
+				)
+
+		return Response(QuestionGroupSerializer(group).data, status=status.HTTP_201_CREATED)
+
+	def delete(self, request, id):
+		group = get_object_or_404(QuestionGroup, id=id)
+		group.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+	def get(self, request, id):
+		group = get_object_or_404(QuestionGroup, id=id)
+
+		return Response(QuestionGroupSerializer(group).data, status=status.HTTP_200_OK)
