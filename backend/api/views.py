@@ -619,23 +619,10 @@ class QuestionGroupView(APIView):
 	permission_classes = [IsAdminUser]
 
 	def post(self, request):
-		serializer = QuestionGroupSerializer(data=request.data)
+		serializer = CreateQuestionGroupSerializer(data=request.data)
 		serializer.is_valid(raise_exception=True)
 
-		group = QuestionGroup.objects.create(
-			name = serializer.data.get("name"),
-			description = serializer.data.get("description")
-		)
-
-		# check if there are any questions in the request and create them
-		if serializer.data.get("questions"):
-			for question in serializer.data.get("questions"):
-				question = Question.objects.create(
-					group = group,
-					question = question.get("question"),
-					answer = question.get("answer"),
-					author = request.user
-				)
+		group = serializer.save()
 
 		return Response(QuestionGroupSerializer(group).data, status=status.HTTP_201_CREATED)
 

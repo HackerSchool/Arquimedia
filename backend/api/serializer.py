@@ -185,6 +185,14 @@ class AnswerSubmitionSerializer(serializers.Serializer):
     correct = serializers.BooleanField()
 
 
+class QuestionGroupSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(many=True, required=False)
+
+    class Meta:
+        model = QuestionGroup
+        fields = ("text", "questions", "source")
+
+
 class CreateQuestionSerializer(serializers.Serializer):
     text = serializers.CharField()
     resolution = serializers.CharField(required=False, allow_blank=True)
@@ -193,6 +201,16 @@ class CreateQuestionSerializer(serializers.Serializer):
     year = serializers.IntegerField()
     answers = serializers.ListField(child=AnswerSerializer())
     source = serializers.CharField(required=False, allow_blank=True)
+    group = serializers.IntegerField(required=False, source="QuestionGroup.id")
+
+    def create(self, validated_data):
+        answers = validated_data.pop('answers')
+        group = validated_data.pop('QuestionGroup', None)
+        validated_data['group_id'] = group['id'] if group else None
+        question = Question.objects.create(**validated_data)
+        for answer in answers:
+            Answer.objects.create(question=question, **answer)
+        return question
 
 
 class ImageSerializer(serializers.Serializer):
@@ -258,9 +276,21 @@ class CreateReportSerializer(serializers.ModelSerializer):
         fields = ['question', 'type', 'body']
 
 
-class QuestionGroupSerializer(serializers.ModelSerializer):
-    questions = QuestionSerializer(many=True, source="questions")
+class CreateQuestionGroupSerializer(serializers.ModelSerializer):
+    questions = CreateQuestionSerializer(many=True)
 
     class Meta:
         model = QuestionGroup
-        fields = ("id", "text", "questions")
+        fields = ("text", "source", "questions")
+
+    def create(self, validated_data):
+        # check if there are any questions in the request and create them
+        questions = validated_data.pop('questions')
+        group = QuestionGroup.objects.create(**validated_data)
+        for question in questions:
+            question['group'] = group.id
+            question_serializer = CreateQuestionSerializer(data=question)
+            if question_serializer.is_valid(raise_exception=True):
+                question_serializer.save()
+
+        return group
