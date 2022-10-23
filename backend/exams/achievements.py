@@ -76,3 +76,27 @@ class ExamsCompletedAchievement(Achievement):
             print("Could not apply achievement to " + profile.user.username)
 
             return False
+
+
+class QuestionsAnsweredCorrectlyAchievement(Achievement):
+    """
+    Achievements related to the number of questions answered correctly on a subject.
+    id: The ID of the achievement.
+    subject: The subject to check.
+    number: The number of correct questions to achieve.
+    """
+
+    def __init__(self, id: int, subject: str, number: int):
+        super().__init__(id)
+        self.subject = subject
+        self.number = number
+
+    def check(self, profile: Profile) -> bool:
+        try:
+            subject_info = profile.subjects.get(subject=self.subject)
+
+            return subject_info.correctAnswers.count() >= self.number
+        except:
+            print("Could not apply achievement to " + profile.user.username)
+
+            return False
