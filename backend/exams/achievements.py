@@ -3,8 +3,6 @@ import logging
 from users.models import Achievement as AchievementModel, Profile
 
 
-
-
 class Achievement:
     """
     Achievement class that applies a certain achievement to a profile.
