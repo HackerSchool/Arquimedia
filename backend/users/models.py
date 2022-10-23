@@ -93,7 +93,7 @@ class Achievement(models.Model):
     subject = models.CharField(default=GERAL, choices=SUBJECTS, max_length=50, blank=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.id}-{self.title}"
 
 class AnswerInfo(models.Model):
     answer = models.ForeignKey(Question, on_delete=models.CASCADE)
