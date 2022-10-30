@@ -5,6 +5,7 @@ from django.urls import reverse
 from exams.models import Question
 from api.serializer import QuestionSerializer
 
+
 @pytest.mark.django_db
 def test_list_questions(client, questions):
     # Tests if questions are listed
@@ -42,4 +43,3 @@ def test_create_question_group():
 def add_questions_to_group():
     # Tests if questions are added to group
     pass
-
