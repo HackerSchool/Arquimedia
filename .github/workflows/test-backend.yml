@@ -3,9 +3,25 @@ on: [pull_request, push] # activates the workflow when there is a push or pull r
 jobs:
   test-backend:
     runs-on: ubuntu-latest # operating system your code will run on
+    env:
+      DB_USER: postgres
+      DB_NAME: postgres
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_PASSWORD: postgres
+      SECRET_KEY: "secret"
+      
     defaults:
       run:
         working-directory: ./backend/
+        
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+    
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
