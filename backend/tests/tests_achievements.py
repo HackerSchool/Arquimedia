@@ -38,7 +38,6 @@ def test_apply_achievement_fails(achievement, profile, mocker):
 def test_achievements_pool_run(achievements, profiles, mocker):
     """Tests if an achievements pool applies achievements to all profiles."""
     mocker.patch("exams.achievements.Achievement.check", return_value=True)
-    print(len(achievements))
     pool = AchievementPool(profiles, [Achievement(a.id) for a in achievements])
     pool.apply()
 
