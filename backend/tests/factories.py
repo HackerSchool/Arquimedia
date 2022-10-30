@@ -25,7 +25,7 @@ class AnswerFactory(factory.django.DjangoModelFactory):
 
     text = faker.text()
     correct = faker.boolean()
-    question = factory.SubFactory("exams.factories.QuestionFactory")
+    question = factory.SubFactory("tests.factories.QuestionFactory")
 
 
 class QuestionFactory(factory.django.DjangoModelFactory):
@@ -34,7 +34,7 @@ class QuestionFactory(factory.django.DjangoModelFactory):
         exclude = ("accepted",)
 
     text = faker.text(max_nb_chars=100)
-    author = factory.SubFactory("exams.factories.UserFactory")
+    author = factory.SubFactory("tests.factories.UserFactory")
     accepted = faker.boolean()
     subject = faker.random_choices(
         elements=[

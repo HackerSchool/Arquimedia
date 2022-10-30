@@ -6,7 +6,7 @@ from rest_framework.test import APIClient
 
 from django.contrib.auth.models import User
 
-from exams.factories import *
+from .factories import *
 
 
 @pytest.fixture
