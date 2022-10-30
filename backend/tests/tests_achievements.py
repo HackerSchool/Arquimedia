@@ -1,6 +1,6 @@
 import pytest
 
-from exams.achievements import Achievement
+from exams.achievements import Achievement, AchievementPool
 
 
 @pytest.mark.django_db
@@ -31,3 +31,17 @@ def test_apply_achievement_fails(achievement, profile, mocker):
 
     assert a.apply(profile) is False
     assert not profile.achievements.filter(title=achievement.title).exists()
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("achievements", [(3)], indirect=True)
+def test_achievements_pool_run(achievements, profiles, mocker):
+    """Tests if an achievements pool applies achievements to all profiles."""
+    mocker.patch("exams.achievements.Achievement.check", return_value=True)
+    print(len(achievements))
+    pool = AchievementPool(profiles, [Achievement(a.id) for a in achievements])
+    pool.apply()
+
+    for profile in profiles:
+        for achievement in achievements:
+            assert profile.achievements.filter(title=achievement.title).exists()
