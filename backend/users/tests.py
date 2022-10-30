@@ -21,4 +21,4 @@ class ProfileTestCase(TestCase):
 
         Joe = User.objects.get(username="JoeDoe")
 
-        self.assertEqual(Joe.profile.subjects.count(), 0, msg="Profile should have 0 subjects when created")
+        self.assertEqual(Joe.profile.subjects.count(), 1, msg="Profile should have 0 subjects when created")
