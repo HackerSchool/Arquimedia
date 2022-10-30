@@ -55,3 +55,13 @@ def unauthenticated_client() -> APIClient:
 @pytest.fixture
 def questions() -> list[Question]:
     return QuestionFactory.create_batch(10)
+
+
+@pytest.fixture
+def answer_infos(request) -> list[AnswerInfo]:
+    """Returns a list of AnswerInfo.
+
+    The number of AnswerInfo returned is defined by the `request.param` parameter.
+    The number defaults to 10 if no number is provided.
+    """
+    return [AnswerInfoFactory.create() for _ in range(getattr(request, "param", 10))]

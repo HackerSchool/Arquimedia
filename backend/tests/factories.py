@@ -2,7 +2,7 @@ import factory
 
 from django.contrib.auth.models import User
 from exams.models import Answer, Question
-from users.models import Achievement
+from users.models import Achievement, AnswerInfo
 
 from faker import Faker
 
@@ -64,3 +64,11 @@ class AchievementFactory(factory.django.DjangoModelFactory):
         elements=["Matemática", "Física"],
         length=1,
     )[0]
+
+
+class AnswerInfoFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = AnswerInfo
+
+    answer = factory.SubFactory("tests.factories.QuestionFactory")
+    counter = faker.random_int(min=0, max=100)

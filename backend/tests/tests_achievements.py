@@ -1,6 +1,11 @@
 import pytest
 
-from exams.achievements import Achievement, AchievementPool, ExamsCompletedAchievement
+from exams.achievements import (
+    Achievement,
+    AchievementPool,
+    ExamsCompletedAchievement,
+    QuestionsAnsweredCorrectlyAchievement,
+)
 
 
 @pytest.mark.django_db
@@ -60,13 +65,45 @@ def test_number_exams_achievement_eligible(profile, achievement):
 
 
 @pytest.mark.django_db
-def test_number_exams_achievement(profile, achievement):
+def test_number_exams_achievement_not_eligible(profile, achievement):
     """Test that the number of exams achievement doesn't apply achievement on not eligible profile."""
     subject = profile.subjects.get(subject="Matemática")
     subject.examCounter = 9
     subject.save()
 
     a = ExamsCompletedAchievement(achievement.id, "Matemática", 10)
+
+    assert a.apply(profile) is False
+    assert not profile.achievements.filter(title=achievement.title).exists()
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("answer_infos", [(10)], indirect=True)
+def test_number_of_correct_questions_achievement_eligible(
+    profile, answer_infos, achievement
+):
+    """Test that the number of correct answers achievement applies achievement on eligible profile."""
+    subject = profile.subjects.get(subject="Matemática")
+    subject.correctAnswers.set(answer_infos)
+    subject.save()
+
+    a = QuestionsAnsweredCorrectlyAchievement(achievement.id, "Matemática", 10)
+
+    assert a.apply(profile) is True
+    assert profile.achievements.filter(title=achievement.title).exists()
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("answer_infos", [(9)], indirect=True)
+def test_number_of_correct_questions_achievement_not_eligible(
+    profile, answer_infos, achievement
+):
+    """Test that the number of correct answers achievement doesn't apply achievement on not eligible profile."""
+    subject = profile.subjects.get(subject="Matemática")
+    subject.correctAnswers.set(answer_infos)
+    subject.save()
+
+    a = QuestionsAnsweredCorrectlyAchievement(achievement.id, "Matemática", 10)
 
     assert a.apply(profile) is False
     assert not profile.achievements.filter(title=achievement.title).exists()
