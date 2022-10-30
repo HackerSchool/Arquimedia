@@ -40,6 +40,7 @@ class AchievementPool:
     """
     Has an array of achievements and applies them to a given population.
     """
+
     def __init__(self, population: list[Profile], achievements: list[Achievement]):
         self.achievements = achievements
         self.population = population
@@ -49,7 +50,8 @@ class AchievementPool:
         for achievement in self.achievements:
             logging.info(f"Applying achievement {achievement}")
             for profile in self.population:
-                if achievement.apply(profile): self.applied += 1
+                if achievement.apply(profile):
+                    self.applied += 1
 
         logging.info(f"Applied {self.applied} achievements")
 
@@ -73,7 +75,7 @@ class ExamsCompletedAchievement(Achievement):
 
             return subject_info.examCounter >= self.number
         except:
-            print("Could not apply achievement to " + profile.user.username)
+            logging.info("Could not apply achievement to " + profile.user.username)
 
             return False
 

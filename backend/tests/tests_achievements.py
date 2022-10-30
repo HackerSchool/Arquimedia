@@ -1,6 +1,6 @@
 import pytest
 
-from exams.achievements import Achievement, AchievementPool
+from exams.achievements import Achievement, AchievementPool, ExamsCompletedAchievement
 
 
 @pytest.mark.django_db
@@ -44,3 +44,29 @@ def test_achievements_pool_run(achievements, profiles, mocker):
     for profile in profiles:
         for achievement in achievements:
             assert profile.achievements.filter(title=achievement.title).exists()
+
+
+@pytest.mark.django_db
+def test_number_exams_achievement_eligible(profile, achievement):
+    """Test that the number of exams achievement applies achievement on eligible profile."""
+    subject = profile.subjects.get(subject="Matemática")
+    subject.examCounter = 10
+    subject.save()
+
+    a = ExamsCompletedAchievement(achievement.id, "Matemática", 10)
+
+    assert a.apply(profile) is True
+    assert profile.achievements.filter(title=achievement.title).exists()
+
+
+@pytest.mark.django_db
+def test_number_exams_achievement(profile, achievement):
+    """Test that the number of exams achievement doesn't apply achievement on not eligible profile."""
+    subject = profile.subjects.get(subject="Matemática")
+    subject.examCounter = 9
+    subject.save()
+
+    a = ExamsCompletedAchievement(achievement.id, "Matemática", 10)
+
+    assert a.apply(profile) is False
+    assert not profile.achievements.filter(title=achievement.title).exists()
