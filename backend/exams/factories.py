@@ -7,6 +7,7 @@ from faker import Faker
 
 faker = Faker()
 
+
 class userFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
@@ -22,19 +23,31 @@ class answerFactory(factory.django.DjangoModelFactory):
 
     text = faker.text()
     correct = faker.boolean()
-    question = factory.SubFactory('exams.factories.questionFactory')
+    question = factory.SubFactory("exams.factories.questionFactory")
 
 
 class questionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Question
-        exclude = ('accepted',)
-        
+        exclude = ("accepted",)
 
     text = faker.text()
-    author = factory.SubFactory('exams.factories.userFactory')
+    author = factory.SubFactory("exams.factories.userFactory")
     accepted = faker.boolean()
-    subject = faker.random_choices(elements=["Matemática", "Biologia", "Física", "Química", "Português", "Geografia", "História", "Inglês", "Espanhol", "Filosofia"])
+    subject = faker.random_choices(
+        elements=[
+            "Matemática",
+            "Biologia",
+            "Física",
+            "Química",
+            "Português",
+            "Geografia",
+            "História",
+            "Inglês",
+            "Espanhol",
+            "Filosofia",
+        ]
+    )
     resolution = faker.text()
     subsubject = faker.text()
     year = faker.random_choices(elements=[0, 10, 11, 12])
