@@ -8,7 +8,6 @@ import globalTheme from '../../globalTheme';
 const useStyles = makeStyles(() => ({
 	button: (props) => ({
 		borderRadius: 25,
-		fontSize: props.fontSize,
 		textTransform: 'none',
 		borderRigth: '4px',
 		padding: '1rem',
@@ -44,15 +43,23 @@ const IconButton = (props) => {
 					target={props.target}
 					classes={{ root: classes.button, label: classes.label }}
 					onClick={props.onClick}
+					{...props}
 				>
 					{props.iconFirst ? (
 						<>
 							<>{props.children}</>
-							<Typography variant={props.variant}> {props.text} </Typography>
+							<Typography fontSize={props.fontSize} variant={props.variant}>
+								{' '}
+								{props.text}{' '}
+							</Typography>
 						</>
 					) : (
 						<>
-							<Typography className={classes.semibold} variant={props.variant}>
+							<Typography
+								fontSize={props.fontSize}
+								className={classes.semibold}
+								variant={props.variant}
+							>
 								{' '}
 								{props.text}{' '}
 							</Typography>
@@ -74,8 +81,6 @@ IconButton.propTypes = {
 	direction: PropTypes.string,
 	iconFirst: PropTypes.bool,
 	spacing: PropTypes.number,
-	width: PropTypes.string,
-	height: PropTypes.string,
 	variant: PropTypes.string,
 	justifyContent: PropTypes.string,
 	alignItems: PropTypes.string,
@@ -86,13 +91,10 @@ IconButton.propTypes = {
 IconButton.defaultProps = {
 	color: 'white',
 	backgroundColor: globalTheme.palette.secondary.main,
-	fontSize: 100,
 	scale: 1.05,
 	direction: 'row',
 	iconFirst: true,
 	spacing: 6,
-	height: '23vh',
-	width: '12vw',
 	variant: 'h5',
 	justifyContent: 'space-between',
 	alignItems: 'start',

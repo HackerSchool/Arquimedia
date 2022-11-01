@@ -44,7 +44,10 @@ const MenuCircular = (props) => {
 	return (
 		<>
 			<IconButton size='large' onClick={handleClick}>
-				<AvatarUser user={props.user} sx={{ width: 90, height: 90 }} />
+				<AvatarUser
+					user={props.user}
+					sx={props.sx ? props.sx : { width: 90, height: 90 }}
+				/>
 			</IconButton>
 			<Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
 				<MenuItem onClick={handleClose} component={Link} to='/perfil'>

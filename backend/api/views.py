@@ -10,7 +10,7 @@ from rest_framework.response import Response
 import random
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404, get_list_or_404
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 import datetime
 from rest_auth.registration.serializers import VerifyEmailSerializer
 from allauth.account.models import EmailAddress
@@ -35,7 +35,7 @@ class QuestionView(APIView):
 	def get(self, request, id):
 		question = get_object_or_404(Question, id=id)
 
-		return Response(QuestionSerializer(question).data, status=status.HTTP_200_OK)
+		return Response(QuestionSerializer(question, context=request).data, status=status.HTTP_200_OK)
 
 
 	# Validates a question
@@ -75,6 +75,7 @@ class QuestionView(APIView):
 				newQuestion.source = question.data.get("source")
 
 			newQuestion.text = question.data.get("text")
+			newQuestion.resolution = question.data.get("resolution")
 			newQuestion.subject = question.data.get("subject")
 			newQuestion.subsubject = question.data.get("subsubject")
 			newQuestion.year = question.data.get("year")
@@ -124,20 +125,20 @@ class CommentView(APIView):
 			
 		comment = get_object_or_404(Comment, id=id)
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response(self.serializer_class(comment, context=request).data, status=status.HTTP_200_OK)
 
 	def post(self, request):
 		if not self.request.user.is_authenticated:
 			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
 
-		serializer = self.serializer_class(data=request.data)
+		serializer = CommentCreateSerializer(data=request.data)
 		if serializer.is_valid():
 			content = serializer.data.get("content")
-			question = Question.objects.get(id=serializer.data.get("question")["id"])
+			question = Question.objects.get(id=serializer.data.get("question"))
 			comment = Comment(author=self.request.user, question=question, content=content)
 			comment.save()
 
-			return Response(CommentSerializer(comment).data, status=status.HTTP_201_CREATED)
+			return Response(CommentSerializer(comment, context=request).data, status=status.HTTP_201_CREATED)
 		
 		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -171,7 +172,7 @@ class UpvoteCommentView(APIView):
 		comment.save()
 
 	
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response("Comment upvoted!", status=status.HTTP_200_OK)
 
 	# Removes an upvote from a Comment
 	def delete(self, request, id):
@@ -184,7 +185,7 @@ class UpvoteCommentView(APIView):
 		comment.upvoters.remove(request.user)
 		comment.save()
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response("Removed upvote!", status=status.HTTP_200_OK)
 
 
 
@@ -207,7 +208,7 @@ class DownvoteCommentView(APIView):
 		comment.downvoters.add(request.user)
 		comment.save()
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
+		return Response("Comment downvoted!", status=status.HTTP_200_OK)
 
 	# Removes a downvote from a Comment
 	def delete(self, request, id):
@@ -220,29 +221,7 @@ class DownvoteCommentView(APIView):
 		comment.downvoters.remove(request.user)
 		comment.save()
 
-		return Response(self.serializer_class(comment).data, status=status.HTTP_200_OK)
-
-
-class HasUserUpvoted(APIView):
-	permission_classes = [IsAuthenticated]
-
-	def get(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
-		if request.user in comment.upvoters.all():
-			return Response(status=status.HTTP_200_OK)
-		
-		else: return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-class HasUserDownvoted(APIView):
-	permission_classes = [IsAuthenticated]
-
-	def get(self, request, *args, **kwargs):
-		comment = Comment.objects.get(id=kwargs.get("id"))
-		if request.user in comment.downvoters.all():
-			return Response(status=status.HTTP_200_OK)
-		
-		else: return Response(status=status.HTTP_400_BAD_REQUEST)
+		return Response("Removed downvote", status=status.HTTP_200_OK)
 
 
 class ExamView(APIView):
@@ -574,3 +553,63 @@ class DeleteAccount(APIView):
 			status=status.HTTP_200_OK
 		)
 
+class ResourceView(APIView):
+	permission_classes = [IsAdminUser]
+	
+	def post(self, request, id):
+		serializer = ResourceSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		resource = Resource.objects.create(
+			description=serializer.data.get("description"),
+			url=serializer.data.get("url"),
+			type=serializer.data.get("type"),
+			question=get_object_or_404(Question, id=id)
+		)
+
+		return Response(ResourceSerializer(resource).data, status=status.HTTP_201_CREATED)
+
+	def delete(self, request, id):
+		resource = get_object_or_404(Resource, id=id)
+		resource.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+class ReportListView(generics.ListAPIView):
+	permission_classes = [IsAdminUser]
+
+	queryset = Report.objects.all()
+	serializer_class = ReportSerializer
+
+class ReportView(APIView):
+	permission_classes = [IsAuthenticated]
+	
+	def post(self, request):
+		serializer = ReportSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		report = Report.objects.create(
+			question = get_object_or_404(Question, id=serializer.data.get("question")),
+			author = request.user,
+			type = serializer.data.get("type"),
+			body = serializer.data.get("body")
+		)
+
+		return Response(ReportSerializer(report).data, status=status.HTTP_201_CREATED)
+
+	def delete(self, request, id):
+		if not(request.user.is_staff):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		report = get_object_or_404(Report, id=id)
+		report.delete()
+
+		return Response(status=status.HTTP_200_OK)
+	
+	def get(self, request, id):
+		if not(request.user.is_staff):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		report = get_object_or_404(Report, id=id)
+
+		return Response(ReportSerializer(report).data, status=status.HTTP_200_OK)

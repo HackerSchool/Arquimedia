@@ -6,7 +6,6 @@ import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(() => ({
 	container: {
-		height: '100vh',
 		border: 3,
 		boxSizing: 'border-box',
 	},
@@ -24,18 +23,19 @@ const RegistrationPage = () => {
 			container
 			direction='row'
 			align='center'
+			justifyContent='space-between'
 			alignItems='stretch'
 		>
+			<RegisterInfo />
+
 			<Grid
+				className={classes.form}
 				container
-				xs={7}
 				direction='column'
 				justifyContent='space-between'
-				alignItems='flex-start'
+				alignItems='center'
+				xs={5}
 			>
-				<RegisterInfo />
-			</Grid>
-			<Grid className={classes.form} item xs={5}>
 				<RegisterInput />
 			</Grid>
 		</Grid>

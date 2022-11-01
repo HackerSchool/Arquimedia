@@ -23,6 +23,7 @@ export const TextInput = (props) => {
 					margin: '0 1rem 0 1rem',
 					fontSize: props.fontSize,
 					color: props.fontColor && props.fontColor,
+					border: 'none',
 				},
 			}}
 			{...props}

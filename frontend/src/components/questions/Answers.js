@@ -6,6 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkKatex from 'rehype-katex';
 import remarRehype from 'remark-rehype';
+import responsiveWidth from '../../hooks/responsiveWidth';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const useStyles = makeStyles(() => ({
 	paperAnswer: () => ({
@@ -27,7 +29,6 @@ const useStyles = makeStyles(() => ({
 		right: -5,
 	},
 	answerText: {
-		fontSize: 18,
 		padding: 8,
 		wordWrap: 'break-word',
 	},
@@ -40,6 +41,7 @@ const Answer = (props) => {
 		// do something to change the answer
 		props.changeAnswer(props.answer.id);
 	};
+	const windowArray = useWindowDimensions();
 
 	return (
 		<IconButton
@@ -59,7 +61,11 @@ const Answer = (props) => {
 					},
 				}}
 			>
-				<Typography className={classes.answerText} variant='h6'>
+				<Typography
+					className={classes.answerText}
+					variant='h6'
+					fontSize={responsiveWidth(windowArray, 10, 18, 0.009)}
+				>
 					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
 						{props.answer.text}
 					</ReactMarkdown>

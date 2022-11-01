@@ -23,14 +23,17 @@ const globalTheme = createTheme(
 			},
 		},
 		overrides: {
-			MuiSelect: {
-				'&.MuiOutlinedInput-notchedOutline': {
-					border: 0,
+			menuItem: {
+				'&& .Mui-selected': {
+					backgroundColor: '#D9D9D9',
+				},
+				'&& .Mui-focusVisible': {
+					backgroundColor: 'transparent',
 				},
 			},
-			MuiOutlinedInput: {
-				notchedOutline: {
-					//border: 0
+			select: {
+				'& .MuiOutlinedInput-notchedOutline': {
+					border: 'none',
 				},
 			},
 		},

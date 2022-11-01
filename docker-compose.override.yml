@@ -5,10 +5,10 @@ services:
       service: backend
     container_name: backend-dev
     command: python ./manage.py runserver 0.0.0.0:8000
+    env_file:
+      - backend/.env
     volumes:
       - ./backend/:/code/
-    environment:
-      - DJANGO_DEBUG=True
     ports:
       - 8000:8000
     
