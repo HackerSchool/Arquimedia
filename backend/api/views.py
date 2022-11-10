@@ -288,7 +288,7 @@ class ExamView(APIView):
 				answerQuery = Answer.objects.get(id=int(answer))
 
 				if answerQuery.correct:
-					profileSubject.addCorrectAnswer(questionQuery)
+					profileSubject.add_correct_answer(questionQuery)
 					exam.correct.add(questionQuery)
 
 					request.user.profile.xp.xp += XP_PER_CORRECT_ANSWER
@@ -322,8 +322,8 @@ class RecommendedExamView(APIView):
 		user_subject = request.user.profile.subjects.get(subject=subject)
 
 		# Fetch questions the user hasn't answered
-		questions_wrong = [i.answer for i in user_subject.wrongAnswers.all()]
-		questions_correct = [i.answer for i in user_subject.correctAnswers.all()]
+		questions_wrong = [i.answer for i in user_subject.wrong_answers.all()]
+		questions_correct = [i.answer for i in user_subject.correct_answers.all()]
 		questions_wrong_id = [i.id for i in questions_wrong]
 		questions_correct_id = [i.id for i in questions_correct]
 		questions_unanswered = list(Question.objects.exclude(id__in=questions_correct_id).exclude(id__in=questions_wrong_id).filter(accepted=True))
@@ -613,3 +613,68 @@ class ReportView(APIView):
 		report = get_object_or_404(Report, id=id)
 
 		return Response(ReportSerializer(report).data, status=status.HTTP_200_OK)
+
+class FillInTheBlankQuestionListView(generics.ListAPIView):
+	permission_classes = [IsAuthenticated]
+	
+	queryset = FillInTheBlankQuestion.objects.all()
+	serializer_class = FillInTheBlankQuestionSerializer
+
+class FillInTheBlankQuestionView(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def get(self, request, id):
+		question = get_object_or_404(FillInTheBlankQuestion, id=id)
+
+		return Response(FillInTheBlankQuestionSerializer(question, context=request).data, status=status.HTTP_200_OK)
+
+
+	# Validates a question
+	def put(self, request, id):
+		if not(request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question = get_object_or_404(FillInTheBlankQuestion, id=id)
+		question.accepted = True
+		question.save()
+
+		return Response(status=status.HTTP_200_OK)
+
+	
+	def delete(self, request, id):
+		question = get_object_or_404(FillInTheBlankQuestion, id=id)
+
+		if (request.user != question.author) and not (request.user.is_superuser):
+			return Response(status=status.HTTP_403_FORBIDDEN)
+
+		question.delete()
+
+		return Response(status=status.HTTP_200_OK)
+
+
+	# Creates new question request, which will have to be validated
+	def post(self, request):
+		question = CreateFillInTheBlankQuestionSerializer(data=request.data)
+		if question.is_valid(): 
+			newQuestion = FillInTheBlankQuestion.objects.create()
+		
+			for answer in question.data.get("answers"):
+				newAnswer = FillInTheBlankAnswer.objects.create(text=answer["text"], correct=answer["correct"], dropdown_number=answer["dropdown_number"], question=newQuestion)
+				newAnswer.save()
+
+			if question.data.get("source"):
+				newQuestion.source = question.data.get("source")
+
+			newQuestion.text = question.data.get("text")
+			newQuestion.resolution = question.data.get("resolution")
+			newQuestion.subject = question.data.get("subject")
+			newQuestion.subsubject = question.data.get("subsubject")
+			newQuestion.year = question.data.get("year")
+			newQuestion.total_dropdowns = question.data.get("total_dropdowns")
+			newQuestion.author = request.user
+
+			newQuestion.save()
+
+			return Response(FillInTheBlankQuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+		else:
+			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)

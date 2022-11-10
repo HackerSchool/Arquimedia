@@ -93,15 +93,14 @@ class Question(models.Model):
     def __str__(self): return "{}-{}-{}".format(self.id,
                                                 self.subsubject, self.year, self.difficulty)
 
-    def correctAnswer(self):
-        return self.answer.get(question=self, correct=True)
+    def correct_answer(self):
+        return self.regular_answers.get(question=self, correct=True)
 
-    def wrongAnswers(self):
-        return self.answer.filter(correct=False)
+    def wrong_answers(self):
+        return self.regular_answers.filter(correct=False)
 
-    def getComments(self):
+    def get_comments(self):
         return self.comment.all()
-
 
 class Comment(models.Model):
     question = models.ForeignKey(
@@ -147,12 +146,17 @@ class Comment(models.Model):
         return 1
 
 
-class Answer(models.Model):
+class AbstractAnswer(models.Model):
     text = models.TextField(max_length=100, null=False)
     correct = models.BooleanField(default=False)
     question = models.ForeignKey(
-        "question", related_name="answer", on_delete=models.CASCADE, null=True)
+        "question", related_name="regular_answers", on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        abstract = True
+
+class Answer(AbstractAnswer):
+    pass
 
 class Report(models.Model):
     question = models.ForeignKey(
@@ -174,3 +178,17 @@ class Resource(models.Model):
     description = models.TextField(null=False)
     question = models.ForeignKey(
         Question, on_delete=CASCADE, related_name="resources")
+
+class FillInTheBlankQuestion(Question):
+    total_dropdowns = models.IntegerField(default=2)
+
+class FillInTheBlankAnswer(AbstractAnswer):
+    question = models.ForeignKey(
+        "fillintheblankquestion", related_name="fillintheblank_answers", on_delete=models.CASCADE, null=True)
+    dropdown_number = models.IntegerField()
+
+    def correct_answer(self):
+        return self.fillintheblank_answers.get(question=self, correct=True)
+
+    def wrong_answers(self):
+        return self.fillintheblank_answers.filter(correct=False)

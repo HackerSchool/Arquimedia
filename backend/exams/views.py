@@ -69,15 +69,15 @@ def exam_id_render(request, id):
                 continue
 
             questionObject = Question.objects.get(id=int(question))
-            correctAnswer = Answer.objects.get(question=questionObject, correct=True)
+            correct_answer = Answer.objects.get(question=questionObject, correct=True)
             
-            if correctAnswer.id == int(answer):
-                profileSubject.addCorrectAnswer(questionObject)
+            if correct_answer.id == int(answer):
+                profileSubject.add_correct_answer(questionObject)
                 exam.correct.add(questionObject)
 
                 exam.score += 20
             else:
-                profileSubject.addWrongAnswer(questionObject)
+                profileSubject.add_wrong_answer(questionObject)
                 exam.failed.add(questionObject)
 
             i += 1

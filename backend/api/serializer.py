@@ -90,7 +90,7 @@ class ResourceSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(many=True, read_only=True)
-    answer = AnswerSerializer(many=True)
+    answers = AnswerSerializer(many=True)
     image = serializers.SerializerMethodField()
     resources = ResourceSerializer(many=True)
 
@@ -99,8 +99,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ("id", "text", "resolution", "subject", "subsubject", "year",
                   "difficulty", "comment", "answer", "image", "source", "date", "resources")
 
-    def getAnswers(self, question):
-        return [answer for answer in question.answer.all]
+    def get_answers(self, question):
+        return [answer for answer in question.answers.all]
 
     def get_image(self, obj):
         address = os.getenv("ALLOWED_HOST", "localhost:" +
@@ -159,8 +159,8 @@ class answersInfoSerializer(serializers.ModelSerializer):
 
 
 class SubjectSerializer(serializers.ModelSerializer):
-    wrongAnswers = answersInfoSerializer(many=True)
-    correctAnswers = answersInfoSerializer(many=True)
+    wrong_answers = answersInfoSerializer(many=True)
+    correct_answers = answersInfoSerializer(many=True)
 
     class Meta:
         model = SubjectInfo
@@ -257,3 +257,15 @@ class CreateReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = ['question', 'type', 'body']
 
+class CreateFillInTheBlankQuestionSerializer(serializers.Serializer):
+    CreateQuestionSerializer()
+    total_dropdowns = serializers.IntegerField(default=2)
+
+class FillInTheBlankQuestionSerializer(serializers.ModelSerializer):
+    QuestionSerializer()
+
+    class Meta:
+        model = FillInTheBlankQuestion
+        fields = ("id", "text", "resolution", "subject", "subsubject", "year",
+                  "difficulty", "comment", "answer", "image", "source", "date", "resources",
+                  "total_dropdowns")

@@ -103,38 +103,38 @@ class AnswerInfo(models.Model):
 class SubjectInfo(models.Model):
     subject = models.CharField(max_length=50, null=False, choices=SUBJECTS)
     examCounter = models.IntegerField(default=0)
-    wrongAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="wrongAnswers")
-    correctAnswers = models.ManyToManyField("AnswerInfo", blank=True, related_name="correctAnswers")
+    wrong_answers = models.ManyToManyField("AnswerInfo", blank=True, related_name="wrong_answers")
+    correct_answers = models.ManyToManyField("AnswerInfo", blank=True, related_name="correct_answers")
     index = models.IntegerField(default=0)
 
     def __str__(self):
         return self.subject
 
-    def addCorrectAnswer(self, answer):
-        correctAnswers = self.correctAnswers.all()
+    def add_correct_answer(self, answer):
+        correct_answers = self.correct_answers.all()
 
-        for i in correctAnswers:
+        for i in correct_answers:
             if i == answer:
                 i.counter += 1
                 i.save()
                 return 
 
         newAnswer = AnswerInfo.objects.create(answer=answer)
-        self.correctAnswers.add(newAnswer)
+        self.correct_answers.add(newAnswer)
         self.index = self.getIndex()
 
     
-    def addWrongAnswer(self, answer):
-        wrongAnswers = self.wrongAnswers.all()
+    def add_wrong_answer(self, answer):
+        wrong_answers = self.wrong_answers.all()
 
-        for i in wrongAnswers:
+        for i in wrong_answers:
             if i == answer:
                 i.counter += 1
                 i.save()
                 return 
 
-        newAnswer = AnswerInfo.objects.create(answer=answer)
-        self.wrongAnswers.add(newAnswer)
+        new_answer = AnswerInfo.objects.create(answer=answer)
+        self.wrong_answers.add(new_answer)
         self.index = self.getIndex()
 
     
@@ -144,14 +144,14 @@ class SubjectInfo(models.Model):
         total = Question.objects.count()
         if (total == 0): return 0
 
-        answered = self.wrongAnswers.count() + self.correctAnswers.count()
+        answered = self.wrong_answers.count() + self.correct_answers.count()
 
         return round(answered / total * 100, 2)
 
     
     def getIndex(self):
         """ Returns success index that gives a rough idea of how prepared the user is """
-        x = self.correctAnswers.count() / 5 - 30
+        x = self.correct_answers.count() / 5 - 30
         
         if(x < 0): index = 13.75 * -(abs(x) ** (1 / 3)) + 42.5
         else: index = 13.75 * x ** (1 / 3) + 42.5
