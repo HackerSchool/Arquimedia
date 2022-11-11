@@ -182,13 +182,13 @@ class Resource(models.Model):
 class FillInTheBlankQuestion(Question):
     total_dropdowns = models.IntegerField(default=2)
 
-class FillInTheBlankAnswer(AbstractAnswer):
-    question = models.ForeignKey(
-        "fillintheblankquestion", related_name="fillintheblank_answers", on_delete=models.CASCADE, null=True)
-    dropdown_number = models.IntegerField()
-
     def correct_answer(self):
         return self.fillintheblank_answers.get(question=self, correct=True)
 
     def wrong_answers(self):
         return self.fillintheblank_answers.filter(correct=False)
+
+class FillInTheBlankAnswer(AbstractAnswer):
+    question = models.ForeignKey(
+        "fillintheblankquestion", related_name="fillintheblank_answers", on_delete=models.CASCADE, null=True)
+    dropdown_number = models.IntegerField()
