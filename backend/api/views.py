@@ -67,7 +67,7 @@ class QuestionView(APIView):
 		if question.is_valid(): 
 			newQuestion = Question.objects.create()
 		
-			for answer in question.data.get("answers"):
+			for answer in question.data.get("regular_answers"):
 				newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
 				newAnswer.save()
 
@@ -658,7 +658,7 @@ class FillInTheBlankQuestionView(APIView):
 		if question.is_valid(): 
 			newQuestion = FillInTheBlankQuestion.objects.create()
 		
-			for answer in question.data.get("answers"):
+			for answer in question.data.get("fillintheblank_answers"):
 				newAnswer = FillInTheBlankAnswer.objects.create(text=answer["text"], correct=answer["correct"], dropdown_number=answer["dropdown_number"], question=newQuestion)
 				newAnswer.save()
 

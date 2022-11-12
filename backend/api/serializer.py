@@ -257,15 +257,47 @@ class CreateReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = ['question', 'type', 'body']
 
+class FillInTheBlankAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FillInTheBlankAnswer
+        fields = ("id", "text", "correct", "dropdown_number")
+
 class CreateFillInTheBlankQuestionSerializer(serializers.Serializer):
-    CreateQuestionSerializer()
+    text = serializers.CharField()
+    resolution = serializers.CharField(required=False, allow_blank=True)
+    subsubject = serializers.CharField()
+    subject = serializers.CharField()
+    year = serializers.IntegerField()
+    source = serializers.CharField(required=False, allow_blank=True)
+    fillintheblank_answers = serializers.ListField(child=FillInTheBlankAnswerSerializer())
     total_dropdowns = serializers.IntegerField(default=2)
 
 class FillInTheBlankQuestionSerializer(serializers.ModelSerializer):
-    QuestionSerializer()
+    comment = CommentSerializer(many=True, read_only=True)
+    fillintheblank_answers = FillInTheBlankAnswerSerializer(many=True)
+    image = serializers.SerializerMethodField()
+    resources = ResourceSerializer(many=True)
 
     class Meta:
         model = FillInTheBlankQuestion
         fields = ("id", "text", "resolution", "subject", "subsubject", "year",
-                  "difficulty", "comment", "answer", "image", "source", "date", "resources",
+                  "difficulty", "comment", "fillintheblank_answers", "image", "source", "date", "resources",
                   "total_dropdowns")
+
+    def get_answers(self, question):
+        return [answer for answer in question.fillintheblank_answers.all]
+
+    def get_image(self, obj):
+        address = os.getenv("ALLOWED_HOST", "localhost:" +
+                            str(os.getenv("DJANGO_PORT", 8000)))
+
+        # cursed
+        if os.getenv("DJANGO_DEBUG") == "False":
+            address += "/api"
+
+        if str(obj.image):
+            return "http://" + address + "/images/" + str(obj.image)
+
+        return None
+
+    
