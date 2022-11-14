@@ -70,12 +70,14 @@ def renameImage(instance, filename):
     if instance.pk:
         return "question{}.{}".format(instance.pk, ext)
 
+class QuestionGroup(models.Model):
+    text = models.CharField(max_length=2000, null=False, default=None)
 
 class Question(models.Model):
     author = models.ForeignKey(
         User, related_name="question", null=True, on_delete=CASCADE)
     accepted = models.BooleanField(null=True, default=False)
-    text = models.CharField(max_length=1000,  null=False)
+    text = models.CharField(max_length=1000, null=True)
     resolution = models.TextField(null=True)
     # Math, Physics ...
     subject = models.CharField(max_length=50,  null=False, choices=SUBJECTS)
@@ -88,6 +90,7 @@ class Question(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to=renameImage)
     source = models.CharField(max_length=500, null=True)
     date = models.DateField(auto_now_add=True)
+    group = models.ForeignKey(QuestionGroup, on_delete=CASCADE, related_name='questions', null=True, default=None)
 
     # String representation
     def __str__(self): return "{}-{}-{}".format(self.id,

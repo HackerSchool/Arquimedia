@@ -87,17 +87,24 @@ class ResourceSerializer(serializers.ModelSerializer):
         model = Resource
         fields = ("id", "description", "url", "type")
 
+class QuestionGroupSerializer(serializers.ModelSerializer):
+    text = serializers.CharField()
+
+    class Meta:
+        model = QuestionGroup
+        fields = ("id","text", "questions")
 
 class QuestionSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(many=True, read_only=True)
     answers = AnswerSerializer(many=True)
     image = serializers.SerializerMethodField()
     resources = ResourceSerializer(many=True)
+    group = QuestionGroupSerializer()
 
     class Meta:
         model = Question
         fields = ("id", "text", "resolution", "subject", "subsubject", "year",
-                  "difficulty", "comment", "answer", "image", "source", "date", "resources")
+                  "difficulty", "comment", "answers", "image", "source", "date", "resources", "group")
 
     def get_answers(self, question):
         return [answer for answer in question.answers.all]
