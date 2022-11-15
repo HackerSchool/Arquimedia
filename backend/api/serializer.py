@@ -99,7 +99,6 @@ class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)
     image = serializers.SerializerMethodField()
     resources = ResourceSerializer(many=True)
-    group = QuestionGroupSerializer()
 
     class Meta:
         model = Question
@@ -200,6 +199,7 @@ class CreateQuestionSerializer(serializers.Serializer):
     year = serializers.IntegerField()
     answers = serializers.ListField(child=AnswerSerializer())
     source = serializers.CharField(required=False, allow_blank=True)
+    group = QuestionGroupSerializer()
 
 
 class ImageSerializer(serializers.Serializer):
