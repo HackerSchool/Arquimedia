@@ -10,6 +10,8 @@ urlpatterns = [
 	path("fillintheblankquestion/<int:id>", FillInTheBlankQuestionView.as_view()),
 	path("fillintheblankquestion/resource/<int:id>", ResourceView.as_view()),
 	path("fillintheblankquestion/", FillInTheBlankQuestionView.as_view()),
+	path("group/<int:id>", QuestionGroupView.as_view()),
+	path("group/", QuestionGroupView.as_view()),
 	path("comment/", CommentView.as_view()),
 	path("comment/<int:id>", CommentView.as_view()),
 	path("current_user", CurrentUserView.as_view()),

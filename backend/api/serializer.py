@@ -190,7 +190,6 @@ class AnswerSubmitionSerializer(serializers.Serializer):
     text = serializers.CharField()
     correct = serializers.BooleanField()
 
-
 class CreateQuestionSerializer(serializers.Serializer):
     text = serializers.CharField()
     resolution = serializers.CharField(required=False, allow_blank=True)
@@ -199,7 +198,36 @@ class CreateQuestionSerializer(serializers.Serializer):
     year = serializers.IntegerField()
     answers = serializers.ListField(child=AnswerSerializer())
     source = serializers.CharField(required=False, allow_blank=True)
-    group = QuestionGroupSerializer()
+    group = serializers.IntegerField(required=False, source="QuestionGroup.id")
+
+    def create(self, validated_data):
+        answers = validated_data.pop('answers')
+        group = validated_data.pop('QuestionGroup', None)
+        validated_data['group_id'] = group['id'] if group else None
+        question = Question.objects.create(**validated_data)
+        for answer in answers:
+            Answer.objects.create(question=question, **answer)
+        return question
+
+
+class CreateQuestionGroupSerializer(serializers.ModelSerializer):
+    questions = CreateQuestionSerializer(many=True)
+
+    class Meta:
+        model = QuestionGroup
+        fields = ("text", "source", "questions")
+
+    def create(self, validated_data):
+        # check if there are any questions in the request and create them
+        questions = validated_data.pop('questions')
+        group = QuestionGroup.objects.create(**validated_data)
+        for question in questions:
+            question['group'] = group.id
+            question_serializer = CreateQuestionSerializer(data=question)
+            if question_serializer.is_valid(raise_exception=True):
+                question_serializer.save()
+
+        return group
 
 
 class ImageSerializer(serializers.Serializer):
@@ -264,10 +292,12 @@ class CreateReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = ['question', 'type', 'body']
 
+
 class FillInTheBlankAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = FillInTheBlankAnswer
         fields = ("id", "text", "correct", "dropdown_number")
+
 
 class CreateFillInTheBlankQuestionSerializer(serializers.Serializer):
     text = serializers.CharField()
@@ -278,6 +308,7 @@ class CreateFillInTheBlankQuestionSerializer(serializers.Serializer):
     source = serializers.CharField(required=False, allow_blank=True)
     fillintheblank_answers = serializers.ListField(child=FillInTheBlankAnswerSerializer())
     total_dropdowns = serializers.IntegerField(default=2)
+
 
 class FillInTheBlankQuestionSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(many=True, read_only=True)
@@ -306,5 +337,3 @@ class FillInTheBlankQuestionSerializer(serializers.ModelSerializer):
             return "http://" + address + "/images/" + str(obj.image)
 
         return None
-
-    
