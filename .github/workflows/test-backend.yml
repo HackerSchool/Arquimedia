@@ -1,0 +1,38 @@
+name: Test backend
+on: [pull_request, push] # activates the workflow when there is a push or pull request in the repo
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest # operating system your code will run on
+    env:
+      DATABASE_USER: postgres
+      DATABASE_NAME: postgres
+      DATABASE_HOST: localhost
+      DATABASE_PORT: 5432
+      DATABASE_PASSWORD: postgres
+      SECRET_KEY: "secret"
+      
+    defaults:
+      run:
+        working-directory: ./backend/
+        
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: 
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: pip install pytest pytest-mock
+      - run: pip install -r requirements.txt # install all our dependencies for the project
+      - run: pytest . --disable-warnings # run pytest test

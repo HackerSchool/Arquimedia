@@ -2,19 +2,18 @@ version: "3"
 
 services:
   db:
-    image: postgres
+    image: postgres:14
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    
+
   redis:
-    restart: always
     volumes:
       - ./data/redis:/data
-    ports: 
+    ports:
       - "6379:6379"
     image: redis
 
@@ -33,9 +32,8 @@ services:
 
   frontend:
     build: ./frontend
-    restart: always
     volumes:
-      - '/app/node_modules'
+      - "/app/node_modules"
     depends_on:
       - backend
     links:

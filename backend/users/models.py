@@ -23,8 +23,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subjects = models.ManyToManyField("SubjectInfo", related_name='profile')
     xp = models.ForeignKey("XPSystem", default=1, on_delete=models.CASCADE)
-    achievements = models.ManyToManyField("Achievement", related_name="achievements")
-    follows = models.ManyToManyField(User, "follows")
+    achievements = models.ManyToManyField("Achievement", related_name="achievements", blank=True)
+    follows = models.ManyToManyField(User, "follows", blank=True)
     email_confirmation_code = models.IntegerField(default=0)
     streak = models.IntegerField(default=0)
     last_activity = models.DateField(auto_now=True)
@@ -89,11 +89,11 @@ class Achievement(models.Model):
     xp = models.IntegerField()
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    image = models.ImageField(null=True, blank=True, upload_to=renameImage)
-    subject = models.CharField(default=GERAL, choices=SUBJECTS, max_length=50, null=False)
+    image = models.ImageField(null=True, blank=True, upload_to=renameImage, default="default_achievement.png")
+    subject = models.CharField(default=GERAL, choices=SUBJECTS, max_length=50, blank=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.id}-{self.title}"
 
 class AnswerInfo(models.Model):
     answer = models.ForeignKey(Question, on_delete=models.CASCADE)
