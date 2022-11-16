@@ -10,6 +10,7 @@ jobs:
       DATABASE_PORT: 5432
       DATABASE_PASSWORD: postgres
       SECRET_KEY: "secret"
+      ALLOWED_HOSTS: "localhost"
       
     defaults:
       run:
