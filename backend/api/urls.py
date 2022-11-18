@@ -3,13 +3,14 @@ from .views import *
 
 urlpatterns = [
 	path("questions", QuestionsListView.as_view(), name="questions-list"),
-	path("question/<int:id>", QuestionView.as_view()),
+	path("question/<int:id>", QuestionView.as_view(), name="question"),
 	path("question/resource/<int:id>", ResourceView.as_view()),
 	path("question/", QuestionView.as_view()),
 	path("fillintheblankquestions", FillInTheBlankQuestionListView.as_view()),
 	path("fillintheblankquestion/<int:id>", FillInTheBlankQuestionView.as_view()),
 	path("fillintheblankquestion/resource/<int:id>", ResourceView.as_view()),
 	path("fillintheblankquestion/", FillInTheBlankQuestionView.as_view()),
+	path("groups", QuestionGroupListView.as_view()),
 	path("group/<int:id>", QuestionGroupView.as_view()),
 	path("group/", QuestionGroupView.as_view()),
 	path("comment/", CommentView.as_view()),

@@ -92,7 +92,7 @@ class QuestionGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionGroup
-        fields = ("id","text", "questions")
+        fields = ("id", "text", "questions")
 
 class QuestionSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(many=True, read_only=True)
@@ -212,6 +212,7 @@ class CreateQuestionSerializer(serializers.Serializer):
 
 class CreateQuestionGroupSerializer(serializers.ModelSerializer):
     questions = CreateQuestionSerializer(many=True)
+    source = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = QuestionGroup

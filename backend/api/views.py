@@ -687,3 +687,9 @@ class QuestionGroupView(APIView):
 		group = get_object_or_404(QuestionGroup, id=id)
 
 		return Response(QuestionGroupSerializer(group).data, status=status.HTTP_200_OK)
+
+class QuestionGroupListView(generics.ListAPIView):
+	permission_classes = [IsAdminUser]
+	
+	queryset = QuestionGroup.objects.all()
+	serializer_class = QuestionGroupSerializer
