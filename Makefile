@@ -35,7 +35,7 @@ clean:
 	docker compose -f docker-compose.yml -f docker-compose.override.yml down --remove-orphans
 
 test-backend:
-	docker exec -it backend-dev pytest
+	docker exec -it backend-dev /bin/bash -c "python3 -m pytest"
 
 migrate:
 	docker exec -it backend-dev /bin/bash -c "python manage.py makemigrations && python manage.py migrate"
