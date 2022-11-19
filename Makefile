@@ -36,3 +36,6 @@ clean:
 
 test-backend:
 	docker exec -it backend-dev pytest
+
+migrate:
+	docker exec -it backend-dev /bin/bash -c "python manage.py makemigrations && python manage.py migrate"
