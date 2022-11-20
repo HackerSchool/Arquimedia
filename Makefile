@@ -18,6 +18,9 @@ logs-frontend:
 shell-backend:
 	docker exec -it backend-dev /bin/bash
 
+shell-db:
+	docker exec -it arquimedia-db-1 /bin/bash -c "psql -U postgres"
+
 start-celery: start-worker start-beat
 
 start-worker:
