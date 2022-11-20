@@ -75,6 +75,8 @@ class CommentVoteChangeSerializer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
     class Meta:
         model = Answer
         fields = ("id", "text", "correct")
@@ -156,7 +158,7 @@ class XPSerializer(serializers.ModelSerializer):
         fields = ("xp", "currentLevel", "levelXP")
 
 
-class answersInfoSerializer(serializers.ModelSerializer):
+class AnswersInfoSerializer(serializers.ModelSerializer):
     answer = QuestionShortSerializer()
 
     class Meta:
@@ -165,8 +167,8 @@ class answersInfoSerializer(serializers.ModelSerializer):
 
 
 class SubjectSerializer(serializers.ModelSerializer):
-    wrong_answers = answersInfoSerializer(many=True)
-    correct_answers = answersInfoSerializer(many=True)
+    wrong_answers = AnswersInfoSerializer(many=True)
+    correct_answers = AnswersInfoSerializer(many=True)
 
     class Meta:
         model = SubjectInfo
@@ -313,18 +315,18 @@ class CreateFillInTheBlankQuestionSerializer(serializers.Serializer):
 
 class FillInTheBlankQuestionSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(many=True, read_only=True)
-    fillintheblank_answers = FillInTheBlankAnswerSerializer(many=True)
+    answers = FillInTheBlankAnswerSerializer(many=True)
     image = serializers.SerializerMethodField()
     resources = ResourceSerializer(many=True)
 
     class Meta:
         model = FillInTheBlankQuestion
         fields = ("id", "text", "resolution", "subject", "subsubject", "year",
-                  "difficulty", "comment", "fillintheblank_answers", "image", "source", "date", "resources",
+                  "difficulty", "comment", "answers", "image", "source", "date", "resources",
                   "total_dropdowns")
 
     def get_answers(self, question):
-        return [answer for answer in question.fillintheblank_answers.all]
+        return [answer for answer in question.answers.all]
 
     def get_image(self, obj):
         address = os.getenv("ALLOWED_HOST", "localhost:" +

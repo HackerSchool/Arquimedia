@@ -8,7 +8,12 @@ from rest_framework import generics, serializers, status
 from .serializer import *
 from rest_framework.response import Response
 import random
-from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser, JSONParser
+from rest_framework.parsers import (
+	FileUploadParser,
+	MultiPartParser,
+	FormParser,
+	JSONParser,
+)
 from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 import datetime
@@ -21,6 +26,7 @@ QUESTION_PER_EXAM = 10
 LEADERBOARD_PAGE_SIZE = 10
 MAX_UNANSWERED_QUESTIONS_RECOMMENDED = 7
 # Create your views here.
+
 
 class QuestionsListView(generics.ListAPIView):
 	permission_classes = [IsAuthenticated]
@@ -35,12 +41,14 @@ class QuestionView(APIView):
 	def get(self, request, id):
 		question = get_object_or_404(Question, id=id)
 
-		return Response(QuestionSerializer(question, context=request).data, status=status.HTTP_200_OK)
-
+		return Response(
+			QuestionSerializer(question, context=request).data,
+			status=status.HTTP_200_OK,
+		)
 
 	# Validates a question
 	def put(self, request, id):
-		if not(request.user.is_superuser):
+		if not (request.user.is_superuser):
 			return Response(status=status.HTTP_403_FORBIDDEN)
 
 		question = get_object_or_404(Question, id=id)
@@ -49,7 +57,6 @@ class QuestionView(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
-	
 	def delete(self, request, id):
 		question = get_object_or_404(Question, id=id)
 
@@ -60,20 +67,15 @@ class QuestionView(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
-
 	# Creates new question request, which will have to be validated
 	def post(self, request):
 		serialized_question = CreateQuestionSerializer(data=request.data)
-		
-		for answer in question.data.get("regular_answers"):
-			newAnswer = Answer.objects.create(text=answer["text"], correct=answer["correct"], question=newQuestion)
-			newAnswer.save()
-			
 		serialized_question.is_valid(raise_exception=True)
 		new_question = serialized_question.save()
 
-		return Response(QuestionSerializer(new_question).data, status=status.HTTP_201_CREATED)
-
+		return Response(
+			QuestionSerializer(new_question).data, status=status.HTTP_201_CREATED
+		)
 
 class AddImageToQuestion(APIView):
 	parser_classes = [MultiPartParser]
@@ -83,7 +85,10 @@ class AddImageToQuestion(APIView):
 		question = Question.objects.get(id=kwargs.get("id"))
 
 		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"Bad Request": "User not logged in..."},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		if question.author != self.request.user:
 			return Response(status=status.HTTP_403_FORBIDDEN)
@@ -108,26 +113,42 @@ class CommentView(APIView):
 
 	def get(self, request, id):
 		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
-			
+			return Response(
+				{"Bad Request": "User not logged in..."},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
+
 		comment = get_object_or_404(Comment, id=id)
 
-		return Response(self.serializer_class(comment, context=request).data, status=status.HTTP_200_OK)
+		return Response(
+			self.serializer_class(comment, context=request).data,
+			status=status.HTTP_200_OK,
+		)
 
 	def post(self, request):
 		if not self.request.user.is_authenticated:
-			return Response({"Bad Request": "User not logged in..."}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"Bad Request": "User not logged in..."},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		serializer = CommentCreateSerializer(data=request.data)
 		if serializer.is_valid():
 			content = serializer.data.get("content")
 			question = Question.objects.get(id=serializer.data.get("question"))
-			comment = Comment(author=self.request.user, question=question, content=content)
+			comment = Comment(
+				author=self.request.user, question=question, content=content
+			)
 			comment.save()
 
-			return Response(CommentSerializer(comment, context=request).data, status=status.HTTP_201_CREATED)
-		
-		return Response({"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				CommentSerializer(comment, context=request).data,
+				status=status.HTTP_201_CREATED,
+			)
+
+		return Response(
+			{"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+		)
 
 	def delete(self, request, id):
 		comment = get_object_or_404(Comment, id=id)
@@ -136,7 +157,9 @@ class CommentView(APIView):
 
 			return Response({"Comment deleted!"}, status=status.HTTP_200_OK)
 
-		return Response({"Can't delete other user's comments"}, status=status.HTTP_401_UNAUTHORIZED)
+		return Response(
+			{"Can't delete other user's comments"}, status=status.HTTP_401_UNAUTHORIZED
+		)
 
 
 class UpvoteCommentView(APIView):
@@ -147,33 +170,36 @@ class UpvoteCommentView(APIView):
 	def post(self, request, id):
 		comment = Comment.objects.get(id=id)
 		if request.user in comment.upvoters.all():
-			return Response({"User already upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"User already upvoted this comment"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		if request.user in comment.downvoters.all():
 			comment.votes += 2
 			comment.downvoters.remove(request.user)
 		else:
 			comment.votes += 1
-		
+
 		comment.upvoters.add(request.user)
 		comment.save()
 
-	
 		return Response("Comment upvoted!", status=status.HTTP_200_OK)
 
 	# Removes an upvote from a Comment
 	def delete(self, request, id):
 		comment = Comment.objects.get(id=id)
 		if request.user not in comment.upvoters.all():
-			return Response({"User hasn't upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"User hasn't upvoted this comment"}, status=status.HTTP_400_BAD_REQUEST
+			)
 
 		comment.votes -= 1
-		
+
 		comment.upvoters.remove(request.user)
 		comment.save()
 
 		return Response("Removed upvote!", status=status.HTTP_200_OK)
-
 
 
 class DownvoteCommentView(APIView):
@@ -184,14 +210,17 @@ class DownvoteCommentView(APIView):
 	def post(self, request, id):
 		comment = Comment.objects.get(id=id)
 		if request.user in comment.downvoters.all():
-			return Response({"User already downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"User already downvoted this comment"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		if request.user in comment.upvoters.all():
 			comment.votes -= 2
 			comment.upvoters.remove(request.user)
 		else:
 			comment.votes -= 1
-		
+
 		comment.downvoters.add(request.user)
 		comment.save()
 
@@ -201,10 +230,13 @@ class DownvoteCommentView(APIView):
 	def delete(self, request, id):
 		comment = Comment.objects.get(id=id)
 		if request.user not in comment.downvoters.all():
-			return Response({"User hasn't downvoted this comment"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"User hasn't downvoted this comment"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		comment.votes += 1
-		
+
 		comment.downvoters.remove(request.user)
 		comment.save()
 
@@ -219,7 +251,6 @@ class ExamView(APIView):
 
 		return Response(ExamSerializer(exam).data, status=status.HTTP_200_OK)
 
-
 	def post(self, request):
 
 		serializer = CreateExamSerializer(data=request.data)
@@ -230,41 +261,55 @@ class ExamView(APIView):
 
 			questionsQuery = []
 
-			if (subSubjects): # If there are any subsubjects specified
+			if subSubjects:  # If there are any subsubjects specified
 				if year:
-					questionsQuery += list(Question.objects.filter(year__in=year, subsubject__in=subSubjects, accepted=True))
+					questionsQuery += list(
+						Question.objects.filter(
+							year__in=year, subsubject__in=subSubjects, accepted=True
+						)
+					)
 				else:
-					questionsQuery += list(Question.objects.filter(subsubject__in=subSubjects, accepted=True))
-			else: # User wants a random subsubjects exam
+					questionsQuery += list(
+						Question.objects.filter(
+							subsubject__in=subSubjects, accepted=True
+						)
+					)
+			else:  # User wants a random subsubjects exam
 				if year:
-					questionsQuery += list(Question.objects.filter(year__in=year, accepted=True))
+					questionsQuery += list(
+						Question.objects.filter(year__in=year, accepted=True)
+					)
 				else:
 					questionsQuery += list(Question.objects.filter(accepted=True))
 
 			# Selects randomly a set of final questions for the exam
 			if len(questionsQuery) < QUESTION_PER_EXAM:
-				return Response({"error": "Not enough questions" }, status=status.HTTP_400_BAD_REQUEST)
-
+				return Response(
+					{"error": "Not enough questions"},
+					status=status.HTTP_400_BAD_REQUEST,
+				)
 
 			questions = random.sample(list(questionsQuery), QUESTION_PER_EXAM)
-			
+
 			exam = Exam.objects.create()
 
-			for question in questions: exam.questions.add(question)
+			for question in questions:
+				exam.questions.add(question)
 
 			exam.save()
 
 			return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
 
-
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 	def put(self, request, id):
 		exam = get_object_or_404(Exam, id=id)
 
 		if exam.correct.count() or exam.failed.count():
-			return Response({"Bad Request": "Exam already submitted"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"Bad Request": "Exam already submitted"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		profileSubject = request.user.profile.subjects.get(subject="Matemática")
 		profileSubject.examCounter += 1
@@ -281,7 +326,7 @@ class ExamView(APIView):
 					request.user.profile.xp.xp += XP_PER_CORRECT_ANSWER
 					exam.score += 20
 
-				else: 
+				else:
 					profileSubject.addWrongAnswer(questionQuery)
 					exam.failed.add(questionQuery)
 
@@ -296,7 +341,8 @@ class ExamView(APIView):
 
 		serializer = ExamSerializer(exam)
 
-		return 	Response(serializer.data, status=status.HTTP_200_OK)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class RecommendedExamView(APIView):
 	def post(self, request):
@@ -313,12 +359,19 @@ class RecommendedExamView(APIView):
 		questions_correct = [i.answer for i in user_subject.correct_answers.all()]
 		questions_wrong_id = [i.id for i in questions_wrong]
 		questions_correct_id = [i.id for i in questions_correct]
-		questions_unanswered = list(Question.objects.exclude(id__in=questions_correct_id).exclude(id__in=questions_wrong_id).filter(accepted=True))
+		questions_unanswered = list(
+			Question.objects.exclude(id__in=questions_correct_id)
+			.exclude(id__in=questions_wrong_id)
+			.filter(accepted=True)
+		)
 
 		# Only insert a certain amount of unasnwered questions in the exam
 		if len(questions_unanswered) > MAX_UNANSWERED_QUESTIONS_RECOMMENDED:
-			questions_unanswered_selected = random.sample(questions_unanswered, MAX_UNANSWERED_QUESTIONS_RECOMMENDED)
-		else: questions_unanswered_selected = questions_unanswered
+			questions_unanswered_selected = random.sample(
+				questions_unanswered, MAX_UNANSWERED_QUESTIONS_RECOMMENDED
+			)
+		else:
+			questions_unanswered_selected = questions_unanswered
 
 		questions = questions_unanswered_selected
 
@@ -332,27 +385,35 @@ class RecommendedExamView(APIView):
 
 		else:
 			questions += questions_wrong
-		
+
 			# There are not enough wrong and unanswered questions so when need to get some right answers
 			space_left = QUESTION_PER_EXAM - len(questions)
 
 			if len(questions_correct) < space_left:
 				questions_right_selected = questions_correct
-				questions += random.sample(set(questions_unanswered) - set(questions_unanswered_selected), space_left - len(questions_correct))
-			else: 
+				questions += random.sample(
+					set(questions_unanswered) - set(questions_unanswered_selected),
+					space_left - len(questions_correct),
+				)
+			else:
 				questions_right_selected = random.sample(questions_correct, space_left)
 
 			questions += questions_right_selected
 
-		if len(questions) < 10: 
-			return Response({"error": "Could not create a recommended exam" }, status=status.HTTP_400_BAD_REQUEST)
+		if len(questions) < 10:
+			return Response(
+				{"error": "Could not create a recommended exam"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		exam = Exam.objects.create()
 
-		for question in questions: exam.questions.add(question)
+		for question in questions:
+			exam.questions.add(question)
 
 		# Return a "perfect" exam
 		return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
+
 
 class AchievementsListView(generics.ListAPIView):
 	permission_classes = [IsAuthenticated]
@@ -373,7 +434,6 @@ class CurrentUserView(APIView):
 	def get(self, request):
 		serializer = UserSerializer(request.user)
 		return Response(serializer.data)
-		
 
 
 class XPEventsAPI(APIView):
@@ -393,7 +453,7 @@ class SubjectAPI(APIView):
 		def __init__(self, subject, questions):
 			self.subject = subject
 			self.questions = questions
-				
+
 	def get(self, request, subject):
 		questions = get_list_or_404(Question, subject=subject)
 		sub = self.Subject(subject=subject, questions=questions)
@@ -410,13 +470,15 @@ class Leaderboard(APIView):
 	def get(self, request, time, page):
 		def checkForUser(list, userID):
 			for i in list:
-				if i.id == userID: return True
+				if i.id == userID:
+					return True
 
 			return False
 
 		def getXPProfile(list, userID):
 			for i in list:
-				if i.id == userID: return i
+				if i.id == userID:
+					return i
 
 		start_position = (page - 1) * LEADERBOARD_PAGE_SIZE
 		end_position = page * LEADERBOARD_PAGE_SIZE
@@ -425,13 +487,13 @@ class Leaderboard(APIView):
 		if time == "alltime":
 			users = Profile.objects.order_by("-xp__total_xp")
 
-			# Creates an XPProfile object for each user 
-			formated_users = [self.XPProfile(i.id, i.xp.total_xp) for i in users[start_position:end_position]]
+			# Creates an XPProfile object for each user
+			formated_users = [
+				self.XPProfile(i.id, i.xp.total_xp)
+				for i in users[start_position:end_position]
+			]
 
-			leaderboard = {
-				"users": formated_users,
-				"length": Profile.objects.count()
-			}
+			leaderboard = {"users": formated_users, "length": Profile.objects.count()}
 
 			return Response(LeaderboardSerializer(leaderboard).data)
 
@@ -441,7 +503,9 @@ class Leaderboard(APIView):
 		elif time == "day":
 			date = datetime.date.today() - datetime.timedelta(days=1)
 		else:
-			return Response({"Bad Request": "Invalid date"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"Bad Request": "Invalid date"}, status=status.HTTP_400_BAD_REQUEST
+			)
 
 		events = XPEvent.objects.filter(date__gte=date)
 
@@ -452,24 +516,21 @@ class Leaderboard(APIView):
 				if i.user == e.user:
 					repeated = True
 
-			if not repeated: users.append(i.user)
-
+			if not repeated:
+				users.append(i.user)
 
 		usersXP = []
-		for user in users[start_position:end_position + 1]:
+		for user in users[start_position : end_position + 1]:
 			for event in events:
 				if user == event.user:
-					if not checkForUser(usersXP, user.profile.id): 
+					if not checkForUser(usersXP, user.profile.id):
 						usersXP.append(self.XPProfile(user.profile.id, event.amount))
 					else:
 						getXPProfile(usersXP, user.profile.id).xp += event.amount
 
 		usersXP.sort(key=lambda x: x.xp, reverse=True)
 
-		leaderboard = {
-			"users": usersXP,
-			"length": len(users)
-		}
+		leaderboard = {"users": usersXP, "length": len(users)}
 
 		return Response(LeaderboardSerializer(leaderboard).data)
 
@@ -488,7 +549,6 @@ class Follow(APIView):
 		user_profile.addToFollowing(user_to_follow)
 
 		return Response(status=status.HTTP_200_OK)
-	
 
 	def delete(self, request, id):
 		user_profile = request.user.profile
@@ -502,21 +562,22 @@ class Follow(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
+
 class VerifyEmailView(APIView):
 	permission_classes = (AllowAny,)
-	allowed_methods = ('GET', 'OPTIONS', 'HEAD')
+	allowed_methods = ("GET", "OPTIONS", "HEAD")
 
 	def get(self, request, code, username):
 		user = User.objects.get(username=username)
 
-		if (user.profile.email_confirmation_code == code):
+		if user.profile.email_confirmation_code == code:
 			email = EmailAddress.objects.get(user=user)
 			email.verified = True
 			email.save()
 
-			return Response({'detail': 'ok'}, status=status.HTTP_200_OK)
-		
-		return Response({'detail': 'wrong code'}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({"detail": "ok"}, status=status.HTTP_200_OK)
+
+		return Response({"detail": "wrong code"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Users(APIView):
@@ -527,22 +588,25 @@ class Users(APIView):
 
 		return Response(number_of_users, status=status.HTTP_200_OK)
 
+
 class DeleteAccount(APIView):
 	permission_classes = [IsAuthenticated]
 	serializer_class = DeleteAccountSerializer
 
 	def delete(self, request, *args, **kwargs):
-		serializer = self.serializer_class(data=request.data, context={'request': request})
+		serializer = self.serializer_class(
+			data=request.data, context={"request": request}
+		)
 		serializer.is_valid(raise_exception=True)
 
 		return Response(
-			{"detail": ("Account has been deleted")},
-			status=status.HTTP_200_OK
+			{"detail": ("Account has been deleted")}, status=status.HTTP_200_OK
 		)
+
 
 class ResourceView(APIView):
 	permission_classes = [IsAdminUser]
-	
+
 	def post(self, request, id):
 		serializer = ResourceSerializer(data=request.data)
 		serializer.is_valid(raise_exception=True)
@@ -551,10 +615,12 @@ class ResourceView(APIView):
 			description=serializer.data.get("description"),
 			url=serializer.data.get("url"),
 			type=serializer.data.get("type"),
-			question=get_object_or_404(Question, id=id)
+			question=get_object_or_404(Question, id=id),
 		)
 
-		return Response(ResourceSerializer(resource).data, status=status.HTTP_201_CREATED)
+		return Response(
+			ResourceSerializer(resource).data, status=status.HTTP_201_CREATED
+		)
 
 	def delete(self, request, id):
 		resource = get_object_or_404(Resource, id=id)
@@ -562,50 +628,54 @@ class ResourceView(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
+
 class ReportListView(generics.ListAPIView):
 	permission_classes = [IsAdminUser]
 
 	queryset = Report.objects.all()
 	serializer_class = ReportSerializer
 
+
 class ReportView(APIView):
 	permission_classes = [IsAuthenticated]
-	
+
 	def post(self, request):
 		serializer = ReportSerializer(data=request.data)
 		serializer.is_valid(raise_exception=True)
 
 		report = Report.objects.create(
-			question = get_object_or_404(Question, id=serializer.data.get("question")),
-			author = request.user,
-			type = serializer.data.get("type"),
-			body = serializer.data.get("body")
+			question=get_object_or_404(Question, id=serializer.data.get("question")),
+			author=request.user,
+			type=serializer.data.get("type"),
+			body=serializer.data.get("body"),
 		)
 
 		return Response(ReportSerializer(report).data, status=status.HTTP_201_CREATED)
 
 	def delete(self, request, id):
-		if not(request.user.is_staff):
+		if not (request.user.is_staff):
 			return Response(status=status.HTTP_403_FORBIDDEN)
 
 		report = get_object_or_404(Report, id=id)
 		report.delete()
 
 		return Response(status=status.HTTP_200_OK)
-	
+
 	def get(self, request, id):
-		if not(request.user.is_staff):
+		if not (request.user.is_staff):
 			return Response(status=status.HTTP_403_FORBIDDEN)
 
 		report = get_object_or_404(Report, id=id)
 
 		return Response(ReportSerializer(report).data, status=status.HTTP_200_OK)
 
+
 class FillInTheBlankQuestionListView(generics.ListAPIView):
 	permission_classes = [IsAuthenticated]
-	
+
 	queryset = FillInTheBlankQuestion.objects.all()
 	serializer_class = FillInTheBlankQuestionSerializer
+
 
 class FillInTheBlankQuestionView(APIView):
 	permission_classes = [IsAuthenticated]
@@ -613,12 +683,14 @@ class FillInTheBlankQuestionView(APIView):
 	def get(self, request, id):
 		question = get_object_or_404(FillInTheBlankQuestion, id=id)
 
-		return Response(FillInTheBlankQuestionSerializer(question, context=request).data, status=status.HTTP_200_OK)
-
+		return Response(
+			FillInTheBlankQuestionSerializer(question, context=request).data,
+			status=status.HTTP_200_OK,
+		)
 
 	# Validates a question
 	def put(self, request, id):
-		if not(request.user.is_superuser):
+		if not (request.user.is_superuser):
 			return Response(status=status.HTTP_403_FORBIDDEN)
 
 		question = get_object_or_404(FillInTheBlankQuestion, id=id)
@@ -627,7 +699,6 @@ class FillInTheBlankQuestionView(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
-	
 	def delete(self, request, id):
 		question = get_object_or_404(FillInTheBlankQuestion, id=id)
 
@@ -638,15 +709,19 @@ class FillInTheBlankQuestionView(APIView):
 
 		return Response(status=status.HTTP_200_OK)
 
-
 	# Creates new question request, which will have to be validated
 	def post(self, request):
 		question = CreateFillInTheBlankQuestionSerializer(data=request.data)
-		if question.is_valid(): 
+		if question.is_valid():
 			newQuestion = FillInTheBlankQuestion.objects.create()
-		
+
 			for answer in question.data.get("fillintheblank_answers"):
-				newAnswer = FillInTheBlankAnswer.objects.create(text=answer["text"], correct=answer["correct"], dropdown_number=answer["dropdown_number"], question=newQuestion)
+				newAnswer = FillInTheBlankAnswer.objects.create(
+					text=answer["text"],
+					correct=answer["correct"],
+					dropdown_number=answer["dropdown_number"],
+					question=newQuestion,
+				)
 				newAnswer.save()
 
 			if question.data.get("source"):
@@ -662,9 +737,15 @@ class FillInTheBlankQuestionView(APIView):
 
 			newQuestion.save()
 
-			return Response(FillInTheBlankQuestionSerializer(newQuestion).data, status=status.HTTP_201_CREATED)
+			return Response(
+				FillInTheBlankQuestionSerializer(newQuestion).data,
+				status=status.HTTP_201_CREATED,
+			)
 		else:
-			return Response({"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST)
+			return Response(
+				{"Bad Request": "Bad data"}, status=status.HTTP_400_BAD_REQUEST
+			)
+
 
 class QuestionGroupView(APIView):
 	permission_classes = [IsAdminUser]
@@ -675,7 +756,9 @@ class QuestionGroupView(APIView):
 
 		group = serializer.save()
 
-		return Response(QuestionGroupSerializer(group).data, status=status.HTTP_201_CREATED)
+		return Response(
+			QuestionGroupSerializer(group).data, status=status.HTTP_201_CREATED
+		)
 
 	def delete(self, request, id):
 		group = get_object_or_404(QuestionGroup, id=id)
@@ -688,8 +771,9 @@ class QuestionGroupView(APIView):
 
 		return Response(QuestionGroupSerializer(group).data, status=status.HTTP_200_OK)
 
+
 class QuestionGroupListView(generics.ListAPIView):
 	permission_classes = [IsAdminUser]
-	
+
 	queryset = QuestionGroup.objects.all()
 	serializer_class = QuestionGroupSerializer

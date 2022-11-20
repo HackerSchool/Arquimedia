@@ -35,38 +35,36 @@ def test_create_question(client):
     url = reverse("question")
 
     data = {
-        "text": "Example of question",
-        "resolution": "Example of resolution",
+        "text": "test",
         "answers": [
-            {"text": "string", "correct": True},
-            {"text": "string", "correct": False},
+            {"text": "correct", "correct": True},
+            {"text": "incorrect", "correct": False},
+            {"text": "incorrectincorrect", "correct": False},
+            {"text": "incorrect", "correct": False},
         ],
-        "subject": "math",
-        "subsubject": "geometry",
-        "year": 11,
+        "subject": "Matemática",
+        "subsubject": "Geometria",
+        "year": 10,
+        "resolution": "teste",
         "source": "",
     }
 
     # Creates a question
-    response = client.post(url, json=data)
-    assert response.content_type == "application/json"
+    response = client.post(url, data=data, format="json")
 
     # Checks if question was created
     question = Question.objects.get(id=response.data["id"])
     assert question is not None
 
     # Check if answers were created
-    assert len(question.answers.all()) == 2
+    assert len(question.answers.all()) == 4
 
     # TODO: The data tests should be using a serializer to check if the data is correct
 
     # Check if answers data is correct
-    for answer in question.answers.all():
-        assert answer.text in [data["answers"][0]["text"], data["answers"][1]["text"]]
-        assert answer.correct in [
-            data["answers"][0]["correct"],
-            data["answers"][1]["correct"],
-        ]
+    for i, answer in enumerate(question.answers.all()):
+        assert answer.text == data["answers"][i]["text"]
+        assert answer.correct == data["answers"][i]["correct"]
 
     # Check if question has the correct data
     assert question.text == data["text"]
