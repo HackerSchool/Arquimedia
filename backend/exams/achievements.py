@@ -97,7 +97,7 @@ class QuestionsAnsweredCorrectlyAchievement(Achievement):
         try:
             subject_info = profile.subjects.get(subject=self.subject)
 
-            return subject_info.correctAnswers.count() >= self.number
+            return subject_info.correct_answers.count() >= self.number
         except:
             print("Could not apply achievement to " + profile.user.username)
 
