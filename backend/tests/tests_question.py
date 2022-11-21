@@ -89,13 +89,23 @@ def test_accept_question(superuser_client, question):
 
 
 @pytest.mark.django_db
-def test_delete_question(admin_client, question):
+def test_delete_question(superuser_client, question):
     url = reverse("question", kwargs={"id": question.id})
 
-    response = admin_client.delete(url)
+    response = superuser_client.delete(url)
 
     assert response.status_code == 200
     assert Question.objects.filter(id=question.id).count() == 0
+
+
+@pytest.mark.django_db
+def test_delete_question_fail(client, question):
+    url = reverse("question", kwargs={"id": question.id})
+
+    response = client.delete(url)
+
+    assert response.status_code == 403
+    assert Question.objects.filter(id=question.id).count() == 1
 
 
 def test_fill_in_the_blank_create():
