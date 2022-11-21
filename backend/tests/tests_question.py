@@ -73,6 +73,34 @@ def test_create_question(client):
     assert question.subsubject == data["subsubject"]
     assert question.year == data["year"]
     assert question.source == data["source"]
+    assert question.accepted is False
+
+
+@pytest.mark.django_db
+def test_accept_question(superuser_client, question):
+    url = reverse("question", kwargs={"id": question.id})
+
+    response = superuser_client.put(url)
+
+    question.refresh_from_db()
+
+    assert response.status_code == 200
+    assert question.accepted is True
+
+
+@pytest.mark.django_db
+def test_delete_question(admin_client, question):
+    url = reverse("question", kwargs={"id": question.id})
+
+    response = admin_client.delete(url)
+
+    assert response.status_code == 200
+    assert Question.objects.filter(id=question.id).count() == 0
+
+
+def test_fill_in_the_blank_create():
+    # TODO: Tests if fill in the blank question is created
+    pass
 
 
 def test_create_question_group():
