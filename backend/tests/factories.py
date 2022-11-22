@@ -31,11 +31,10 @@ class AnswerFactory(factory.django.DjangoModelFactory):
 class QuestionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Question
-        exclude = ("accepted",)
 
     text = faker.text(max_nb_chars=100)
     author = factory.SubFactory("tests.factories.UserFactory")
-    accepted = faker.boolean()
+    accepted = False
     subject = faker.random_choices(
         elements=[
             "Matemática",
@@ -44,8 +43,10 @@ class QuestionFactory(factory.django.DjangoModelFactory):
         length=1,
     )[0]
     resolution = faker.text(max_nb_chars=500)
-    subsubject = faker.text(max_nb_chars=10)
-    year = faker.random_choices(elements=[0, 10, 11, 12], length=1)[0]
+    subsubject = factory.LazyAttribute(lambda a: faker.text(max_nb_chars=10))
+    year = factory.LazyAttribute(
+        lambda a: faker.random_choices(elements=[0, 10, 11, 12], length=1)[0]
+    )
     difficulty = faker.random_choices(elements=["Fácil", "Média", "Difícil"], length=1)[
         0
     ]

@@ -266,22 +266,29 @@ class ExamView(APIView):
                 if year:
                     questionsQuery += list(
                         Question.objects.filter(
-                            year__in=year, subsubject__in=subSubjects, accepted=True
+                            subject=subject,
+                            year__in=year,
+                            subsubject__in=subSubjects,
+                            accepted=True,
                         )
                     )
                 else:
                     questionsQuery += list(
                         Question.objects.filter(
-                            subsubject__in=subSubjects, accepted=True
+                            subject=subject, subsubject__in=subSubjects, accepted=True
                         )
                     )
             else:  # User wants a random subsubjects exam
                 if year:
                     questionsQuery += list(
-                        Question.objects.filter(year__in=year, accepted=True)
+                        Question.objects.filter(
+                            subject=subject, year__in=year, accepted=True
+                        )
                     )
                 else:
-                    questionsQuery += list(Question.objects.filter(accepted=True))
+                    questionsQuery += list(
+                        Question.objects.filter(subject=subject, accepted=True)
+                    )
 
             # Selects randomly a set of final questions for the exam
             if len(questionsQuery) < QUESTION_PER_EXAM:
@@ -351,7 +358,6 @@ class RecommendedExamView(APIView):
         serializer.is_valid(raise_exception=True)
 
         subject = serializer.data.get("subject")
-        print(subject)
 
         user_subject = request.user.profile.subjects.get(subject=subject)
 
@@ -363,7 +369,7 @@ class RecommendedExamView(APIView):
         questions_unanswered = list(
             Question.objects.exclude(id__in=questions_correct_id)
             .exclude(id__in=questions_wrong_id)
-            .filter(accepted=True)
+            .filter(subject=subject, accepted=True)
         )
 
         # Only insert a certain amount of unasnwered questions in the exam

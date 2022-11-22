@@ -108,6 +108,16 @@ def test_delete_question_fail(client, question):
     assert Question.objects.filter(id=question.id).count() == 1
 
 
+@pytest.mark.django_db
+def test_get_question(client, question):
+    url = reverse("question", kwargs={"id": question.id})
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.data["id"] == question.id
+
+
 def test_fill_in_the_blank_create():
     # TODO: Tests if fill in the blank question is created
     pass
