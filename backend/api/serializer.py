@@ -1,7 +1,15 @@
 from exams.models import Report
-from users.models import Achievement, AnswerInfo, Profile, SubjectInfo, XPEvent, XPSystem
+from users.models import (
+    Achievement,
+    AnswerInfo,
+    Profile,
+    SubjectInfo,
+    XPEvent,
+    XPSystem,
+)
 from django.db.models import fields
 from rest_framework.fields import ReadOnlyField
+from rest_framework.exceptions import ValidationError
 from exams.models import *
 from django.contrib.auth.models import User
 from rest_framework import serializers
@@ -9,7 +17,10 @@ from config import subjects
 from rest_framework.fields import CurrentUserDefault
 import os
 
-SUBJECT_CHOICES = [(i['name'], i['name']) for i in subjects if i['active']]
+import random
+
+SUBJECT_CHOICES = [(i["name"], i["name"]) for i in subjects if i["active"]]
+QUESTION_PER_EXAM = 10
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField()
     mod = serializers.BooleanField(source="is_staff")
     admin = serializers.BooleanField(source="is_superuser")
-    profile = serializers.IntegerField(source='profile.id')
+    profile = serializers.IntegerField(source="profile.id")
 
     class Meta:
         model = User
@@ -38,7 +49,7 @@ class QuestionShortSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ("id", )
+        fields = ("id",)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -47,8 +58,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ("id", "content", "author", "votes",
-                  "voted", "date", "question")
+        fields = ("id", "content", "author", "votes", "voted", "date", "question")
 
     def get_voted(self, obj):
         current_user = self.context.user
@@ -71,7 +81,7 @@ class CommentCreateSerializer(serializers.Serializer):
 class CommentVoteChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ("votes", )
+        fields = ("votes",)
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -89,12 +99,14 @@ class ResourceSerializer(serializers.ModelSerializer):
         model = Resource
         fields = ("id", "description", "url", "type")
 
+
 class QuestionGroupSerializer(serializers.ModelSerializer):
     text = serializers.CharField()
 
     class Meta:
         model = QuestionGroup
         fields = ("id", "text", "questions")
+
 
 class QuestionSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(many=True, read_only=True)
@@ -104,15 +116,30 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ("id", "text", "resolution", "subject", "subsubject", "year",
-                  "difficulty", "comment", "answers", "image", "source", "date", "resources", "group")
+        fields = (
+            "id",
+            "text",
+            "resolution",
+            "subject",
+            "subsubject",
+            "year",
+            "difficulty",
+            "comment",
+            "answers",
+            "image",
+            "source",
+            "date",
+            "resources",
+            "group",
+        )
 
     def get_answers(self, question):
         return [answer for answer in question.answers.all]
 
     def get_image(self, obj):
-        address = os.getenv("ALLOWED_HOST", "localhost:" +
-                            str(os.getenv("DJANGO_PORT", 8000)))
+        address = os.getenv(
+            "ALLOWED_HOST", "localhost:" + str(os.getenv("DJANGO_PORT", 8000))
+        )
 
         # cursed
         if os.getenv("DJANGO_DEBUG") == "False":
@@ -131,8 +158,16 @@ class ExamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exam
-        fields = ("id", "questions", "failed", "correct",
-                  "score", "subject", "year", "difficulty")
+        fields = (
+            "id",
+            "questions",
+            "failed",
+            "correct",
+            "score",
+            "subject",
+            "year",
+            "difficulty",
+        )
 
 
 class CreateExamSerializer(serializers.Serializer):
@@ -140,6 +175,53 @@ class CreateExamSerializer(serializers.Serializer):
     subSubjects = serializers.ListField(child=serializers.CharField())
     year = serializers.ListField(child=serializers.IntegerField())
     randomSubSubject = serializers.BooleanField()
+
+    def create(self, validated_data):
+        subject = validated_data["subject"]
+        year = validated_data["year"]
+        sub_subjects = validated_data["subSubjects"]
+
+        questions_query = []
+        if sub_subjects:  # If there are any subsubjects specified
+            if year:
+                questions_query += list(
+                    Question.objects.filter(
+                        subject=subject,
+                        year__in=year,
+                        subsubject__in=sub_subjects,
+                        accepted=True,
+                    )
+                )
+            else:
+                questions_query += list(
+                    Question.objects.filter(
+                        subject=subject, subsubject__in=sub_subjects, accepted=True
+                    )
+                )
+        else:  # User wants a random subsubjects exam
+            if year:
+                questions_query += list(
+                    Question.objects.filter(
+                        subject=subject, year__in=year, accepted=True
+                    )
+                )
+            else:
+                questions_query += list(
+                    Question.objects.filter(subject=subject, accepted=True)
+                )
+
+        # Selects randomly a set of final questions for the exam
+        if len(questions_query) < QUESTION_PER_EXAM:
+            raise ValidationError(
+                "Not enough questions for this exam. Please try again later."
+            )
+        questions = random.sample(list(questions_query), QUESTION_PER_EXAM)
+
+        exam = Exam.objects.create()
+        for question in questions:
+            exam.questions.add(question)
+        exam.save()
+        return exam
 
 
 class CreateRecommendedExamSerializer(serializers.Serializer):
@@ -184,13 +266,21 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("user", "subjects", "xp", "achievements",
-                  "follows", "streak", "last_activity")
+        fields = (
+            "user",
+            "subjects",
+            "xp",
+            "achievements",
+            "follows",
+            "streak",
+            "last_activity",
+        )
 
 
 class AnswerSubmitionSerializer(serializers.Serializer):
     text = serializers.CharField()
     correct = serializers.BooleanField()
+
 
 class CreateQuestionSerializer(serializers.Serializer):
     text = serializers.CharField()
@@ -203,9 +293,9 @@ class CreateQuestionSerializer(serializers.Serializer):
     group = serializers.IntegerField(required=False, source="QuestionGroup.id")
 
     def create(self, validated_data):
-        answers = validated_data.pop('answers')
-        group = validated_data.pop('QuestionGroup', None)
-        validated_data['group_id'] = group['id'] if group else None
+        answers = validated_data.pop("answers")
+        group = validated_data.pop("QuestionGroup", None)
+        validated_data["group_id"] = group["id"] if group else None
         question = Question.objects.create(**validated_data)
         for answer in answers:
             Answer.objects.create(question=question, **answer)
@@ -222,10 +312,10 @@ class CreateQuestionGroupSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # check if there are any questions in the request and create them
-        questions = validated_data.pop('questions')
+        questions = validated_data.pop("questions")
         group = QuestionGroup.objects.create(**validated_data)
         for question in questions:
-            question['group'] = group.id
+            question["group"] = group.id
             question_serializer = CreateQuestionSerializer(data=question)
             if question_serializer.is_valid(raise_exception=True):
                 question_serializer.save()
@@ -261,15 +351,16 @@ class LeaderboardSerializer(serializers.Serializer):
 
 
 class DeleteAccountSerializer(serializers.Serializer):
-    password = serializers.CharField(style={'input_type': 'password'})
+    password = serializers.CharField(style={"input_type": "password"})
 
     def validate(self, attrs):
-        password = attrs.get('password')
+        password = attrs.get("password")
         user = self.context.get("request").user
 
         if not user.check_password(password):
             err_msg = (
-                "Your old password was entered incorrectly. Please enter it again.")
+                "Your old password was entered incorrectly. Please enter it again."
+            )
             raise serializers.ValidationError(err_msg)
 
         user.delete()
@@ -279,21 +370,21 @@ class DeleteAccountSerializer(serializers.Serializer):
 
 class ReportSerializer(serializers.ModelSerializer):
 
-	id = serializers.SlugField(read_only=True)
-	date = serializers.DateTimeField(read_only=True)
-	author = serializers.CharField(source='author.username', read_only=True)
-	class Meta:
-		model = Report
-		fields = ['id', 'question', 'date', 'type', 'body', 'author']
-
-
-class CreateReportSerializer(serializers.ModelSerializer):
-    body = serializers.CharField(
-        required=False, allow_blank=True)
+    id = serializers.SlugField(read_only=True)
+    date = serializers.DateTimeField(read_only=True)
+    author = serializers.CharField(source="author.username", read_only=True)
 
     class Meta:
         model = Report
-        fields = ['question', 'type', 'body']
+        fields = ["id", "question", "date", "type", "body", "author"]
+
+
+class CreateReportSerializer(serializers.ModelSerializer):
+    body = serializers.CharField(required=False, allow_blank=True)
+
+    class Meta:
+        model = Report
+        fields = ["question", "type", "body"]
 
 
 class FillInTheBlankAnswerSerializer(serializers.ModelSerializer):
@@ -309,7 +400,9 @@ class CreateFillInTheBlankQuestionSerializer(serializers.Serializer):
     subject = serializers.CharField()
     year = serializers.IntegerField()
     source = serializers.CharField(required=False, allow_blank=True)
-    fillintheblank_answers = serializers.ListField(child=FillInTheBlankAnswerSerializer())
+    fillintheblank_answers = serializers.ListField(
+        child=FillInTheBlankAnswerSerializer()
+    )
     total_dropdowns = serializers.IntegerField(default=2)
 
 
@@ -321,16 +414,30 @@ class FillInTheBlankQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FillInTheBlankQuestion
-        fields = ("id", "text", "resolution", "subject", "subsubject", "year",
-                  "difficulty", "comment", "answers", "image", "source", "date", "resources",
-                  "total_dropdowns")
+        fields = (
+            "id",
+            "text",
+            "resolution",
+            "subject",
+            "subsubject",
+            "year",
+            "difficulty",
+            "comment",
+            "answers",
+            "image",
+            "source",
+            "date",
+            "resources",
+            "total_dropdowns",
+        )
 
     def get_answers(self, question):
         return [answer for answer in question.answers.all]
 
     def get_image(self, obj):
-        address = os.getenv("ALLOWED_HOST", "localhost:" +
-                            str(os.getenv("DJANGO_PORT", 8000)))
+        address = os.getenv(
+            "ALLOWED_HOST", "localhost:" + str(os.getenv("DJANGO_PORT", 8000))
+        )
 
         # cursed
         if os.getenv("DJANGO_DEBUG") == "False":

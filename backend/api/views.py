@@ -253,62 +253,11 @@ class ExamView(APIView):
         return Response(ExamSerializer(exam).data, status=status.HTTP_200_OK)
 
     def post(self, request):
-
         serializer = CreateExamSerializer(data=request.data)
-        if serializer.is_valid():
-            subject = serializer.data.get("subject")
-            year = serializer.data.get("year")
-            subSubjects = serializer.data.get("subSubjects")
+        serializer.is_valid(raise_exception=True)
+        exam = serializer.save()
 
-            questionsQuery = []
-
-            if subSubjects:  # If there are any subsubjects specified
-                if year:
-                    questionsQuery += list(
-                        Question.objects.filter(
-                            subject=subject,
-                            year__in=year,
-                            subsubject__in=subSubjects,
-                            accepted=True,
-                        )
-                    )
-                else:
-                    questionsQuery += list(
-                        Question.objects.filter(
-                            subject=subject, subsubject__in=subSubjects, accepted=True
-                        )
-                    )
-            else:  # User wants a random subsubjects exam
-                if year:
-                    questionsQuery += list(
-                        Question.objects.filter(
-                            subject=subject, year__in=year, accepted=True
-                        )
-                    )
-                else:
-                    questionsQuery += list(
-                        Question.objects.filter(subject=subject, accepted=True)
-                    )
-
-            # Selects randomly a set of final questions for the exam
-            if len(questionsQuery) < QUESTION_PER_EXAM:
-                return Response(
-                    {"error": "Not enough questions"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            questions = random.sample(list(questionsQuery), QUESTION_PER_EXAM)
-
-            exam = Exam.objects.create()
-
-            for question in questions:
-                exam.questions.add(question)
-
-            exam.save()
-
-            return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
 
     def put(self, request, id):
         exam = get_object_or_404(Exam, id=id)
