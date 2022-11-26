@@ -169,6 +169,15 @@ class ExamSerializer(serializers.ModelSerializer):
             "difficulty",
         )
 
+    def validate(self, attr):
+        if self.correct.count() or self.failed.count():
+            err_msg = (
+                "The exam has already been corrected."
+            )
+            raise serializers.ValidationError(err_msg)
+        
+        return 0     # self.correct.count() + self.failed.count()
+
 
 class CreateExamSerializer(serializers.Serializer):
     subject = serializers.ChoiceField(choices=SUBJECT_CHOICES)

@@ -20,8 +20,6 @@ import datetime
 from rest_auth.registration.serializers import VerifyEmailSerializer
 from allauth.account.models import EmailAddress
 
-XP_PER_EXAM = 100
-XP_PER_CORRECT_ANSWER = 10
 QUESTION_PER_EXAM = 10
 LEADERBOARD_PAGE_SIZE = 10
 MAX_UNANSWERED_QUESTIONS_RECOMMENDED = 7
@@ -259,46 +257,20 @@ class ExamView(APIView):
 
         return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED)
 
-    def put(self, request, id):
+
+class ExamCorrectView(APIView):
+    def post(self, request, id):
         exam = get_object_or_404(Exam, id=id)
 
-        if exam.correct.count() or exam.failed.count():
-            return Response(
-                {"Bad Request": "Exam already submitted"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        serializer = ExamSerializer(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
 
-        profileSubject = request.user.profile.subjects.get(subject="Matemática")
-        profileSubject.examCounter += 1
-        for question, answer in request.data.items():
-
-            questionQuery = Question.objects.get(id=int(question))
-            if int(answer) != 0:
-                answerQuery = Answer.objects.get(id=int(answer))
-
-                if answerQuery.correct:
-                    profileSubject.add_correct_answer(questionQuery)
-                    exam.correct.add(questionQuery)
-
-                    request.user.profile.xp.xp += XP_PER_CORRECT_ANSWER
-                    exam.score += 20
-
-                else:
-                    profileSubject.addWrongAnswer(questionQuery)
-                    exam.failed.add(questionQuery)
-
-            else:
-                profileSubject.addWrongAnswer(questionQuery)
-                exam.failed.add(questionQuery)
-
-        request.user.profile.xp.xp += XP_PER_EXAM
-        request.user.profile.xp.save()
-        exam.save()
-        profileSubject.save()
-
+        exam.correct(request)
         serializer = ExamSerializer(exam)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.status.HTTP_201_CREATED)
 
 
 class RecommendedExamView(APIView):

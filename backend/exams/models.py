@@ -39,6 +39,8 @@ ISSUE_TYPES = (
     ("Other", "Outro"),
 )
 
+XP_PER_EXAM = 100
+XP_PER_CORRECT_ANSWER = 10
 
 class Exam(models.Model):
 
@@ -57,6 +59,23 @@ class Exam(models.Model):
     # String representation
     def __str__(self):
         return "{}-{}-{}".format(self.subject, self.year, self.difficulty)
+
+    def correct(self, request):
+        profileSubject = request.user.profile.subjects.get(subject=self.subject)
+        profileSubject.examCounter += 1
+        
+        for question, answer in request.data.items():
+            if "total_dropdowns" in question:
+                questionQuery = FillInTheBlankQuestion.objects.get(id=int(question))
+            else:
+                questionQuery = Question.objects.get(id=int(question))
+            
+            questionQuery.correct(request, answer, profileSubject, self)
+
+        request.user.profile.xp.xp += XP_PER_EXAM
+        request.user.profile.xp.save()
+        self.save()
+        profileSubject.save()
 
 
 class QuestionGroup(models.Model):
@@ -108,6 +127,28 @@ class Question(models.Model):
 
     def get_comments(self):
         return self.comment.all()
+    
+    def correct(self, request, answer, profileSubject, exam):
+        if int(answer) != 0:
+            if "dropdown_number" in answer:
+                answerQuery = FillInTheBlankAnswer.objects.get(id=int(answer))
+            else:
+                answerQuery = Answer.objects.get(id=int(answer))
+
+            if answerQuery.correct:
+                profileSubject.add_correct_answer(self)
+                exam.correct.add(self)
+
+                request.user.profile.xp.xp += XP_PER_CORRECT_ANSWER
+                exam.score += 20
+
+            else:
+                profileSubject.addWrongAnswer(self)
+                exam.failed.add(self)
+
+        else:
+            profileSubject.addWrongAnswer(self)
+            exam.failed.add(self)
 
 
 class Comment(models.Model):

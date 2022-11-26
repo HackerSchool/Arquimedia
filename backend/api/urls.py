@@ -20,6 +20,7 @@ urlpatterns = [
     path("downvote/<int:id>", DownvoteCommentView.as_view()),
     path("exam/", ExamView.as_view(), name="exam"),
     path("exam/<int:id>", ExamView.as_view(), name="exam"),
+    path("exam/correct/<int:id>", ExamCorrectView.as_view()),
     path("exam/recommended/", RecommendedExamView.as_view(), name="recommended-exam"),
     path("achievements", AchievementsListView.as_view()),
     path("profile/<int:id>", ProfileView.as_view()),
