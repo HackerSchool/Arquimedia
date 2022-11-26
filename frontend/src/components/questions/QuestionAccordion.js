@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
 const QuestionAccordion = ({ question, failed }) => {
 	const classes = useStyles();
 
-	let correctAnswer = question.answer.find((e) => e.correct);
+	let correct_answer = question.answer.find((e) => e.correct);
 
 	return (
 		<Accordion
@@ -60,7 +60,7 @@ const QuestionAccordion = ({ question, failed }) => {
 			<AccordionDetails className={classes.detailAccordion}>
 				<Typography>
 					<ReactMarkdown remarkPlugins={[remarkMath, remarRehype, remarkKatex]}>
-						{correctAnswer.text}
+						{correct_answer.text}
 					</ReactMarkdown>
 				</Typography>
 				<Button href={'/questao/' + question.id}>

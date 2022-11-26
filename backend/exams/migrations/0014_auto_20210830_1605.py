@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='question',
             name='image',
-            field=models.ImageField(blank=True, null=True, upload_to=exams.models.renameImage),
+            field=models.ImageField(blank=True, null=True, upload_to=exams.utils.rename_image_question),
         ),
     ]

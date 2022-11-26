@@ -31,8 +31,8 @@ const SubjectInfoPanel = ({ profile, changeSubject }) => {
 	const computeGeral = () => {
 		let newGeralSubject = {
 			id: null,
-			wrongAnswers: [],
-			correctAnswers: [],
+			wrong_answers: [],
+			correct_answers: [],
 			subject: 'Geral',
 			examCounter: 0,
 			index: 0,
@@ -40,8 +40,8 @@ const SubjectInfoPanel = ({ profile, changeSubject }) => {
 
 		profile.subjects.forEach((sub) => {
 			newGeralSubject.wrongAnswers = newGeralSubject.wrongAnswers.concat(sub.wrongAnswers);
-			newGeralSubject.correctAnswers = newGeralSubject.correctAnswers.concat(
-				sub.correctAnswers
+			newGeralSubject.correct_answers = newGeralSubject.correct_answers.concat(
+				sub.correct_answers
 			);
 			newGeralSubject.examCounter += sub.examCounter;
 			newGeralSubject.index += sub.index;
@@ -93,12 +93,12 @@ const SubjectInfoPanel = ({ profile, changeSubject }) => {
 			</Grid>
 			<Grid item>
 				<Typography variant={'h6'}>
-					Respostas erradas: {subject.wrongAnswers.length}
+					Respostas erradas: {subject.wrong_answers.length}
 				</Typography>
 			</Grid>
 			<Grid item>
 				<Typography variant={'h6'}>
-					Respostas corretas: {subject.correctAnswers.length}
+					Respostas corretas: {subject.correct_answers.length}
 				</Typography>
 			</Grid>
 			<Grid item>

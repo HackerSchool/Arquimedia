@@ -10,11 +10,12 @@ jobs:
       DATABASE_PORT: 5432
       DATABASE_PASSWORD: postgres
       SECRET_KEY: "secret"
-      
+      ALLOWED_HOSTS: "localhost"
+
     defaults:
       run:
         working-directory: ./backend/
-        
+
     services:
       postgres:
         image: postgres:14
@@ -24,15 +25,14 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
-        options: 
-          --health-cmd pg_isready
+        options: --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    
+
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4.3.0
       - run: pip install pytest pytest-mock
       - run: pip install -r requirements.txt # install all our dependencies for the project
-      - run: pytest . --disable-warnings # run pytest test
+      - run: python3 -m pytest . --disable-warnings # run pytest test

@@ -18,6 +18,9 @@ logs-frontend:
 shell-backend:
 	docker exec -it backend-dev /bin/bash
 
+shell-db:
+	docker exec -it arquimedia-db-1 /bin/bash -c "psql -U postgres"
+
 start-celery: start-worker start-beat
 
 start-worker:
@@ -35,4 +38,7 @@ clean:
 	docker compose -f docker-compose.yml -f docker-compose.override.yml down --remove-orphans
 
 test-backend:
-	docker exec -it backend-dev pytest --disable-warnings
+	docker exec -it backend-dev /bin/bash -c "python3 -m pytest --disable-warnings"
+
+migrate:
+	docker exec -it backend-dev /bin/bash -c "python manage.py makemigrations && python manage.py migrate"

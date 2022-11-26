@@ -84,7 +84,7 @@ def test_number_of_correct_questions_achievement_eligible(
 ):
     """Test that the number of correct answers achievement applies achievement on eligible profile."""
     subject = profile.subjects.get(subject="Matemática")
-    subject.correctAnswers.set(answer_infos)
+    subject.correct_answers.set(answer_infos)
     subject.save()
 
     a = QuestionsAnsweredCorrectlyAchievement(achievement.id, "Matemática", 10)
@@ -100,7 +100,7 @@ def test_number_of_correct_questions_achievement_not_eligible(
 ):
     """Test that the number of correct answers achievement doesn't apply achievement on not eligible profile."""
     subject = profile.subjects.get(subject="Matemática")
-    subject.correctAnswers.set(answer_infos)
+    subject.correct_answers.set(answer_infos)
     subject.save()
 
     a = QuestionsAnsweredCorrectlyAchievement(achievement.id, "Matemática", 10)

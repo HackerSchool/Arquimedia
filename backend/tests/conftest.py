@@ -21,6 +21,11 @@ def achievements(request) -> list[Achievement]:
 
 
 @pytest.fixture
+def question() -> Question:
+    return QuestionFactory.create()
+
+
+@pytest.fixture
 def user() -> User:
     return UserFactory.create()
 
@@ -43,6 +48,22 @@ def profiles(request) -> list[Profile]:
 @pytest.fixture
 def client(user) -> APIClient:
     client = APIClient()
+    client.force_authenticate(user=user)
+    return client
+
+
+@pytest.fixture
+def admin_client(user) -> APIClient:
+    client = APIClient()
+    user.is_staff = True
+    client.force_authenticate(user=user)
+    return client
+
+
+@pytest.fixture
+def superuser_client(user) -> APIClient:
+    client = APIClient()
+    user.is_superuser = True
     client.force_authenticate(user=user)
     return client
 
