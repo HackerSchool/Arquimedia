@@ -262,12 +262,12 @@ class ExamCorrectView(APIView):
     def post(self, request, id):
         exam = get_object_or_404(Exam, id=id)
 
-        serializer = ExamSerializer(
+        serializer = ExamCorrectSerializer(
             data=request.data, context={"request": request}
         )
-        serializer.is_valid(raise_exception=True)
+        serializer.is_valid(exam, raise_exception=True)
 
-        exam.correct(request)
+        exam.correctExam(request)
         serializer = ExamSerializer(exam)
 
         return Response(serializer.data, status=status.status.HTTP_201_CREATED)

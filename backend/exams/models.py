@@ -60,22 +60,18 @@ class Exam(models.Model):
     def __str__(self):
         return "{}-{}-{}".format(self.subject, self.year, self.difficulty)
 
-    def correct(self, request):
+    def correctExam(self, request):
         profileSubject = request.user.profile.subjects.get(subject=self.subject)
         profileSubject.examCounter += 1
         
         for question, answer in request.data.items():
-            if "total_dropdowns" in question:
-                questionQuery = FillInTheBlankQuestion.objects.get(id=int(question))
-            else:
-                questionQuery = Question.objects.get(id=int(question))
-            
+            questionQuery = Question.objects.get(id=int(question))
             questionQuery.correct(request, answer, profileSubject, self)
 
         request.user.profile.xp.xp += XP_PER_EXAM
         request.user.profile.xp.save()
         self.save()
-        profileSubject.save()
+        profileSubject.save() 
 
 
 class QuestionGroup(models.Model):
