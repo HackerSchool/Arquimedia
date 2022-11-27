@@ -88,8 +88,8 @@ def test_fill_in_the_blank_create(client):
         "text": "Example of question",
         "resolution": "Example of resolution",
         "fillintheblank_answers": [
-            {"text": "string", "correct": true, "dropdown_number": 1},
-            {"text": "string", "correct": true, "dropdown_number": 2},
+            {"text": "string", "correct": True, "dropdown_number": 1},
+            {"text": "string", "correct": True, "dropdown_number": 2},
         ],
         "subject": "Matemática",
         "subsubject": "Geometria",
@@ -106,6 +106,33 @@ def test_fill_in_the_blank_create(client):
 
     question = Question.objects.get(id=response.data["id"])
     assert question is not None
+
+
+@pytest.mark.django_db
+def test_fill_in_the_blank_create_fail(client):
+    # This test should fail because the total_dropdowns is not equal to the number of answers
+    url = reverse("question")
+
+    data = {
+        "type": "fill_in_the_blank",
+        "text": "Example of question",
+        "resolution": "Example of resolution",
+        "fillintheblank_answers": [
+            {"text": "string", "correct": True, "dropdown_number": 1},
+        ],
+        "subject": "Matemática",
+        "subsubject": "Geometria",
+        "year": 11,
+        "difficulty": "Fácil",
+        "source": "test",
+        "total_dropdowns": 2,
+    }
+
+    response = client.post(url, data=data, format="json")
+    print(response.data)
+    # assert True == False
+
+    assert response.status_code == 400
 
 
 @pytest.mark.django_db

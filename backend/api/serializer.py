@@ -431,19 +431,12 @@ class FillInTheBlankQuestionSerializer(serializers.ModelSerializer):
             "total_dropdowns",
         )
 
-    def get_answers(self, question):
-        return [answer for answer in question.answers.all]
+    def validate(self, attrs):
+        if len(attrs["answers"]) != attrs["total_dropdowns"]:
+            raise serializers.ValidationError(
+                {
+                    "total_dropdowns": "Number of answers must be equal to total_dropdowns"
+                }
+            )
 
-    def get_image(self, obj):
-        address = os.getenv(
-            "ALLOWED_HOST", "localhost:" + str(os.getenv("DJANGO_PORT", 8000))
-        )
-
-        # cursed
-        if os.getenv("DJANGO_DEBUG") == "False":
-            address += "/api"
-
-        if str(obj.image):
-            return "http://" + address + "/images/" + str(obj.image)
-
-        return None
+        return attrs
