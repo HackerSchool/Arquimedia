@@ -92,6 +92,7 @@ const QuestionForm = () => {
 
 	const handleSubmition = () => {
 		const body = {
+			type: 'multiple_choice',
 			text: text,
 			resolution: resolution,
 			answers: [
