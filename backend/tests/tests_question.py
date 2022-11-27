@@ -80,6 +80,35 @@ def test_create_question(client):
 
 
 @pytest.mark.django_db
+def test_fill_in_the_blank_create(client):
+    url = reverse("question")
+
+    data = {
+        "type": "fill_in_the_blank",
+        "text": "Example of question",
+        "resolution": "Example of resolution",
+        "fillintheblank_answers": [
+            {"text": "string", "correct": true, "dropdown_number": 1},
+            {"text": "string", "correct": true, "dropdown_number": 2},
+        ],
+        "subject": "Matemática",
+        "subsubject": "Geometria",
+        "year": 11,
+        "difficulty": "Fácil",
+        "source": "test",
+        "total_dropdowns": 2,
+    }
+
+    # Creates a question
+    response = client.post(url, data=data, format="json")
+
+    assert response.status_code == 201
+
+    question = Question.objects.get(id=response.data["id"])
+    assert question is not None
+
+
+@pytest.mark.django_db
 def test_accept_question(superuser_client, question):
     url = reverse("question", kwargs={"id": question.id})
 
