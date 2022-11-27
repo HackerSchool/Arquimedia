@@ -70,15 +70,18 @@ class QuestionView(APIView):
         question_type = request.data["type"]
 
         if question_type == "multiple_choice":
-            serializer = QuestionSerializer(data=request.data)
+            serializer = CreateQuestionSerializer(data=request.data)
+            response_serializer = QuestionSerializer
         if question_type == "fill_in_the_blank":
             serializer = FillInTheBlankQuestionSerializer(data=request.data)
+            response_serializer = FillInTheBlankQuestionSerializer
 
-        serialized_question = serializer(data=request.data)
-        serialized_question.is_valid(raise_exception=True)
-        serialized_question.save()
+        serializer.is_valid(raise_exception=True)
+        new_question = serializer.save()
 
-        return Response(serialized_question.data, status=status.HTTP_201_CREATED)
+        return Response(
+            response_serializer(new_question).data, status=status.HTTP_201_CREATED
+        )
 
 
 class AddImageToQuestion(APIView):

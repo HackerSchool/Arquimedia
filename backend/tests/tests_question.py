@@ -35,6 +35,7 @@ def test_create_question(client):
     url = reverse("question")
 
     data = {
+        "type": "multiple_choice",
         "text": "test",
         "answers": [
             {"text": "correct", "correct": True},
@@ -46,11 +47,13 @@ def test_create_question(client):
         "subsubject": "Geometria",
         "year": 10,
         "resolution": "teste",
-        "source": "",
+        "source": "teste",
     }
 
     # Creates a question
     response = client.post(url, data=data, format="json")
+
+    assert response.status_code == 201
 
     # Checks if question was created
     question = Question.objects.get(id=response.data["id"])
