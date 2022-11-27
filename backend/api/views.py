@@ -22,7 +22,6 @@ from allauth.account.models import EmailAddress
 
 XP_PER_EXAM = 100
 XP_PER_CORRECT_ANSWER = 10
-QUESTION_PER_EXAM = 10
 LEADERBOARD_PAGE_SIZE = 10
 MAX_UNANSWERED_QUESTIONS_RECOMMENDED = 7
 # Create your views here.
@@ -67,15 +66,19 @@ class QuestionView(APIView):
 
         return Response(status=status.HTTP_200_OK)
 
-    # Creates new question request, which will have to be validated
     def post(self, request):
-        serialized_question = CreateQuestionSerializer(data=request.data)
-        serialized_question.is_valid(raise_exception=True)
-        new_question = serialized_question.save()
+        question_type = request.data["type"]
 
-        return Response(
-            QuestionSerializer(new_question).data, status=status.HTTP_201_CREATED
-        )
+        if question_type == "multiple_choice":
+            serializer = QuestionSerializer(data=request.data)
+        if question_type == "fill_in_the_blank":
+            serializer = FillInTheBlankQuestionSerializer(data=request.data)
+
+        serialized_question = serializer(data=request.data)
+        serialized_question.is_valid(raise_exception=True)
+        serialized_question.save()
+
+        return Response(serialized_question.data, status=status.HTTP_201_CREATED)
 
 
 class AddImageToQuestion(APIView):
