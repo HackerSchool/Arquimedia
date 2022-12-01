@@ -1,7 +1,7 @@
 import factory
 
 from django.contrib.auth.models import User
-from exams.models import Answer, Question
+from exams.models import Answer, Question, FillInTheBlankQuestion
 from users.models import Achievement, AnswerInfo
 
 from faker import Faker
@@ -53,6 +53,31 @@ class QuestionFactory(factory.django.DjangoModelFactory):
     source = faker.text()
     date = faker.date()
 
+class FillInTheBlankQuestionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = FillInTheBlankQuestion
+
+    text = faker.text(max_nb_chars=100)
+    author = factory.SubFactory("tests.factories.UserFactory")
+    accepted = False
+    subject = faker.random_choices(
+        elements=[
+            "Matemática",
+            "Física",
+        ],
+        length=1,
+    )[0]
+    resolution = faker.text(max_nb_chars=500)
+    subsubject = factory.LazyAttribute(lambda a: faker.text(max_nb_chars=10))
+    year = factory.LazyAttribute(
+        lambda a: faker.random_choices(elements=[0, 10, 11, 12], length=1)[0]
+    )
+    difficulty = faker.random_choices(elements=["Fácil", "Média", "Difícil"], length=1)[
+        0
+    ]
+    source = faker.text()
+    date = faker.date()
+    total_dropdowns = faker.random_int(1, 4)
 
 class AchievementFactory(factory.django.DjangoModelFactory):
     class Meta:

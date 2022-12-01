@@ -265,7 +265,7 @@ class ExamCorrectView(APIView):
         serializer = ExamCorrectSerializer(
             data=request.data, context={"request": request}
         )
-        serializer.is_valid(exam, raise_exception=True)
+        serializer.is_valid(raise_exception=True)
 
         exam.correctExam(request)
         serializer = ExamSerializer(exam)
